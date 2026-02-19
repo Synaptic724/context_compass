@@ -1,32 +1,35 @@
-# Example: design_engineer task flow
+﻿# Example: design_engineer task flow (repo-based)
 
 Scenario
-- Story: add deterministic cleanup ordering to reduce flaky shutdown failures.
+- Story: raise release-readiness doc quality so users can execute this workflow
+  from this repository without hidden assumptions.
 
 Entry gate
-- Confirm design-only scope before implementation.
+- Confirm design-first scope and clear boundaries before implementation edits.
 
 Design workflow
 1. Problem framing
-- Define non-goals and compatibility constraints.
+- Define failures: shallow examples, stale slugs, unclear chain.
 
 2. Current-state evidence
-- Read existing docs, ticket history, and key code paths.
+- Review templates, current examples, and system docs.
 
 3. Option set
-- Option A: minimal ordering change.
-- Option B: full lifecycle refactor.
+- Option A: patch only links.
+- Option B: rewrite as full repo-based chain.
 
 4. Tradeoff analysis
-- Compare risk, implementation effort, and rollback complexity.
+- Option A is faster but weak.
+- Option B is durable and reusable for release hardening.
 
 5. Proposed design
-- Document component boundaries and lifecycle contract.
+- Pick Option B.
+- Define epic/story/task/artifact naming and acceptance gates.
 
 6. Ticketization
-- Story + task split with acceptance criteria and validation plan.
+- One story, one implementation task, retained overview artifact.
 
 Expected outputs
-- design summary in active ticket notes
-- optional artifact: `artifacts/*_cleanup_ordering_design.md`
-- explicit approval checkpoint before coding
+- design rationale in ticket notes and ADR
+- artifact: `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
+- explicit approval checkpoint before final closure

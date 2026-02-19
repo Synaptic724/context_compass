@@ -1,4 +1,4 @@
-# Context Compass
+﻿# Context Compass
 
 Context Compass is a policy-first operating system for AI-assisted execution.
 It gives agents a deterministic way to onboard, route work, preserve context,
@@ -40,16 +40,15 @@ Context Compass addresses that by making execution contract-driven:
 
 ## Agent Support
 
-Context Compass supports multiple agent runtimes through entrypoint adapters.
+This Codex distribution is wired to a single runtime entrypoint.
 
 Select the correct folder and place it into your repo.
 
-Within Context Compass Codex and Gemini support below:
+Within Context Compass Codex support:
 - Codex entrypoint: `AGENTS.MD`
-- Gemini entrypoint: `context_compass/GEMINI.MD` (Gemini distribution)
 
 The routing and policy core remains shared.
-Only the runtime adapter entrypoint changes.
+This distribution uses `AGENTS.MD` as the only runtime entrypoint.
 
 ## Core Design Principles
 
@@ -113,9 +112,7 @@ context_compass/
 
 The agent starts from the runtime entrypoint:
 
-- Codex reads `AGENTS.MD`
-- Gemini reads `context_compass/GEMINI.MD` and then resolves into
-  the same shared policy chain
+- Codex reads `AGENTS.MD` and resolves directly into the shared policy chain.
 
 ### 2) Role Routing
 
@@ -201,9 +198,8 @@ Key sections include:
 ## Quick Start
 
 1. Place `context_compass/` in your repository.
-2. Ensure your runtime entrypoint exists:
+2. Ensure the Codex runtime entrypoint exists:
    - Codex: `AGENTS.MD`
-   - Gemini: `context_compass/GEMINI.MD`
 3. Select an active profile in `config/context_compass_config.yaml`.
 4. Start onboarding through `SKILLS.md` role resolution.
 5. Request `CERTIFY: APPROVED`.
@@ -240,4 +236,5 @@ certification gates explicit so downstream users inherit a stable system.
 ## License
 
 MIT
+
 

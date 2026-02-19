@@ -1,4 +1,4 @@
-
+﻿
 
 # policy_router
 
@@ -126,11 +126,12 @@ Operational guidance (enriched)
 - If a change implies touching many files or renames, ask first.
 
 Workflow
-1) Check for AGENTS.override.md in the target directory.
+1) Check for GEMINI.override.md in the target directory.
 2) Read GEMINI.MD to confirm non-negotiables.
 3) Read the specific skills for the change type.
 4) Review relevant examples and mirror the pattern.
 5) If work is code-engineering, continue with engineer profile docs before
    implementation.
+
 
 

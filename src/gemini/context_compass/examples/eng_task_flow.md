@@ -1,33 +1,31 @@
-# Example: engineer task flow
+﻿# Example: engineer task flow (repo-based)
 
 Scenario
-- Active ticket: `tickets/tasks/2026-02-19_spellbook_cleanup_ordering.md`
-- Goal: keep logger cleanup as the final step in Spellbook teardown.
+- Active ticket: `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md`
+- Goal: build a complete release-readiness example chain using this repository
+  as the working context.
 
 Entry gate
-- `attention_board.md` points to the active ticket.
-- Scope is limited to teardown ordering and related tests.
+- Scope is bounded to `examples/` and `system_docs/` docs surfaces.
+- Story linkage exists:
+  `examples/example_stories/2026-02-19_context_compass_release_readiness_examples_story.md`.
 
 Ticket microcycle
 1. Investigate
-- Read current cleanup code and failing test history.
+- Read templates and current example/system docs.
 
 2. Document
-- Add ticket note:
-  - `FACT`: logger cleanup runs before child resources in current code.
-  - `UNKNOWN`: whether any callers rely on current ordering.
+- Record `FACT` and `UNKNOWN` findings with file evidence.
 
 3. Plan
-- Update cleanup ordering.
-- Add regression test for ordering contract.
+- Define file names, scope boundaries, and acceptance gates.
 
 4. Implement
-- Edit teardown method to release children first, logger last.
+- Create/update epic/story/task/artifact and flow docs.
 
 5. Validate
-- Run targeted test command.
-- Record exact result (`pass` or `Not run`).
+- Run grep checks for stale slugs and path quality.
 
 Exit gate
-- Ticket notes include evidence paths and next single step.
-- Acceptance criteria state ordering contract explicitly.
+- Task acceptance criteria are satisfied.
+- Story and epic links are coherent.

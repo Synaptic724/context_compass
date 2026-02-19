@@ -1,119 +1,195 @@
-# src_components
+﻿# src_components
 
 ## Metadata
 - Document type: source components map
-- Status: starter baseline
-- Last verified at: 2026-02-19T00:00:00Z
+- Distribution baseline: gemini
+- Status: current
+- Last verified at: 2026-02-19T03:15:00Z
 
 ## Scope
-This file maps the core components used to operate Context Compass as a durable,
-file-backed execution system.
+This map describes the core C3/C2/C1 components that implement Context Compass
+workflow behavior in this repository.
 
 ## DO NOT ASSUME / Unknowns Gate
-- Unknown component behavior remains UNKNOWN until direct evidence exists.
-- Naming pattern alone is not evidence.
+- Component ownership is UNKNOWN until source-backed.
+- Never infer behavior from naming alone.
 
 ## Unknowns
-- UNKNOWN: future ownership split for automation scripts vs policy docs.
-- UNKNOWN: whether new profile overlays will add non-markdown executable assets.
+- U-101 UNKNOWN: should reference scanning become a committed script layer?
+  - Investigation target: release-hardening process docs.
+- U-102 UNKNOWN: should artifact disposition defaults vary by role lane?
+  - Investigation target: `artifact_board.md` history and policy updates.
 
 ## C3 Components Catalog
-### Component: Runtime Policy Entrypoint
-- Purpose: establish non-negotiable startup and gating behavior.
-- Responsibilities: onboarding order, certification gates, compaction rules.
-- Inputs: user request, runtime session state.
-- Outputs: deterministic next-step policy.
-- Owned State: none; policy text only.
-- Lifecycle/Cleanup: re-read on fresh session or compaction.
-- Concurrency/Threading: single-session coordination.
-- Invariants/Guarantees: no execution before required reads and certification.
-- Failure Modes: missing entrypoint file or policy drift.
-- Observability: attestation messages and ticket notes.
-- Extension Points: role-specific runtime overlays.
-- Key Files (C1): `AGENTS.MD`, `GEMINI.MD`.
+### Component: Entrypoint Policy Engine
+- Purpose: enforce startup and gating rules before execution.
+- Responsibilities: onboarding order, certification gate, compaction re-entry requirements.
+- Inputs: user request + runtime entrypoint document.
+- Outputs: allowed action boundary.
+- Owned State: none (policy-as-document contract).
+- Lifecycle/Cleanup: re-read at session start and after compaction.
+- Invariants/Guarantees: no work before mandatory reads/certification.
+- Failure Modes: skipped gate, stale entrypoint references.
+- Observability: attestation evidence in notes.
+- Key Files (C1): `GEMINI.md`.
 
-### Component: Router and Profile Resolution
-- Purpose: map active profile to SKILLS chain.
-- Responsibilities: deterministic role path resolution.
-- Inputs: config profile values and role map.
-- Outputs: resolved skill chain order.
-- Owned State: role map definitions.
-- Lifecycle/Cleanup: updated when roles are added/removed.
-- Concurrency/Threading: single-writer documentation model.
-- Invariants/Guarantees: parent-first skill inheritance.
-- Failure Modes: broken path refs in role map.
-- Observability: readable config and skills docs plus onboarding traces.
-- Extension Points: user-defined profile overlays.
+### Component: Router and Role Resolution Engine
+- Purpose: resolve active role chain deterministically.
+- Responsibilities: map active profile -> role path -> inherited `SKILLS.MD` chain.
+- Inputs: `config/context_compass_config.yaml`, `SKILLS.md`.
+- Outputs: ordered readset and role boundaries.
+- Owned State: role map and active profile config.
+- Lifecycle/Cleanup: update when profiles/roles change.
+- Invariants/Guarantees: parent-first role-chain resolution.
+- Failure Modes: broken role map path, casing mismatch.
+- Observability: resolved-chain notes during onboarding.
 - Key Files (C1): `config/context_compass_config.yaml`, `SKILLS.md`.
 
-### Component: Durable Work Memory
-- Purpose: keep in-flight context durable outside chat memory.
-- Responsibilities: route active work, hold findings, link artifacts.
-- Inputs: active request, ticket updates, artifact outputs.
-- Outputs: durable execution history and next step.
-- Owned State: board rows and ticket note streams.
-- Lifecycle/Cleanup: ticket close and artifact disposition rules.
-- Concurrency/Threading: sequential updates with append-only note discipline.
-- Invariants/Guarantees: active ticket notes are canonical in-flight memory.
-- Failure Modes: stale board pointers, unlinked artifacts.
-- Observability: board state + ticket history.
-- Extension Points: additional ticket templates and artifact policies.
-- Key Files (C1): `attention_board.md`, `artifact_board.md`, `tickets/*`.
+### Component: Ticket Microcycle Execution Engine
+- Purpose: run work as evidence-backed iteration.
+- Responsibilities: enforce investigate/document/plan/implement/validate cadence.
+- Inputs: active ticket + findings from source reads.
+- Outputs: append-only notes, state transitions, validation records.
+- Owned State: ticket `## Notes` and state sections.
+- Lifecycle/Cleanup: per ticket until closure/completed move.
+- Invariants/Guarantees: meaningful findings are documented before deeper expansion.
+- Failure Modes: undocumented decisions, speculative transitions.
+- Observability: task/story/epic notes and transition events.
+- Key Files (C1): `tickets/*`, `templates/*`, `agent_onboarding/default/general/skills/workflow.md`.
+
+### Component: Attention Board Routing Engine
+- Purpose: keep active-work pointers deterministic.
+- Responsibilities: active route pointer, closure anchors, re-entry hints.
+- Inputs: ticket lifecycle updates.
+- Outputs: current active pointer and recent closure anchors.
+- Owned State: `attention_board.md` table rows.
+- Lifecycle/Cleanup: updated on route change and closure.
+- Invariants/Guarantees: active pointer maps to executable ticket context.
+- Failure Modes: stale pointers, ambiguous active row.
+- Observability: board row timestamps and linked tickets.
+- Key Files (C1): `attention_board.md`.
+
+### Component: Artifact Lifecycle Engine
+- Purpose: track artifacts linked to ticket execution.
+- Responsibilities: maintain ticket-artifact associations and disposition decisions.
+- Inputs: ticket artifact links and close-state decisions.
+- Outputs: active/cleared artifact index.
+- Owned State: `artifact_board.md` entries.
+- Lifecycle/Cleanup: updated through ticket execution and closure.
+- Invariants/Guarantees: every active artifact has a ticket owner and disposition.
+- Failure Modes: orphaned artifacts, unresolved disposition.
+- Observability: active artifact table + cleared history.
+- Key Files (C1): `artifact_board.md`, `artifacts/`.
 
 ## C2 Subcomponents Catalog
-- Entrypoint policies: global runtime contract documents.
-- Skill chain documents: general/engineer/specialized SKILLS and policies.
-- Ticket lanes: epic/story/task docs with state transitions.
-- Artifact lifecycle docs: artifact board and ticket artifact link sections.
+- Entrypoint Policy Engine
+  - bootstrap sequence checker
+  - certification gate checker
+  - compaction re-entry checker
+
+- Router and Role Resolution Engine
+  - active profile reader
+  - role map resolver
+  - parent-first chain reader
+
+- Ticket Microcycle Execution Engine
+  - note appender
+  - transition recorder
+  - validation reporter
+
+- Attention Board Routing Engine
+  - active pointer updater
+  - closure anchor updater
+
+- Artifact Lifecycle Engine
+  - artifact linker
+  - disposition recorder
+  - cleared-history logger
 
 ## Method-Level Call Flows (C1)
-- `bootstrap -> read_entrypoint -> read_config -> read_skills -> resolve_role_chain`
-- `execute -> open_active_ticket -> append_note -> run_change -> append_validation`
-- `compaction_recovery -> reonboard -> reread_active_state -> recertify -> resume`
+- `bootstrap_session() -> read_entrypoint() -> read_config() -> read_top_level_skills() -> resolve_role_chain()`
+- `open_active_ticket() -> investigate() -> append_note() -> plan() -> implement() -> validate() -> append_note()`
+- `close_ticket() -> confirm_acceptance() -> sync_attention_board() -> apply_artifact_disposition() -> append_handoff_summary()`
+- `recover_from_compaction() -> reread_entrypoint() -> reread_active_ticket() -> recertify() -> resume()`
 
 ## C1 Code Map (Core)
-- path: `config/context_compass_config.yaml`
+- path: `templates/epic_template.md`
   start_line: 1
-  end_line: 140
-  loc: 140
-  verified_at: 2026-02-19T00:00:00Z
-- path: `SKILLS.md`
+  end_line: 129
+  loc: 129
+  verified_at: 2026-02-19T03:15:00Z
+- path: `templates/story_template.md`
   start_line: 1
-  end_line: 90
-  loc: 90
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 111
+  loc: 111
+  verified_at: 2026-02-19T03:15:00Z
+- path: `templates/task_template.md`
+  start_line: 1
+  end_line: 103
+  loc: 103
+  verified_at: 2026-02-19T03:15:00Z
+- path: `tickets/epics/README.md`
+  start_line: 1
+  end_line: 68
+  loc: 68
+  verified_at: 2026-02-19T03:15:00Z
+- path: `tickets/stories/README.md`
+  start_line: 1
+  end_line: 68
+  loc: 68
+  verified_at: 2026-02-19T03:15:00Z
 - path: `tickets/tasks/README.md`
   start_line: 1
-  end_line: 180
-  loc: 180
-  verified_at: 2026-02-19T00:00:00Z
-- path: `attention_board.md`
+  end_line: 67
+  loc: 67
+  verified_at: 2026-02-19T03:15:00Z
+- path: `examples/eng_task_flow.md`
   start_line: 1
-  end_line: 160
-  loc: 160
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 31
+  loc: 31
+  verified_at: 2026-02-19T03:15:00Z
+- path: `examples/artifact_workflow.md`
+  start_line: 1
+  end_line: 20
+  loc: 20
+  verified_at: 2026-02-19T03:15:00Z
 
 ## Diagrams
 ```text
-Entrypoint -> Router -> Skills Chain -> Ticket Memory -> Artifact Lifecycle
+Entrypoint Policy
+  -> Router/Role Resolution
+    -> Ticket Microcycle
+      -> Attention Board Routing
+      -> Artifact Lifecycle
 ```
 
 ```mermaid
 flowchart LR
-  E[Entrypoint] --> R[Router]
-  R --> S[Skills Chain]
-  S --> T[Tickets]
-  T --> B[Boards]
-  T --> AR[Artifacts]
+  E[Entrypoint Policy Engine] --> R[Router + Role Resolution]
+  R --> M[Ticket Microcycle Engine]
+  M --> B[Attention Board Routing]
+  M --> A[Artifact Lifecycle]
+  B --> H[Compaction/Handoff Re-entry]
+  A --> H
 ```
 
 ## Information Sources
-- `config/context_compass_config.yaml`
+
+- `GEMINI.md`
 - `SKILLS.md`
-- `AGENTS.MD` and/or `GEMINI.MD`
-- `attention_board.md`
-- `tickets/*`
+- `config/context_compass_config.yaml`
+- `templates/epic_template.md`
+- `templates/story_template.md`
+- `templates/task_template.md`
+- `tickets/epics/README.md`
+- `tickets/stories/README.md`
+- `tickets/tasks/README.md`
+- `examples/eng_task_flow.md`
+- `examples/artifact_workflow.md`
 
 ## Context / Handoff Summary
-Starter component map added to satisfy C3/C2/C1 section contracts.
-Next reader should replace example ranges with exact verified ranges.
+Component map now reflects actual ownership, call flows, and failure paths for
+this repository's workflow system.
+
+
+

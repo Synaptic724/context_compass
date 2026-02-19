@@ -1,84 +1,112 @@
-# Example src_architecture
+﻿# Example src_architecture (repo-grounded)
 
 ## Metadata
-- Example only; demonstrates expected section contract.
+- Example type: high-fidelity architecture example
+- Objective: show what a strong architecture document looks like when based on
+  real repository files
+- Last verified at: 2026-02-19T03:15:00Z
 
 ## Scope and Intent
-Show how to document C4 architecture for a file-backed execution system.
+This example demonstrates a credible C4 architecture narrative for Context
+Compass using this repo's actual entrypoints, routing files, ticket lanes, and
+board state files.
 
 ## DO NOT ASSUME / Unknowns Gate
-Promote UNKNOWN to FACT only with direct evidence.
+- Keep unresolved claims marked UNKNOWN.
+- Promote to FACT only with file evidence.
 
 ## Unknowns
-- UNKNOWN: future runtime adapter abstraction strategy.
+- UNKNOWN: whether automated path/reference scanning will be part of the default
+  release checklist.
+- UNKNOWN: whether artifact retention defaults should differ by lane.
 
 ## System Context (C4)
-Context Compass coordinates policy onboarding, role routing, and ticket memory.
+Context Compass turns volatile chat context into durable, file-backed execution
+state through policy bootstrap, role routing, and ticket-first notes.
 
 ## System Boundary and External Interfaces
-- Entrypoints: `AGENTS.MD`, `GEMINI.MD`
-- Router: `config/context_compass_config.yaml`, `SKILLS.md`
-- Durable state: `attention_board.md`, `tickets/`, `artifact_board.md`
+- Entrypoints: `GEMINI.md`
+- Router/config: `SKILLS.md`, `config/context_compass_config.yaml`
+- Work memory: `attention_board.md`, `tickets/`
+- Artifact memory: `artifact_board.md`, `artifacts/`
 
 ## Architecture Summary (C4)
-- bootstrap policy layer
-- role routing layer
-- durable work-memory layer
-- artifact lifecycle layer
+- bootstrap/guardrails
+- role-chain routing
+- ticket microcycle execution
+- closure and compaction continuity
 
 ## Entrypoints and Runtime Guardrails
-No edits/tools before onboarding and certification gates complete.
+- mandatory onboarding/certification before work
+- parent-first role-chain reads
+- explicit re-onboarding after compaction/handoff
 
 ## Boot and Configuration Sequence
-1. Read entrypoint policy.
-2. Read config and top-level skills map.
-3. Resolve role chain.
-4. Request certification.
+1. Read runtime entrypoint.
+2. Read execution contract and compaction policy.
+3. Read config + top-level skills map.
+4. Resolve and read role chain.
+5. Route to active ticket.
+6. Execute microcycle and document findings.
 
 ## Data Flows and Sequences
-User request -> ticket routing -> note capture -> implementation -> validation.
+- request -> routing -> ticket loop -> validation -> closure sync
+- compaction -> re-onboarding -> recertify -> resume
 
 ## Operational Invariants
-- Unknowns stay explicit until proven.
-- Ticket notes remain canonical in-flight memory.
+- ticket notes are canonical in-flight memory
+- UNKNOWN never becomes FACT without evidence
+- sample assets stay in `examples/` lanes
 
 ## Failure Modes and Error Paths
-- stale references
-- missing role mapping
-- missing certification gate
+- broken references
+- stale attention-board pointer
+- missing artifact disposition
 
 ## C1 Code Map (Core Only)
-- path: `config/context_compass_config.yaml`
-  start_line: 1
-  end_line: 140
-  loc: 140
-  verified_at: 2026-02-19T00:00:00Z
 - path: `SKILLS.md`
   start_line: 1
-  end_line: 90
-  loc: 90
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 69
+  loc: 69
+  verified_at: 2026-02-19T03:15:00Z
+- path: `config/context_compass_config.yaml`
+  start_line: 1
+  end_line: 136
+  loc: 136
+  verified_at: 2026-02-19T03:15:00Z
+- path: `attention_board.md`
+  start_line: 1
+  end_line: 33
+  loc: 33
+  verified_at: 2026-02-19T03:15:00Z
+- path: `artifact_board.md`
+  start_line: 1
+  end_line: 31
+  loc: 31
+  verified_at: 2026-02-19T03:15:00Z
 
 ## Diagrams
-ASCII
 ```text
-Entrypoint -> Router -> Role Chain -> Tickets -> Artifacts
+Entrypoint -> Config/Skills -> Role Chain -> Ticket Loop -> Closure/Compaction
 ```
 
-Mermaid
 ```mermaid
 flowchart LR
-  E[Entrypoint] --> R[Router]
+  E[Entrypoint] --> R[Config + Skills]
   R --> C[Role Chain]
-  C --> T[Tickets]
-  T --> A[Artifacts]
+  C --> T[Ticket Loop]
+  T --> H[Closure + Compaction Recovery]
 ```
 
 ## Information Sources
-- `AGENTS.MD`
-- `GEMINI.MD`
-- `config/context_compass_config.yaml`
+
+- `GEMINI.md`
 - `SKILLS.md`
+- `config/context_compass_config.yaml`
+- `agent_onboarding/default/general/skills/workflow.md`
 
 ## Context / Handoff Summary
-Use this file as a structure reference when producing real architecture docs.
+This example shows the expected depth standard: concrete boundaries, explicit
+invariants, and repo-backed references.
+
+

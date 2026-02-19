@@ -1,112 +1,197 @@
-# src_architecture
+﻿# src_architecture
 
 ## Metadata
 - Document type: system architecture
-- Status: starter baseline
-- Last verified at: 2026-02-19T00:00:00Z
+- Distribution baseline: codex
+- Status: current
+- Last verified at: 2026-02-19T03:15:00Z
+- Evidence policy: UNKNOWN-first with explicit source pointers
 
 ## Scope and Intent
-This file captures a durable architecture map for the Context Compass
-policy/docs system so future design updates can start from a stable baseline.
+This document describes the architecture of Context Compass as it exists in this
+repository. It focuses on deterministic onboarding, role routing, ticket-first
+execution memory, and continuity after compaction/handoff.
+
+This is not a generic architecture memo. Every section is tied to concrete files
+in this package.
 
 ## DO NOT ASSUME / Unknowns Gate
-- Any unevidenced runtime behavior remains UNKNOWN.
-- Promote UNKNOWN to FACT only with direct file evidence.
+- File names are not proof of behavior.
+- Claims are UNKNOWN until backed by direct file evidence.
+- Cross-runtime assumptions must be validated in both adapter trees.
 
 ## Unknowns
-- UNKNOWN: packaging expectations for single-folder distribution versus split runtime distribution.
-- UNKNOWN: long-term conventions for cross-runtime file naming compatibility.
+- U-001 UNKNOWN: whether future adapters need new top-level entrypoint aliases.
+  - Investigation target: `AGENTS.md` and release packaging notes.
+- U-002 UNKNOWN: whether reference scanning should be committed as automation.
+  - Investigation target: release-hardening process docs.
+- U-003 UNKNOWN: whether artifact retention defaults should vary by lane/profile.
+  - Investigation target: `artifact_board.md` policy evolution.
 
 ## System Context (C4)
-Context Compass is a file-backed operating model for AI work execution.
-It coordinates onboarding, role routing, ticket memory, and compaction recovery.
+Context Compass sits between a runtime agent session and repository-backed state.
+It converts volatile interaction into durable execution memory through explicit
+contracts.
+
+Primary actors and boundaries:
+- user/operator requesting work
+- runtime adapter entrypoint (`AGENTS.md` for Codex sessions)
+- role/router contract (`SKILLS.md`, `config/context_compass_config.yaml`)
+- durable state (`attention_board.md`, `tickets/`, `artifact_board.md`)
 
 ## System Boundary and External Interfaces
-- Runtime entrypoint interface: `AGENTS.MD` or `GEMINI.MD`
-- Routing/config interface: `config/context_compass_config.yaml` and `SKILLS.md`
-- Durable execution interface: `attention_board.md`, `tickets/`, `artifact_board.md`
+- Entrypoint interface:
+  - `AGENTS.md`
+- Routing/config interface:
+  - `SKILLS.md`
+  - `config/context_compass_config.yaml`
+- Execution-memory interface:
+  - `attention_board.md`
+  - `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`
+- Artifact-lifecycle interface:
+  - `artifact_board.md`
+  - `artifacts/`
 
 ## Architecture Summary (C4)
-- Policy bootstrap layer: runtime entrypoint + execution contract.
-- Role routing layer: profile map and parent-first SKILLS inheritance.
-- Execution memory layer: attention board + ticket notes.
-- Artifact lifecycle layer: artifact board + retention/disposition controls.
+Layer 1: Bootstrap and guardrails
+- Entry documents enforce mandatory onboarding and certification gates.
+
+Layer 2: Router and role-chain resolution
+- Profile + role map resolve the active `SKILLS.MD` chain in parent-first order.
+
+Layer 3: Ticket microcycle execution
+- Work runs through investigate -> document -> plan -> implement -> validate
+  with append-only notes.
+
+Layer 4: Closure and continuity
+- Board sync and artifact disposition preserve deterministic re-entry.
 
 ## Entrypoints and Runtime Guardrails
-- Entrypoint policy must be read before tools/edits.
-- Certification token gates implementation actions.
-- Re-onboarding gates post-compaction execution.
+- No action before required onboarding reads.
+- Certification gate is explicit and required before execution.
+- Re-onboarding is required after compaction/handoff.
+- Unknown-first evidence discipline is mandatory.
 
 ## Boot and Configuration Sequence
-1. Runtime entrypoint policy read.
-2. Configuration read from `config/context_compass_config.yaml`.
-3. Role selection from `SKILLS.md`.
-4. Parent-first read of resolved role chain.
-5. Certification request and approval.
+1. Read `AGENTS.md`.
+2. Read execution contract and compaction requirements.
+3. Read `config/context_compass_config.yaml`.
+4. Read top-level `SKILLS.md` and resolve role.
+5. Read resolved role-chain `SKILLS.MD` files in parent-first order.
+6. Confirm certification approval.
+7. Route to active ticket via `attention_board.md`.
+8. Execute ticket microcycle with evidence-backed notes.
+9. On closure, sync board state and apply artifact disposition.
 
 ## Data Flows and Sequences
-- User request -> active ticket routing -> note capture -> implementation -> validation.
-- Compaction event -> re-onboard -> re-certify -> resume from active ticket state.
+Flow A: Fresh session
+- request -> entrypoint -> router/config -> role-chain readset -> certification -> ticket execution.
+
+Flow B: Active execution
+- active ticket -> investigate -> note -> plan -> implement -> validate -> note.
+
+Flow C: Compaction recovery
+- compaction event -> re-open entrypoint/contract -> re-read active state -> recertify -> resume.
+
+Flow D: Ticket closure
+- acceptance confirmation -> closure sync -> artifact disposition -> handoff summary.
 
 ## Operational Invariants
-- Ticket notes are the canonical in-flight memory stream.
-- Unknowns must remain explicit until proven.
-- Role boundaries and inheritance remain deterministic.
+- I-001: Ticket notes are canonical in-flight memory.
+- I-002: UNKNOWN is never promoted without evidence.
+- I-003: Role-chain reads are explicit and parent-first.
+- I-004: Certification precedes execution.
+- I-005: Example lanes remain separate from operational lanes.
 
 ## Failure Modes and Error Paths
-- Missing required onboarding docs blocks certification.
-- Stale or missing routing references produce non-deterministic role resolution.
-- Unlinked artifacts can drift from ticket ownership.
+- F-001 Broken references
+  - Signal: unresolved path/link checks.
+  - Mitigation: normalize paths and rerun scans.
+
+- F-002 Onboarding claims without proof
+  - Signal: attestation without referenced readset.
+  - Mitigation: require explicit evidence pointers.
+
+- F-003 Ticket routing drift
+  - Signal: stale or ambiguous `attention_board.md` pointers.
+  - Mitigation: closure sync and board hygiene rules.
+
+- F-004 Example pollution in real lanes
+  - Signal: sample files placed under operational `tickets/` or `artifacts/`.
+  - Mitigation: keep samples inside `examples/example_*` only.
 
 ## C1 Code Map (Core Only)
-- path: `config/context_compass_config.yaml`
+- path: `AGENTS.md`
   start_line: 1
-  end_line: 140
-  loc: 140
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 176
+  loc: 176
+  verified_at: 2026-02-19T03:15:00Z
 - path: `SKILLS.md`
   start_line: 1
-  end_line: 90
-  loc: 90
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 68
+  loc: 68
+  verified_at: 2026-02-19T03:15:00Z
+- path: `config/context_compass_config.yaml`
+  start_line: 1
+  end_line: 136
+  loc: 136
+  verified_at: 2026-02-19T03:15:00Z
 - path: `attention_board.md`
   start_line: 1
-  end_line: 160
-  loc: 160
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 33
+  loc: 33
+  verified_at: 2026-02-19T03:15:00Z
+- path: `artifact_board.md`
+  start_line: 1
+  end_line: 31
+  loc: 31
+  verified_at: 2026-02-19T03:15:00Z
 - path: `agent_onboarding/default/general/skills/execution_contract.md`
   start_line: 1
-  end_line: 260
-  loc: 260
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 234
+  loc: 234
+  verified_at: 2026-02-19T03:15:00Z
+- path: `agent_onboarding/default/general/skills/workflow.md`
+  start_line: 1
+  end_line: 245
+  loc: 245
+  verified_at: 2026-02-19T03:15:00Z
 
 ## Diagrams
-ASCII:
 ```text
-User -> Entrypoint Policy -> Config+Skills Router -> Role Chain -> Ticket Execution
-                              |                                 |
-                              +------ Compaction Re-entry ------+
+User Request
+  -> Entrypoint Policy
+    -> Config + SKILLS Router
+      -> Role Chain Readset
+        -> Ticket Microcycle
+          -> Attention Board + Artifact Board
+            -> Closure / Compaction Re-entry
 ```
 
-Mermaid:
 ```mermaid
 flowchart LR
-  U[User Request] --> E[Runtime Entrypoint]
-  E --> C[Config + SKILLS Routing]
-  C --> R[Resolved Role Chain]
-  R --> T[Ticket-First Execution]
-  T --> A[Artifacts + Boards]
-  A --> X[Compaction/Handoff]
-  X --> E
+  U[User Request] --> E[Entrypoint Policy]
+  E --> R[Config + SKILLS Router]
+  R --> C[Role Chain Readset]
+  C --> T[Ticket Microcycle]
+  T --> B[attention_board + tickets]
+  T --> A[artifact_board + artifacts]
+  B --> H[Closure/Compaction Re-entry]
+  A --> H
+  H --> E
 ```
 
 ## Information Sources
-- `AGENTS.MD` or `GEMINI.MD` (runtime package)
-- `config/context_compass_config.yaml`
+- `AGENTS.md`
 - `SKILLS.md`
+- `config/context_compass_config.yaml`
+- `agent_onboarding/default/general/skills/execution_contract.md`
+- `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
 - `artifact_board.md`
 
 ## Context / Handoff Summary
-This starter architecture defines a stable section contract and initial model.
-Next reader should validate file/line ranges against current repository state.
+Architecture is now explicitly tied to this repository's real lifecycle and
+paths. Revalidate route/entrypoint references before future release updates.
+
+
