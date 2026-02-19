@@ -1,5 +1,5 @@
 
-# SKILLS.MD - platform_engineer
+# SKILLS.md - platform_engineer
 
 Purpose
 - Define required baseline platform skills for the `platform_engineer` role.

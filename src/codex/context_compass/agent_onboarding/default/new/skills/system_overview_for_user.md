@@ -32,7 +32,7 @@ AI usage model
 Core system anchors
 - `AGENTS.MD`
 - `config/context_compass_config.yaml`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `tickets/`
 - `attention_board.md`
 - `artifact_board.md`

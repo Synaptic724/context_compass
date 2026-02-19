@@ -67,7 +67,7 @@ After any context compaction or handoff:
 - Fresh-session startup uses ONBOARD flow, not REONBOARD flow.
 - Re-read `agent_onboarding/default/general/skills/execution_contract.md` in
   full immediately after `AGENTS.md`.
-- Start from `config/context_compass_config.yaml`, then `SKILLS.MD`.
+- Start from `config/context_compass_config.yaml`, then `SKILLS.md`.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
 - README reads are allowed for `new` first-time onboarding only; non-`new`
   roles use policy/skills docs.
@@ -102,15 +102,15 @@ Before any tooling, edits, or execution:
 - Do not perform duplicate end-of-onboarding rereads of `AGENTS.md` or
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
-- Read `SKILLS.MD`.
-- When `SKILLS.MD` is read, list active roles and ask the user which role to
+- Read `SKILLS.md`.
+- When `SKILLS.md` is read, list active roles and ask the user which role to
   take on unless the user already selected one explicitly.
-- Resolve the selected role to its `SKILLS.MD` path from `SKILLS.MD` and/or
+- Resolve the selected role to its `SKILLS.md` path from `SKILLS.md` and/or
   `config/context_compass_config.yaml` (roles map).
-- Read the selected role `SKILLS.MD` and all inherited parent `SKILLS.MD`
+- Read the selected role `SKILLS.md` and all inherited parent `SKILLS.md`
   files in parent-first order.
 - Treat every path listed under **Active skills** / **Required baseline skills**
-  in resolved `SKILLS.MD` files as active skill docs.
+  in resolved `SKILLS.md` files as active skill docs.
   - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
   - When an on-demand trigger condition is met, those paths become mandatory
     and MUST be read before any work in that scope.
@@ -126,8 +126,8 @@ Before any tooling, edits, or execution:
 Onboarding readset authority:
 
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.MD`
-- resolved `SKILLS.MD` chain under `context_compass/agent_onboarding/`
+- `context_compass/SKILLS.md`
+- resolved `SKILLS.md` chain under `context_compass/agent_onboarding/`
 
 Onboarding completion attestation (first onboarding in a fresh session):
 

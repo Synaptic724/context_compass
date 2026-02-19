@@ -1,9 +1,9 @@
-﻿
+
 # SKILLS Role Map
 
 Purpose
-- Define active profile roles and their `SKILLS.MD` entry points.
-- Use direct profile-to-skills routing from this top-level `SKILLS.MD` file.
+- Define active profile roles and their `SKILLS.md` entry points.
+- Use direct profile-to-skills routing from this top-level `SKILLS.md` file.
 
 Available roles
 - `new`
@@ -42,20 +42,20 @@ Available path map
 - `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
 
 Role selection directive (non-negotiable)
-1) When this `SKILLS.MD` map is read, list the available roles.
+1) When this `SKILLS.md` map is read, list the available roles.
 2) Ask the user which role to take on (unless the user already selected one).
-3) Resolve the selected role to its `SKILLS.MD` path from this map.
-4) Read the resolved role `SKILLS.MD`.
-5) Treat the resolved role `SKILLS.MD` chain as the routing manifest:
+3) Resolve the selected role to its `SKILLS.md` path from this map.
+4) Read the resolved role `SKILLS.md`.
+5) Treat the resolved role `SKILLS.md` chain as the routing manifest:
    - You MUST read every path listed under **Active skills** / **Required baseline skills**
-     in each resolved `SKILLS.MD` file (parent-first).
+     in each resolved `SKILLS.md` file (parent-first).
    - **On-demand** skills are conditional: do NOT read them for certification unless a trigger condition is met.
    - If an on-demand trigger is met, those on-demand paths become mandatory and MUST be read
      before proceeding in that scope.
 
 Notes
 - This file is a routing manifest, not a license to read the whole repo.
-- Baseline/on-demand triggers are defined in the resolved role `SKILLS.MD` files and enforced
+- Baseline/on-demand triggers are defined in the resolved role `SKILLS.md` files and enforced
   by `GEMINI.MD` and `compaction_requirements.md`.
 - The default roles are designed as delta layers:
   - `general` is the shared baseline for all work.

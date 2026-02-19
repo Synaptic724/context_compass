@@ -90,10 +90,10 @@ Where this is configured
 - `roles.*`
 
 Where inheritance is defined
-- Inheritance is declared in `SKILLS.MD` headers, not in YAML inheritance blocks.
+- Inheritance is declared in `SKILLS.md` headers, not in YAML inheritance blocks.
 - Header format:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- Parent `SKILLS.MD` paths are loaded before child `SKILLS.MD` paths.
+- Parent `SKILLS.md` paths are loaded before child `SKILLS.md` paths.
 
 Rules for custom classes
 - Keep shared process in `general`.

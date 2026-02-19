@@ -1,6 +1,23 @@
 # Example: continuity_fact_checker task flow
 
-1. Load architecture + canon references.
-2. Flag continuity conflicts as UNKNOWN until proven.
-3. Emit correction actions with evidence pointers.
-4. Hand off fixes to drafting/editing roles.
+Scenario
+- Verify timeline and canon continuity before proofing.
+
+Workflow
+1. Intake
+- gather story bible, chapter map, and current manuscript.
+
+2. Continuity scan
+- detect contradictions in timeline, facts, and constraints.
+
+3. Severity assignment
+- classify conflicts and attach evidence.
+
+4. Resolution handoff
+- publish recommended fixes and responsible role.
+
+Expected outputs
+- `continuity_matrix.md`
+- `timeline_validation.md`
+- `canon_conflict_report.md`
+- `resolution_recommendations.md`

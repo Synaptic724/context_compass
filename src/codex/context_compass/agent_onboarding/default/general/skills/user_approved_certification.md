@@ -13,13 +13,13 @@ Approval script
 Rules
 - Only request approval after listing the skills read from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.MD`
+  - `context_compass/SKILLS.md`
   - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.MD` path from `context_compass/SKILLS.MD`
+  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
 - Before requesting approval, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.MD`
-  - resolved role `SKILLS.MD` chain for the active profile
+  - `context_compass/SKILLS.md`
+  - resolved role `SKILLS.md` chain for the active profile
   - include read-integrity proof in the ONBOARD/REONBOARD attestation
   (concrete rule callouts -> behavior implications; not tool logs).
 - Do not request approval based on onboarding dump artifacts; approval requires

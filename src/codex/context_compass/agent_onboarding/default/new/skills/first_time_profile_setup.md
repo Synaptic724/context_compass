@@ -7,7 +7,7 @@ Purpose
 
 First-time setup sequence
 1) Start from `AGENTS.MD` bootstrap rules.
-2) Read `SKILLS.MD` and configuration authority in `config/context_compass_config.yaml`.
+2) Read `SKILLS.md` and configuration authority in `config/context_compass_config.yaml`.
 3) Explain the system purpose and onboarding model using:
    - `system_overview_for_user.md`
    - `profile_model_explained.md`
@@ -76,7 +76,7 @@ Rules
 References
 - `context_compass/AGENTS.MD`
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.MD`
+- `context_compass/SKILLS.md`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/engineer/SKILLS.MD`
 - `agent_onboarding/default/design_engineer/SKILLS.MD`

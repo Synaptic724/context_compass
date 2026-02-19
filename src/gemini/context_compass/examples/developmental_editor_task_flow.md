@@ -1,6 +1,22 @@
 # Example: developmental_editor task flow
 
-1. Read architecture pack + manuscript state.
-2. Diagnose structural weaknesses and pacing breaks.
-3. Publish prioritized rewrite plan.
-4. Hand off to draft writer for execution.
+Scenario
+- Evaluate a full manuscript draft for structure, pacing, and coherence.
+
+Workflow
+1. Intake
+- load architecture pack and manuscript.
+
+2. Structural diagnosis
+- identify plot holes, pacing failures, and character-arc breaks.
+
+3. Rewrite plan
+- prioritize defects with sequencing and dependencies.
+
+4. Handoff
+- provide actionable rewrite packet to draft writer.
+
+Expected outputs
+- `developmental_report.md`
+- `priority_defect_matrix.md`
+- `rewrite_plan.md`

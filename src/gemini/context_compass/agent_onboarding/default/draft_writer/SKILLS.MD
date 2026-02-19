@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - draft_writer
+# SKILLS.md - draft_writer
 
 Purpose
 - Define required baseline skills for the draft_writer role.

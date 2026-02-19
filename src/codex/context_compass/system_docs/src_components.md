@@ -44,7 +44,7 @@ file-backed execution system.
 - Failure Modes: broken path refs in role map.
 - Observability: readable config and skills docs plus onboarding traces.
 - Extension Points: user-defined profile overlays.
-- Key Files (C1): `config/context_compass_config.yaml`, `SKILLS.MD`.
+- Key Files (C1): `config/context_compass_config.yaml`, `SKILLS.md`.
 
 ### Component: Durable Work Memory
 - Purpose: keep in-flight context durable outside chat memory.
@@ -77,7 +77,7 @@ file-backed execution system.
   end_line: 140
   loc: 140
   verified_at: 2026-02-19T00:00:00Z
-- path: `SKILLS.MD`
+- path: `SKILLS.md`
   start_line: 1
   end_line: 90
   loc: 90
@@ -109,7 +109,7 @@ flowchart LR
 
 ## Information Sources
 - `config/context_compass_config.yaml`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `AGENTS.MD` and/or `GEMINI.MD`
 - `attention_board.md`
 - `tickets/*`

@@ -1,4 +1,4 @@
-# SKILLS.MD - data_engineer
+# SKILLS.md - data_engineer
 
 Purpose
 - Define a sample user-defined profile for data engineering work.

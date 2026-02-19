@@ -23,8 +23,8 @@ Overlay docs
 - `skills/testing/`: user-preference test authoring/validation guidance.
 - `examples/python/`: user-preference Python/testing examples.
 
-SKILLS.MD top-level sources
-- `context_compass/SKILLS.MD`
+SKILLS.md top-level sources
+- `context_compass/SKILLS.md`
 - `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
 
 

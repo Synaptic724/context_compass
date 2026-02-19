@@ -44,7 +44,7 @@ profiles:
     fallback_post_onboarding_profile: engineer
 
 router:
-  path: context_compass/SKILLS.MD
+  path: context_compass/SKILLS.md
   agent_reads_readmes: false
   readme_role: user_facing_only
   profile_readme_policy:

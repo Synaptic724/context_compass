@@ -46,7 +46,7 @@ Select the correct folder and place it into your repo.
 
 Within Context Compass Codex and Gemini support below:
 - Codex entrypoint: `AGENTS.MD`
-- Gemini entrypoint: `src/gemini/context_compass/GEMINI.MD` (Gemini distribution)
+- Gemini entrypoint: `context_compass/GEMINI.MD` (Gemini distribution)
 
 The routing and policy core remains shared.
 Only the runtime adapter entrypoint changes.
@@ -65,7 +65,7 @@ Only the runtime adapter entrypoint changes.
 ```text
 context_compass/
   AGENTS.MD
-  SKILLS.MD
+  SKILLS.md
   CONTEXT_COMPACTION.md
   PROFILE_CLASS_CREATION_GUIDE.md
   README.md
@@ -114,13 +114,13 @@ context_compass/
 The agent starts from the runtime entrypoint:
 
 - Codex reads `AGENTS.MD`
-- Gemini reads `src/gemini/context_compass/GEMINI.MD` and then resolves into
+- Gemini reads `context_compass/GEMINI.MD` and then resolves into
   the same shared policy chain
 
 ### 2) Role Routing
 
-`SKILLS.MD` defines available roles and role-to-skill-map paths.
-The selected role resolves to a `SKILLS.MD` chain with parent-first inheritance.
+`SKILLS.md` defines available roles and role-to-skill-map paths.
+The selected role resolves to a `SKILLS.md` chain with parent-first inheritance.
 
 Each role declares:
 
@@ -203,9 +203,9 @@ Key sections include:
 1. Place `context_compass/` in your repository.
 2. Ensure your runtime entrypoint exists:
    - Codex: `AGENTS.MD`
-   - Gemini: `src/gemini/context_compass/GEMINI.MD`
+   - Gemini: `context_compass/GEMINI.MD`
 3. Select an active profile in `config/context_compass_config.yaml`.
-4. Start onboarding through `SKILLS.MD` role resolution.
+4. Start onboarding through `SKILLS.md` role resolution.
 5. Request `CERTIFY: APPROVED`.
 6. Execute through ticket routing (`attention_board.md` + active ticket notes).
 

@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - story_designer
+# SKILLS.md - story_designer
 
 Purpose
 - Define required baseline skills for the story_designer role.

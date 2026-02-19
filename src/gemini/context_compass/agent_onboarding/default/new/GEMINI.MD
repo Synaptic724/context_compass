@@ -1,11 +1,11 @@
-﻿
+
 # GEMINI.MD - New Profile Onboarding Contract
 
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.MD` file (parent-first).
+  in each resolved `SKILLS.md` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -61,7 +61,7 @@ While active profile is `new`:
 5) Apply onboarding completion config writes:
    - set `profiles.active_profile` to selected steady-state profile,
    - set `profiles.onboarding.first_time_enabled: false`.
-6) Confirm next read path from selected role `SKILLS.MD` via `SKILLS.MD`.
+6) Confirm next read path from selected role `SKILLS.md` via `SKILLS.md`.
 7) State onboarding completion explicitly.
 
 ## 5) Required Config Keys at Completion
@@ -77,10 +77,10 @@ Expected completion state:
 ## 6) Notes
 
 - `new` is intentionally lightweight: it is not an excuse to skip policy.
-- After `new` completion, all work must route through the selected steady-state role and its `SKILLS.MD` chain.
+- After `new` completion, all work must route through the selected steady-state role and its `SKILLS.md` chain.
 
 References
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/new/SKILLS.MD`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`

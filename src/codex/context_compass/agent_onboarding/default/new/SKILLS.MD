@@ -1,6 +1,6 @@
 
 
-# SKILLS.MD - new
+# SKILLS.md - new
 
 Purpose
 - Define active onboarding skills for the `new` role.
@@ -16,7 +16,7 @@ Active skills
 - `agent_onboarding/default/new/AGENTS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
 - `agent_onboarding/default/new/behavioral_guidelines/user_onboarding_flow.md`
 - `agent_onboarding/default/new/skills/system_overview_for_user.md`

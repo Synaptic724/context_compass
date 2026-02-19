@@ -1,6 +1,23 @@
 # Example: researcher task flow
 
-1. Scope research question and constraints.
-2. Collect and normalize evidence.
-3. Publish source-backed findings.
-4. Hand off actionable constraints to downstream roles.
+Scenario
+- Validate historical/legal details for a courtroom thriller arc.
+
+Workflow
+1. Intake
+- define research questions and confidence requirements.
+
+2. Evidence collection
+- gather sources and contradictions.
+
+3. Constraint synthesis
+- convert findings into writing-safe constraints.
+
+4. Handoff
+- publish confidence map and unresolved unknowns.
+
+Expected outputs
+- `research_questions.md`
+- `source_log.md`
+- `confidence_map.md`
+- `plausibility_constraints.md`

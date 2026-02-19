@@ -1,4 +1,4 @@
-﻿
+
 # new_onboarding_policy
 
 Purpose
@@ -19,7 +19,7 @@ Policy
   - use Codex with Extra High reasoning,
   - other reasoning modes are not yet validated in this repository.
 - Explain profile classes and inheritance before asking for selection.
-- Present the full set of default roles from `SKILLS.MD`.
+- Present the full set of default roles from `SKILLS.md`.
 - Make `engineer` the recommended default class for general code development.
 - If the user needs a specialized posture, route them to the matching role:
   - software lane: `design_engineer`, `platform_engineer`, `qa_engineer`,
@@ -47,7 +47,7 @@ Completion criteria
 
 References
 - `GEMINI.MD`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`
 

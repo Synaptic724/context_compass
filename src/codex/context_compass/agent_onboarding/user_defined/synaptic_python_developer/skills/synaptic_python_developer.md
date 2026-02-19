@@ -1,12 +1,12 @@
-﻿
+
 
 # synaptic_python_developer skill - User-Defined Overlay
 
 ## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
 
-- Certification is denied unless the resolved `SKILLS.MD` chain is satisfied exactly.
+- Certification is denied unless the resolved `SKILLS.md` chain is satisfied exactly.
   - You MUST read every path listed under **Active skills** / **Required baseline skills**
-    in each resolved `SKILLS.MD` file (parent-first).
+    in each resolved `SKILLS.md` file (parent-first).
   - **On-demand** skills are NOT part of baseline certification, but become mandatory when
     triggered by the active task. If triggered, you MUST read them before proceeding.
 - After any compaction/handoff, assume chat memory is unreliable.

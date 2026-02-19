@@ -28,12 +28,12 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
 
 ### 1) Profile class
 - A class/profile is a curated read path for behavior and skills.
-- Profiles are route targets resolved by `roles.*` to `SKILLS.MD`.
+- Profiles are route targets resolved by `roles.*` to `SKILLS.md`.
 
 ### 2) Inheritance
 - Parent profile docs load first.
 - Child profile docs load last.
-- Child profile `SKILLS.MD` should add deltas, not duplicate parent paths.
+- Child profile `SKILLS.md` should add deltas, not duplicate parent paths.
 
 ### 3) Default class
 - This is the profile loaded after onboarding.
@@ -90,16 +90,16 @@ Key areas in that file:
 - `profiles.onboarding.*`
 - `roles.*`
 - `roles_map.profile_readme_policy.*`
-- `SKILLS.MD` header inheritance:
+- `SKILLS.md` header inheritance:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
 
 ## Class creation checklist
 - [ ] Choose class name.
 - [ ] Create onboarding folder structure.
-- [ ] Create profile `SKILLS.MD` file.
+- [ ] Create profile `SKILLS.md` file.
 - [ ] Add class to config.
-- [ ] Define `SKILLS.MD` inheritance header.
-- [ ] Validate `SKILLS.MD` paths and overlap rules.
+- [ ] Define `SKILLS.md` inheritance header.
+- [ ] Validate `SKILLS.md` paths and overlap rules.
 - [ ] Assign active/default class.
 
 ## Step-by-step: create a new class
@@ -141,12 +141,12 @@ Create:
 context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
 ```
 
-SKILLS.MD rules:
+SKILLS.md rules:
 - one relative path per line
 - no empty lines
 - inheritance header required for inheriting profiles:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- no duplicated parent paths from inherited `SKILLS.MD`
+- no duplicated parent paths from inherited `SKILLS.md`
 
 Example:
 
@@ -202,14 +202,14 @@ rg -n "data_engineer" context_compass/config/context_compass_config.yaml
 Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
 ```
 
-Validate `SKILLS.MD` path existence (manual method):
-- open each path listed in the class `SKILLS.MD`
+Validate `SKILLS.md` path existence (manual method):
+- open each path listed in the class `SKILLS.md`
 - confirm files exist and are readable
 
 Validate overlap discipline:
-- compare child `SKILLS.MD` lines against parent `SKILLS.MD` lines
-- remove duplicates from child `SKILLS.MD`
-- confirm child `SKILLS.MD` starts with inheritance header:
+- compare child `SKILLS.md` lines against parent `SKILLS.md` lines
+- remove duplicates from child `SKILLS.md`
+- confirm child `SKILLS.md` starts with inheritance header:
   - `INHERITS_SKILLS_FROM: <parent_skills_path>`
 
 ## Recommended class design patterns
@@ -227,7 +227,7 @@ Validate overlap discipline:
 - Keep system mechanics unchanged.
 
 ## Anti-patterns to avoid
-- Duplicating entire parent `SKILLS.MD` path lists in child classes.
+- Duplicating entire parent `SKILLS.md` path lists in child classes.
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
 - Setting `active_profile` to a class not in `available_profiles`.
@@ -299,7 +299,7 @@ Skills
 
 ### Post-onboarding entry
 - Route directly to selected default class path order.
-- If class inherits `engineer`, `SKILLS.MD` headers resolve
+- If class inherits `engineer`, `SKILLS.md` headers resolve
   `general` then `engineer` then custom.
 
 ## Recommended default class choice
@@ -322,11 +322,11 @@ Skills
 ## Fast operator checklist
 - [ ] I know the class name I want.
 - [ ] I created class folder + files under `user_defined`.
-- [ ] I created `SKILLS.MD` under `agent_onboarding/user_defined/<profile_name>/`.
+- [ ] I created `SKILLS.md` under `agent_onboarding/user_defined/<profile_name>/`.
 - [ ] I updated config profile lists and roles-map role registration.
-- [ ] I added the `SKILLS.MD` inheritance header.
+- [ ] I added the `SKILLS.md` inheritance header.
 - [ ] I set `active_profile` to target class.
-- [ ] I validated `SKILLS.MD` paths and overlap contract.
+- [ ] I validated `SKILLS.md` paths and overlap contract.
 
 ## Troubleshooting
 
@@ -334,24 +334,24 @@ Skills
 Check:
 - class exists in `profiles.available_profiles`
 - role exists under `roles_map.roles`
-- class `SKILLS.MD` path is correct and readable
+- class `SKILLS.md` path is correct and readable
 
 ### Wrong docs load order
 Check:
-- `SKILLS.MD` inheritance header:
+- `SKILLS.md` inheritance header:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- parent-first ordering resolved from `SKILLS.MD` inheritance headers
-- path entries not duplicated across parent/child `SKILLS.MD` files
+- parent-first ordering resolved from `SKILLS.md` inheritance headers
+- path entries not duplicated across parent/child `SKILLS.md` files
 
 ### Behavior looks unchanged
 Check:
 - active profile is what you think it is
-- class docs are actually listed in class `SKILLS.MD`
+- class docs are actually listed in class `SKILLS.md`
 - class docs contain real deltas, not empty placeholders
 
 ## File index
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.MD`
+- `context_compass/SKILLS.md`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
 - `context_compass/agent_onboarding/default/general/SKILLS.MD`
 - `context_compass/agent_onboarding/default/engineer/SKILLS.MD`

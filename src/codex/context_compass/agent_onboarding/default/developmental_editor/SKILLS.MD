@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - developmental_editor
+# SKILLS.md - developmental_editor
 
 Purpose
 - Define required baseline skills for the developmental_editor role.

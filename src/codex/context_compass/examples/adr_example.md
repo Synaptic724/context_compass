@@ -1,11 +1,18 @@
-# Example: ADR
+# Example: ADR - Cleanup Ordering Contract
+
+Status
+- Accepted
+
+Context
+- Shutdown failures were hard to debug because logger teardown happened too early.
 
 Decision
-- Keep runtime entrypoint policy separate from role routing policy.
+- Keep logger cleanup as the final teardown step.
 
-Options considered
-- Merge all policy into one file.
-- Keep layered policy documents.
+Consequences
+- Better post-failure observability during cleanup.
+- Requires regression tests that assert teardown ordering.
 
-Outcome
-- Keep layered documents for deterministic re-onboarding and maintainability.
+Implementation links
+- ticket: `tickets/tasks/2026-02-19_spellbook_cleanup_ordering.md`
+- validation: targeted integration logging test

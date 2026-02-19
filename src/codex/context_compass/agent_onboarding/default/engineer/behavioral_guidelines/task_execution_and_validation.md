@@ -26,7 +26,7 @@ Story steps
 
 References
 - `AGENTS.MD`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 
 

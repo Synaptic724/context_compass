@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - researcher
+# SKILLS.md - researcher
 
 Purpose
 - Define required baseline skills for the researcher role.

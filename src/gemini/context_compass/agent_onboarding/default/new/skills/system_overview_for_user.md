@@ -1,4 +1,4 @@
-﻿
+
 
 # system_overview_for_user
 
@@ -32,7 +32,7 @@ AI usage model
 Core system anchors
 - `GEMINI.MD`
 - `config/context_compass_config.yaml`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `tickets/`
 - `attention_board.md`
 - `artifact_board.md`

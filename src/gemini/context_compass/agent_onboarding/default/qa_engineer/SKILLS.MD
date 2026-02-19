@@ -1,5 +1,5 @@
-﻿
-# SKILLS.MD - qa_engineer
+
+# SKILLS.md - qa_engineer
 
 Purpose
 - Define required baseline QA skills for the `qa_engineer` role.

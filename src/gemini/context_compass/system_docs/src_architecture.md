@@ -23,7 +23,7 @@ It coordinates onboarding, role routing, ticket memory, and compaction recovery.
 
 ## System Boundary and External Interfaces
 - Runtime entrypoint interface: `AGENTS.MD` or `GEMINI.MD`
-- Routing/config interface: `config/context_compass_config.yaml` and `SKILLS.MD`
+- Routing/config interface: `config/context_compass_config.yaml` and `SKILLS.md`
 - Durable execution interface: `attention_board.md`, `tickets/`, `artifact_board.md`
 
 ## Architecture Summary (C4)
@@ -40,7 +40,7 @@ It coordinates onboarding, role routing, ticket memory, and compaction recovery.
 ## Boot and Configuration Sequence
 1. Runtime entrypoint policy read.
 2. Configuration read from `config/context_compass_config.yaml`.
-3. Role selection from `SKILLS.MD`.
+3. Role selection from `SKILLS.md`.
 4. Parent-first read of resolved role chain.
 5. Certification request and approval.
 
@@ -64,7 +64,7 @@ It coordinates onboarding, role routing, ticket memory, and compaction recovery.
   end_line: 140
   loc: 140
   verified_at: 2026-02-19T00:00:00Z
-- path: `SKILLS.MD`
+- path: `SKILLS.md`
   start_line: 1
   end_line: 90
   loc: 90
@@ -103,7 +103,7 @@ flowchart LR
 ## Information Sources
 - `AGENTS.MD` or `GEMINI.MD` (runtime package)
 - `config/context_compass_config.yaml`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `attention_board.md`
 - `artifact_board.md`
 

@@ -1,5 +1,5 @@
 
-# SKILLS.MD - security_engineer
+# SKILLS.md - security_engineer
 
 Purpose
 - Define required baseline security skills for the `security_engineer` role.

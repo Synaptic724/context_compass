@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - story_novel_artist
+# SKILLS.md - story_novel_artist
 
 Purpose
 - Define required baseline skills for the story_novel_artist role.

@@ -1,6 +1,6 @@
-﻿
 
-# SKILLS.MD - general
+
+# SKILLS.md - general
 
 Purpose
 - Define active baseline skills for the `general` role.

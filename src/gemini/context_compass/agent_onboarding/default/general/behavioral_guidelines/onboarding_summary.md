@@ -1,4 +1,4 @@
-﻿
+
 
 # onboarding_summary
 
@@ -10,13 +10,13 @@ Checklist (short form)
    - Read `GEMINI.MD` and any directory-local `GEMINI.MD` in scope.
 2) Read onboarding entrypoints
    - `config/context_compass_config.yaml`
-   - `context_compass/SKILLS.MD`
+   - `context_compass/SKILLS.md`
 3) First-time user path only (`new` profile)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
 4) Select working role
    - Read `agent_onboarding/default/general/SKILLS.MD` first.
-   - Read the selected role `SKILLS.MD` after baseline (for example:
+   - Read the selected role `SKILLS.md` after baseline (for example:
      `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
      `security_engineer`, `story_designer`, `story_novel_artist`,
      `researcher`, `draft_writer`, `developmental_editor`,
@@ -35,7 +35,7 @@ Checklist (short form)
 References
 - `GEMINI.MD`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.MD`
+- `context_compass/SKILLS.md`
 
 
 

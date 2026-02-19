@@ -37,8 +37,8 @@ Agent-read policy
 - README reads are allowed for `new` first-time onboarding.
 - Non-new profile execution should use map/policy docs, not README files.
 
-SKILLS.MD top-level sources
-- `context_compass/SKILLS.MD`
+SKILLS.md top-level sources
+- `context_compass/SKILLS.md`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
 
 Primary onboarding docs

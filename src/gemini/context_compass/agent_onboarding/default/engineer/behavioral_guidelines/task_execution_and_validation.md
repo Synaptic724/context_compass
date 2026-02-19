@@ -1,4 +1,4 @@
-﻿
+
 
 # task_execution_and_validation
 
@@ -26,7 +26,7 @@ Story steps
 
 References
 - `GEMINI.MD`
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 
 

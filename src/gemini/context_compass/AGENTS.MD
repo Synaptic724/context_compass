@@ -6,4 +6,4 @@ Canonical Gemini runtime entrypoint in this package:
 - `GEMINI.MD`
 
 If you are running Codex, use the Codex distribution package:
-- `src/codex/context_compass/AGENTS.MD`
+- `context_compass/AGENTS.MD`

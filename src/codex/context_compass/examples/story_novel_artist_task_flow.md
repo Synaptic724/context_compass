@@ -1,6 +1,22 @@
 # Example: story_novel_artist task flow
 
-1. Translate architecture into scene-level prose plan.
-2. Maintain voice, tone, and canon consistency.
-3. Record deviations explicitly.
-4. Handoff annotated draft for editorial passes.
+Scenario
+- Translate approved story architecture into visual-narrative direction.
+
+Workflow
+1. Intake
+- read story architecture pack and canon constraints.
+
+2. Visual planning
+- define mood, palette, scene emphasis, and character look consistency.
+
+3. Deliverables
+- produce scene illustration briefs and canon-risk log.
+
+4. Handoff
+- send visual constraints to drafting/editing roles.
+
+Expected outputs
+- `visual_style_bible.md`
+- `scene_illustration_briefs.md`
+- `visual_canon_risk_log.md`

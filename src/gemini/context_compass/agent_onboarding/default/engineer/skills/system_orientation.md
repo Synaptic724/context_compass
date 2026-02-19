@@ -1,4 +1,4 @@
-﻿
+
 
 # system_orientation
 
@@ -15,7 +15,7 @@ Required behavior
 - Read the required docs before explaining how the system works:
   - `GEMINI.MD`
   - `config/context_compass_config.yaml`
-  - `SKILLS.MD`
+  - `SKILLS.md`
   - `agent_onboarding/default/general/SKILLS.MD`
   - `agent_onboarding/default/engineer/SKILLS.MD`
   - `agent_onboarding/default/general/skills/workflow.md`

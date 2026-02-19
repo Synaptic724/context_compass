@@ -58,7 +58,7 @@ Enforcement surfaces
   - `context_compass/templates/task_template.md`
 - Process policy:
   - `context_compass/agent_onboarding/default/general/skills/workflow.md`
-  - `context_compass/SKILLS.MD`
+  - `context_compass/SKILLS.md`
   - `context_compass/agent_onboarding/default/general/skills/ticketing.md`
 
 Adoption policy

@@ -1,5 +1,5 @@
 
-# SKILLS.MD - design_engineer
+# SKILLS.md - design_engineer
 
 Purpose
 - Define required baseline design-engineer skills for the `design_engineer` role.

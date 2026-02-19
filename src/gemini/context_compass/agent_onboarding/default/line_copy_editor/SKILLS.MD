@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - line_copy_editor
+# SKILLS.md - line_copy_editor
 
 Purpose
 - Define required baseline skills for the line_copy_editor role.

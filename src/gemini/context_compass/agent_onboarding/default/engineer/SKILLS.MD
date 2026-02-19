@@ -1,6 +1,6 @@
-﻿
 
-# SKILLS.MD - engineer
+
+# SKILLS.md - engineer
 
 Purpose
 - Define required baseline engineering skills for the `engineer` role.

@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - proofreader
+# SKILLS.md - proofreader
 
 Purpose
 - Define required baseline skills for the proofreader role.

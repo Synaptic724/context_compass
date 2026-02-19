@@ -1,4 +1,4 @@
-﻿
+
 
 # GEMINI.MD - Synaptic Python Developer User-Defined Overlay
 
@@ -6,7 +6,7 @@
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.MD` file (parent-first).
+  in each resolved `SKILLS.md` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.

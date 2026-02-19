@@ -1,4 +1,4 @@
-﻿# SKILLS.MD - continuity_fact_checker
+# SKILLS.md - continuity_fact_checker
 
 Purpose
 - Define required baseline skills for the continuity_fact_checker role.

@@ -11,8 +11,8 @@ Key sections
 - `profiles`
   - active class, available classes, onboarding transitions.
 - `roles_map` / `roles`
-  - role-to-`SKILLS.MD` mappings for default and user-defined classes.
-  - `SKILLS.MD` headers define inheritance order.
+  - role-to-`SKILLS.md` mappings for default and user-defined classes.
+  - `SKILLS.md` headers define inheritance order.
 - `workflow`
   - ticket microcycle and note behavior controls.
 - `artifacts`
@@ -28,7 +28,7 @@ Most important keys for onboarding
 - `profiles.onboarding.fallback_post_onboarding_profile`
   - Safe fallback if no explicit choice is made.
 - `roles.new`
-  - New-role `SKILLS.MD` file path.
+  - New-role `SKILLS.md` file path.
 - Default role entries (examples):
   - `roles.engineer`
   - `roles.design_engineer`
@@ -46,9 +46,9 @@ Most important keys for onboarding
 
 Class assignment basics
 1) Confirm class exists in `profiles.available_profiles`.
-2) Ensure its `SKILLS.MD` path exists in the `roles` mapping.
+2) Ensure its `SKILLS.md` path exists in the `roles` mapping.
 3) Set `profiles.active_profile` to the chosen class.
-4) Validate `SKILLS.MD` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
+4) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
 
 Recommended defaults after onboarding
 - For general code-development work: `engineer` (inherits `general`).
@@ -68,7 +68,7 @@ Recommended defaults after onboarding
 
 Validation checks
 - `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
-- `Get-Content context_compass/SKILLS.MD`
+- `Get-Content context_compass/SKILLS.md`
 - `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
 - `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
 - `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
@@ -86,7 +86,7 @@ Validation checks
 - `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
 
 References
-- `SKILLS.MD`
+- `SKILLS.md`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `PROFILE_CLASS_CREATION_GUIDE.md`
 
