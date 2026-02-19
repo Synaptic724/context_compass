@@ -1,0 +1,38 @@
+﻿# SKILLS.MD - proofreader
+
+Purpose
+- Define required baseline skills for the proofreader role.
+- This role is optimized for fiction-book workflow specialization.
+
+Inheritance
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+
+Skill classes (non-negotiable)
+- This role defines two classes of skills:
+  A) Required baseline skills (always required for onboarding/certification)
+  B) On-demand role-context skills (required only when the active task triggers them)
+
+Rules
+- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
+- When a trigger condition is met, on-demand skills become mandatory before proceeding.
+
+Required baseline skills
+- agent_onboarding/default/proofreader/AGENTS.MD
+- agent_onboarding/default/proofreader/skills/proofreader.md
+- agent_onboarding/default/proofreader/skills/proofreader_execution.md
+- agent_onboarding/default/proofreader/skills/proofreader_deliverables.md
+- agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
+- agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md
+- agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md
+- agent_onboarding/default/proofreader/examples/proofreader_task_flow.md
+
+On-demand role-context skills
+Trigger conditions (any one makes these mandatory):
+- Task requires multi-format proofing (print, epub, web).
+- Task requires house-style migration for publication target.
+- Task requires emergency release lock under strict deadline.
+
+If triggered:
+- Read: agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md
+- Do not proceed in this specialized scope until the on-demand read is satisfied.
