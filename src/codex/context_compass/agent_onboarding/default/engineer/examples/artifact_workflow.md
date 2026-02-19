@@ -1,72 +1,73 @@
-﻿
-
-# Engineer Example: Artifact Workflow
+﻿# Engineer Example: Artifact Workflow
 
 Context
-- A engineer needs to refactor Spellbook cleanup to keep logger teardown last.
+- An engineer needs to harden Context Compass entrypoint wiring so each runtime package references only its native entrypoint.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
 Scratch capture (workspace)
-- Path: `workspace/agent/ideas/interceptor_cleanup_refactor.md`
+- Path: `workspace/agent/ideas/context_compass_entrypoint_wiring.md`
 - Example content:
 
 ```md
-# idea: spellbook_cleanup_ordering
+# idea: context_compass_entrypoint_wiring
 ## Why now
-- logger cleanup runs early, masking downstream cleanup errors.
-- failures show inconsistent logger teardown ordering across tests.
+- cross-runtime references confuse package consumers.
+- runtime-specific docs must be deterministic after copy/paste install.
 
 ## Early hypothesis
-- keep logger cleanup as the final cleanup step.
-- capture cleanup ordering expectations in integration tests.
+- codex package should reference `AGENTS.MD` only.
+- gemini package should reference `GEMINI.MD` only.
 
 ## Risk notes
-- cleanup ordering changes could hide existing cleanup bugs.
-- logger cleanup late may surface new exceptions.
+- broad search/replace can break role-level policy references.
+- docs can drift if validation commands are not captured.
 
 ## Promote when
-- tests consistently pass after repeated attach/detach cycles.
+- runtime-specific scans return zero cross-runtime tokens.
 ```
 
-- Path: `workspace/agent/todo/interceptor_cleanup_refactor.md`
+- Path: `workspace/agent/todo/context_compass_entrypoint_wiring.md`
 - Example content:
 
 ```md
-# todo: spellbook_cleanup_ordering
-- [ ] trace cleanup ordering in Spellbook._cleanup_core
-- [ ] ensure logger cleanup remains last
-- [ ] confirm integration logging tests cover the ordering
+# todo: context_compass_entrypoint_wiring
+- [ ] inventory cross-runtime references
+- [ ] patch docs/examples/system docs to runtime-native entrypoints
+- [ ] validate role-level entrypoint files still resolve
 ```
 
 Promote to ticket (curated)
-- Path: `tickets/stories/YYYY-MM-DD_interceptor_cleanup_story.md`
+- Path: `tickets/stories/YYYY-MM-DD_context_compass_entrypoint_wiring_story.md`
 - Example content:
 
 ```md
-# story: spellbook_cleanup_ordering
+# story: context_compass_entrypoint_wiring
 ## Goal
-- cleanup ordering keeps logger teardown last and deterministic
+- runtime packages reference only their native entrypoint documents
 
 ## Scope
-- Spellbook cleanup ordering and logging teardown
+- top-level readme, system docs, and example docs wiring
 
 ## Out of scope
-- broader refactors outside Spellbook cleanup
+- role-policy redesign or behavior changes
 
 ## Files to touch
-- src/project/spellbook/spellbook.py
-- tests/integration/project/spellbook/test_spellbook_integration_logging.py
+- context_compass/README.md
+- context_compass/system_docs/src_architecture.md
+- context_compass/system_docs/src_components.md
+- context_compass/examples/repo_overview.md
 
 ## Risks
-- cleanup ordering change hides existing errors
-- logger cleanup failures surface as new test noise
+- accidental deletion of required role-level references
+- malformed path rewrites in code-map sections
 
 ## Tests
-- pytest tests/integration/project/spellbook/test_spellbook_integration_logging.py
+- rg -n "GEMINI" src/codex/context_compass
+- rg -n "AGENTS" src/gemini/context_compass
 
 ## Done criteria
-- logger cleanup remains the final cleanup step
-- logging integration tests pass consistently
+- codex distribution has no GEMINI entrypoint references
+- gemini distribution has no AGENTS entrypoint references
 ```
 
 Strategy alignment
@@ -74,29 +75,24 @@ Strategy alignment
 - Path: active ticket `## Notes` (store rationale, evidence, and next actions)
 
 Tactics / runbook
-- Path: `tickets/tasks/YYYY-MM-DD_interceptor_cleanup_task.md`
+- Path: `tickets/tasks/YYYY-MM-DD_context_compass_entrypoint_wiring_task.md`
 - Example content:
 
 ```md
-# task: spellbook_cleanup_ordering
+# task: context_compass_entrypoint_wiring
 ## Preconditions
-- failing tests reproduced
-- scope constrained to Spellbook cleanup ordering
+- current entrypoint references are inventoried
+- scope constrained to docs and policy wiring
 
 ## Steps
-1) update Spellbook cleanup order
-2) confirm logger cleanup remains last
-3) run logging integration test
-4) confirm idempotent cleanup under repeat runs
+1) patch runtime-specific references
+2) verify role-level entrypoint files remain valid
+3) run strict cross-runtime token scans
+4) document outcomes in ticket notes
 ```
 
 Work queue conversion
 - When approved, convert the todo into a story/task ticket in `tickets/stories/` or `tickets/tasks/`.
 - Example work items (summarized):
-  - Task: adjust cleanup order
-  - Task: harden detach restore logic
-
-
-
-
-
+  - Task: remove cross-runtime top-level entrypoint references
+  - Task: validate role-chain entrypoint files after rewiring

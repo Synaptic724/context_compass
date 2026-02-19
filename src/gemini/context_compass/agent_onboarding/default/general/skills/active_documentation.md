@@ -47,13 +47,13 @@ For note entries:
 Example
 - `DATETIME`: 2026-02-14T00:00:00Z
 - `TYPE`: FACT
-- `CLAIM`: Conjure executes three scheduler lifecycles per run.
+- `CLAIM`: Role routing currently depends on explicit top-level map + config alignment.
 - `EVIDENCE`:
-  - `src/project/spellbook/spellbook_creation_system.py:637-637`
-  - `src/project/spellbook/spellbook_creation_system.py:743-743`
-  - `src/project/spellbook/spellbook_creation_system.py:757-757`
-- `IMPACT`: Scheduler setup/teardown overhead compounds on startup.
-- `NEXT`: Prototype a reduced scheduler lifecycle path behind existing contracts.
+  - `SKILLS.md:27-42`
+  - `config/context_compass_config.yaml:68-83`
+  - `attention_board.md:1-20`
+- `IMPACT`: Incorrect map/config alignment can route the agent to the wrong role chain.
+- `NEXT`: Validate selected role path resolution before execution begins.
 
 Update triggers (mandatory)
 1) New verified finding.
@@ -76,6 +76,7 @@ References
 - `agent_onboarding/default/general/skills/active_pointerboard.md`
 - `agent_onboarding/default/general/skills/ticketing.md`
 - `workflow.md`
+
 
 
 

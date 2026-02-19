@@ -1,6 +1,6 @@
 ﻿# Context Compass
 
-Context Compass is a policy-first operating system for AI-assisted execution.
+Context Compass is a policy-driven context orchestrator for AI-assisted execution.
 It gives agents a deterministic way to onboard, route work, preserve context,
 and recover cleanly after compaction or session reset.
 
@@ -236,5 +236,6 @@ certification gates explicit so downstream users inherit a stable system.
 ## License
 
 MIT
+
 
 

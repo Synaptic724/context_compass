@@ -1,6 +1,6 @@
 # Context Compass
 
-Context Compass is a policy-driven agent execution system for long-running
+Context Compass is a policy-driven context orchestrator for long-running
 AI-assisted work.
 
 It gives agents a deterministic way to:

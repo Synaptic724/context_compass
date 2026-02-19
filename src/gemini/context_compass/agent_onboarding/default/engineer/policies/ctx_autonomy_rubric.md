@@ -99,16 +99,16 @@ Layer-specific guidance
 
 Descriptive examples (score bands)
 - File ctx example (B vs D)
-  - B (80): "Exports SpellResolver.resolve; validates inputs; raises ValueError on missing contract; depends on creation_context; tests in tests/unit/<path>/test_spell_resolver.py."
-  - D (45): "Handles spell logic and errors." (no symbols, no paths, no dependencies)
+  - B (80): "Exports RoleRouter.resolve_role; validates profile maps; raises ValueError on missing role paths; depends on context_compass_config; tests in tests/unit/context_compass/test_role_router.py."
+  - D (45): "Handles routing and errors." (no symbols, no paths, no dependencies)
 - Dir ctx example (A vs C)
-  - A (92): "Owns spell_crafter DAG resolution; includes __dag__.json ctx for dag.py and __resolution_frame__.json; excludes runtime orchestration."
-  - C (65): "Contains spell_crafter utilities." (no boundaries, no inventory alignment)
+  - A (92): "Owns role-chain resolution; includes resolver map + inheritance-frame context; excludes runtime execution policy."
+  - C (65): "Contains routing helpers." (no boundaries, no inventory alignment)
 - Component ctx example (B vs F)
-  - B (78): "Component: Spellbook core. Boundary: spellbook + configuration dirs; depends on conduit_ward contracts; key flow: bind -> validate -> emit."
+  - B (78): "Component: Context Compass router. Boundary: skills map + role config; depends on onboarding policy contracts; key flow: select profile -> resolve role chain -> enforce execution gates."
   - F (20): "Everything in src/project." (overbroad, no citations, no boundaries)
 - Architecture ctx example (A vs C)
-  - A (95): "Flow: intake -> conduit -> spell_crafter -> runtime. Non-goals: storage, scheduling. Integration boundaries: external callers via conduit API only."
+  - A (95): "Flow: onboarding -> role selection -> ticket execution -> compaction recovery. Non-goals: product runtime features. Integration boundaries: external callers interact through entrypoint policy files only."
   - C (62): "System is modular with many components." (no flows, no boundaries, no non-goals)
 
 Actions when quality is low
@@ -124,6 +124,8 @@ Survey expectations (planned)
 References
 - agent_onboarding/default/engineer/skills/context_protocol.md
 - agent_onboarding/default/engineer/skills/staleness_protocol.md
+
+
 
 
 

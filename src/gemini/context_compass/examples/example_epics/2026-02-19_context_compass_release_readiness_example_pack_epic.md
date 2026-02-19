@@ -11,7 +11,7 @@
 - Related Program/Initiative: public-library-release-hardening
 
 ## Problem / Opportunity
-Top-level examples were shallow and referenced an unrelated Spellbook narrative.
+Top-level examples were shallow and referenced an unrelated legacy narrative.
 Users could not follow a complete epic -> story -> task flow grounded in this
 repository.
 
@@ -52,7 +52,7 @@ compaction-safe handoff notes.
 
 ## Success Metrics
 - Full example chain exists and links correctly.
-- Legacy Spellbook slugs removed from top-level examples.
+- Legacy sample slugs removed from top-level examples.
 - Architecture/components docs use clean, copy-safe paths.
 
 ## Milestones (Track Progress)
@@ -125,5 +125,6 @@ compaction-safe handoff notes.
 ## Context / Handoff Summary
 This epic now anchors a full repo-based example workflow under `examples/`.
 Story and task are complete; only user acceptance remains for closure.
+
 
 

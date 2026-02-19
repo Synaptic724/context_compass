@@ -730,7 +730,7 @@ Check:
 
 ﻿# Context Compass
 
-Context Compass is a policy-first operating system for AI-assisted execution.
+Context Compass is a policy-driven context orchestrator for AI-assisted execution.
 It gives agents a deterministic way to onboard, route work, preserve context,
 and recover cleanly after compaction or session reset.
 
@@ -967,6 +967,7 @@ certification gates explicit so downstream users inherit a stable system.
 ## License
 
 MIT
+
 
 
 
@@ -4085,75 +4086,76 @@ References
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\examples\artifact_workflow.md ---
 
-﻿
-
-# Engineer Example: Artifact Workflow
+﻿# Engineer Example: Artifact Workflow
 
 Context
-- A engineer needs to refactor Spellbook cleanup to keep logger teardown last.
+- An engineer needs to harden Context Compass entrypoint wiring so each runtime package references only its native entrypoint.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
 Scratch capture (workspace)
-- Path: `workspace/agent/ideas/interceptor_cleanup_refactor.md`
+- Path: `workspace/agent/ideas/context_compass_entrypoint_wiring.md`
 - Example content:
 
 ```md
-# idea: spellbook_cleanup_ordering
+# idea: context_compass_entrypoint_wiring
 ## Why now
-- logger cleanup runs early, masking downstream cleanup errors.
-- failures show inconsistent logger teardown ordering across tests.
+- cross-runtime references confuse package consumers.
+- runtime-specific docs must be deterministic after copy/paste install.
 
 ## Early hypothesis
-- keep logger cleanup as the final cleanup step.
-- capture cleanup ordering expectations in integration tests.
+- codex package should reference `AGENTS.MD` only.
+- gemini package should reference `GEMINI.MD` only.
 
 ## Risk notes
-- cleanup ordering changes could hide existing cleanup bugs.
-- logger cleanup late may surface new exceptions.
+- broad search/replace can break role-level policy references.
+- docs can drift if validation commands are not captured.
 
 ## Promote when
-- tests consistently pass after repeated attach/detach cycles.
+- runtime-specific scans return zero cross-runtime tokens.
 ```
 
-- Path: `workspace/agent/todo/interceptor_cleanup_refactor.md`
+- Path: `workspace/agent/todo/context_compass_entrypoint_wiring.md`
 - Example content:
 
 ```md
-# todo: spellbook_cleanup_ordering
-- [ ] trace cleanup ordering in Spellbook._cleanup_core
-- [ ] ensure logger cleanup remains last
-- [ ] confirm integration logging tests cover the ordering
+# todo: context_compass_entrypoint_wiring
+- [ ] inventory cross-runtime references
+- [ ] patch docs/examples/system docs to runtime-native entrypoints
+- [ ] validate role-level entrypoint files still resolve
 ```
 
 Promote to ticket (curated)
-- Path: `tickets/stories/YYYY-MM-DD_interceptor_cleanup_story.md`
+- Path: `tickets/stories/YYYY-MM-DD_context_compass_entrypoint_wiring_story.md`
 - Example content:
 
 ```md
-# story: spellbook_cleanup_ordering
+# story: context_compass_entrypoint_wiring
 ## Goal
-- cleanup ordering keeps logger teardown last and deterministic
+- runtime packages reference only their native entrypoint documents
 
 ## Scope
-- Spellbook cleanup ordering and logging teardown
+- top-level readme, system docs, and example docs wiring
 
 ## Out of scope
-- broader refactors outside Spellbook cleanup
+- role-policy redesign or behavior changes
 
 ## Files to touch
-- src/project/spellbook/spellbook.py
-- tests/integration/project/spellbook/test_spellbook_integration_logging.py
+- context_compass/README.md
+- context_compass/system_docs/src_architecture.md
+- context_compass/system_docs/src_components.md
+- context_compass/examples/repo_overview.md
 
 ## Risks
-- cleanup ordering change hides existing errors
-- logger cleanup failures surface as new test noise
+- accidental deletion of required role-level references
+- malformed path rewrites in code-map sections
 
 ## Tests
-- pytest tests/integration/project/spellbook/test_spellbook_integration_logging.py
+- rg -n "GEMINI" src/codex/context_compass
+- rg -n "AGENTS" src/gemini/context_compass
 
 ## Done criteria
-- logger cleanup remains the final cleanup step
-- logging integration tests pass consistently
+- codex distribution has no GEMINI entrypoint references
+- gemini distribution has no AGENTS entrypoint references
 ```
 
 Strategy alignment
@@ -4161,32 +4163,27 @@ Strategy alignment
 - Path: active ticket `## Notes` (store rationale, evidence, and next actions)
 
 Tactics / runbook
-- Path: `tickets/tasks/YYYY-MM-DD_interceptor_cleanup_task.md`
+- Path: `tickets/tasks/YYYY-MM-DD_context_compass_entrypoint_wiring_task.md`
 - Example content:
 
 ```md
-# task: spellbook_cleanup_ordering
+# task: context_compass_entrypoint_wiring
 ## Preconditions
-- failing tests reproduced
-- scope constrained to Spellbook cleanup ordering
+- current entrypoint references are inventoried
+- scope constrained to docs and policy wiring
 
 ## Steps
-1) update Spellbook cleanup order
-2) confirm logger cleanup remains last
-3) run logging integration test
-4) confirm idempotent cleanup under repeat runs
+1) patch runtime-specific references
+2) verify role-level entrypoint files remain valid
+3) run strict cross-runtime token scans
+4) document outcomes in ticket notes
 ```
 
 Work queue conversion
 - When approved, convert the todo into a story/task ticket in `tickets/stories/` or `tickets/tasks/`.
 - Example work items (summarized):
-  - Task: adjust cleanup order
-  - Task: harden detach restore logic
-
-
-
-
-
+  - Task: remove cross-runtime top-level entrypoint references
+  - Task: validate role-chain entrypoint files after rewiring
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\examples\eng_task_flow.md ---
 
@@ -4361,16 +4358,16 @@ Layer-specific guidance
 
 Descriptive examples (score bands)
 - File ctx example (B vs D)
-  - B (80): "Exports SpellResolver.resolve; validates inputs; raises ValueError on missing contract; depends on creation_context; tests in tests/unit/<path>/test_spell_resolver.py."
-  - D (45): "Handles spell logic and errors." (no symbols, no paths, no dependencies)
+  - B (80): "Exports RoleRouter.resolve_role; validates profile maps; raises ValueError on missing role paths; depends on context_compass_config; tests in tests/unit/context_compass/test_role_router.py."
+  - D (45): "Handles routing and errors." (no symbols, no paths, no dependencies)
 - Dir ctx example (A vs C)
-  - A (92): "Owns spell_crafter DAG resolution; includes __dag__.json ctx for dag.py and __resolution_frame__.json; excludes runtime orchestration."
-  - C (65): "Contains spell_crafter utilities." (no boundaries, no inventory alignment)
+  - A (92): "Owns role-chain resolution; includes resolver map + inheritance-frame context; excludes runtime execution policy."
+  - C (65): "Contains routing helpers." (no boundaries, no inventory alignment)
 - Component ctx example (B vs F)
-  - B (78): "Component: Spellbook core. Boundary: spellbook + configuration dirs; depends on conduit_ward contracts; key flow: bind -> validate -> emit."
+  - B (78): "Component: Context Compass router. Boundary: skills map + role config; depends on onboarding policy contracts; key flow: select profile -> resolve role chain -> enforce execution gates."
   - F (20): "Everything in src/project." (overbroad, no citations, no boundaries)
 - Architecture ctx example (A vs C)
-  - A (95): "Flow: intake -> conduit -> spell_crafter -> runtime. Non-goals: storage, scheduling. Integration boundaries: external callers via conduit API only."
+  - A (95): "Flow: onboarding -> role selection -> ticket execution -> compaction recovery. Non-goals: product runtime features. Integration boundaries: external callers interact through entrypoint policy files only."
   - C (62): "System is modular with many components." (no flows, no boundaries, no non-goals)
 
 Actions when quality is low
@@ -4386,6 +4383,8 @@ Survey expectations (planned)
 References
 - agent_onboarding/default/engineer/skills/context_protocol.md
 - agent_onboarding/default/engineer/skills/staleness_protocol.md
+
+
 
 
 
@@ -6052,13 +6051,13 @@ For note entries:
 Example
 - `DATETIME`: 2026-02-14T00:00:00Z
 - `TYPE`: FACT
-- `CLAIM`: Conjure executes three scheduler lifecycles per run.
+- `CLAIM`: Role routing currently depends on explicit top-level map + config alignment.
 - `EVIDENCE`:
-  - `src/project/spellbook/spellbook_creation_system.py:637-637`
-  - `src/project/spellbook/spellbook_creation_system.py:743-743`
-  - `src/project/spellbook/spellbook_creation_system.py:757-757`
-- `IMPACT`: Scheduler setup/teardown overhead compounds on startup.
-- `NEXT`: Prototype a reduced scheduler lifecycle path behind existing contracts.
+  - `SKILLS.md:27-42`
+  - `config/context_compass_config.yaml:68-83`
+  - `attention_board.md:1-20`
+- `IMPACT`: Incorrect map/config alignment can route the agent to the wrong role chain.
+- `NEXT`: Validate selected role path resolution before execution begins.
 
 Update triggers (mandatory)
 1) New verified finding.
@@ -6081,6 +6080,7 @@ References
 - `agent_onboarding/default/general/skills/active_pointerboard.md`
 - `agent_onboarding/default/general/skills/ticketing.md`
 - `workflow.md`
+
 
 
 
@@ -13399,7 +13399,7 @@ Rules
 - Document ownership and cleanup responsibilities when the code manages resources.
 
 Docstring rank ladder (highest to lowest)
-- Rank 5 (Gold): full contract narrative like Spellbook.bind in src/project/spellbook/spellbook.py.
+- Rank 5 (Gold): full contract narrative like `normalize_names` in `agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py`.
   Includes purpose, responsibilities, invariants, workflows, args/returns/raises, and clear
   failure modes with remediation guidance.
 - Rank 4 (Strong): complete args/returns/raises with invariants and side effects, but less
@@ -13447,9 +13447,10 @@ Examples
 
 
 
+
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_python_developer\skills\python\error_model.md ---
 
-
+﻿
 
 # error_model
 
@@ -13463,7 +13464,7 @@ Rules
 - Log error context when raising or translating errors.
 - Error messages must be expressive and user-facing: what failed, why, and how to fix.
 - This is a public repo, so raise messages must be safe and explanatory.
-- Use Spellbook.bind error messages as a reference for detail and remediation.
+- Use high-quality contract error messages as a reference for detail and remediation.
 - Avoid vague messages like "invalid input" without context.
 
 Example
@@ -13472,6 +13473,7 @@ Example
 
 Examples
 - agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py
+
 
 
 
@@ -15067,7 +15069,7 @@ Use this structure when mapping real test components.
 - Related Program/Initiative: public-library-release-hardening
 
 ## Problem / Opportunity
-Top-level examples were shallow and referenced an unrelated Spellbook narrative.
+Top-level examples were shallow and referenced an unrelated legacy narrative.
 Users could not follow a complete epic -> story -> task flow grounded in this
 repository.
 
@@ -15108,7 +15110,7 @@ compaction-safe handoff notes.
 
 ## Success Metrics
 - Full example chain exists and links correctly.
-- Legacy Spellbook slugs removed from top-level examples.
+- Legacy sample slugs removed from top-level examples.
 - Architecture/components docs use clean, copy-safe paths.
 
 ## Milestones (Track Progress)
@@ -15181,6 +15183,7 @@ compaction-safe handoff notes.
 ## Context / Handoff Summary
 This epic now anchors a full repo-based example workflow under `examples/`.
 Story and task are complete; only user acceptance remains for closure.
+
 
 
 

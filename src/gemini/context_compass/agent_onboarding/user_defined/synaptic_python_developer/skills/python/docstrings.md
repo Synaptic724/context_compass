@@ -40,7 +40,7 @@ Rules
 - Document ownership and cleanup responsibilities when the code manages resources.
 
 Docstring rank ladder (highest to lowest)
-- Rank 5 (Gold): full contract narrative like Spellbook.bind in src/project/spellbook/spellbook.py.
+- Rank 5 (Gold): full contract narrative like `normalize_names` in `agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py`.
   Includes purpose, responsibilities, invariants, workflows, args/returns/raises, and clear
   failure modes with remediation guidance.
 - Rank 4 (Strong): complete args/returns/raises with invariants and side effects, but less
@@ -80,6 +80,7 @@ Good vs bad
 
 Examples
 - agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py
+
 
 
 

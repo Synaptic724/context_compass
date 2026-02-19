@@ -1,4 +1,4 @@
-
+﻿
 
 # error_model
 
@@ -12,7 +12,7 @@ Rules
 - Log error context when raising or translating errors.
 - Error messages must be expressive and user-facing: what failed, why, and how to fix.
 - This is a public repo, so raise messages must be safe and explanatory.
-- Use Spellbook.bind error messages as a reference for detail and remediation.
+- Use high-quality contract error messages as a reference for detail and remediation.
 - Avoid vague messages like "invalid input" without context.
 
 Example
@@ -21,6 +21,7 @@ Example
 
 Examples
 - agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py
+
 
 
 
