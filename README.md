@@ -1,176 +1,237 @@
 # Context Compass
 
-Context Compass is a policy-first operating system for AI-assisted execution.
-It gives agents a deterministic way to onboard, route work, preserve context,
-and recover cleanly after compaction or session reset.
+Context Compass is a policy-driven agent execution system for long-running
+AI-assisted work.
 
-This repository is built as a public library. You can use it directly, fork it,
-or adapt it to your own role stack and process requirements.
+It gives agents a deterministic way to:
+- onboard correctly,
+- route work through durable artifacts,
+- enforce evidence and quality gates,
+- survive compaction without losing the plot,
+- recover across new chats, handoffs, and context resets.
 
-## What This Project Is
+At its core, this is a robust documentation system for active execution:
+- `attention_board.md` for routing,
+- ticket lanes for durable work state,
+- structured notes for evidence-backed reasoning,
+- artifact indexing for output lifecycle control.
 
-Context Compass is not a prompt snippet and not a one-shot template.
-It is a file-backed coordination system that defines:
+This project exists for people who are done with fragile, one-thread memory
+workflows and want execution that holds up under real pressure.
 
-- how an agent should read policy,
-- how a role is selected and resolved,
-- how work must be routed through tickets,
-- how evidence is captured while work is in motion,
-- and how continuity is preserved across interruptions.
+---
 
-The goal is practical reliability: less agent drift, better state continuity,
-and auditable execution quality.
+## What This System Actually Is
 
-## What It Solves
+Context Compass is not a one-shot prompt and not a chat style guide.
+It is a process control layer for agent behavior.
 
-Most failures in long AI sessions are process failures:
+It defines:
+- authority order and policy precedence,
+- role selection and inheritance,
+- baseline vs on-demand skill activation,
+- certification gates before edits/tools,
+- ticket-first execution and note contracts,
+- compaction and re-onboarding recovery behavior.
 
-- policy gets partially remembered,
-- onboarding claims drift from what was actually read,
-- execution starts without durable state,
-- and compaction wipes critical context.
+Core idea:
+- chat memory is volatile,
+- repository state is durable,
+- process should be recoverable from files, not vibes.
 
-Context Compass addresses that by making execution contract-driven:
+---
 
-- onboarding is explicit,
-- role resolution is explicit,
-- certification is explicit,
-- ticket routing is explicit,
-- compaction re-entry is explicit.
+## Why Teams Use It
 
-## Agent Support
+Most AI execution failures are process failures:
+- onboarding gets skipped or faked,
+- assumptions get promoted to facts,
+- important decisions stay in chat and disappear,
+- compaction wipes key context,
+- handoffs lose ownership and next actions.
 
-Context Compass supports multiple agent runtimes through entrypoint adapters.
+Context Compass fixes that by making each stage explicit and auditable.
 
-Select the correct folder and place it into your repo.
+What improves:
+- less drift,
+- clearer role boundaries,
+- stronger handoff quality,
+- better continuity over long projects,
+- fewer "what were we doing?" resets.
 
-Within Context Compass Codex and Gemini support below:
-- Codex entrypoint: `AGENTS.MD`
-- Gemini entrypoint: `GEMINI.MD`
+---
 
-The routing and policy core remains shared.
-Only the runtime adapter entrypoint changes.
+## Runtime Support
 
-## Core Design Principles
+Context Compass supports Codex and Gemini runtime setups.
 
-1. Evidence before assertion.
-2. Deterministic gates before execution.
-3. Durable state in files, not chat memory.
-4. Parent-first role inheritance.
-5. Re-onboarding after compaction/handoff.
-6. Explicit uncertainty (`UNKNOWN`) over silent guessing.
+Canonical split runtime layout:
+- `src/codex/context_compass/AGENTS.MD`
+- `src/gemini/context_compass/GEMINI.MD`
 
-## Repository Structure
+In this layout:
+- policy mechanics stay the same,
+- role map and skill chain behavior stay the same,
+- compaction and re-onboarding behavior stay the same.
 
-```text
-context_compass/
-  AGENTS.MD
-  SKILLS.md
-  CONTEXT_COMPACTION.md
-  PROFILE_CLASS_CREATION_GUIDE.md
-  README.md
+Runtime-specific entrypoint filename is the only required difference.
 
-  config/
-    context_compass_config.yaml
+---
 
-  agent_onboarding/
-    default/
-      new/
-      general/
-      engineer/
-      design_engineer/
-      platform_engineer/
-      qa_engineer/
-      security_engineer/
-      story_designer/
-      story_novel_artist/
-      researcher/
-      draft_writer/
-      developmental_editor/
-      line_copy_editor/
-      continuity_fact_checker/
-      proofreader/
-    user_defined/
-      synaptic_python_developer/
+## High-Level Flow
 
-  tickets/
-    epics/
-    stories/
-    tasks/
+Every work cycle follows the same operating model.
 
-  templates/
-  examples/
-  system_docs/
-  artifacts/
+1. Bootstrap policy
+- Entry file loads authoritative policy.
+- Agent aligns before action.
 
-  attention_board.md
-  artifact_board.md
-```
+2. Resolve role chain
+- Role selected from `SKILLS.MD` map + config.
+- Parent-first inheritance is enforced.
+- Required baseline skills are mandatory.
+- On-demand skills activate only by trigger.
 
-## How It Works
+3. Complete onboarding gate
+- Agent reads required chain.
+- Agent posts integrity attestation.
+- User must approve certification token before edits/tools.
 
-### 1) Policy Bootstrap
+4. Execute through tickets
+- Active routing happens in `attention_board.md`.
+- Durable technical context lives in active tickets.
+- Findings are logged in structured notes with evidence pointers.
 
-The agent starts from the runtime entrypoint:
+5. Handle compaction safely
+- Re-onboarding is mandatory after compaction/handoff.
+- Agent reopens policy + active work state.
+- Re-certifies before resuming execution.
 
-- Codex reads `AGENTS.MD`
-- Gemini reads `GEMINI.MD` and then resolves into
-  the same shared policy chain
+---
 
-### 2) Role Routing
+## Core Features
 
-`SKILLS.md` defines available roles and role-to-skill-map paths.
-The selected role resolves to a `SKILLS.MD` chain with parent-first inheritance.
+### 1) Compaction Durability
 
-Each role declares:
+The system treats compaction as a reliability event, not a convenience step.
 
-- required baseline skills (must read),
-- and on-demand skills (read when trigger conditions apply).
+Key behavior:
+- post-compaction action is blocked until re-onboarding is complete,
+- attestation requires read-integrity proof,
+- active board + active tickets must be reopened,
+- claims must be anchored to current source/docs, not memory.
 
-### 3) Certification Gate
+Practical effect:
+- less continuity loss,
+- fewer false "I remember" claims,
+- cleaner restart across compressed contexts.
 
-Before implementation:
+### 2) Multi-Chat Durability
 
-- onboarding must be complete,
-- read-integrity must be attested,
-- and user approval must include `CERTIFY: APPROVED`.
+Context lives in files:
+- `attention_board.md` for routing,
+- active ticket `## Notes` for in-flight findings,
+- ticket context/handoff sections for state continuity,
+- `artifact_board.md` for artifact lifecycle indexing.
 
-### 4) Ticket-First Execution
+New thread recovery becomes deterministic:
+- open board,
+- follow active ticket links,
+- continue from latest evidence-backed notes and next actions.
 
-Work is routed through:
+### 3) Strict Re-Onboarding Contract
 
-- `attention_board.md` for active pointer routing,
-- `tickets/` for durable execution memory,
-- `artifact_board.md` for linked outputs.
+After compaction/handoff:
+- re-read policy anchors,
+- resolve and read role chain again,
+- post `REONBOARD: COMPLETE` with integrity proof,
+- request `CERTIFY: APPROVED`,
+- only then continue execution.
 
-The active ticket `## Notes` is the canonical memory stream for findings,
-decisions, blockers, and evidence.
+This closes the door on performative compliance and policy theater.
 
-### 5) Compaction / Re-Entry
+### 4) Evidence + Unknowns Gate
 
-After compaction, handoff, or a new session:
+Default claim state is `UNKNOWN` until evidence exists.
 
-- re-onboard using the same routing authority,
-- rebuild context from board + ticket state,
-- and re-certify before resuming action.
+Promotion to `FACT` requires direct evidence pointers.
+Inference by naming pattern is explicitly rejected as proof.
 
-This prevents "performative compliance" and keeps behavior auditable.
+Result:
+- fewer confident mistakes,
+- better traceability,
+- stronger review quality.
+
+### 5) Ticket Microcycle
+
+Strict loop:
+- Investigate -> Document -> Strategy/Plan -> Document ->
+  Implement -> Document -> Validate -> Document
+
+Notes are not optional side output.
+They are core execution memory and compaction fuel.
+
+### 6) Baseline vs On-Demand Skills
+
+Each role can define:
+- required baseline skills (always needed),
+- on-demand skills (triggered by task scope).
+
+This keeps onboarding enforceable while still allowing deep specialization.
+
+### 7) User-Defined Role Overlays
+
+Custom profiles can extend defaults without forking core behavior.
+
+Typical pattern:
+- inherit from `engineer` or `general`,
+- add domain-specific policy/behavior/skill deltas,
+- keep parent baselines intact.
+
+---
+
+## Repository Anatomy
+
+Primary control files:
+- `context_compass/AGENTS.MD`
+- `context_compass/SKILLS.MD`
+- `context_compass/CONTEXT_COMPACTION.md`
+- `context_compass/config/context_compass_config.yaml`
+- `context_compass/attention_board.md`
+- `context_compass/artifact_board.md`
+
+Role and policy tree:
+- `context_compass/agent_onboarding/default/...`
+- `context_compass/agent_onboarding/user_defined/...`
+
+Execution artifacts:
+- `context_compass/tickets/epics/`
+- `context_compass/tickets/stories/`
+- `context_compass/tickets/tasks/`
+- `context_compass/templates/`
+- `context_compass/artifacts/`
+
+System-context docs (when used):
+- `context_compass/system_docs/src_architecture.md`
+- `context_compass/system_docs/src_components.md`
+- `context_compass/system_docs/tests_architecture.md`
+- `context_compass/system_docs/tests_components.md`
+
+---
 
 ## Role Model
 
-Context Compass currently includes both software and fiction workflows.
-
-### Software Lane
-
+### Shared Foundation
 - `general`
+
+### Software Roles
 - `engineer`
 - `design_engineer`
 - `platform_engineer`
 - `qa_engineer`
 - `security_engineer`
 
-### Fiction Authoring Lane
-
+### Fiction Workflow Roles
 - `story_designer`
 - `story_novel_artist`
 - `researcher`
@@ -180,63 +241,258 @@ Context Compass currently includes both software and fiction workflows.
 - `continuity_fact_checker`
 - `proofreader`
 
-### User-Defined Lane
+### User-Defined
+- `user_defined/<profile_name>`
+- example included: `synaptic_python_developer`
 
-- `user_defined/<name>` overlays for team or personal specialization
+---
 
-## Configuration Authority
+## Setup Guide
 
-Primary runtime config lives in:
+### Step 1: Place Context Compass in your repo
 
-- `config/context_compass_config.yaml`
+Use split runtime trees:
+- `src/codex/context_compass/...`
+- `src/gemini/context_compass/...`
 
-Key sections include:
+### Step 2: Confirm runtime entrypoints
 
-- `profiles` for active/allowed profile control,
-- `router` for role-to-skill-map mapping,
-- `workflow` for ticket microcycle behavior,
-- `artifacts` for artifact retention rules,
-- `codex` for read-window and chunking limits.
+For Codex:
+- `src/codex/context_compass/AGENTS.MD`
 
-## Quick Start
+For Gemini:
+- `src/gemini/context_compass/GEMINI.MD`
 
-1. Place `context_compass/` in your repository.
-2. Ensure your runtime entrypoint exists:
-   - Codex: `AGENTS.MD`
-   - Gemini: `src/gemini/context_compass/GEMINI.MD`
-3. Select an active profile in `config/context_compass_config.yaml`.
-4. Start onboarding through `SKILLS.md` role resolution.
-5. Request `CERTIFY: APPROVED`.
-6. Execute through ticket routing (`attention_board.md` + active ticket notes).
+### Step 3: Configure active profile
 
-## Why Teams Use This
+Edit:
+- `context_compass/config/context_compass_config.yaml`
 
-- Reproducible agent behavior across sessions.
-- Explicit role specialization without policy fragmentation.
-- Better handoffs and lower context-loss cost.
-- Clear evidence trails for decisions and changes.
-- Portable model across agent runtimes.
+Set:
+- `profiles.active_profile`
 
-## Recommended Operating Discipline
+Validate:
+- `profiles.available_profiles`
+- `router.roles.<profile>`
 
-- Keep role docs as delta layers (do not duplicate parent skills).
-- Keep ticket notes high-signal and evidence-backed.
-- Keep board rows routing-focused and concise.
-- Treat compaction as a reliability event, not a convenience event.
-- Prefer explicit blocker states over hidden assumptions.
+### Step 4: Start onboarding
 
-## Public Library Intent
+Boot sequence:
+- read runtime entrypoint policy,
+- read config,
+- read top-level `SKILLS.MD`,
+- resolve role chain,
+- read baseline skills in parent-first order.
 
-Context Compass is intended to be reusable by:
+### Step 5: Certify before action
 
-- solo builders,
-- engineering teams,
-- hybrid technical + creative workflows,
-- and multi-agent pipelines that require deterministic process control.
+Before edits/tools:
+- publish onboarding attestation,
+- request exact approval token:
+  - `CERTIFY: APPROVED`
 
-If you extend this library, keep your routing manifest, role maps, and
-certification gates explicit so downstream users inherit a stable system.
+No token, no implementation.
 
-## License
+### Step 6: Run ticket-first
 
-MIT
+Always route through:
+- `attention_board.md` active row,
+- linked active ticket.
+
+Capture meaningful findings in ticket notes with evidence pointers.
+
+### Step 7: Treat compaction as gated re-entry
+
+After compaction/handoff:
+- re-onboard,
+- post re-attestation with read-integrity proof,
+- re-certify,
+- resume only after gates pass.
+
+---
+
+## Configuration Model (YAML)
+
+Main config:
+- `context_compass/config/context_compass_config.yaml`
+
+Key sections:
+- `profiles.*`
+  - active profile,
+  - available profiles,
+  - first-time onboarding behavior.
+- `router.*`
+  - role map to `SKILLS.MD` paths,
+  - README routing policy.
+- `workflow.*`
+  - ticket microcycle strictness,
+  - ticket contract gates,
+  - note behavior requirements.
+- `artifacts.*`
+  - artifact root,
+  - board path,
+  - cleanup/disposition policy.
+- `documentation_format.*`
+  - line-length and evidence formatting standards.
+- `codex.*`
+  - read limits and chunking thresholds.
+
+This lets teams tune behavior without rewriting the policy stack.
+
+---
+
+## Ticketing and Documentation Contracts
+
+This is not lightweight "notes when convenient" documentation.
+This is an always-on execution memory system.
+
+Ticket types:
+- Epic: cross-cutting initiative,
+- Story: medium slice with multiple tasks,
+- Task: smallest concrete deliverable.
+
+Each active ticket should carry:
+- ticket contract,
+- state transition events,
+- acceptance criteria,
+- risks/mitigations,
+- notes with evidence and next action,
+- handoff summary.
+
+Notes schema supports types such as:
+- `FACT`, `UNKNOWN`, `HYPOTHESIS`,
+- `DECISION`, `DECISION_REQUEST`,
+- `PLAN`, `BLOCKER`, `RISK`, `MEASURE`, and others.
+
+Core rule:
+- no unevidenced claim promoted to fact.
+
+Operational rule:
+- every meaningful finding is documented before the next tranche continues.
+
+---
+
+## Board Design
+
+### `attention_board.md`
+
+Purpose:
+- routing only,
+- active status/mode/blocker/next/outcome,
+- ticket linkage and re-read priority.
+
+Not for:
+- long narrative,
+- deep analysis,
+- artifact file indexing.
+
+### `artifact_board.md`
+
+Purpose:
+- active artifact associations by ticket,
+- disposition and cleanup tracking,
+- recently cleared artifact history.
+
+Allowed dispositions:
+- `delete_on_close`
+- `retain_as_reference`
+- `promote_to_documentation`
+
+---
+
+## Compaction and Re-Entry Deep Dive
+
+Compaction strategy:
+- external memory first,
+- keep compaction summary empty when runtime allows,
+- if not possible, keep only minimal pointer summary.
+
+Pre-compaction discipline:
+- board must be current,
+- active ticket notes and handoff state must be current,
+- unresolved unknowns and blockers must be explicit.
+
+Post-compaction discipline:
+- mandatory re-onboarding,
+- mandatory integrity attestation,
+- mandatory re-certification,
+- no implementation before gates are complete.
+
+This is where the system gets its durability.
+
+---
+
+## User-Defined Role Inheritance Model
+
+Use user-defined overlays when a team needs local conventions.
+
+Pattern:
+1. Create profile under:
+   - `context_compass/agent_onboarding/user_defined/<name>/`
+2. Create profile `SKILLS.MD`.
+3. Set inheritance header:
+   - `INHERITS_SKILLS_FROM: <parent path>`
+4. Add only deltas (no parent duplication).
+5. Register role in YAML router/profile lists.
+6. Activate and validate onboarding chain.
+
+Guidance file:
+- `context_compass/PROFILE_CLASS_CREATION_GUIDE.md`
+
+---
+
+## What Good Operation Looks Like
+
+A healthy run usually has these signals:
+- active board row maps cleanly to one active ticket,
+- ticket notes are current and evidence-backed,
+- unknowns are explicit, not buried,
+- transitions are documented,
+- certification gate is respected,
+- compaction recovery is deterministic.
+
+If those hold, drift stays low.
+
+---
+
+## Common Failure Modes This System Prevents
+
+- "Agent started coding before onboarding."
+- "Agent claimed it read docs but could not explain behavior impact."
+- "Critical decisions vanished after compaction."
+- "New chat had no reliable re-entry path."
+- "Role responsibilities got blurred and quality gates vanished."
+
+Context Compass exists to make those failure modes non-default.
+
+---
+
+## Practical Adoption Strategy
+
+Recommended rollout:
+
+1. Start with `general` + `engineer`.
+2. Enforce board + ticket routing first.
+3. Enforce unknowns/evidence discipline.
+4. Enforce certification and compaction re-entry gates.
+5. Add specialized roles as workflow matures.
+6. Add user-defined overlays after baseline behavior is stable.
+
+This sequence keeps adoption fast without weakening core controls.
+
+---
+
+## Final Word
+
+Context Compass is built for serious, long-running AI execution.
+
+If your goal is:
+- fewer resets,
+- less drift,
+- stronger handoffs,
+- cleaner ownership,
+- and context that survives compaction,
+
+this system is designed for exactly that.
+
+Policy-driven, role-aware, and durable by design.
