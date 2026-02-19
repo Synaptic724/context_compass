@@ -44,7 +44,7 @@ profiles:
     fallback_post_onboarding_profile: engineer
 
 router:
-  path: context_compass/SKILLS.md
+  path: context_compass/SKILLS.MD
   agent_reads_readmes: false
   readme_role: user_facing_only
   profile_readme_policy:
@@ -133,3 +133,4 @@ documentation_format:
 codex:
   viewer_tool_read_limit: 500 # Maximum lines per view/read operation
   read_loc_max: 500 # Maximum LOC per manual chunked read operation
+

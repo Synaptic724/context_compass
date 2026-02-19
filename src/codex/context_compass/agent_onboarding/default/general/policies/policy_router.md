@@ -27,7 +27,7 @@ Required flow
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
   in full immediately after `AGENTS.MD`.
 - Follow role `SKILLS.MD` routing from:
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `router.roles.<selected_role>` in `context_compass/config/context_compass_config.yaml`
   - selected role `SKILLS.MD` and inherited parent `SKILLS.MD` files
 - For first-time `new` profile setup, follow
@@ -37,10 +37,10 @@ Required flow
   - non-new profiles do not require README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - resolved role `SKILLS.MD` chain in parent-first order:
     `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
+    entry from `context_compass/SKILLS.MD` (and user-defined overlay when
     active).
 - Use manual source-document reads for onboarding; do not use onboarding dump artifacts as policy input.
 - After any compaction/handoff/fresh-session re-entry, complete the same full readset before any non-onboarding action.
@@ -132,3 +132,4 @@ Workflow
 4) Review relevant examples and mirror the pattern.
 5) If work is code-engineering, continue with engineer profile docs before
    implementation.
+

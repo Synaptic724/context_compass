@@ -1,4 +1,4 @@
-﻿# Context Compass
+# Context Compass
 
 Context Compass is a policy-first operating system for AI-assisted execution.
 It gives agents a deterministic way to onboard, route work, preserve context,
@@ -45,7 +45,7 @@ Context Compass supports multiple agent runtimes through entrypoint adapters.
 Select the correct folder and place it into your repo.
 
 Within Context Compass Codex and Gemini support below:
-- Codex entrypoint: `GEMINI.MD`
+- Codex entrypoint: `src/codex/context_compass/AGENTS.MD` (Codex distribution)
 - Gemini entrypoint: `GEMINI.MD`
 
 The routing and policy core remains shared.
@@ -65,7 +65,7 @@ Only the runtime adapter entrypoint changes.
 ```text
 context_compass/
   GEMINI.MD
-  SKILLS.md
+  SKILLS.MD
   CONTEXT_COMPACTION.md
   PROFILE_CLASS_CREATION_GUIDE.md
   README.md
@@ -113,13 +113,13 @@ context_compass/
 
 The agent starts from the runtime entrypoint:
 
-- Codex reads `GEMINI.MD`
+- Codex reads `src/codex/context_compass/AGENTS.MD`
 - Gemini reads `GEMINI.MD` and then resolves into
   the same shared policy chain
 
 ### 2) Role Routing
 
-`SKILLS.md` defines available roles and role-to-skill-map paths.
+`SKILLS.MD` defines available roles and role-to-skill-map paths.
 The selected role resolves to a `SKILLS.MD` chain with parent-first inheritance.
 
 Each role declares:
@@ -202,10 +202,10 @@ Key sections include:
 
 1. Place `context_compass/` in your repository.
 2. Ensure your runtime entrypoint exists:
-   - Codex: `GEMINI.MD`
+   - Codex: `src/codex/context_compass/AGENTS.MD`
    - Gemini: `src/gemini/context_compass/GEMINI.MD`
 3. Select an active profile in `config/context_compass_config.yaml`.
-4. Start onboarding through `SKILLS.md` role resolution.
+4. Start onboarding through `SKILLS.MD` role resolution.
 5. Request `CERTIFY: APPROVED`.
 6. Execute through ticket routing (`attention_board.md` + active ticket notes).
 
@@ -240,3 +240,5 @@ certification gates explicit so downstream users inherit a stable system.
 ## License
 
 MIT
+
+
