@@ -1,4 +1,4 @@
-
+﻿
 
 # synaptic_python_developer skill - User-Defined Overlay
 
@@ -300,7 +300,7 @@ Cleanup nulling contract:
   contracts; keep interface and concrete runtime behavior in lockstep when
   interfaces are public.
 - Logging discipline for this profile:
-  prefer Melder channel logger with `IrisLoggerFactory`, wrap with
+  prefer project channel logger with `IrisLoggerFactory`, wrap with
   `InitHelpers.resolve_safe_logger`, and treat stdlib logging as fallback only.
 - Hot-path attribute aliasing should follow measured rules and benchmark-backed
   evidence, not intuition.
@@ -334,5 +334,7 @@ Cleanup nulling contract:
   prefer >=95% with density heuristics (>=10 tests per 100 LOC baseline;
   >=20 tests per 100 LOC for dense/high-complexity logic), without filler
   assertions.
+
+
 
 
