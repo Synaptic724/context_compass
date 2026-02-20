@@ -32,4 +32,4 @@ Design workflow
 Expected outputs
 - design rationale in ticket notes and ADR
 - artifact: `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
-- explicit approval checkpoint before final closure
+- explicitly recorded `step` and `conversation_id` before final closure

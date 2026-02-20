@@ -9,7 +9,7 @@
 - Created: 2026-02-19T01:20:00Z
 - Updated: 2026-02-19T03:10:00Z
 - Step: 42 <!-- Uses the integer from the hidden 'Step Id:' system header -->
-- Checkpoint: chk-20260219-a1b2c3d4 <!-- Uses the snapshot ID provided by the system -->
+- Conversation ID: d2221354-8905-406c-86e0-eee3d88725e1 <!-- Sourced from Artifact Directory Path UUID -->
 
 ## User Narrative
 As a maintainer preparing this package for public use, I want a realistic,
@@ -86,8 +86,9 @@ repo-grounded pattern that can survive compaction and handoff.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - STEP: 44
-- CHECKPOINT: chk-20260219-e5f6g7h8
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - CLEANUP_TRIGGER: next major docs refresh.
 
 ## Notes
@@ -99,8 +100,9 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md:1-40`
   IMPACT: no end-to-end story-level onboarding reference.
   NEXT: create full story/task pair and link artifact.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 46
-  CHECKPOINT: chk-20260219-i9j0k1l2
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:10:00Z
@@ -112,8 +114,9 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/repo_overview.md:1-130`
   IMPACT: repo now contains a complete sample workflow chain.
   NEXT: await user acceptance.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 50
-  CHECKPOINT: chk-20260219-q7r8s9t0
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 

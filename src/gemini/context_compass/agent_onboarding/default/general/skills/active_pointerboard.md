@@ -16,6 +16,7 @@ Scope
 - Detailed context remains in ticket files.
 - Artifact pointers belong in ticket `Artifact Links` and `artifact_board.md`,
   not in `attention_board.md`.
+- **Exception:** System-level compaction events MUST be tracked directly on this board as a `BLOCKER` note under `## Active Attention Details` without requiring a ticket path.
 
 Required columns
 - `work_item`: short active event label.

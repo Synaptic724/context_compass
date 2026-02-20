@@ -44,9 +44,8 @@
 
 - Highest priority adherence: after any `COMPACTION_EVENT` or handoff,
   immediately re-onboard before any action.
-- `COMPACTION_EVENT` is triggered when either condition is true:
-  - `runtime_state.compaction.pending_reonboard: true`
-  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
+- `COMPACTION_EVENT` is triggered when:
+  - the injected Step ID >= `runtime_state.step.next_reonboard_step`
 - Re-read `context_compass/GEMINI.MD` and
   `context_compass/agent_onboarding/default/general/skills/compaction_requirements.md`
   before continuing work.
@@ -72,7 +71,7 @@ After any context compaction or handoff:
   full immediately after `GEMINI.MD`.
 - Start from `config/context_compass_config.yaml`, evaluate `runtime_state`,
   then `SKILLS.md`.
-- Resolve persistent role from `profiles.active_profile`.
+- Resolve persistent role from `runtime_state.active_default_role`.
 - If transient overlay is active
   (`runtime_state.transient_role.role` set and not expired), apply it in
   addition to persistent role reads.
@@ -112,11 +111,10 @@ Before any tooling, edits, or execution:
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
 - Read `SKILLS.md`.
-- Resolve selected role from `profiles.active_profile` in
+- Resolve selected role from `runtime_state.active_default_role` in
   `config/context_compass_config.yaml`.
 - If the user selects a different persistent role, update
-  `profiles.active_profile` and mark `runtime_state.onboarding.next.required:
-  true` with `reason: role_changed`.
+  `runtime_state.active_default_role`.
 - Read the resolved role `SKILLS.md` and all inherited parent `SKILLS.md`
   files in parent-first order.
 - If transient role overlay is active and unexpired
@@ -129,8 +127,8 @@ Before any tooling, edits, or execution:
     and MUST be read before any work in that scope.
 - If first-time onboarding is active and selected role is `new`, complete
   onboarding then set:
-  - `profiles.active_profile` to the selected steady-state role
-  - `profiles.onboarding.first_time_enabled: false`
+  - `runtime_state.active_default_role` to the selected steady-state role
+  - `runtime_state.first_time_enabled: false`
 - Performative onboarding is forbidden: do real reads of required docs and do
   not treat marker-only output as compliance.
 - Do not use onboarding dump artifacts as a substitute for reading source
@@ -148,7 +146,7 @@ Onboarding completion attestation (first onboarding in a fresh session):
   - `ONBOARD: COMPLETE`
   - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
   - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
-  - `ONBOARD_STATE` (`last` + `next` from `runtime_state.onboarding`)
+  - `ONBOARD_STATE` (`next_reonboard_step` from `runtime_state.step`)
   - `NO_ACTION_TAKEN_YET: true`
 
 Certification gating:

@@ -1,104 +1,22 @@
-version: 1
+version: 2
 
 runtime_state:
+  first_time_enabled: true
+  first_time_default_profile: new
+  last_active_conversation_id: <Conversation_ID>
   step:
-    current: 0
-    reonboard_interval: 400
-    next_reonboard_step: 400
-  compaction:
-    mode: sliding_window
-    pending_reonboard: false
-    last_compaction_step: 0
-    last_compaction_reason: null
-  onboarding:
-    last:
-      step: 0
-      role: general
-      checkpoint: null
-    next:
-      required: false
-      due_step: null
-      reason: null
-  reonboarding:
-    last:
-      step: 0
-      role: general
-      checkpoint: null
-    next:
-      required: false
-      due_step: 100
-      reason: step_window_compaction
+    reonboard_interval: 500
+    next_reonboard_step: 500
+  active_default_role: general
   transient_role:
-    role: null
-    set_step: null
-    expires_step: null
-    checkpoint: null
-    clear_on_reonboard: true
-
-profiles:
-  active_profile: general
-  available_profiles:
-    - new
-    - general
-    - engineer
-    - design_engineer
-    - platform_engineer
-    - qa_engineer
-    - security_engineer
-    - story_designer
-    - story_novel_artist
-    - researcher
-    - draft_writer
-    - developmental_editor
-    - line_copy_editor
-    - continuity_fact_checker
-    - proofreader
-    - synaptic_python_developer
-  user_defined_profiles:
-    - synaptic_python_developer
-  onboarding:
-    first_time_enabled: false
-    first_time_default_profile: new
-    post_onboarding_profile_mode: choose
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - design_engineer
-      - platform_engineer
-      - qa_engineer
-      - security_engineer
-      - story_designer
-      - story_novel_artist
-      - researcher
-      - draft_writer
-      - developmental_editor
-      - line_copy_editor
-      - continuity_fact_checker
-      - proofreader
-      - synaptic_python_developer
-    fallback_post_onboarding_profile: engineer
-
+    role: design_engineer
+    set_conversation_id: <Conversation_ID>
+    set_step: 0
+    expires_step: 0
 router:
   path: context_compass/SKILLS.md
   agent_reads_readmes: false
   readme_role: user_facing_only
-  profile_readme_policy:
-    new: true
-    general: false
-    engineer: false
-    design_engineer: false
-    platform_engineer: false
-    qa_engineer: false
-    security_engineer: false
-    story_designer: false
-    story_novel_artist: false
-    researcher: false
-    draft_writer: false
-    developmental_editor: false
-    line_copy_editor: false
-    continuity_fact_checker: false
-    proofreader: false
-    synaptic_python_developer: false
   roles:
     new: agent_onboarding/default/new/SKILLS.md
     general: agent_onboarding/default/general/SKILLS.md
@@ -116,7 +34,6 @@ router:
     continuity_fact_checker: agent_onboarding/default/continuity_fact_checker/SKILLS.md
     proofreader: agent_onboarding/default/proofreader/SKILLS.md
     synaptic_python_developer: agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md
-
 workflow:
   ticket_microcycle:
     enabled: true
@@ -140,7 +57,6 @@ workflow:
       epic: program_level_direction_and_cross_story_tradeoffs
       story: cross_task_synthesis_and_dependency_flow
       task: tactical_findings_and_immediate_next_actions
-
 artifacts:
   enabled: true
   store_root: artifacts
@@ -154,7 +70,6 @@ artifacts:
     - delete_on_close
     - retain_as_reference
     - promote_to_documentation
-
 documentation_format:
   line_length:
     target_min_chars: 90
@@ -164,8 +79,6 @@ documentation_format:
     one_path_per_line_when_paths_gte: 2
     one_path_per_line_when_exceeds_hard_cap: true
     allow_inline_single_path_under_hard_cap: true
-
 codex:
   viewer_tool_read_limit: 500 # Maximum lines per view/read operation
   read_loc_max: 500 # Maximum LOC per manual chunked read operation
-

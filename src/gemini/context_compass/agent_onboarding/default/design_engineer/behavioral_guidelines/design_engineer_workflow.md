@@ -11,7 +11,7 @@ Story steps
    - Read tickets, `system_docs/*`, and code symbols as needed.
 3) Produce a design draft.
    - Include explicit options, tradeoffs, and UNKNOWNs.
-4) Run a design review checkpoint.
+4) Run a design review step.
    - Request approval when required.
 5) Produce handoff artifacts.
    - Ticketize the work and define validation/rollout.

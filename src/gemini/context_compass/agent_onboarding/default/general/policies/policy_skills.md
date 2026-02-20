@@ -29,7 +29,7 @@ Required flow
   in full immediately after `GEMINI.MD`.
 - Follow role `SKILLS.md` routing from:
   - `context_compass/SKILLS.md`
-  - `profiles.active_profile` in
+  - `runtime_state.active_default_role` in
     `context_compass/config/context_compass_config.yaml`
   - roles map in
     `context_compass/config/context_compass_config.yaml`
@@ -53,12 +53,13 @@ Required flow
   artifacts as policy input.
 - Sliding-window compaction gate:
   - treat compaction as triggered when
-    `runtime_state.compaction.pending_reonboard: true` OR
-    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
+    the injected Step ID >= `runtime_state.step.next_reonboard_step`.
+  - immediately append a `BLOCKER` note to `attention_board.md` requiring `REONBOARD`.
 - Treat **Active skills** / **Required baseline skills** as mandatory reads.
   - On-demand skills are required only when the task triggers them.
 - After any compaction/handoff re-entry, complete the same full readset before
   any non-onboarding action.
+  - As part of re-entry, ensure a proactive `PLAN` note is placed on `attention_board.md` detailing the next compaction threshold.
 - Read
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
   and apply its active-partner + performance-engineering rules.

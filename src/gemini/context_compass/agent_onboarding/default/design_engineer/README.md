@@ -33,7 +33,7 @@ Design Engineer inventory
 - `skills/architecture_tradeoffs.md`: tradeoff analysis and option evaluation.
 - `skills/adr_and_decision_hygiene.md`: ADR format, decision recording, and decision hygiene.
 - `skills/nonfunctional_requirements.md`: NFR design (performance, reliability, security, operability).
-- `skills/design_review_protocol.md`: review/checkpoint protocol and handoff to tickets.
+- `skills/design_review_protocol.md`: review protocol and handoff to tickets.
 - `policies/design_quality_policy.md`: design artifact quality bar.
 - `policies/decision_record_policy.md`: ADR and decision-record gating.
 - `policies/design_review_policy.md`: review gate rules before implementation.

@@ -58,13 +58,10 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
-- Update runtime state before and after compaction:
-  - Sync `runtime_state.step.current` to match your current Hidden System Message Metadata (the injected 'Step Id'),
-  - trigger `COMPACTION_EVENT` when
-    `runtime_state.compaction.pending_reonboard: true` or
-    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`,
-  - update `runtime_state.reonboarding.last` and `runtime_state.reonboarding.next`
-    after re-onboarding.
+- Upon reaching a compaction threshold (injected Step ID >= `runtime_state.step.next_reonboard_step` OR `Conversation_ID` != `runtime_state.last_active_conversation_id`):
+  - **STOP** all tactical work.
+  - Immediately append a `BLOCKER` note to `attention_board.md` `## Active Attention Details` stating the threshold was reached and REONBOARD/ONBOARD is the `NEXT` action.
+- Remove the `BLOCKER` note from `attention_board.md` once re-onboarding is certified.
 - Update `attention_board.md` during work so active items, status, blockers, and
   next actions stay current.
 - Before compaction/handoff, verify `attention_board.md` is current and matches
@@ -98,7 +95,6 @@ After compaction, re-open the core review set and confirm:
 - The active tickets still represent the correct plan.
 - The next steps are unambiguous.
 - Re-onboarding document reads were performed manually per file path (no loop-based/batch reads).
-- `runtime_state.compaction.pending_reonboard` is cleared.
 - `runtime_state.step.next_reonboard_step` is advanced by
   `runtime_state.step.reonboard_interval`.
 - transient role fields were cleared when

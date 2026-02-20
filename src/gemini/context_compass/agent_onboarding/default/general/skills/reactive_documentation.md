@@ -39,7 +39,7 @@ Reactive capture protocol (mandatory)
    - `CONFLICT`: evidence-backed contradiction between direction and mission outcomes.
    - `TRADEOFF`: multiple viable options with meaningful pros/cons.
    - `BLOCKER`: hard stop requiring external unblock action.
-   - `ALIGNMENT_CHECK`: explicit scope/intent confirmation checkpoint.
+   - `ALIGNMENT_CHECK`: explicit scope/intent confirmation step.
    - `MEASURE`: validation/profiling result.
    - `RISK`: risk that needs mitigation follow-up.
    - `RAISE`: immediate generic escalation when a serious issue is detected and precise type is not yet clear.
@@ -58,6 +58,7 @@ Reactive capture protocol (mandatory)
 
 Entry template
 - `DATETIME`: `YYYY-MM-DDTHH:MM:SSZ`
+- `CONVERSATION_ID`: <Sourced from Artifact Directory Path UUID>
 - `TYPE`:
   FACT | UNKNOWN | HYPOTHESIS | DECISION | DECISION_REQUEST | PLAN |
   STRATEGY_DISCUSSION | ASSUMPTION_CHALLENGE | CONFLICT | TRADEOFF |

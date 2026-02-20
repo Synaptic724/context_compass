@@ -10,13 +10,14 @@ Non-negotiable triggers
 - **REONBOARD** is mandatory after any `COMPACTION_EVENT` or handoff.
 - **ONBOARD** is mandatory at the start of a fresh session.
 - Do not substitute ONBOARD for REONBOARD or vice-versa.
+- Upon any trigger event, ALL prior certifications and execution approvals are immediately VOID. You have zero authority until re-certified.
 - `COMPACTION_EVENT` trigger conditions:
-  - `runtime_state.compaction.pending_reonboard: true`, OR
-  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
-
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step` (comparing injected Step ID to YAML threshold).
+  - A new chat session is detected (`Conversation_ID` != `runtime_state.last_active_conversation_id`).
 Non-negotiable rules
 - After a trigger event: **STOP. REONBOARD/ONBOARD. THEN ACT.**
 - Do not trust memory from before compaction as authoritative context.
+- Before executing the re-onboarding checklist, immediately append a `BLOCKER` note to `attention_board.md` `## Active Attention Details` identifying the step threshold and requiring REONBOARD as the `NEXT` action.
 - Performative compliance is forbidden:
   - marker-only "REREAD" logs are not compliance
   - claiming completion without comprehension proof is non-compliance
@@ -64,15 +65,11 @@ Run this sequence exactly once per trigger event.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
 8) Re-open `attention_board.md` and all active ticket(s) and verify they match.
 9) Update runtime re-onboarding state:
-   - `runtime_state.reonboarding.last` <- current step/role/checkpoint (derived from Hidden System Message Metadata, not chat memory)
-   - `runtime_state.reonboarding.next.required: false`
    - `runtime_state.step.next_reonboard_step` <-
-     `runtime_state.step.current + runtime_state.step.reonboard_interval`
-   - `runtime_state.reonboarding.next.due_step` <-
-     `runtime_state.step.next_reonboard_step`
-   - `runtime_state.compaction.pending_reonboard: false`
+     (injected Step Id) + `runtime_state.step.reonboard_interval`
+   - append a `PLAN` note to `attention_board.md` `## Active Attention Details` identifying the new `next_reonboard_step` threshold as a future system requirement.
    - if `runtime_state.transient_role.clear_on_reonboard: true`, clear
-     transient role fields (`role`, `set_step`, `expires_step`, `checkpoint`).
+     transient role fields (`role`, `set_step`, `expires_step`).
 10) Publish the mandatory REONBOARD attestation (below).
 11) Request certification and wait for the exact token: `CERTIFY: APPROVED`.
 
@@ -93,10 +90,11 @@ READ_INTEGRITY_PROOF:
 - <path>: <rule callout> -> <what this changes in my behavior>
 - <path>: <rule callout> -> <what this changes in my behavior>
 REONBOARD_STATE:
-- last.step: <step>
-- next.due_step: <step>
+- next_reonboard_step: <step>
+- conversation_id: <Sourced from Artifact Directory Path UUID>
 TRANSIENT_ROLE_STATE:
 - role: <role|null>
+- set_conversation_id: <Sourced from Artifact Directory Path UUID|null>
 - expires_step: <step|null>
 NO_ACTION_TAKEN_YET: true
 ```

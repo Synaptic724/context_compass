@@ -16,7 +16,7 @@ Example flow
    - test strategy,
    - rollout/observability.
 4) Present options + tradeoffs and recommend one.
-5) Request design approval checkpoint (if required).
+5) Request design approval step (if required).
 6) Ticketize:
    - create story/task breakdown with dependencies and acceptance criteria.
 7) Hand off to implementation plan (if requested).

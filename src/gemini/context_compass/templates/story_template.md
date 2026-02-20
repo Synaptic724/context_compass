@@ -10,8 +10,8 @@
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Created By: <!-- Sourced from Artifact Directory Path UUID -->
 - Step: <!-- Sourced from the Hidden System Message Metadata (e.g., 'Step Id: [num]') -->
-- Checkpoint: <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
 
 ## User Narrative
 As a <user/persona>, I want <capability>, so that <outcome>.
@@ -79,7 +79,7 @@ As a <user/persona>, I want <capability>, so that <outcome>.
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
 - STEP:
-- CHECKPOINT: <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
+- CONVERSATION_ID:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Notes
@@ -95,7 +95,7 @@ As a <user/persona>, I want <capability>, so that <outcome>.
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
   STEP: <STEP-ID>
-  CHECKPOINT: <CHECKPOINT-ID | none> <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
+  CONVERSATION_ID: <actual_UUID_string>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
@@ -108,7 +108,8 @@ As a <user/persona>, I want <capability>, so that <outcome>.
 - Note focus: cross-task synthesis, dependency flow, and state-transition logic.
 - Add notes when task routing changes, gate decisions are made, or risks shift.
 - Reference child-task notes for evidence instead of duplicating tactical detail.
-- Include `STEP` and `CHECKPOINT` from the Hidden System Message Metadata in every note entry.
+- Include `STEP` from the Hidden System Message Metadata in every note entry.
+- Always resolve `CONVERSATION_ID` to the actual session UUID sourced from the Artifact Directory Path.
 - Keep notes append-only and preserve UNKNOWN-first promotion discipline.
 
 ## Context / Handoff Summary

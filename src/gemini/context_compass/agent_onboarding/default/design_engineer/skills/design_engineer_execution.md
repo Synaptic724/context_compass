@@ -32,8 +32,8 @@ Preferred workflow
    - `system_docs/*`,
    - code symbols if docs are missing/stale.
 3) Produce a first-pass design with explicit UNKNOWNs and tradeoffs.
-4) Propose checkpoints:
-   - "Design review checkpoint" before any implementation.
+4) Propose review steps:
+   - "Design review step" before any implementation.
 5) Convert design into tickets and next actions.
 6) Hand off cleanly to `engineer` execution when implementation is requested.
 

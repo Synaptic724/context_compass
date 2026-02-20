@@ -8,8 +8,10 @@ Configuration file
 - `config/context_compass_config.yaml`
 
 Key sections
-- `profiles`
-  - active class, available classes, onboarding transitions.
+- `runtime_state`
+  - active default role, first-time transitions.
+- `available_profiles`
+  - available classes.
 - `roles_map` / `roles`
   - role-to-`SKILLS.md` mappings for default and user-defined classes.
   - `SKILLS.md` headers define inheritance order.
@@ -19,14 +21,12 @@ Key sections
   - artifact board and lifecycle controls.
 
 Most important keys for onboarding
-- `profiles.active_profile`
-  - Current active class/profile.
-- `profiles.onboarding.first_time_default_profile`
-  - First-time entry class (typically `new`).
-- `profiles.onboarding.allowed_post_onboarding_profiles`
+- `runtime_state.active_default_role`
+  - Current persistent active class/profile.
+- `runtime_state.first_time_enabled`
+  - Controls whether the user is forced into first-time onboarding.
+- `allowed_post_onboarding_profiles`
   - Which classes user can choose immediately after onboarding.
-- `profiles.onboarding.fallback_post_onboarding_profile`
-  - Safe fallback if no explicit choice is made.
 - `roles.new`
   - New-role `SKILLS.md` file path.
 - Default role entries (examples):
@@ -45,9 +45,9 @@ Most important keys for onboarding
   - `roles.proofreader`
 
 Class assignment basics
-1) Confirm class exists in `profiles.available_profiles`.
+1) Confirm class exists in `available_profiles`.
 2) Ensure its `SKILLS.md` path exists in the `roles` mapping.
-3) Set `profiles.active_profile` to the chosen class.
+3) Set `runtime_state.active_default_role` to the chosen class.
 4) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
 
 Recommended defaults after onboarding
@@ -67,7 +67,7 @@ Recommended defaults after onboarding
   - `proofreader` for final publication lock.
 
 Validation checks
-- `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
+- `rg -n "active_default_role|available_profiles" context_compass/config/context_compass_config.yaml`
 - `Get-Content context_compass/SKILLS.md`
 - `Get-Content context_compass/agent_onboarding/default/new/SKILLS.md`
 - `Get-Content context_compass/agent_onboarding/default/general/SKILLS.md`

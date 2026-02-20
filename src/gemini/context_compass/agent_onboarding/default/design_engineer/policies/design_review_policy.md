@@ -2,15 +2,15 @@
 # design_review_policy
 
 Purpose
-- Enforce a design-review checkpoint before implementation for high-impact changes.
+- Enforce a design-review step before implementation for high-impact changes.
 
 Policy
-A design review checkpoint is mandatory when:
+A design review step is mandatory when:
 - the design changes public contracts, schemas, or major component boundaries, OR
 - the design introduces non-trivial operational risk, OR
 - the user requested "design first" explicitly.
 
-Checkpoint rule
+Review rule
 - Provide a structured design summary + open questions.
 - Request explicit approval before implementation.
 - Approval must be recorded (in the response and ideally in the ticket notes).

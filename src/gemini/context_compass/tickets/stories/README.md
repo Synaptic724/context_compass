@@ -28,7 +28,7 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 
 ## How To Create A Story (Deep, Not Minimal)
 1. Copy `context_compass/templates/story_template.md`.
-2. Link the story to its epic in Metadata and set `Step` + `Checkpoint` (using the Hidden System Message Metadata definitions in `workflow.md`).
+2. Link the story to its epic in Metadata and set `Step` + `Conversation ID` (using the Hidden System Message Metadata definitions in `workflow.md`).
 3. Write a precise User Narrative with a concrete outcome.
 4. Explain Value / MRP Alignment with system-level impact.
 5. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
@@ -41,10 +41,10 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 11. Add Validation / Test Plan and any UX/API/Data notes.
 12. Fill `Applicable Anti-Patterns` with lane-specific checks (not full catalog).
 13. Keep `Noting Behavior` aligned to cross-task synthesis notes.
-    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
+    Include `STEP` and `CONVERSATION_ID` in every `## Notes` entry.
 14. Add `Artifact Links (Optional)` when story work produces supporting
     artifacts.
-    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
+    Include `STEP` and `CONVERSATION_ID` in the artifact link block when used.
 15. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) for linked artifacts.
 16. Record Risks / Mitigations, Decision Log, and keep Context / Handoff

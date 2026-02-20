@@ -18,11 +18,9 @@ Required behavior
 2) Determine the available roles from the canonical role map:
    - `SKILLS.md` (and config roles map if present)
 3) Resolve persistent role from:
-   - `config/context_compass_config.yaml` -> `profiles.active_profile`.
+   - `config/context_compass_config.yaml` -> `runtime_state.active_default_role`.
 4) If the user explicitly selects a different persistent role:
-   - update `profiles.active_profile`,
-   - set `runtime_state.onboarding.next.required: true`,
-   - set `runtime_state.onboarding.next.reason: role_changed`.
+   - update `runtime_state.active_default_role`.
 5) If transient overlay role is active and unexpired:
    - apply transient role chain in addition to persistent role chain.
    - default transient expiry:

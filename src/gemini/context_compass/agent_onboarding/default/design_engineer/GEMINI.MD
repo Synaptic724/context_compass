@@ -60,7 +60,7 @@ Every non-trivial design output MUST include:
 - If the user requested "design only":
   - do not start implementation unless explicitly authorized.
 - If the user requested "design then implement":
-  - get explicit design approval checkpoint before editing code.
+  - get explicit design approval review before editing code.
 
 ## 4) Default Design Artifact Location
 

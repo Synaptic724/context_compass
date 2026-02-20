@@ -12,7 +12,7 @@ Required flow
   - `context_compass/SKILLS.md`
   - `context_compass/agent_onboarding/default/general/SKILLS.md`
   - active role `SKILLS.md` path resolved from
-    `profiles.active_profile`
+    `runtime_state.active_default_role`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
@@ -37,12 +37,10 @@ Required flow
 - For ONBOARD/REONBOARD attestations, keep declarations concise with
   `ROLE_SKILLS_READ` and `NO_ACTION_TAKEN_YET: true`.
 - Keep onboarding state truthful in YAML before certification:
-  - update `runtime_state.onboarding.last` / `runtime_state.onboarding.next`
-    for ONBOARD events,
-  - update `runtime_state.reonboarding.last` /
-    `runtime_state.reonboarding.next` for REONBOARD events,
+  - calculate and update `runtime_state.step.next_reonboard_step` for REONBOARD events.
   - clear transient role fields when
     `runtime_state.transient_role.clear_on_reonboard: true`.
+  - Append a proactive `PLAN` note to `attention_board.md` detailing the upcoming `next_reonboard_step` threshold, ensuring it is tracked as soon as the session starts.
 - Summarize that onboarding is complete and request approval.
 - Require the approval message to include the exact token
   `CERTIFY: APPROVED`.

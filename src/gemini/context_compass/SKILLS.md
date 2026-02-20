@@ -43,16 +43,14 @@ Available path map
 
 Role selection directive (non-negotiable)
 1) Resolve the selected role from
-   `config/context_compass_config.yaml` -> `profiles.active_profile`.
+   `config/context_compass_config.yaml` -> `runtime_state.active_default_role`.
 2) If the user explicitly selects a different persistent role:
-   - update `profiles.active_profile` to that role,
-   - set `runtime_state.onboarding.next.required: true`,
-   - set `runtime_state.onboarding.next.reason: role_changed`.
+   - update `runtime_state.active_default_role` to that role.
 3) Optional transient overlay:
    - when `runtime_state.transient_role.role` is set and
-     `runtime_state.step.current` is below
+     the injected Step ID is below
      `runtime_state.transient_role.expires_step`, apply transient role reads
-     in addition to `profiles.active_profile`.
+     in addition to `runtime_state.active_default_role`.
    - when setting a transient role, default
      `runtime_state.transient_role.expires_step` to
      `runtime_state.step.next_reonboard_step - 1`.

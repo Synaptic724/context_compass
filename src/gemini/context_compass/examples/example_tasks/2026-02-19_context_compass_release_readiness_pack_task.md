@@ -9,7 +9,7 @@
 - Created: 2026-02-19T01:40:00Z
 - Updated: 2026-02-19T03:12:00Z
 - Step: 42 <!-- Uses the integer from the hidden 'Step Id:' system header -->
-- Checkpoint: chk-20260219-a1b2c3d4 <!-- Uses the snapshot ID provided by the system -->
+- Conversation ID: d2221354-8905-406c-86e0-eee3d88725e1 <!-- Sourced from Artifact Directory Path UUID -->
 
 ## Objective
 Build a complete, template-quality example workflow using this repository as the
@@ -106,8 +106,9 @@ and upgraded architecture/component docs.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - STEP: 44
-- CHECKPOINT: chk-20260219-e5f6g7h8
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - CLEANUP_TRIGGER: next docs refresh cycle.
 
 ## Notes
@@ -119,8 +120,9 @@ and upgraded architecture/component docs.
   - `templates/task_template.md:1-103`
   IMPACT: users lacked a credible task-level reference.
   NEXT: replace with full task + story chain.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 46
-  CHECKPOINT: chk-20260219-i9j0k1l2
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T02:25:00Z
@@ -132,8 +134,9 @@ and upgraded architecture/component docs.
   - `examples/adr_example.md:1-20`
   IMPACT: inconsistent onboarding path.
   NEXT: rewrite to repo-based files.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 48
-  CHECKPOINT: chk-20260219-m3n4o5p6
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:12:00Z
@@ -145,8 +148,9 @@ and upgraded architecture/component docs.
   - `system_docs/src_components.md:1-200`
   IMPACT: package now has a usable release-readiness workflow example.
   NEXT: request user acceptance and close.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 50
-  CHECKPOINT: chk-20260219-q7r8s9t0
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 

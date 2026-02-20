@@ -66,11 +66,9 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
-- Sync `runtime_state.step.current` to match your current Hidden System Message Metadata (the injected 'Step Id') before handoff, and keep
-  `runtime_state.step.next_reonboard_step` aligned to the configured interval.
-- Trigger `COMPACTION_EVENT` when either condition is true:
-  - `runtime_state.compaction.pending_reonboard: true`
-  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
+- Calculate and update `runtime_state.step.next_reonboard_step` based on the injected Step ID and configured interval.
+- Trigger `COMPACTION_EVENT` when:
+  - the injected Step ID >= `runtime_state.step.next_reonboard_step`
 - Update `attention_board.md` during work so active items, status, blockers, and
   next actions stay current.
 - Update `artifact_board.md` when active tickets have artifacts or artifact
@@ -116,9 +114,7 @@ After compaction/handoff, before any action:
 - The next steps are unambiguous.
 - Re-onboarding document reads were performed manually per file path (no
   loop-based/batch document reads).
-- `runtime_state.reonboarding.last` was updated for the completed re-onboard.
-- `runtime_state.reonboarding.next` was advanced to the next due step.
-- `runtime_state.compaction.pending_reonboard` was cleared.
+- `runtime_state.step.next_reonboard_step` was calculated/advanced.
 - transient role state was cleared when
   `runtime_state.transient_role.clear_on_reonboard: true`.
 

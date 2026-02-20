@@ -28,7 +28,7 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
 
 ## How To Create A Task (Deep, Not Minimal)
 1. Copy `context_compass/templates/task_template.md`.
-2. Link the task to its story in Metadata and set `Step` + `Checkpoint` (using the Hidden System Message Metadata definitions in `workflow.md`).
+2. Link the task to its story in Metadata and set `Step` + `Conversation ID` (using the Hidden System Message Metadata definitions in `workflow.md`).
 3. Write a concrete Objective that defines the smallest meaningful outcome.
 4. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
    `DEPENDENCIES`, `EXIT_GATE`, `FAILURE_ESCALATION`).
@@ -42,9 +42,9 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
     full catalog).
 12. Keep `Noting Behavior` aligned to tactical task-level notes and update
     `## Notes` on each meaningful finding.
-    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
+    Include `STEP` and `CONVERSATION_ID` in every `## Notes` entry.
 13. Add `Artifact Links (Optional)` when the task creates supporting artifacts.
-    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
+    Include `STEP` and `CONVERSATION_ID` in the artifact link block when used.
 14. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) and closure trigger for each linked artifact.
 15. Complete the Done Checklist and keep Context / Handoff Summary current.

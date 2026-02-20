@@ -12,26 +12,25 @@ The only true, continuous execution step counter is the invisible `Step Id:` hea
 You act upon the `runtime_state` block using a "Lazy Update" model:
 1. **Passive Tracking**: As you work, you observe your Hidden System Message Metadata `Step Id` incrementing. You do not touch the YAML file.
 2. **Evaluation**: Periodically, you evaluate if your currently injected `Step Id` has reached or exceeded `runtime_state.step.next_reonboard_step`.
-3. **The Synchronization Event**: ONLY when that threshold is breached, do you open the YAML file and perform a batch synchronization:
-   - You sync `step.current` to exactly match your current injected `Step Id`.
-   - You trigger the `COMPACTION_EVENT` (e.g., setting `pending_reonboard: true`).
+   - You sync the target YAML `step.next_reonboard_step` forward by `step.reonboard_interval`.
+3. **Session Change Detection**: You check if your injected `Conversation_ID` (the trailing UUID in the Artifact Directory Path) matches `runtime_state.last_active_conversation_id`.
+   - If the ID does NOT match, the session has reset. You MUST immediately trigger an **ONBOARD** event.
 
 ## Field Definitions
 
+### `runtime_state` Block
+- `last_active_conversation_id`: The UUID of the chat session that last successfully ONBOARDed or REONBOARDed. Must match the trailing artifact path UUID.
+
 ### `step` Block
-- `current`: A lazy snapshot of the system step. **DO NOT increment this during normal work.** Only update this when a compaction event is triggered.
 - `reonboard_interval`: The configured maximum length of the memory window (e.g., 400 steps).
-- `next_reonboard_step`: The targeted step where the next compaction event MUST occur. Calculated during re-onboarding as `current + reonboard_interval`.
+- `next_reonboard_step`: The targeted step where the next compaction event MUST occur. Calculated during re-onboarding as `(injected Step Id) + reonboard_interval`.
 
-### `compaction` Block
-- `mode`: The strategy used (e.g., `sliding_window`).
-- `pending_reonboard`: A boolean lock. When `true`, all tactical work must stop until the agent completes the strict re-onboarding ritual defined in `compaction_requirements.md`.
-- `last_compaction_step`: The step at which the last successful compaction summary was written.
-
-### `onboarding` / `reonboarding` Blocks
-These blocks are **Historical Snapshots**, not active trackers.
-- `last`: A record of exactly when and who completed the last ritual.
-- `next`: The "Alarm Clock" setting. `due_step` records the target calculated *at the completion of the last ritual*. It holds this value statically until the alarm goes off.
+### `active_default_role`
+- The name of the persistent skill profile (e.g., `general`, `engineer`).
 
 ### `transient_role` Block
-- If a temporary role was assumed (e.g., a specific engineering persona), this block tracks when it expires. If `expires_step` is reached, the agent must drop the role. If `clear_on_reonboard` is true, the role is wiped during the next compaction event.
+- `set_conversation_id`: The session UUID where this role was assumed. If the active `Conversation_ID` changes, this role may need re-evaluation.
+- If a temporary role was assumed (e.g., a specific engineering persona), this block tracks when it expires. If the injected Step Id reaches `expires_step`, the agent must drop the role and revert to `active_default_role`.
+
+### `first_time` Blocks
+- Tracks whether the repository requires initial setup (`first_time_enabled`).

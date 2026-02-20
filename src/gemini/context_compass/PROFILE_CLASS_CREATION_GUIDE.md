@@ -84,10 +84,8 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
 - `context_compass/config/context_compass_config.yaml`
 
 Key areas in that file:
-- `profiles.active_profile`
-- `profiles.available_profiles`
-- `profiles.user_defined_profiles`
-- `profiles.onboarding.*`
+- `runtime_state.active_default_role`
+- `runtime_state.first_time_enabled`
 - `roles.*`
 - `roles_map.profile_readme_policy.*`
 - `SKILLS.md` header inheritance:
@@ -164,7 +162,6 @@ Edit `context_compass/config/context_compass_config.yaml`.
 Minimum required edits:
 
 ```yaml
-profiles:
   available_profiles:
     - data_engineer
   user_defined_profiles:
@@ -179,19 +176,13 @@ roles_map:
 Set active class:
 
 ```yaml
-profiles:
-  active_profile: data_engineer
+  active_default_role: data_engineer
 ```
 
 If this class should be selectable after first-time onboarding, update:
 
 ```yaml
-profiles:
-  onboarding:
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - data_engineer
+  allowed_post_onboarding_profiles:
 ```
 
 ### Step 6: Validate class wiring
@@ -230,7 +221,7 @@ Validate overlap discipline:
 - Duplicating entire parent `SKILLS.md` path lists in child classes.
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
-- Setting `active_profile` to a class not in `available_profiles`.
+- Setting `active_default_role` to a class not in `available_profiles`.
 - Forgetting to register `roles_map.roles.<profile>`.
 
 ## Profile file templates
@@ -325,7 +316,7 @@ Skills
 - [ ] I created `SKILLS.md` under `agent_onboarding/user_defined/<profile_name>/`.
 - [ ] I updated config profile lists and roles-map role registration.
 - [ ] I added the `SKILLS.md` inheritance header.
-- [ ] I set `active_profile` to target class.
+- [ ] I set `active_default_role` to target class.
 - [ ] I validated `SKILLS.md` paths and overlap contract.
 
 ## Troubleshooting

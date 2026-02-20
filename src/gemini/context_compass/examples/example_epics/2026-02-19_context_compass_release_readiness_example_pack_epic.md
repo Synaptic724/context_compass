@@ -8,7 +8,7 @@
 - Created: 2026-02-19T00:00:00Z
 - Updated: 2026-02-19T03:10:00Z
 - Step: 42 <!-- Uses the integer from the hidden 'Step Id:' system header -->
-- Checkpoint: chk-20260219-a1b2c3d4 <!-- Uses the snapshot ID provided by the system -->
+- Conversation ID: d2221354-8905-406c-86e0-eee3d88725e1 <!-- Sourced from Artifact Directory Path UUID -->
 - Target Window: 2026-Q1
 - Related Program/Initiative: public-library-release-hardening
 
@@ -94,8 +94,9 @@ compaction-safe handoff notes.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - STEP: 44
-- CHECKPOINT: chk-20260219-e5f6g7h8
+- CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
 - CLEANUP_TRIGGER: next docs refresh cycle.
 
 ## Notes
@@ -107,8 +108,9 @@ compaction-safe handoff notes.
   - `examples/adr_example.md:1-20`
   IMPACT: poor onboarding and weak handoff reliability.
   NEXT: replace with complete repo-based examples.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 46
-  CHECKPOINT: chk-20260219-i9j0k1l2
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:10:00Z
@@ -120,8 +122,9 @@ compaction-safe handoff notes.
   - `examples/repo_overview.md:1-130`
   IMPACT: public users can follow a complete, repo-native workflow.
   NEXT: request user acceptance and close.
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   STEP: 50
-  CHECKPOINT: chk-20260219-q7r8s9t0
+  CONVERSATION_ID: d2221354-8905-406c-86e0-eee3d88725e1
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 
