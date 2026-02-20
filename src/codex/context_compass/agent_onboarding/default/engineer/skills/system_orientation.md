@@ -16,8 +16,8 @@ Required behavior
   - `AGENTS.MD`
   - `config/context_compass_config.yaml`
   - `SKILLS.md`
-  - `agent_onboarding/default/general/SKILLS.MD`
-  - `agent_onboarding/default/engineer/SKILLS.MD`
+  - `agent_onboarding/default/general/SKILLS.md`
+  - `agent_onboarding/default/engineer/SKILLS.md`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 

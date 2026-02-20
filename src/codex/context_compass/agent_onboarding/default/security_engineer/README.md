@@ -11,10 +11,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Security Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Security Engineer inventory
-- `agent_onboarding/default/security_engineer/SKILLS.MD`: security-engineer-specific read sequence.
+- `agent_onboarding/default/security_engineer/SKILLS.md`: security-engineer-specific read sequence.
 - `skills/security_engineer_execution.md`: security execution discipline and artifacts.
 - `skills/threat_modeling.md`: threat model method and output structure.
 - `skills/secure_architecture_review.md`: architecture review for security posture.

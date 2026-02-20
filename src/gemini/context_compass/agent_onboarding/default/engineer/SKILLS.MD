@@ -6,7 +6,7 @@ Purpose
 - Define required baseline engineering skills for the `engineer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:

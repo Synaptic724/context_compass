@@ -71,7 +71,7 @@ Every non-trivial design output MUST include:
   (Exact naming is flexible; consistency and linkage are mandatory.)
 
 References
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
 - `agent_onboarding/default/design_engineer/policies/design_quality_policy.md`
 - `agent_onboarding/default/design_engineer/policies/decision_record_policy.md`
 - `agent_onboarding/default/design_engineer/policies/design_review_policy.md`

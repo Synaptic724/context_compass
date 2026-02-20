@@ -11,10 +11,11 @@ Flow
 - Epic, story, and task all include the same artifact path.
 
 3. Capture rationale
-- Add `DECISION`, `EVIDENCE`, and `NEXT` note fields in linked tickets.
+- Add `DECISION`, `EVIDENCE`, `NEXT`, `STEP`, and `CHECKPOINT` note fields in linked tickets.
 
 4. Apply disposition
-- Keep as `retain_as_reference` unless a later docs policy changes it.
+- Keep as `retain_as_reference` unless a later docs policy changes it, and keep
+  `artifact_board.md` rows aligned with `step` and `checkpoint`.
 
 Expected outcome
 - Any reader can reconstruct why the artifact exists and how it supports ticket closure.

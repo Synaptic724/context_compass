@@ -12,6 +12,7 @@ Scope rules
 - Tickets remain canonical memory; this board is an association index.
 - Add rows only when a ticket has one or more active artifact files.
 - Every artifact row must include a ticket path and retention decision.
+- Every artifact row must include `step` and `checkpoint`.
 
 Disposition values
 - `delete_on_close`: remove artifact when ticket closes.
@@ -19,13 +20,12 @@ Disposition values
 - `promote_to_documentation`: convert artifact into durable docs.
 
 ## Active Artifact Links
-| ticket | artifact_path | artifact_type | status | disposition | next | updated_at | reread |
-|---|---|---|---|---|---|---|---|
+| ticket | artifact_path | artifact_type | status | disposition | step | checkpoint | next | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|
 
 ## Active Artifact Details
 - none
 
 ## Recently Cleared Artifacts
-| ticket | artifact_path | disposition | reason | closed_at |
-|---|---|---|---|---|
-
+| ticket | artifact_path | step | checkpoint | disposition | reason | closed_at |
+|---|---|---|---|---|---|---|

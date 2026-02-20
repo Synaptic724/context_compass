@@ -5,7 +5,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:

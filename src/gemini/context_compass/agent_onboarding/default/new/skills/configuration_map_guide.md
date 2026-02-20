@@ -69,21 +69,21 @@ Recommended defaults after onboarding
 Validation checks
 - `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
 - `Get-Content context_compass/SKILLS.md`
-- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
+- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.md`
 
 References
 - `SKILLS.md`

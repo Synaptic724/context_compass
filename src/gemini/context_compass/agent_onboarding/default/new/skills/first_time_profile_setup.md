@@ -77,21 +77,21 @@ References
 - `context_compass/GEMINI.MD`
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
-- `agent_onboarding/default/engineer/SKILLS.MD`
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `agent_onboarding/default/story_designer/SKILLS.MD`
-- `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `agent_onboarding/default/researcher/SKILLS.MD`
-- `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `agent_onboarding/default/proofreader/SKILLS.MD`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
+- `agent_onboarding/default/engineer/SKILLS.md`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
+- `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `agent_onboarding/default/security_engineer/SKILLS.md`
+- `agent_onboarding/default/story_designer/SKILLS.md`
+- `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `agent_onboarding/default/researcher/SKILLS.md`
+- `agent_onboarding/default/draft_writer/SKILLS.md`
+- `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `agent_onboarding/default/proofreader/SKILLS.md`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
 
 

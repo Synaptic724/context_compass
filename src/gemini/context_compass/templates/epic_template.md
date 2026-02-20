@@ -9,6 +9,8 @@
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Step:
+- Checkpoint:
 - Target Window: <e.g., 2026-Q1>
 - Related Program/Initiative:
 
@@ -94,6 +96,8 @@
 - ARTIFACT_PATHS:
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
+- STEP:
+- CHECKPOINT:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Notes
@@ -108,6 +112,8 @@
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
@@ -120,10 +126,10 @@
 - Note focus: program-level direction, cross-story tradeoffs, and tranche order.
 - Add notes when priorities, sequencing, or scope boundaries change.
 - Reference story/task evidence instead of duplicating tactical execution logs.
+- Include `STEP` and `CHECKPOINT` in every note entry.
 - Keep notes append-only and preserve UNKNOWN-first promotion discipline.
 
 ## Context / Handoff Summary
 <Succinct summary of current state, key decisions, and next steps for future context.>
-
 
 

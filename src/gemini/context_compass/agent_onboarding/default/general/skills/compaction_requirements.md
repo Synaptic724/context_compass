@@ -7,9 +7,12 @@ Purpose
 - Prevent policy drift by forcing deterministic, auditable re-onboarding.
 
 Non-negotiable triggers
-- **REONBOARD** is mandatory after any context compaction or handoff.
+- **REONBOARD** is mandatory after any `COMPACTION_EVENT` or handoff.
 - **ONBOARD** is mandatory at the start of a fresh session.
 - Do not substitute ONBOARD for REONBOARD or vice-versa.
+- `COMPACTION_EVENT` trigger conditions:
+  - `runtime_state.compaction.pending_reonboard: true`, OR
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 
 Non-negotiable rules
 - After a trigger event: **STOP. REONBOARD/ONBOARD. THEN ACT.**
@@ -46,16 +49,32 @@ Run this sequence exactly once per trigger event.
 
 1) Read `context_compass/GEMINI.MD`.
 2) Read `agent_onboarding/default/general/skills/execution_contract.md` in full.
-3) Resolve the active profile via `context_compass/SKILLS.md` (and config roles map).
-   - If the active role cannot be determined: **STOP and ask the user**.
-4) Read the resolved role `SKILLS.md` chain in parent-first order.
-5) Read every path listed under **Active skills** / **Required baseline skills**
+3) Read `config/context_compass_config.yaml` and evaluate `runtime_state`.
+4) Resolve persistent role from `profiles.active_profile` via
+   `context_compass/SKILLS.md` (and config roles map).
+   - If persistent role cannot be determined: **STOP and ask the user**.
+5) If transient overlay is active and unexpired
+   (`runtime_state.transient_role.role` is set and
+   `runtime_state.step.current < runtime_state.transient_role.expires_step`),
+   include transient role chain as overlay.
+6) Read the resolved role `SKILLS.md` chain in parent-first order.
+7) Read every path listed under **Active skills** / **Required baseline skills**
    in each resolved `SKILLS.md`.
    - On-demand skills are NOT required unless triggered by the active task.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
-6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
-7) Publish the mandatory REONBOARD attestation (below).
-8) Request certification and wait for the exact token: `CERTIFY: APPROVED`.
+8) Re-open `attention_board.md` and all active ticket(s) and verify they match.
+9) Update runtime re-onboarding state:
+   - `runtime_state.reonboarding.last` <- current step/role/checkpoint
+   - `runtime_state.reonboarding.next.required: false`
+   - `runtime_state.step.next_reonboard_step` <-
+     `runtime_state.step.current + runtime_state.step.reonboard_interval`
+   - `runtime_state.reonboarding.next.due_step` <-
+     `runtime_state.step.next_reonboard_step`
+   - `runtime_state.compaction.pending_reonboard: false`
+   - if `runtime_state.transient_role.clear_on_reonboard: true`, clear
+     transient role fields (`role`, `set_step`, `expires_step`, `checkpoint`).
+10) Publish the mandatory REONBOARD attestation (below).
+11) Request certification and wait for the exact token: `CERTIFY: APPROVED`.
 
 README policy
 - README reads are allowed only for `new` first-time onboarding.
@@ -73,6 +92,12 @@ FILES_REREAD:
 READ_INTEGRITY_PROOF:
 - <path>: <rule callout> -> <what this changes in my behavior>
 - <path>: <rule callout> -> <what this changes in my behavior>
+REONBOARD_STATE:
+- last.step: <step>
+- next.due_step: <step>
+TRANSIENT_ROLE_STATE:
+- role: <role|null>
+- expires_step: <step|null>
 NO_ACTION_TAKEN_YET: true
 ```
 
@@ -87,6 +112,7 @@ READ_INTEGRITY_PROOF (requirements)
   - Do not unilaterally shorten the proof as a convenience.
 
 Attestation contract
+- Runtime state updates in Step 9 are mandatory before attestation.
 - Emit the attestation immediately after re-onboarding and BEFORE certification.
 - Do not run tools, edit files, or execute plans before posting the attestation.
 - After posting attestation, request certification and continue only after the user replies

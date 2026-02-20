@@ -39,7 +39,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - scene_cut_add_log.md
 
 ## 6) References
-- agent_onboarding/default/developmental_editor/SKILLS.MD
+- agent_onboarding/default/developmental_editor/SKILLS.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
 - agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md

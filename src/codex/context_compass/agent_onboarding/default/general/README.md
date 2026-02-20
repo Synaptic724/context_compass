@@ -7,7 +7,7 @@ Purpose
 - Defines where execution policy, narrative workflow, and examples live.
 
 Primary entrypoints
-- `agent_onboarding/default/general/SKILLS.MD`: canonical read order.
+- `agent_onboarding/default/general/SKILLS.md`: canonical read order.
 - `agent_onboarding/default/general/policies/policy_skills.md`: policy chain and execution gates.
 
 Folder map

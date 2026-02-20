@@ -57,7 +57,7 @@ Layer 1: Bootstrap and guardrails
 - Entry documents enforce mandatory onboarding and certification gates.
 
 Layer 2: Router and role-chain resolution
-- Profile + role map resolve the active `SKILLS.MD` chain in parent-first order.
+- Profile + role map resolve the active `SKILLS.md` chain in parent-first order.
 
 Layer 3: Ticket microcycle execution
 - Work runs through investigate -> document -> plan -> implement -> validate
@@ -77,7 +77,7 @@ Layer 4: Closure and continuity
 2. Read execution contract and compaction requirements.
 3. Read `config/context_compass_config.yaml`.
 4. Read top-level `SKILLS.md` and resolve role.
-5. Read resolved role-chain `SKILLS.MD` files in parent-first order.
+5. Read resolved role-chain `SKILLS.md` files in parent-first order.
 6. Confirm certification approval.
 7. Route to active ticket via `attention_board.md`.
 8. Execute ticket microcycle with evidence-backed notes.

@@ -8,13 +8,16 @@ Purpose
 Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
+  - active role `SKILLS.md` path resolved from
+    `profiles.active_profile`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain for the active profile.
+  - transient overlay role chain when active and unexpired.
 - For a given trigger event, complete the readset once; do not duplicate-read
   the same onboarding set before certification unless a new
   compaction/handoff/session-reset event occurs.
@@ -33,6 +36,13 @@ Required flow
   - Tool logs/dumps are not proof.
 - For ONBOARD/REONBOARD attestations, keep declarations concise with
   `ROLE_SKILLS_READ` and `NO_ACTION_TAKEN_YET: true`.
+- Keep onboarding state truthful in YAML before certification:
+  - update `runtime_state.onboarding.last` / `runtime_state.onboarding.next`
+    for ONBOARD events,
+  - update `runtime_state.reonboarding.last` /
+    `runtime_state.reonboarding.next` for REONBOARD events,
+  - clear transient role fields when
+    `runtime_state.transient_role.clear_on_reonboard: true`.
 - Summarize that onboarding is complete and request approval.
 - Require the approval message to include the exact token
   `CERTIFY: APPROVED`.

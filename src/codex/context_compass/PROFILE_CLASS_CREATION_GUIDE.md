@@ -138,7 +138,7 @@ You can add subfolders under `skills/` as needed.
 Create:
 
 ```text
-context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
+context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md
 ```
 
 SKILLS.md rules:
@@ -151,7 +151,7 @@ SKILLS.md rules:
 Example:
 
 ```text
-INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD
+INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md
 agent_onboarding/user_defined/data_engineer/profile_overrides.md
 agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md
 agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md
@@ -172,7 +172,7 @@ profiles:
 
 roles_map:
   roles:
-    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
+    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 ### Step 5: Set active/default class
@@ -199,7 +199,7 @@ Run checks:
 
 ```powershell
 rg -n "data_engineer" context_compass/config/context_compass_config.yaml
-Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
+Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 Validate `SKILLS.md` path existence (manual method):
@@ -352,10 +352,10 @@ Check:
 ## File index
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD`
+- `context_compass/agent_onboarding/default/new/SKILLS.md`
+- `context_compass/agent_onboarding/default/general/SKILLS.md`
+- `context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md`
 - `context_compass/agent_onboarding/user_defined/`
 
 ## Final note

@@ -35,7 +35,7 @@ workflow behavior in this repository.
 
 ### Component: Router and Role Resolution Engine
 - Purpose: resolve active role chain deterministically.
-- Responsibilities: map active profile -> role path -> inherited `SKILLS.MD` chain.
+- Responsibilities: map active profile -> role path -> inherited `SKILLS.md` chain.
 - Inputs: `config/context_compass_config.yaml`, `SKILLS.md`.
 - Outputs: ordered readset and role boundaries.
 - Owned State: role map and active profile config.

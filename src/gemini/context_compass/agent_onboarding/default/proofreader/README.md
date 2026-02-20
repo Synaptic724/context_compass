@@ -10,7 +10,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/proofreader/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/proofreader/SKILLS.md: role-specific read sequence.
 - skills/proofreader.md: role mission, boundaries, and artifact model.
 - skills/proofreader_execution.md: execution discipline and phase gates.
 - skills/proofreader_deliverables.md: artifact requirements and quality bars.

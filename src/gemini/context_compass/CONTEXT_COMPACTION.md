@@ -9,6 +9,8 @@ handed off.
 - Repository artifacts are the source of truth for durable context.
 - `attention_board.md` is the canonical active-attention state and is mandatory
   during active work.
+- `config/context_compass_config.yaml` is the canonical runtime-state source
+  for step windows, onboarding/re-onboarding state, and transient role expiry.
 - Compaction summaries MUST be empty when the runtime/platform allows empty summaries.
 - If empty summaries are not allowed, write only minimal pointer summaries:
   - high-level outcomes (no narrative replay)
@@ -29,6 +31,7 @@ Core review set (ALWAYS required) - review these files in order:
 - `CONTEXT_COMPACTION.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
+- `config/context_compass_config.yaml` `runtime_state` block
 - `SKILLS.md`
 - resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
@@ -62,6 +65,11 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
+- Update `runtime_state.step.current` continuously and keep
+  `runtime_state.step.next_reonboard_step` aligned to the configured interval.
+- Trigger `COMPACTION_EVENT` when either condition is true:
+  - `runtime_state.compaction.pending_reonboard: true`
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
 - Update `attention_board.md` during work so active items, status, blockers, and
   next actions stay current.
 - Update `artifact_board.md` when active tickets have artifacts or artifact
@@ -85,6 +93,9 @@ Read discipline (non-negotiable)
   minimal.
 - Ensure ticket `Artifact Links` sections and `artifact_board.md` stay
   synchronized when artifacts exist.
+- If `runtime_state.transient_role.role` is set, ensure
+  `runtime_state.transient_role.expires_step` is set and expires before the
+  next re-onboarding step.
 
 ## Handoff Summary Checklist
 - Current state and progress (what is done vs remaining).
@@ -104,4 +115,9 @@ After compaction/handoff, before any action:
 - The next steps are unambiguous.
 - Re-onboarding document reads were performed manually per file path (no
   loop-based/batch document reads).
+- `runtime_state.reonboarding.last` was updated for the completed re-onboard.
+- `runtime_state.reonboarding.next` was advanced to the next due step.
+- `runtime_state.compaction.pending_reonboard` was cleared.
+- transient role state was cleared when
+  `runtime_state.transient_role.clear_on_reonboard: true`.
 

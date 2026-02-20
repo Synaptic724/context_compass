@@ -8,6 +8,8 @@
 - Priority: p1
 - Created: 2026-02-19T01:20:00Z
 - Updated: 2026-02-19T03:10:00Z
+- Step: STEP-2026-02-19-story-release-readiness-closure
+- Checkpoint: CHK-2026-02-19-story-release-readiness
 
 ## User Narrative
 As a maintainer preparing this package for public use, I want a realistic,
@@ -84,6 +86,8 @@ repo-grounded pattern that can survive compaction and handoff.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- STEP: STEP-2026-02-19-story-artifact-link
+- CHECKPOINT: CHK-2026-02-19-story-artifact-linked
 - CLEANUP_TRIGGER: next major docs refresh.
 
 ## Notes
@@ -95,6 +99,8 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md:1-40`
   IMPACT: no end-to-end story-level onboarding reference.
   NEXT: create full story/task pair and link artifact.
+  STEP: STEP-2026-02-19-story-gap-assessment
+  CHECKPOINT: CHK-2026-02-19-story-gap-scan
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:10:00Z
@@ -106,6 +112,8 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/repo_overview.md:1-130`
   IMPACT: repo now contains a complete sample workflow chain.
   NEXT: await user acceptance.
+  STEP: STEP-2026-02-19-story-deliverable-verification
+  CHECKPOINT: CHK-2026-02-19-story-example-chain
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 

@@ -81,7 +81,7 @@ Expected completion state:
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md`

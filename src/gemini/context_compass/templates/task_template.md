@@ -10,6 +10,8 @@
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Step:
+- Checkpoint:
 
 ## Objective
 <Define the smallest meaningful outcome this task delivers.>
@@ -74,12 +76,15 @@
 - ARTIFACT_PATHS:
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
+- STEP:
+- CHECKPOINT:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Noting Behavior
 - Note focus: tactical findings, concrete impacts, and single-step continuation.
 - Add a `## Notes` entry after each meaningful finding before continuing.
 - Keep notes append-only; correct history only for factual errors.
+- Include `STEP` and `CHECKPOINT` in every note entry.
 - Promote `UNKNOWN` to `FACT` only with direct evidence pointers.
 
 ## Notes
@@ -94,10 +99,11 @@
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
 ## Context / Handoff Summary
 <Succinct summary of current state, key decisions, and next steps for future context.>
-
 

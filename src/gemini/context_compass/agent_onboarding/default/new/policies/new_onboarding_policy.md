@@ -6,7 +6,7 @@ Purpose
 - Keep this profile user-facing and orientation-heavy, not implementation-heavy.
 
 Scope
-- Applies only when routing through `agent_onboarding/default/new/SKILLS.MD`.
+- Applies only when routing through `agent_onboarding/default/new/SKILLS.md`.
 - Ends when the user chooses and applies a default steady-state class/profile.
 
 Policy
@@ -34,7 +34,7 @@ Configuration authority
   - active profile selection,
   - available profile classes,
   - onboarding defaults and transitions.
-- `agent_onboarding/*/SKILLS.MD` headers are the source of truth for:
+- `agent_onboarding/*/SKILLS.md` headers are the source of truth for:
   - inheritance chain,
   - resolved parent-first read order.
 

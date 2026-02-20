@@ -10,7 +10,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/story_designer/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/story_designer/SKILLS.md: role-specific read sequence.
 - skills/story_designer.md: role mission, boundaries, and artifact model.
 - skills/story_designer_execution.md: execution discipline and phase gates.
 - skills/story_designer_deliverables.md: artifact requirements and quality bars.

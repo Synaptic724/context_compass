@@ -14,16 +14,23 @@ When to use
 
 Required behavior
 1) Always read the shared baseline first:
-   - `agent_onboarding/default/general/SKILLS.MD`
+   - `agent_onboarding/default/general/SKILLS.md`
 2) Determine the available roles from the canonical role map:
    - `SKILLS.md` (and config roles map if present)
-3) If the user already selected a role earlier in this session:
-   - Restate the selected role explicitly.
-   - Continue onboarding using the already-resolved `SKILLS.md` chain.
-4) If the user has NOT selected a role yet:
-   - List available roles from `SKILLS.md`.
-   - Ask the user which role to take on.
-   - Resolve the selected role to its `SKILLS.md` path and continue.
+3) Resolve persistent role from:
+   - `config/context_compass_config.yaml` -> `profiles.active_profile`.
+4) If the user explicitly selects a different persistent role:
+   - update `profiles.active_profile`,
+   - set `runtime_state.onboarding.next.required: true`,
+   - set `runtime_state.onboarding.next.reason: role_changed`.
+5) If transient overlay role is active and unexpired:
+   - apply transient role chain in addition to persistent role chain.
+   - default transient expiry:
+     `runtime_state.transient_role.expires_step` =
+     `runtime_state.step.next_reonboard_step - 1`.
+   - transient overlay must expire before next re-onboarding step.
+6) Continue onboarding using resolved persistent role chain (+ transient overlay
+   when active).
 
 Role guidance (default roles)
 - `general`
@@ -78,6 +85,6 @@ Why skills are treated as capabilities
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 

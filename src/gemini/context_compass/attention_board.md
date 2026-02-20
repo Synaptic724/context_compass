@@ -21,13 +21,27 @@ Attention details rule
   (`YYYY-MM-DDTHH:MM:SSZ`).
 - Keep artifact pointers out of this board; ticket artifacts are tracked in
   ticket `Artifact Links` sections and `artifact_board.md`.
+- Include `STEP` and `CHECKPOINT` in active rows and attention detail entries.
 
 ## Active Items
-| work_item | status | mode | owner | blocker | next | outcome | exit_signal | ticket | updated_at | reread |
-|---|---|---|---|---|---|---|---|---|---|---|
+| work_item | status | mode | owner | blocker | next | outcome | exit_signal | ticket | step | checkpoint | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Active Attention Details
+- DATETIME: YYYY-MM-DDTHH:MM:SSZ
+  TYPE:
+    FACT | UNKNOWN | HYPOTHESIS | DECISION | DECISION_REQUEST | PLAN |
+    STRATEGY_DISCUSSION | ASSUMPTION_CHALLENGE | CONFLICT | TRADEOFF |
+    BLOCKER | ALIGNMENT_CHECK | MEASURE | RISK | RAISE
+  CLAIM: <short finding>
+  EVIDENCE:
+  - <path:start_line-end_line>
+  IMPACT: <why this matters>
+  NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
+  REREAD: REQUIRED | HELPFUL
 
 ## Recently Closed Anchors
-| work_item | status | owner | blocker | next | ticket | updated_at | reread |
-|---|---|---|---|---|---|---|---|
+| work_item | status | owner | blocker | next | ticket | step | checkpoint | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|

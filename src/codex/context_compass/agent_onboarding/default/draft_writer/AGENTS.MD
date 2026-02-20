@@ -40,7 +40,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - rewrite_resolution_log.md
 
 ## 6) References
-- agent_onboarding/default/draft_writer/SKILLS.MD
+- agent_onboarding/default/draft_writer/SKILLS.md
 - agent_onboarding/default/draft_writer/skills/draft_writer.md
 - agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
 - agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md

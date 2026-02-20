@@ -6,7 +6,7 @@ Purpose
 - This role is optimized for designing software engineering projects with high-quality handoff.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -55,6 +55,6 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 

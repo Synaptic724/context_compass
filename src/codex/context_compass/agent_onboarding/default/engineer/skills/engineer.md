@@ -58,12 +58,11 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
 * **Ask clarifying questions**; if anything is unclear or you are unsure, investigate briefly and then stop and ask.
 * **Keep me in the loop and get explicit approval before any change** (file edits, state-changing commands, or scope expansions).
 * Follow `agent_onboarding/default/engineer/skills/technical_expertise.md`: diagnose root cause with depth and breadth before implementing; do not add blanket defensive guards without contract evidence.
-* Use `router.md` and
-  `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
+* Use `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
+* Follow `agent_onboarding/default/general/SKILLS.md` and
+  `agent_onboarding/default/engineer/SKILLS.md` as primary onboarding and execution
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.

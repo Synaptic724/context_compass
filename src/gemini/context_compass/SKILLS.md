@@ -24,29 +24,42 @@ Available roles
 - `user_defined/*`
 
 Available path map
-- `new`: `agent_onboarding/default/new/SKILLS.MD`
-- `general`: `agent_onboarding/default/general/SKILLS.MD`
-- `engineer`: `agent_onboarding/default/engineer/SKILLS.MD`
-- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.MD`
-- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `researcher`: `agent_onboarding/default/researcher/SKILLS.MD`
-- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
-- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
+- `new`: `agent_onboarding/default/new/SKILLS.md`
+- `general`: `agent_onboarding/default/general/SKILLS.md`
+- `engineer`: `agent_onboarding/default/engineer/SKILLS.md`
+- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.md`
+- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.md`
+- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.md`
+- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `researcher`: `agent_onboarding/default/researcher/SKILLS.md`
+- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.md`
+- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.md`
+- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.md`
 
 Role selection directive (non-negotiable)
-1) When this `SKILLS.md` map is read, list the available roles.
-2) Ask the user which role to take on (unless the user already selected one).
-3) Resolve the selected role to its `SKILLS.md` path from this map.
-4) Read the resolved role `SKILLS.md`.
-5) Treat the resolved role `SKILLS.md` chain as the routing manifest:
+1) Resolve the selected role from
+   `config/context_compass_config.yaml` -> `profiles.active_profile`.
+2) If the user explicitly selects a different persistent role:
+   - update `profiles.active_profile` to that role,
+   - set `runtime_state.onboarding.next.required: true`,
+   - set `runtime_state.onboarding.next.reason: role_changed`.
+3) Optional transient overlay:
+   - when `runtime_state.transient_role.role` is set and
+     `runtime_state.step.current` is below
+     `runtime_state.transient_role.expires_step`, apply transient role reads
+     in addition to `profiles.active_profile`.
+   - when setting a transient role, default
+     `runtime_state.transient_role.expires_step` to
+     `runtime_state.step.next_reonboard_step - 1`.
+   - transient overlay expires at/after `expires_step`.
+4) Resolve the role path(s) from this map.
+5) Read the resolved role `SKILLS.md`.
+6) Treat the resolved role `SKILLS.md` chain as the routing manifest:
    - You MUST read every path listed under **Active skills** / **Required baseline skills**
      in each resolved `SKILLS.md` file (parent-first).
    - **On-demand** skills are conditional: do NOT read them for certification unless a trigger condition is met.

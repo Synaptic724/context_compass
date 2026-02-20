@@ -11,10 +11,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Platform Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Platform Engineer inventory
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`: platform-engineer-specific read sequence.
+- `agent_onboarding/default/platform_engineer/SKILLS.md`: platform-engineer-specific read sequence.
 - `skills/platform_engineer_execution.md`: platform execution discipline and artifact expectations.
 - `skills/ci_cd_and_release.md`: pipeline design and release mechanics.
 - `skills/deployment_and_environments.md`: deployment strategies, environment discipline, and rollback plans.

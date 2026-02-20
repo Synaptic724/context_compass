@@ -11,10 +11,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation and engineering quality discipline)
 - Design Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Design Engineer inventory
-- `agent_onboarding/default/design_engineer/SKILLS.MD`: design-engineer-specific read sequence.
+- `agent_onboarding/default/design_engineer/SKILLS.md`: design-engineer-specific read sequence.
 - `skills/architecture_contexts.md`: architecture/components source-of-truth policy.
 - `skills/src_architecture_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_architecture.md`.

@@ -23,7 +23,7 @@ files from this package.
 - Responsibilities: read `SKILLS.md`, resolve role path, enforce parent-first
   chain.
 - Inputs: `config/context_compass_config.yaml`, role map in `SKILLS.md`.
-- Outputs: ordered `SKILLS.MD` read chain.
+- Outputs: ordered `SKILLS.md` read chain.
 - Owned State: profile + role map definitions.
 - Invariants/Guarantees: deterministic chain order and explicit path mapping.
 - Failure Modes: bad mapping path, stale references.

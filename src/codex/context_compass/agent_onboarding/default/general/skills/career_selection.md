@@ -14,7 +14,7 @@ When to use
 
 Required behavior
 1) Always read the shared baseline first:
-   - `agent_onboarding/default/general/SKILLS.MD`
+   - `agent_onboarding/default/general/SKILLS.md`
 2) Determine the available roles from the canonical role map:
    - `SKILLS.md` (and config roles map if present)
 3) If the user already selected a role earlier in this session:
@@ -78,6 +78,6 @@ Why skills are treated as capabilities
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 

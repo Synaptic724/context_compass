@@ -498,7 +498,7 @@ You can add subfolders under `skills/` as needed.
 Create:
 
 ```text
-context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
+context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md
 ```
 
 SKILLS.md rules:
@@ -511,7 +511,7 @@ SKILLS.md rules:
 Example:
 
 ```text
-INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD
+INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md
 agent_onboarding/user_defined/data_engineer/profile_overrides.md
 agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md
 agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md
@@ -532,7 +532,7 @@ profiles:
 
 roles_map:
   roles:
-    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
+    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 ### Step 5: Set active/default class
@@ -559,7 +559,7 @@ Run checks:
 
 ```powershell
 rg -n "data_engineer" context_compass/config/context_compass_config.yaml
-Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
+Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 Validate `SKILLS.md` path existence (manual method):
@@ -712,10 +712,10 @@ Check:
 ## File index
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD`
+- `context_compass/agent_onboarding/default/new/SKILLS.md`
+- `context_compass/agent_onboarding/default/general/SKILLS.md`
+- `context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md`
 - `context_compass/agent_onboarding/user_defined/`
 
 ## Final note
@@ -968,31 +968,6 @@ MIT
 
 
 
---- START OF FILE: context_compass\router.md ---
-
-# router
-
-Purpose
-- Provide a stable, human-readable summary of profile routing authority.
-- Clarify how profile selection maps to onboarding skill chains.
-
-Routing authority (highest to lowest)
-1. `config/context_compass_config.yaml`
-2. `SKILLS.md`
-3. Resolved role `SKILLS.md` files under `agent_onboarding/`
-
-Deterministic route sequence
-1. Read runtime entrypoint policy.
-2. Read `config/context_compass_config.yaml`.
-3. Read `SKILLS.md` and select role.
-4. Resolve the role path in `router.roles`.
-5. Read inherited `SKILLS.md` chain in parent-first order.
-6. Read required baseline skills.
-7. Read on-demand skills only when a trigger condition is met.
-
-Do not use this file as policy override.
-Use it as a routing map only.
-
 --- START OF FILE: context_compass\SKILLS.md ---
 
 
@@ -1021,22 +996,22 @@ Available roles
 - `user_defined/*`
 
 Available path map
-- `new`: `agent_onboarding/default/new/SKILLS.MD`
-- `general`: `agent_onboarding/default/general/SKILLS.MD`
-- `engineer`: `agent_onboarding/default/engineer/SKILLS.MD`
-- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.MD`
-- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `researcher`: `agent_onboarding/default/researcher/SKILLS.MD`
-- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
-- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
+- `new`: `agent_onboarding/default/new/SKILLS.md`
+- `general`: `agent_onboarding/default/general/SKILLS.md`
+- `engineer`: `agent_onboarding/default/engineer/SKILLS.md`
+- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.md`
+- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.md`
+- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.md`
+- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `researcher`: `agent_onboarding/default/researcher/SKILLS.md`
+- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.md`
+- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.md`
+- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.md`
 
 Role selection directive (non-negotiable)
 1) When this `SKILLS.md` map is read, list the available roles.
@@ -1108,7 +1083,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - resolution_recommendations.md
 
 ## 6) References
-- agent_onboarding/default/continuity_fact_checker/SKILLS.MD
+- agent_onboarding/default/continuity_fact_checker/SKILLS.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
 - agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md
@@ -1127,7 +1102,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/continuity_fact_checker/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/continuity_fact_checker/SKILLS.md: role-specific read sequence.
 - skills/continuity_fact_checker.md: role mission, boundaries, and artifact model.
 - skills/continuity_fact_checker_execution.md: execution discipline and phase gates.
 - skills/continuity_fact_checker_deliverables.md: artifact requirements and quality bars.
@@ -1168,7 +1143,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -1491,7 +1466,7 @@ Every non-trivial design output MUST include:
   (Exact naming is flexible; consistency and linkage are mandatory.)
 
 References
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
 - `agent_onboarding/default/design_engineer/policies/design_quality_policy.md`
 - `agent_onboarding/default/design_engineer/policies/decision_record_policy.md`
 - `agent_onboarding/default/design_engineer/policies/design_review_policy.md`
@@ -1513,10 +1488,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation and engineering quality discipline)
 - Design Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Design Engineer inventory
-- `agent_onboarding/default/design_engineer/SKILLS.MD`: design-engineer-specific read sequence.
+- `agent_onboarding/default/design_engineer/SKILLS.md`: design-engineer-specific read sequence.
 - `skills/architecture_contexts.md`: architecture/components source-of-truth policy.
 - `skills/src_architecture_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_architecture.md`.
@@ -1565,7 +1540,7 @@ Purpose
 - This role is optimized for designing software engineering projects with high-quality handoff.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -1614,7 +1589,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 
 
@@ -2187,7 +2162,7 @@ Rules
 - If the user cares about an NFR, translate it into measurable acceptance criteria.
 - If security posture is required, route to security specialist guidance:
   - `agent_onboarding/default/general/skills/security_and_secrets.md`
-  - `agent_onboarding/default/security_engineer/SKILLS.MD` (if available/selected)
+  - `agent_onboarding/default/security_engineer/SKILLS.md` (if available/selected)
 
 References
 - `agent_onboarding/default/general/skills/unknowns_gate_reference.md`
@@ -2788,7 +2763,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - scene_cut_add_log.md
 
 ## 6) References
-- agent_onboarding/default/developmental_editor/SKILLS.MD
+- agent_onboarding/default/developmental_editor/SKILLS.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
 - agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md
@@ -2807,7 +2782,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/developmental_editor/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/developmental_editor/SKILLS.md: role-specific read sequence.
 - skills/developmental_editor.md: role mission, boundaries, and artifact model.
 - skills/developmental_editor_execution.md: execution discipline and phase gates.
 - skills/developmental_editor_deliverables.md: artifact requirements and quality bars.
@@ -2847,7 +2822,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -3136,7 +3111,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - rewrite_resolution_log.md
 
 ## 6) References
-- agent_onboarding/default/draft_writer/SKILLS.MD
+- agent_onboarding/default/draft_writer/SKILLS.md
 - agent_onboarding/default/draft_writer/skills/draft_writer.md
 - agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
 - agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md
@@ -3155,7 +3130,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/draft_writer/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/draft_writer/SKILLS.md: role-specific read sequence.
 - skills/draft_writer.md: role mission, boundaries, and artifact model.
 - skills/draft_writer_execution.md: execution discipline and phase gates.
 - skills/draft_writer_deliverables.md: artifact requirements and quality bars.
@@ -3196,7 +3171,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -3510,8 +3485,8 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
   `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
+* Follow `agent_onboarding/default/general/SKILLS.md` and
+  `agent_onboarding/default/engineer/SKILLS.md` as primary onboarding and execution
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
@@ -3908,12 +3883,12 @@ Purpose
 Scope rule
 - Keep only engineer-specific policy/behavior here.
 - Shared rules remain in `agent_onboarding/default/general/` and are indexed in
-  `agent_onboarding/default/general/SKILLS.MD`.
+  `agent_onboarding/default/general/SKILLS.md`.
 - Engineer extends `general` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/general/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/general/SKILLS.md`.
 
 Engineer inventory
-- `agent_onboarding/default/engineer/SKILLS.MD`: engineer-specific read sequence.
+- `agent_onboarding/default/engineer/SKILLS.md`: engineer-specific read sequence.
 - `skills/engineer_execution.md`: execution discipline for engineering work.
 - `skills/technical_expertise.md`: root-cause-first debugging discipline.
 - `skills/system_orientation.md`: system explanation flow for engineers.
@@ -3935,7 +3910,7 @@ Architecture docs ownership
 
 User-defined overlay boundary
 - Preference-heavy Python/testing/library-style rules are routed through:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md`.
 - Default engineer keeps generalized, reusable engineering guidance only.
 
 Unknowns Gate
@@ -3959,7 +3934,7 @@ Purpose
 - Define required baseline engineering skills for the `engineer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -4616,12 +4591,11 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
 * **Ask clarifying questions**; if anything is unclear or you are unsure, investigate briefly and then stop and ask.
 * **Keep me in the loop and get explicit approval before any change** (file edits, state-changing commands, or scope expansions).
 * Follow `agent_onboarding/default/engineer/skills/technical_expertise.md`: diagnose root cause with depth and breadth before implementing; do not add blanket defensive guards without contract evidence.
-* Use `router.md` and
-  `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
+* Use `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
+* Follow `agent_onboarding/default/general/SKILLS.md` and
+  `agent_onboarding/default/engineer/SKILLS.md` as primary onboarding and execution
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
@@ -5116,8 +5090,8 @@ Required behavior
   - `AGENTS.MD`
   - `config/context_compass_config.yaml`
   - `SKILLS.md`
-  - `agent_onboarding/default/general/SKILLS.MD`
-  - `agent_onboarding/default/engineer/SKILLS.MD`
+  - `agent_onboarding/default/general/SKILLS.md`
+  - `agent_onboarding/default/engineer/SKILLS.md`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 
@@ -5451,7 +5425,7 @@ Purpose
 - Defines where execution policy, narrative workflow, and examples live.
 
 Primary entrypoints
-- `agent_onboarding/default/general/SKILLS.MD`: canonical read order.
+- `agent_onboarding/default/general/SKILLS.md`: canonical read order.
 - `agent_onboarding/default/general/policies/policy_skills.md`: policy chain and execution gates.
 
 Folder map
@@ -5594,7 +5568,7 @@ Checklist (short form)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
 4) Select working role
-   - Read `agent_onboarding/default/general/SKILLS.MD` first.
+   - Read `agent_onboarding/default/general/SKILLS.md` first.
    - Read the selected role `SKILLS.md` after baseline (for example:
      `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
      `security_engineer`, `story_designer`, `story_novel_artist`,
@@ -5723,7 +5697,7 @@ Required flow
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
+    `agent_onboarding/default/general/SKILLS.md` plus the selected role map
     entry from `context_compass/SKILLS.md` (and user-defined overlay when
     active).
 - Use manual source-document reads for onboarding; do not use onboarding dump artifacts as policy input.
@@ -5863,7 +5837,7 @@ Required flow
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
+    `agent_onboarding/default/general/SKILLS.md` plus the selected role map
     entry from `context_compass/SKILLS.md` (and user-defined overlay when
     active).
 - Use manual source-document reads for onboarding; do not use onboarding dump
@@ -6221,7 +6195,7 @@ When to use
 
 Required behavior
 1) Always read the shared baseline first:
-   - `agent_onboarding/default/general/SKILLS.MD`
+   - `agent_onboarding/default/general/SKILLS.md`
 2) Determine the available roles from the canonical role map:
    - `SKILLS.md` (and config roles map if present)
 3) If the user already selected a role earlier in this session:
@@ -6285,7 +6259,7 @@ Why skills are treated as capabilities
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 
 
@@ -7219,7 +7193,7 @@ Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
   - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
@@ -7630,7 +7604,7 @@ Rules
 - Only request approval after listing the skills read from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
   - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
 - Before requesting approval, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
@@ -7936,7 +7910,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_line_v1.md
 
 ## 6) References
-- agent_onboarding/default/line_copy_editor/SKILLS.MD
+- agent_onboarding/default/line_copy_editor/SKILLS.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
 - agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md
@@ -7955,7 +7929,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/line_copy_editor/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/line_copy_editor/SKILLS.md: role-specific read sequence.
 - skills/line_copy_editor.md: role mission, boundaries, and artifact model.
 - skills/line_copy_editor_execution.md: execution discipline and phase gates.
 - skills/line_copy_editor_deliverables.md: artifact requirements and quality bars.
@@ -7995,7 +7969,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -8325,7 +8299,7 @@ Expected completion state:
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md`
@@ -8374,7 +8348,7 @@ Agent-read policy
 
 SKILLS.md top-level sources
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.MD`
+- `context_compass/agent_onboarding/default/new/SKILLS.md`
 
 Primary onboarding docs
 - `agent_onboarding/default/new/skills/system_overview_for_user.md`
@@ -8481,7 +8455,7 @@ Purpose
 - Keep this profile user-facing and orientation-heavy, not implementation-heavy.
 
 Scope
-- Applies only when routing through `agent_onboarding/default/new/SKILLS.MD`.
+- Applies only when routing through `agent_onboarding/default/new/SKILLS.md`.
 - Ends when the user chooses and applies a default steady-state class/profile.
 
 Policy
@@ -8509,7 +8483,7 @@ Configuration authority
   - active profile selection,
   - available profile classes,
   - onboarding defaults and transitions.
-- `agent_onboarding/*/SKILLS.MD` headers are the source of truth for:
+- `agent_onboarding/*/SKILLS.md` headers are the source of truth for:
   - inheritance chain,
   - resolved parent-first read order.
 
@@ -8599,21 +8573,21 @@ Recommended defaults after onboarding
 Validation checks
 - `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
 - `Get-Content context_compass/SKILLS.md`
-- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
+- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.md`
 
 References
 - `SKILLS.md`
@@ -8702,21 +8676,21 @@ References
 - `context_compass/AGENTS.MD`
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
-- `agent_onboarding/default/engineer/SKILLS.MD`
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `agent_onboarding/default/story_designer/SKILLS.MD`
-- `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `agent_onboarding/default/researcher/SKILLS.MD`
-- `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `agent_onboarding/default/proofreader/SKILLS.MD`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
+- `agent_onboarding/default/engineer/SKILLS.md`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
+- `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `agent_onboarding/default/security_engineer/SKILLS.md`
+- `agent_onboarding/default/story_designer/SKILLS.md`
+- `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `agent_onboarding/default/researcher/SKILLS.md`
+- `agent_onboarding/default/draft_writer/SKILLS.md`
+- `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `agent_onboarding/default/proofreader/SKILLS.md`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
 
 
@@ -9041,7 +9015,7 @@ Do not duplicate shared rules; reference them.
 - Avoid large "big bang" operational changes without explicit approval.
 
 References
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
+- `agent_onboarding/default/platform_engineer/SKILLS.md`
 - `agent_onboarding/default/platform_engineer/policies/production_change_management_policy.md`
 - `agent_onboarding/default/platform_engineer/policies/operational_safety_policy.md`
 
@@ -9062,10 +9036,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Platform Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Platform Engineer inventory
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`: platform-engineer-specific read sequence.
+- `agent_onboarding/default/platform_engineer/SKILLS.md`: platform-engineer-specific read sequence.
 - `skills/platform_engineer_execution.md`: platform execution discipline and artifact expectations.
 - `skills/ci_cd_and_release.md`: pipeline design and release mechanics.
 - `skills/deployment_and_environments.md`: deployment strategies, environment discipline, and rollback plans.
@@ -9101,7 +9075,7 @@ Purpose
 - This role is optimized for CI/CD, deployments, observability, and operational safety.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -9142,7 +9116,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 - Do not proceed with production-impact changes until relevant sources are read.
 
 
@@ -9524,7 +9498,7 @@ Core rules
 Escalation
 - If the task is security sensitive or involves authn/authz changes:
   - route to security specialist guidance (if selected/available):
-    `agent_onboarding/default/security_engineer/SKILLS.MD`
+    `agent_onboarding/default/security_engineer/SKILLS.md`
 
 References
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
@@ -9575,7 +9549,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_final.md
 
 ## 6) References
-- agent_onboarding/default/proofreader/SKILLS.MD
+- agent_onboarding/default/proofreader/SKILLS.md
 - agent_onboarding/default/proofreader/skills/proofreader.md
 - agent_onboarding/default/proofreader/skills/proofreader_execution.md
 - agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
@@ -9594,7 +9568,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/proofreader/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/proofreader/SKILLS.md: role-specific read sequence.
 - skills/proofreader.md: role mission, boundaries, and artifact model.
 - skills/proofreader_execution.md: execution discipline and phase gates.
 - skills/proofreader_deliverables.md: artifact requirements and quality bars.
@@ -9634,7 +9608,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -9929,7 +9903,7 @@ Do not duplicate shared rules; reference them.
   - known risks and mitigations.
 
 References
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
+- `agent_onboarding/default/qa_engineer/SKILLS.md`
 - `agent_onboarding/default/qa_engineer/policies/quality_gate_policy.md`
 
 
@@ -9949,10 +9923,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - QA Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 QA Engineer inventory
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`: QA-engineer-specific read sequence.
+- `agent_onboarding/default/qa_engineer/SKILLS.md`: QA-engineer-specific read sequence.
 - `skills/qa_engineer_execution.md`: QA execution discipline and artifacts.
 - `skills/test_strategy_and_planning.md`: how to build a test strategy for a feature/system.
 - `skills/test_case_design.md`: how to design high-signal test cases.
@@ -9988,7 +9962,7 @@ Purpose
 - This role is optimized for test strategy, test design, and release quality posture.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10029,7 +10003,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 
 
 
@@ -10451,7 +10425,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - research_open_risks.md
 
 ## 6) References
-- agent_onboarding/default/researcher/SKILLS.MD
+- agent_onboarding/default/researcher/SKILLS.md
 - agent_onboarding/default/researcher/skills/researcher.md
 - agent_onboarding/default/researcher/skills/researcher_execution.md
 - agent_onboarding/default/researcher/policies/researcher_quality_policy.md
@@ -10470,7 +10444,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/researcher/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/researcher/SKILLS.md: role-specific read sequence.
 - skills/researcher.md: role mission, boundaries, and artifact model.
 - skills/researcher_execution.md: execution discipline and phase gates.
 - skills/researcher_deliverables.md: artifact requirements and quality bars.
@@ -10512,7 +10486,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10810,7 +10784,7 @@ Do not duplicate shared rules; reference them.
 - If a security risk is accepted (not mitigated), request explicit approval and record it.
 
 References
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
+- `agent_onboarding/default/security_engineer/SKILLS.md`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 
 
@@ -10830,10 +10804,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Security Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Security Engineer inventory
-- `agent_onboarding/default/security_engineer/SKILLS.MD`: security-engineer-specific read sequence.
+- `agent_onboarding/default/security_engineer/SKILLS.md`: security-engineer-specific read sequence.
 - `skills/security_engineer_execution.md`: security execution discipline and artifacts.
 - `skills/threat_modeling.md`: threat model method and output structure.
 - `skills/secure_architecture_review.md`: architecture review for security posture.
@@ -10871,7 +10845,7 @@ Purpose
 - This role is optimized for threat modeling, secure reviews, and vulnerability handling.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10913,7 +10887,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 
 
 
@@ -11327,7 +11301,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - design_risk_register.md
 
 ## 6) References
-- agent_onboarding/default/story_designer/SKILLS.MD
+- agent_onboarding/default/story_designer/SKILLS.md
 - agent_onboarding/default/story_designer/skills/story_designer.md
 - agent_onboarding/default/story_designer/skills/story_designer_execution.md
 - agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md
@@ -11346,7 +11320,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/story_designer/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/story_designer/SKILLS.md: role-specific read sequence.
 - skills/story_designer.md: role mission, boundaries, and artifact model.
 - skills/story_designer_execution.md: execution discipline and phase gates.
 - skills/story_designer_deliverables.md: artifact requirements and quality bars.
@@ -11389,7 +11363,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -11689,7 +11663,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - visual_canon_risk_log.md
 
 ## 6) References
-- agent_onboarding/default/story_novel_artist/SKILLS.MD
+- agent_onboarding/default/story_novel_artist/SKILLS.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
 - agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md
@@ -11708,7 +11682,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/story_novel_artist/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/story_novel_artist/SKILLS.md: role-specific read sequence.
 - skills/story_novel_artist.md: role mission, boundaries, and artifact model.
 - skills/story_novel_artist_execution.md: execution discipline and phase gates.
 - skills/story_novel_artist_deliverables.md: artifact requirements and quality bars.
@@ -11751,7 +11725,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -12025,7 +11999,7 @@ Purpose
 - Define a sample user-defined profile for data engineering work.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Active skills
 - `agent_onboarding/user_defined/data_engineer/profile_overrides.md`
@@ -12414,9 +12388,9 @@ Purpose
 Resolved inheritance
 - `general` -> `engineer` -> `synaptic_python_developer`
 - Source of truth:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` header
-  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD` and
-  the engineer header chain to `agent_onboarding/default/general/SKILLS.MD`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md` header
+  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md` and
+  the engineer header chain to `agent_onboarding/default/general/SKILLS.md`.
 
 Overlay scope
 - User-preference collaboration tone and engagement style.
@@ -12460,7 +12434,7 @@ Overlay docs
 
 SKILLS.md top-level sources
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
+- `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md`
 
 
 
@@ -12476,7 +12450,7 @@ Purpose
   `synaptic_python_developer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Activation rule
 - All paths listed below are active skills for this role.
@@ -14822,7 +14796,7 @@ files from this package.
 - Responsibilities: read `SKILLS.md`, resolve role path, enforce parent-first
   chain.
 - Inputs: `config/context_compass_config.yaml`, role map in `SKILLS.md`.
-- Outputs: ordered `SKILLS.MD` read chain.
+- Outputs: ordered `SKILLS.md` read chain.
 - Owned State: profile + role map definitions.
 - Invariants/Guarantees: deterministic chain order and explicit path mapping.
 - Failure Modes: bad mapping path, stale references.
@@ -15457,7 +15431,7 @@ Layer 1: Bootstrap and guardrails
 - Entry documents enforce mandatory onboarding and certification gates.
 
 Layer 2: Router and role-chain resolution
-- Profile + role map resolve the active `SKILLS.MD` chain in parent-first order.
+- Profile + role map resolve the active `SKILLS.md` chain in parent-first order.
 
 Layer 3: Ticket microcycle execution
 - Work runs through investigate -> document -> plan -> implement -> validate
@@ -15477,7 +15451,7 @@ Layer 4: Closure and continuity
 2. Read execution contract and compaction requirements.
 3. Read `config/context_compass_config.yaml`.
 4. Read top-level `SKILLS.md` and resolve role.
-5. Read resolved role-chain `SKILLS.MD` files in parent-first order.
+5. Read resolved role-chain `SKILLS.md` files in parent-first order.
 6. Confirm certification approval.
 7. Route to active ticket via `attention_board.md`.
 8. Execute ticket microcycle with evidence-backed notes.
@@ -15635,7 +15609,7 @@ workflow behavior in this repository.
 
 ### Component: Router and Role Resolution Engine
 - Purpose: resolve active role chain deterministically.
-- Responsibilities: map active profile -> role path -> inherited `SKILLS.MD` chain.
+- Responsibilities: map active profile -> role path -> inherited `SKILLS.md` chain.
 - Inputs: `config/context_compass_config.yaml`, `SKILLS.md`.
 - Outputs: ordered readset and role boundaries.
 - Owned State: role map and active profile config.

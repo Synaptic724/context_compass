@@ -7,7 +7,7 @@ Purpose
   `synaptic_python_developer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Activation rule
 - All paths listed below are active skills for this role.

@@ -29,9 +29,13 @@ Required flow
   in full immediately after `GEMINI.MD`.
 - Follow role `SKILLS.md` routing from:
   - `context_compass/SKILLS.md`
+  - `profiles.active_profile` in
+    `context_compass/config/context_compass_config.yaml`
   - roles map in
     `context_compass/config/context_compass_config.yaml`
   - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
+  - transient overlay role chain when
+    `runtime_state.transient_role.role` is active and unexpired
 - For first-time `new` profile setup, follow
   `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
 - Apply README policy from config:
@@ -39,13 +43,18 @@ Required flow
   - non-new profiles do not require README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
+    `agent_onboarding/default/general/SKILLS.md` plus the active profile map
+    entry from `context_compass/SKILLS.md` (and transient overlay when
+    active and unexpired).
 - Use manual source-document reads for onboarding; do not use onboarding dump
   artifacts as policy input.
+- Sliding-window compaction gate:
+  - treat compaction as triggered when
+    `runtime_state.compaction.pending_reonboard: true` OR
+    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 - Treat **Active skills** / **Required baseline skills** as mandatory reads.
   - On-demand skills are required only when the task triggers them.
 - After any compaction/handoff re-entry, complete the same full readset before

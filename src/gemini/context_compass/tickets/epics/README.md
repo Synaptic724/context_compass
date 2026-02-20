@@ -29,7 +29,8 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 
 ## How To Create An Epic (Deep, Not Minimal)
 1. Copy `context_compass/templates/epic_template.md`.
-2. Fill Metadata and keep `Status` and `Updated` current.
+2. Fill Metadata and keep `Status`, `Updated`, `Step`, and `Checkpoint`
+   current.
 3. Document Problem / Opportunity with concrete evidence and context.
 4. Write MRP Alignment as a durable, coherent core (not a quick experiment).
 5. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
@@ -42,7 +43,9 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 11. Add Epic-level Tasks like "Complete story <STORY-ID>" to make progress explicit.
 12. Fill `Applicable Anti-Patterns` with program-level checks (not full catalog).
 13. Keep `Noting Behavior` focused on cross-story tradeoffs and sequencing.
+    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
 14. Add `Artifact Links (Optional)` only when the epic tracks concrete artifacts.
+    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
 15. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) for linked artifacts.
 16. Record Risks / Mitigations, Validation plan, and Decision Log.

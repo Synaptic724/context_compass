@@ -24,7 +24,7 @@ Rules
 - If the user cares about an NFR, translate it into measurable acceptance criteria.
 - If security posture is required, route to security specialist guidance:
   - `agent_onboarding/default/general/skills/security_and_secrets.md`
-  - `agent_onboarding/default/security_engineer/SKILLS.MD` (if available/selected)
+  - `agent_onboarding/default/security_engineer/SKILLS.md` (if available/selected)
 
 References
 - `agent_onboarding/default/general/skills/unknowns_gate_reference.md`

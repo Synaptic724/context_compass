@@ -15,7 +15,7 @@ Checklist (short form)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
 4) Select working role
-   - Read `agent_onboarding/default/general/SKILLS.MD` first.
+   - Read `agent_onboarding/default/general/SKILLS.md` first.
    - Read the selected role `SKILLS.md` after baseline (for example:
      `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
      `security_engineer`, `story_designer`, `story_novel_artist`,

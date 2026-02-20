@@ -10,7 +10,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/developmental_editor/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/developmental_editor/SKILLS.md: role-specific read sequence.
 - skills/developmental_editor.md: role mission, boundaries, and artifact model.
 - skills/developmental_editor_execution.md: execution discipline and phase gates.
 - skills/developmental_editor_deliverables.md: artifact requirements and quality bars.

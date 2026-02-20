@@ -14,7 +14,7 @@ Rules
 - Only request approval after listing the skills read from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
   - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
 - Before requesting approval, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`

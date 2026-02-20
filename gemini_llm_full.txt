@@ -15,6 +15,7 @@ Scope rules
 - Tickets remain canonical memory; this board is an association index.
 - Add rows only when a ticket has one or more active artifact files.
 - Every artifact row must include a ticket path and retention decision.
+- Every artifact row must include `step` and `checkpoint`.
 
 Disposition values
 - `delete_on_close`: remove artifact when ticket closes.
@@ -22,16 +23,15 @@ Disposition values
 - `promote_to_documentation`: convert artifact into durable docs.
 
 ## Active Artifact Links
-| ticket | artifact_path | artifact_type | status | disposition | next | updated_at | reread |
-|---|---|---|---|---|---|---|---|
+| ticket | artifact_path | artifact_type | status | disposition | step | checkpoint | next | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|
 
 ## Active Artifact Details
 - none
 
 ## Recently Cleared Artifacts
-| ticket | artifact_path | disposition | reason | closed_at |
-|---|---|---|---|---|
-
+| ticket | artifact_path | step | checkpoint | disposition | reason | closed_at |
+|---|---|---|---|---|---|---|
 
 --- START OF FILE: context_compass\attention_board.md ---
 
@@ -58,16 +58,30 @@ Attention details rule
   (`YYYY-MM-DDTHH:MM:SSZ`).
 - Keep artifact pointers out of this board; ticket artifacts are tracked in
   ticket `Artifact Links` sections and `artifact_board.md`.
+- Include `STEP` and `CHECKPOINT` in active rows and attention detail entries.
 
 ## Active Items
-| work_item | status | mode | owner | blocker | next | outcome | exit_signal | ticket | updated_at | reread |
-|---|---|---|---|---|---|---|---|---|---|---|
+| work_item | status | mode | owner | blocker | next | outcome | exit_signal | ticket | step | checkpoint | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
 
 ## Active Attention Details
+- DATETIME: YYYY-MM-DDTHH:MM:SSZ
+  TYPE:
+    FACT | UNKNOWN | HYPOTHESIS | DECISION | DECISION_REQUEST | PLAN |
+    STRATEGY_DISCUSSION | ASSUMPTION_CHALLENGE | CONFLICT | TRADEOFF |
+    BLOCKER | ALIGNMENT_CHECK | MEASURE | RISK | RAISE
+  CLAIM: <short finding>
+  EVIDENCE:
+  - <path:start_line-end_line>
+  IMPACT: <why this matters>
+  NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
+  REREAD: REQUIRED | HELPFUL
 
 ## Recently Closed Anchors
-| work_item | status | owner | blocker | next | ticket | updated_at | reread |
-|---|---|---|---|---|---|---|---|
+| work_item | status | owner | blocker | next | ticket | step | checkpoint | updated_at | reread |
+|---|---|---|---|---|---|---|---|---|---|
 
 --- START OF FILE: context_compass\CONTEXT_COMPACTION.md ---
 
@@ -82,6 +96,8 @@ handed off.
 - Repository artifacts are the source of truth for durable context.
 - `attention_board.md` is the canonical active-attention state and is mandatory
   during active work.
+- `config/context_compass_config.yaml` is the canonical runtime-state source
+  for step windows, onboarding/re-onboarding state, and transient role expiry.
 - Compaction summaries MUST be empty when the runtime/platform allows empty summaries.
 - If empty summaries are not allowed, write only minimal pointer summaries:
   - high-level outcomes (no narrative replay)
@@ -102,6 +118,7 @@ Core review set (ALWAYS required) - review these files in order:
 - `CONTEXT_COMPACTION.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
+- `config/context_compass_config.yaml` `runtime_state` block
 - `SKILLS.md`
 - resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
@@ -135,6 +152,11 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
+- Update `runtime_state.step.current` continuously and keep
+  `runtime_state.step.next_reonboard_step` aligned to the configured interval.
+- Trigger `COMPACTION_EVENT` when either condition is true:
+  - `runtime_state.compaction.pending_reonboard: true`
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
 - Update `attention_board.md` during work so active items, status, blockers, and
   next actions stay current.
 - Update `artifact_board.md` when active tickets have artifacts or artifact
@@ -158,6 +180,9 @@ Read discipline (non-negotiable)
   minimal.
 - Ensure ticket `Artifact Links` sections and `artifact_board.md` stay
   synchronized when artifacts exist.
+- If `runtime_state.transient_role.role` is set, ensure
+  `runtime_state.transient_role.expires_step` is set and expires before the
+  next re-onboarding step.
 
 ## Handoff Summary Checklist
 - Current state and progress (what is done vs remaining).
@@ -177,6 +202,11 @@ After compaction/handoff, before any action:
 - The next steps are unambiguous.
 - Re-onboarding document reads were performed manually per file path (no
   loop-based/batch document reads).
+- `runtime_state.reonboarding.last` was updated for the completed re-onboard.
+- `runtime_state.reonboarding.next` was advanced to the next due step.
+- `runtime_state.compaction.pending_reonboard` was cleared.
+- transient role state was cleared when
+  `runtime_state.transient_role.clear_on_reonboard: true`.
 
 
 --- START OF FILE: context_compass\GEMINI.MD ---
@@ -225,8 +255,11 @@ After compaction/handoff, before any action:
 
 ## Compaction Directive
 
-- Highest priority adherence: after any context compaction or handoff,
+- Highest priority adherence: after any `COMPACTION_EVENT` or handoff,
   immediately re-onboard before any action.
+- `COMPACTION_EVENT` is triggered when either condition is true:
+  - `runtime_state.compaction.pending_reonboard: true`
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
 - Re-read `context_compass/GEMINI.MD` and
   `context_compass/agent_onboarding/default/general/skills/compaction_requirements.md`
   before continuing work.
@@ -250,7 +283,12 @@ After any context compaction or handoff:
 - Fresh-session startup uses ONBOARD flow, not REONBOARD flow.
 - Re-read `agent_onboarding/default/general/skills/execution_contract.md` in
   full immediately after `GEMINI.MD`.
-- Start from `config/context_compass_config.yaml`, then `SKILLS.md`.
+- Start from `config/context_compass_config.yaml`, evaluate `runtime_state`,
+  then `SKILLS.md`.
+- Resolve persistent role from `profiles.active_profile`.
+- If transient overlay is active
+  (`runtime_state.transient_role.role` set and not expired), apply it in
+  addition to persistent role reads.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
 - README reads are allowed for `new` first-time onboarding only; non-`new`
   roles use policy/skills docs.
@@ -264,6 +302,7 @@ After any context compaction or handoff:
   - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
   - `FILES_REREAD` (at minimum: `attention_board.md` + active ticket paths)
   - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
+  - `REONBOARD_STATE` (`last` + `next` from `runtime_state.reonboarding`)
   - `NO_ACTION_TAKEN_YET: true`
 
 Performative compliance is forbidden during re-onboarding:
@@ -286,12 +325,16 @@ Before any tooling, edits, or execution:
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
 - Read `SKILLS.md`.
-- When `SKILLS.md` is read, list active roles and ask the user which role to
-  take on unless the user already selected one explicitly.
-- Resolve the selected role to its `SKILLS.md` path from `SKILLS.md` and/or
-  `config/context_compass_config.yaml` (roles map).
-- Read the selected role `SKILLS.md` and all inherited parent `SKILLS.md`
+- Resolve selected role from `profiles.active_profile` in
+  `config/context_compass_config.yaml`.
+- If the user selects a different persistent role, update
+  `profiles.active_profile` and mark `runtime_state.onboarding.next.required:
+  true` with `reason: role_changed`.
+- Read the resolved role `SKILLS.md` and all inherited parent `SKILLS.md`
   files in parent-first order.
+- If transient role overlay is active and unexpired
+  (`runtime_state.transient_role.role`), read that role chain as an additional
+  overlay for the current step window.
 - Treat every path listed under **Active skills** / **Required baseline skills**
   in resolved `SKILLS.md` files as active skill docs.
   - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
@@ -318,6 +361,7 @@ Onboarding completion attestation (first onboarding in a fresh session):
   - `ONBOARD: COMPLETE`
   - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
   - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
+  - `ONBOARD_STATE` (`last` + `next` from `runtime_state.onboarding`)
   - `NO_ACTION_TAKEN_YET: true`
 
 Certification gating:
@@ -500,7 +544,7 @@ You can add subfolders under `skills/` as needed.
 Create:
 
 ```text
-context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
+context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md
 ```
 
 SKILLS.md rules:
@@ -513,7 +557,7 @@ SKILLS.md rules:
 Example:
 
 ```text
-INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD
+INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md
 agent_onboarding/user_defined/data_engineer/profile_overrides.md
 agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md
 agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md
@@ -534,7 +578,7 @@ profiles:
 
 roles_map:
   roles:
-    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
+    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 ### Step 5: Set active/default class
@@ -561,7 +605,7 @@ Run checks:
 
 ```powershell
 rg -n "data_engineer" context_compass/config/context_compass_config.yaml
-Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
+Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.md
 ```
 
 Validate `SKILLS.md` path existence (manual method):
@@ -714,10 +758,10 @@ Check:
 ## File index
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD`
+- `context_compass/agent_onboarding/default/new/SKILLS.md`
+- `context_compass/agent_onboarding/default/general/SKILLS.md`
+- `context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.md`
 - `context_compass/agent_onboarding/user_defined/`
 
 ## Final note
@@ -971,31 +1015,6 @@ MIT
 
 
 
---- START OF FILE: context_compass\router.md ---
-
-# router
-
-Purpose
-- Provide a stable, human-readable summary of profile routing authority.
-- Clarify how profile selection maps to onboarding skill chains.
-
-Routing authority (highest to lowest)
-1. `config/context_compass_config.yaml`
-2. `SKILLS.md`
-3. Resolved role `SKILLS.md` files under `agent_onboarding/`
-
-Deterministic route sequence
-1. Read runtime entrypoint policy.
-2. Read `config/context_compass_config.yaml`.
-3. Read `SKILLS.md` and select role.
-4. Resolve the role path in `router.roles`.
-5. Read inherited `SKILLS.md` chain in parent-first order.
-6. Read required baseline skills.
-7. Read on-demand skills only when a trigger condition is met.
-
-Do not use this file as policy override.
-Use it as a routing map only.
-
 --- START OF FILE: context_compass\SKILLS.md ---
 
 
@@ -1024,29 +1043,42 @@ Available roles
 - `user_defined/*`
 
 Available path map
-- `new`: `agent_onboarding/default/new/SKILLS.MD`
-- `general`: `agent_onboarding/default/general/SKILLS.MD`
-- `engineer`: `agent_onboarding/default/engineer/SKILLS.MD`
-- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.MD`
-- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `researcher`: `agent_onboarding/default/researcher/SKILLS.MD`
-- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
-- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
+- `new`: `agent_onboarding/default/new/SKILLS.md`
+- `general`: `agent_onboarding/default/general/SKILLS.md`
+- `engineer`: `agent_onboarding/default/engineer/SKILLS.md`
+- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.md`
+- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.md`
+- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.md`
+- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `researcher`: `agent_onboarding/default/researcher/SKILLS.md`
+- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.md`
+- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.md`
+- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.md`
 
 Role selection directive (non-negotiable)
-1) When this `SKILLS.md` map is read, list the available roles.
-2) Ask the user which role to take on (unless the user already selected one).
-3) Resolve the selected role to its `SKILLS.md` path from this map.
-4) Read the resolved role `SKILLS.md`.
-5) Treat the resolved role `SKILLS.md` chain as the routing manifest:
+1) Resolve the selected role from
+   `config/context_compass_config.yaml` -> `profiles.active_profile`.
+2) If the user explicitly selects a different persistent role:
+   - update `profiles.active_profile` to that role,
+   - set `runtime_state.onboarding.next.required: true`,
+   - set `runtime_state.onboarding.next.reason: role_changed`.
+3) Optional transient overlay:
+   - when `runtime_state.transient_role.role` is set and
+     `runtime_state.step.current` is below
+     `runtime_state.transient_role.expires_step`, apply transient role reads
+     in addition to `profiles.active_profile`.
+   - when setting a transient role, default
+     `runtime_state.transient_role.expires_step` to
+     `runtime_state.step.next_reonboard_step - 1`.
+   - transient overlay expires at/after `expires_step`.
+4) Resolve the role path(s) from this map.
+5) Read the resolved role `SKILLS.md`.
+6) Treat the resolved role `SKILLS.md` chain as the routing manifest:
    - You MUST read every path listed under **Active skills** / **Required baseline skills**
      in each resolved `SKILLS.md` file (parent-first).
    - **On-demand** skills are conditional: do NOT read them for certification unless a trigger condition is met.
@@ -1112,7 +1144,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - resolution_recommendations.md
 
 ## 6) References
-- agent_onboarding/default/continuity_fact_checker/SKILLS.MD
+- agent_onboarding/default/continuity_fact_checker/SKILLS.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
 - agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md
@@ -1132,7 +1164,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/continuity_fact_checker/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/continuity_fact_checker/SKILLS.md: role-specific read sequence.
 - skills/continuity_fact_checker.md: role mission, boundaries, and artifact model.
 - skills/continuity_fact_checker_execution.md: execution discipline and phase gates.
 - skills/continuity_fact_checker_deliverables.md: artifact requirements and quality bars.
@@ -1173,7 +1205,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -1497,7 +1529,7 @@ Every non-trivial design output MUST include:
   (Exact naming is flexible; consistency and linkage are mandatory.)
 
 References
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
 - `agent_onboarding/default/design_engineer/policies/design_quality_policy.md`
 - `agent_onboarding/default/design_engineer/policies/decision_record_policy.md`
 - `agent_onboarding/default/design_engineer/policies/design_review_policy.md`
@@ -1520,10 +1552,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation and engineering quality discipline)
 - Design Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Design Engineer inventory
-- `agent_onboarding/default/design_engineer/SKILLS.MD`: design-engineer-specific read sequence.
+- `agent_onboarding/default/design_engineer/SKILLS.md`: design-engineer-specific read sequence.
 - `skills/architecture_contexts.md`: architecture/components source-of-truth policy.
 - `skills/src_architecture_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_architecture.md`.
@@ -1572,7 +1604,7 @@ Purpose
 - This role is optimized for designing software engineering projects with high-quality handoff.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -1621,7 +1653,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 
 
@@ -2196,7 +2228,7 @@ Rules
 - If the user cares about an NFR, translate it into measurable acceptance criteria.
 - If security posture is required, route to security specialist guidance:
   - `agent_onboarding/default/general/skills/security_and_secrets.md`
-  - `agent_onboarding/default/security_engineer/SKILLS.MD` (if available/selected)
+  - `agent_onboarding/default/security_engineer/SKILLS.md` (if available/selected)
 
 References
 - `agent_onboarding/default/general/skills/unknowns_gate_reference.md`
@@ -2797,7 +2829,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - scene_cut_add_log.md
 
 ## 6) References
-- agent_onboarding/default/developmental_editor/SKILLS.MD
+- agent_onboarding/default/developmental_editor/SKILLS.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
 - agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md
@@ -2817,7 +2849,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/developmental_editor/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/developmental_editor/SKILLS.md: role-specific read sequence.
 - skills/developmental_editor.md: role mission, boundaries, and artifact model.
 - skills/developmental_editor_execution.md: execution discipline and phase gates.
 - skills/developmental_editor_deliverables.md: artifact requirements and quality bars.
@@ -2857,7 +2889,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -3147,7 +3179,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - rewrite_resolution_log.md
 
 ## 6) References
-- agent_onboarding/default/draft_writer/SKILLS.MD
+- agent_onboarding/default/draft_writer/SKILLS.md
 - agent_onboarding/default/draft_writer/skills/draft_writer.md
 - agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
 - agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md
@@ -3167,7 +3199,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/draft_writer/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/draft_writer/SKILLS.md: role-specific read sequence.
 - skills/draft_writer.md: role mission, boundaries, and artifact model.
 - skills/draft_writer_execution.md: execution discipline and phase gates.
 - skills/draft_writer_deliverables.md: artifact requirements and quality bars.
@@ -3208,7 +3240,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -3523,8 +3555,8 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
   `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
+* Follow `agent_onboarding/default/general/SKILLS.md` and
+  `agent_onboarding/default/engineer/SKILLS.md` as primary onboarding and execution
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
@@ -3922,12 +3954,12 @@ Purpose
 Scope rule
 - Keep only engineer-specific policy/behavior here.
 - Shared rules remain in `agent_onboarding/default/general/` and are indexed in
-  `agent_onboarding/default/general/SKILLS.MD`.
+  `agent_onboarding/default/general/SKILLS.md`.
 - Engineer extends `general` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/general/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/general/SKILLS.md`.
 
 Engineer inventory
-- `agent_onboarding/default/engineer/SKILLS.MD`: engineer-specific read sequence.
+- `agent_onboarding/default/engineer/SKILLS.md`: engineer-specific read sequence.
 - `skills/engineer_execution.md`: execution discipline for engineering work.
 - `skills/technical_expertise.md`: root-cause-first debugging discipline.
 - `skills/system_orientation.md`: system explanation flow for engineers.
@@ -3949,7 +3981,7 @@ Architecture docs ownership
 
 User-defined overlay boundary
 - Preference-heavy Python/testing/library-style rules are routed through:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md`.
 - Default engineer keeps generalized, reusable engineering guidance only.
 
 Unknowns Gate
@@ -3973,7 +4005,7 @@ Purpose
 - Define required baseline engineering skills for the `engineer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -4633,12 +4665,11 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
 * **Ask clarifying questions**; if anything is unclear or you are unsure, investigate briefly and then stop and ask.
 * **Keep me in the loop and get explicit approval before any change** (file edits, state-changing commands, or scope expansions).
 * Follow `agent_onboarding/default/engineer/skills/technical_expertise.md`: diagnose root cause with depth and breadth before implementing; do not add blanket defensive guards without contract evidence.
-* Use `router.md` and
-  `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
+* Use `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
+* Follow `agent_onboarding/default/general/SKILLS.md` and
+  `agent_onboarding/default/engineer/SKILLS.md` as primary onboarding and execution
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
@@ -5135,8 +5166,8 @@ Required behavior
   - `GEMINI.MD`
   - `config/context_compass_config.yaml`
   - `SKILLS.md`
-  - `agent_onboarding/default/general/SKILLS.MD`
-  - `agent_onboarding/default/engineer/SKILLS.MD`
+  - `agent_onboarding/default/general/SKILLS.md`
+  - `agent_onboarding/default/engineer/SKILLS.md`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 
@@ -5473,7 +5504,7 @@ Purpose
 - Defines where execution policy, narrative workflow, and examples live.
 
 Primary entrypoints
-- `agent_onboarding/default/general/SKILLS.MD`: canonical read order.
+- `agent_onboarding/default/general/SKILLS.md`: canonical read order.
 - `agent_onboarding/default/general/policies/policy_skills.md`: policy chain and execution gates.
 
 Folder map
@@ -5613,17 +5644,23 @@ Checklist (short form)
    - Read `GEMINI.MD` and any directory-local `GEMINI.MD` in scope.
 2) Read onboarding entrypoints
    - `config/context_compass_config.yaml`
+   - `config/context_compass_config.yaml` `runtime_state` block
    - `context_compass/SKILLS.md`
 3) First-time user path only (`new` profile)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
-4) Select working role
-   - Read `agent_onboarding/default/general/SKILLS.MD` first.
+4) Resolve working role
+   - Read `agent_onboarding/default/general/SKILLS.md` first.
+   - Resolve persistent role from `profiles.active_profile`.
    - Read the selected role `SKILLS.md` after baseline (for example:
      `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
      `security_engineer`, `story_designer`, `story_novel_artist`,
      `researcher`, `draft_writer`, `developmental_editor`,
      `line_copy_editor`, `continuity_fact_checker`, `proofreader`).
+   - If transient overlay is active and unexpired, read transient role chain as
+     an overlay.
+   - If user changes persistent role, update `profiles.active_profile` and mark
+     `runtime_state.onboarding.next.required: true`.
 5) Certification gate
    - Request approval before any tool usage or edits.
    - Approval must include the exact token `CERTIFY: APPROVED`.
@@ -5634,6 +5671,8 @@ Checklist (short form)
    - Re-read architecture/components docs before major work.
    - Keep `attention_board.md` current for routing and ticket notes current for
      durable findings.
+   - Trigger compaction/re-onboarding when step window is reached:
+     `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 
 References
 - `GEMINI.MD`
@@ -5737,8 +5776,11 @@ Required flow
   in full immediately after `GEMINI.MD`.
 - Follow role `SKILLS.md` routing from:
   - `context_compass/SKILLS.md`
-  - `router.roles.<selected_role>` in `context_compass/config/context_compass_config.yaml`
+  - `profiles.active_profile` in `context_compass/config/context_compass_config.yaml`
+  - `router.roles.<active_profile>` in `context_compass/config/context_compass_config.yaml`
   - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
+  - transient overlay role chain when
+    `runtime_state.transient_role.role` is active and unexpired
 - For first-time `new` profile setup, follow
   `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
 - Apply README policy from config:
@@ -5746,12 +5788,16 @@ Required flow
   - non-new profiles do not require README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
+    `agent_onboarding/default/general/SKILLS.md` plus the active profile map
+    entry from `context_compass/SKILLS.md` (and transient overlay when active).
 - Use manual source-document reads for onboarding; do not use onboarding dump artifacts as policy input.
+- Sliding-window compaction gate:
+  - treat compaction as triggered when
+    `runtime_state.compaction.pending_reonboard: true` OR
+    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 - After any compaction/handoff/fresh-session re-entry, complete the same full readset before any non-onboarding action.
 - Read `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
   and apply its active-partner + performance-engineering rules.
@@ -5878,9 +5924,13 @@ Required flow
   in full immediately after `GEMINI.MD`.
 - Follow role `SKILLS.md` routing from:
   - `context_compass/SKILLS.md`
+  - `profiles.active_profile` in
+    `context_compass/config/context_compass_config.yaml`
   - roles map in
     `context_compass/config/context_compass_config.yaml`
   - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
+  - transient overlay role chain when
+    `runtime_state.transient_role.role` is active and unexpired
 - For first-time `new` profile setup, follow
   `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
 - Apply README policy from config:
@@ -5888,13 +5938,18 @@ Required flow
   - non-new profiles do not require README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
+    `agent_onboarding/default/general/SKILLS.md` plus the active profile map
+    entry from `context_compass/SKILLS.md` (and transient overlay when
+    active and unexpired).
 - Use manual source-document reads for onboarding; do not use onboarding dump
   artifacts as policy input.
+- Sliding-window compaction gate:
+  - treat compaction as triggered when
+    `runtime_state.compaction.pending_reonboard: true` OR
+    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 - Treat **Active skills** / **Required baseline skills** as mandatory reads.
   - On-demand skills are required only when the task triggers them.
 - After any compaction/handoff re-entry, complete the same full readset before
@@ -6250,16 +6305,23 @@ When to use
 
 Required behavior
 1) Always read the shared baseline first:
-   - `agent_onboarding/default/general/SKILLS.MD`
+   - `agent_onboarding/default/general/SKILLS.md`
 2) Determine the available roles from the canonical role map:
    - `SKILLS.md` (and config roles map if present)
-3) If the user already selected a role earlier in this session:
-   - Restate the selected role explicitly.
-   - Continue onboarding using the already-resolved `SKILLS.md` chain.
-4) If the user has NOT selected a role yet:
-   - List available roles from `SKILLS.md`.
-   - Ask the user which role to take on.
-   - Resolve the selected role to its `SKILLS.md` path and continue.
+3) Resolve persistent role from:
+   - `config/context_compass_config.yaml` -> `profiles.active_profile`.
+4) If the user explicitly selects a different persistent role:
+   - update `profiles.active_profile`,
+   - set `runtime_state.onboarding.next.required: true`,
+   - set `runtime_state.onboarding.next.reason: role_changed`.
+5) If transient overlay role is active and unexpired:
+   - apply transient role chain in addition to persistent role chain.
+   - default transient expiry:
+     `runtime_state.transient_role.expires_step` =
+     `runtime_state.step.next_reonboard_step - 1`.
+   - transient overlay must expire before next re-onboarding step.
+6) Continue onboarding using resolved persistent role chain (+ transient overlay
+   when active).
 
 Role guidance (default roles)
 - `general`
@@ -6314,7 +6376,7 @@ Why skills are treated as capabilities
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 
 
@@ -6329,9 +6391,12 @@ Purpose
 - Prevent policy drift by forcing deterministic, auditable re-onboarding.
 
 Non-negotiable triggers
-- **REONBOARD** is mandatory after any context compaction or handoff.
+- **REONBOARD** is mandatory after any `COMPACTION_EVENT` or handoff.
 - **ONBOARD** is mandatory at the start of a fresh session.
 - Do not substitute ONBOARD for REONBOARD or vice-versa.
+- `COMPACTION_EVENT` trigger conditions:
+  - `runtime_state.compaction.pending_reonboard: true`, OR
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`.
 
 Non-negotiable rules
 - After a trigger event: **STOP. REONBOARD/ONBOARD. THEN ACT.**
@@ -6368,16 +6433,32 @@ Run this sequence exactly once per trigger event.
 
 1) Read `context_compass/GEMINI.MD`.
 2) Read `agent_onboarding/default/general/skills/execution_contract.md` in full.
-3) Resolve the active profile via `context_compass/SKILLS.md` (and config roles map).
-   - If the active role cannot be determined: **STOP and ask the user**.
-4) Read the resolved role `SKILLS.md` chain in parent-first order.
-5) Read every path listed under **Active skills** / **Required baseline skills**
+3) Read `config/context_compass_config.yaml` and evaluate `runtime_state`.
+4) Resolve persistent role from `profiles.active_profile` via
+   `context_compass/SKILLS.md` (and config roles map).
+   - If persistent role cannot be determined: **STOP and ask the user**.
+5) If transient overlay is active and unexpired
+   (`runtime_state.transient_role.role` is set and
+   `runtime_state.step.current < runtime_state.transient_role.expires_step`),
+   include transient role chain as overlay.
+6) Read the resolved role `SKILLS.md` chain in parent-first order.
+7) Read every path listed under **Active skills** / **Required baseline skills**
    in each resolved `SKILLS.md`.
    - On-demand skills are NOT required unless triggered by the active task.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
-6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
-7) Publish the mandatory REONBOARD attestation (below).
-8) Request certification and wait for the exact token: `CERTIFY: APPROVED`.
+8) Re-open `attention_board.md` and all active ticket(s) and verify they match.
+9) Update runtime re-onboarding state:
+   - `runtime_state.reonboarding.last` <- current step/role/checkpoint
+   - `runtime_state.reonboarding.next.required: false`
+   - `runtime_state.step.next_reonboard_step` <-
+     `runtime_state.step.current + runtime_state.step.reonboard_interval`
+   - `runtime_state.reonboarding.next.due_step` <-
+     `runtime_state.step.next_reonboard_step`
+   - `runtime_state.compaction.pending_reonboard: false`
+   - if `runtime_state.transient_role.clear_on_reonboard: true`, clear
+     transient role fields (`role`, `set_step`, `expires_step`, `checkpoint`).
+10) Publish the mandatory REONBOARD attestation (below).
+11) Request certification and wait for the exact token: `CERTIFY: APPROVED`.
 
 README policy
 - README reads are allowed only for `new` first-time onboarding.
@@ -6395,6 +6476,12 @@ FILES_REREAD:
 READ_INTEGRITY_PROOF:
 - <path>: <rule callout> -> <what this changes in my behavior>
 - <path>: <rule callout> -> <what this changes in my behavior>
+REONBOARD_STATE:
+- last.step: <step>
+- next.due_step: <step>
+TRANSIENT_ROLE_STATE:
+- role: <role|null>
+- expires_step: <step|null>
 NO_ACTION_TAKEN_YET: true
 ```
 
@@ -6409,6 +6496,7 @@ READ_INTEGRITY_PROOF (requirements)
   - Do not unilaterally shorten the proof as a convenience.
 
 Attestation contract
+- Runtime state updates in Step 9 are mandatory before attestation.
 - Emit the attestation immediately after re-onboarding and BEFORE certification.
 - Do not run tools, edit files, or execute plans before posting the attestation.
 - After posting attestation, request certification and continue only after the user replies
@@ -6522,6 +6610,8 @@ Ensure continuity and minimize lost context when a session is compacted or hande
 - Repository artifacts are the source of truth for durable context.
 - `attention_board.md` is the canonical active-attention state and is mandatory
   during active work.
+- `config/context_compass_config.yaml` is the canonical runtime-state source
+  for sliding-window compaction and re-onboarding scheduling.
 - Compaction summaries MUST be empty when the runtime/platform allows empty summaries.
 - If empty summaries are not allowed, write only minimal pointer summaries:
   - high-level outcomes (no narrative replay)
@@ -6536,6 +6626,7 @@ Core review set (ALWAYS required) - review these files in order:
 - `GEMINI.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
+- `config/context_compass_config.yaml` `runtime_state` block
 - `context_compass/SKILLS.md`
 - resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
@@ -6567,6 +6658,13 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
+- Update runtime state before and after compaction:
+  - increment `runtime_state.step.current`,
+  - trigger `COMPACTION_EVENT` when
+    `runtime_state.compaction.pending_reonboard: true` or
+    `runtime_state.step.current >= runtime_state.step.next_reonboard_step`,
+  - update `runtime_state.reonboarding.last` and `runtime_state.reonboarding.next`
+    after re-onboarding.
 - Update `attention_board.md` during work so active items, status, blockers, and
   next actions stay current.
 - Before compaction/handoff, verify `attention_board.md` is current and matches
@@ -6580,6 +6678,9 @@ Read discipline (non-negotiable)
 - Ensure status fields and checkboxes are accurate.
 - Ensure tickets carry enough state so compaction summaries can stay empty or minimal.
 - If artifacts exist: keep ticket `Artifact Links` sections and `artifact_board.md` synchronized.
+- If transient role is active, ensure
+  `runtime_state.transient_role.expires_step` is set and does not exceed the
+  next re-onboarding step.
 
 ## Handoff Summary Checklist
 - Current state and progress (what is done vs remaining).
@@ -6597,6 +6698,11 @@ After compaction, re-open the core review set and confirm:
 - The active tickets still represent the correct plan.
 - The next steps are unambiguous.
 - Re-onboarding document reads were performed manually per file path (no loop-based/batch reads).
+- `runtime_state.compaction.pending_reonboard` is cleared.
+- `runtime_state.step.next_reonboard_step` is advanced by
+  `runtime_state.step.reonboard_interval`.
+- transient role fields were cleared when
+  `runtime_state.transient_role.clear_on_reonboard: true`.
 
 
 
@@ -7253,13 +7359,16 @@ Purpose
 Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
+  - active role `SKILLS.md` path resolved from
+    `profiles.active_profile`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain for the active profile.
+  - transient overlay role chain when active and unexpired.
 - For a given trigger event, complete the readset once; do not duplicate-read
   the same onboarding set before certification unless a new
   compaction/handoff/session-reset event occurs.
@@ -7278,6 +7387,13 @@ Required flow
   - Tool logs/dumps are not proof.
 - For ONBOARD/REONBOARD attestations, keep declarations concise with
   `ROLE_SKILLS_READ` and `NO_ACTION_TAKEN_YET: true`.
+- Keep onboarding state truthful in YAML before certification:
+  - update `runtime_state.onboarding.last` / `runtime_state.onboarding.next`
+    for ONBOARD events,
+  - update `runtime_state.reonboarding.last` /
+    `runtime_state.reonboarding.next` for REONBOARD events,
+  - clear transient role fields when
+    `runtime_state.transient_role.clear_on_reonboard: true`.
 - Summarize that onboarding is complete and request approval.
 - Require the approval message to include the exact token
   `CERTIFY: APPROVED`.
@@ -7665,15 +7781,22 @@ Approval script
 Rules
 - Only request approval after listing the skills read from:
   - `context_compass/config/context_compass_config.yaml`
+  - `context_compass/config/context_compass_config.yaml` `runtime_state` block
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - `context_compass/agent_onboarding/default/general/SKILLS.md`
+  - active role `SKILLS.md` path resolved from
+    `profiles.active_profile`
 - Before requesting approval, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain for the active profile
+  - transient overlay role chain when active and unexpired
   - include read-integrity proof in the ONBOARD/REONBOARD attestation
   (concrete rule callouts -> behavior implications; not tool logs).
+- Before requesting approval, runtime state must be synchronized for the event:
+  - ONBOARD updates `runtime_state.onboarding.last`/`next`
+  - REONBOARD updates `runtime_state.reonboarding.last`/`next`
+  - REONBOARD clears transient role when configured to clear on re-onboard.
 - Do not request approval based on onboarding dump artifacts; approval requires
   source-document read completion.
 - After compaction/handoff/fresh-session re-entry, the same full-readset
@@ -7972,7 +8095,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_line_v1.md
 
 ## 6) References
-- agent_onboarding/default/line_copy_editor/SKILLS.MD
+- agent_onboarding/default/line_copy_editor/SKILLS.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
 - agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md
@@ -7992,7 +8115,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/line_copy_editor/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/line_copy_editor/SKILLS.md: role-specific read sequence.
 - skills/line_copy_editor.md: role mission, boundaries, and artifact model.
 - skills/line_copy_editor_execution.md: execution discipline and phase gates.
 - skills/line_copy_editor_deliverables.md: artifact requirements and quality bars.
@@ -8032,7 +8155,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -8363,7 +8486,7 @@ Expected completion state:
 
 References
 - `SKILLS.md`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md`
@@ -8413,7 +8536,7 @@ Agent-read policy
 
 SKILLS.md top-level sources
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.MD`
+- `context_compass/agent_onboarding/default/new/SKILLS.md`
 
 Primary onboarding docs
 - `agent_onboarding/default/new/skills/system_overview_for_user.md`
@@ -8521,7 +8644,7 @@ Purpose
 - Keep this profile user-facing and orientation-heavy, not implementation-heavy.
 
 Scope
-- Applies only when routing through `agent_onboarding/default/new/SKILLS.MD`.
+- Applies only when routing through `agent_onboarding/default/new/SKILLS.md`.
 - Ends when the user chooses and applies a default steady-state class/profile.
 
 Policy
@@ -8549,7 +8672,7 @@ Configuration authority
   - active profile selection,
   - available profile classes,
   - onboarding defaults and transitions.
-- `agent_onboarding/*/SKILLS.MD` headers are the source of truth for:
+- `agent_onboarding/*/SKILLS.md` headers are the source of truth for:
   - inheritance chain,
   - resolved parent-first read order.
 
@@ -8640,21 +8763,21 @@ Recommended defaults after onboarding
 Validation checks
 - `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
 - `Get-Content context_compass/SKILLS.md`
-- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
+- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.md`
 
 References
 - `SKILLS.md`
@@ -8743,21 +8866,21 @@ References
 - `context_compass/GEMINI.MD`
 - `context_compass/config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `agent_onboarding/default/general/SKILLS.MD`
-- `agent_onboarding/default/engineer/SKILLS.MD`
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `agent_onboarding/default/story_designer/SKILLS.MD`
-- `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `agent_onboarding/default/researcher/SKILLS.MD`
-- `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `agent_onboarding/default/proofreader/SKILLS.MD`
-- `agent_onboarding/default/new/SKILLS.MD`
+- `agent_onboarding/default/general/SKILLS.md`
+- `agent_onboarding/default/engineer/SKILLS.md`
+- `agent_onboarding/default/design_engineer/SKILLS.md`
+- `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `agent_onboarding/default/security_engineer/SKILLS.md`
+- `agent_onboarding/default/story_designer/SKILLS.md`
+- `agent_onboarding/default/story_novel_artist/SKILLS.md`
+- `agent_onboarding/default/researcher/SKILLS.md`
+- `agent_onboarding/default/draft_writer/SKILLS.md`
+- `agent_onboarding/default/developmental_editor/SKILLS.md`
+- `agent_onboarding/default/line_copy_editor/SKILLS.md`
+- `agent_onboarding/default/continuity_fact_checker/SKILLS.md`
+- `agent_onboarding/default/proofreader/SKILLS.md`
+- `agent_onboarding/default/new/SKILLS.md`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
 
 
@@ -9085,7 +9208,7 @@ Do not duplicate shared rules; reference them.
 - Avoid large "big bang" operational changes without explicit approval.
 
 References
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
+- `agent_onboarding/default/platform_engineer/SKILLS.md`
 - `agent_onboarding/default/platform_engineer/policies/production_change_management_policy.md`
 - `agent_onboarding/default/platform_engineer/policies/operational_safety_policy.md`
 
@@ -9107,10 +9230,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Platform Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Platform Engineer inventory
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`: platform-engineer-specific read sequence.
+- `agent_onboarding/default/platform_engineer/SKILLS.md`: platform-engineer-specific read sequence.
 - `skills/platform_engineer_execution.md`: platform execution discipline and artifact expectations.
 - `skills/ci_cd_and_release.md`: pipeline design and release mechanics.
 - `skills/deployment_and_environments.md`: deployment strategies, environment discipline, and rollback plans.
@@ -9146,7 +9269,7 @@ Purpose
 - This role is optimized for CI/CD, deployments, observability, and operational safety.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -9187,7 +9310,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 - Do not proceed with production-impact changes until relevant sources are read.
 
 
@@ -9571,7 +9694,7 @@ Core rules
 Escalation
 - If the task is security sensitive or involves authn/authz changes:
   - route to security specialist guidance (if selected/available):
-    `agent_onboarding/default/security_engineer/SKILLS.MD`
+    `agent_onboarding/default/security_engineer/SKILLS.md`
 
 References
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
@@ -9622,7 +9745,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_final.md
 
 ## 6) References
-- agent_onboarding/default/proofreader/SKILLS.MD
+- agent_onboarding/default/proofreader/SKILLS.md
 - agent_onboarding/default/proofreader/skills/proofreader.md
 - agent_onboarding/default/proofreader/skills/proofreader_execution.md
 - agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
@@ -9642,7 +9765,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/proofreader/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/proofreader/SKILLS.md: role-specific read sequence.
 - skills/proofreader.md: role mission, boundaries, and artifact model.
 - skills/proofreader_execution.md: execution discipline and phase gates.
 - skills/proofreader_deliverables.md: artifact requirements and quality bars.
@@ -9682,7 +9805,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -9978,7 +10101,7 @@ Do not duplicate shared rules; reference them.
   - known risks and mitigations.
 
 References
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
+- `agent_onboarding/default/qa_engineer/SKILLS.md`
 - `agent_onboarding/default/qa_engineer/policies/quality_gate_policy.md`
 
 
@@ -9999,10 +10122,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - QA Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 QA Engineer inventory
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`: QA-engineer-specific read sequence.
+- `agent_onboarding/default/qa_engineer/SKILLS.md`: QA-engineer-specific read sequence.
 - `skills/qa_engineer_execution.md`: QA execution discipline and artifacts.
 - `skills/test_strategy_and_planning.md`: how to build a test strategy for a feature/system.
 - `skills/test_case_design.md`: how to design high-signal test cases.
@@ -10038,7 +10161,7 @@ Purpose
 - This role is optimized for test strategy, test design, and release quality posture.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10079,7 +10202,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 
 
 
@@ -10503,7 +10626,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - research_open_risks.md
 
 ## 6) References
-- agent_onboarding/default/researcher/SKILLS.MD
+- agent_onboarding/default/researcher/SKILLS.md
 - agent_onboarding/default/researcher/skills/researcher.md
 - agent_onboarding/default/researcher/skills/researcher_execution.md
 - agent_onboarding/default/researcher/policies/researcher_quality_policy.md
@@ -10523,7 +10646,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/researcher/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/researcher/SKILLS.md: role-specific read sequence.
 - skills/researcher.md: role mission, boundaries, and artifact model.
 - skills/researcher_execution.md: execution discipline and phase gates.
 - skills/researcher_deliverables.md: artifact requirements and quality bars.
@@ -10565,7 +10688,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10864,7 +10987,7 @@ Do not duplicate shared rules; reference them.
 - If a security risk is accepted (not mitigated), request explicit approval and record it.
 
 References
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
+- `agent_onboarding/default/security_engineer/SKILLS.md`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 
 
@@ -10885,10 +11008,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - Security Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
 
 Security Engineer inventory
-- `agent_onboarding/default/security_engineer/SKILLS.MD`: security-engineer-specific read sequence.
+- `agent_onboarding/default/security_engineer/SKILLS.md`: security-engineer-specific read sequence.
 - `skills/security_engineer_execution.md`: security execution discipline and artifacts.
 - `skills/threat_modeling.md`: threat model method and output structure.
 - `skills/secure_architecture_review.md`: architecture review for security posture.
@@ -10926,7 +11049,7 @@ Purpose
 - This role is optimized for threat modeling, secure reviews, and vulnerability handling.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10968,7 +11091,7 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+  `agent_onboarding/default/engineer/SKILLS.md`
 
 
 
@@ -11383,7 +11506,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - design_risk_register.md
 
 ## 6) References
-- agent_onboarding/default/story_designer/SKILLS.MD
+- agent_onboarding/default/story_designer/SKILLS.md
 - agent_onboarding/default/story_designer/skills/story_designer.md
 - agent_onboarding/default/story_designer/skills/story_designer_execution.md
 - agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md
@@ -11403,7 +11526,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/story_designer/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/story_designer/SKILLS.md: role-specific read sequence.
 - skills/story_designer.md: role mission, boundaries, and artifact model.
 - skills/story_designer_execution.md: execution discipline and phase gates.
 - skills/story_designer_deliverables.md: artifact requirements and quality bars.
@@ -11446,7 +11569,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -11747,7 +11870,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - visual_canon_risk_log.md
 
 ## 6) References
-- agent_onboarding/default/story_novel_artist/SKILLS.MD
+- agent_onboarding/default/story_novel_artist/SKILLS.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
 - agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md
@@ -11767,7 +11890,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/story_novel_artist/SKILLS.MD: role-specific read sequence.
+- agent_onboarding/default/story_novel_artist/SKILLS.md: role-specific read sequence.
 - skills/story_novel_artist.md: role mission, boundaries, and artifact model.
 - skills/story_novel_artist_execution.md: execution discipline and phase gates.
 - skills/story_novel_artist_deliverables.md: artifact requirements and quality bars.
@@ -11810,7 +11933,7 @@ Purpose
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -12085,7 +12208,7 @@ Purpose
 - Define a sample user-defined profile for data engineering work.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Active skills
 - `agent_onboarding/user_defined/data_engineer/profile_overrides.md`
@@ -12475,9 +12598,9 @@ Purpose
 Resolved inheritance
 - `general` -> `engineer` -> `synaptic_python_developer`
 - Source of truth:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` header
-  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD` and
-  the engineer header chain to `agent_onboarding/default/general/SKILLS.MD`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md` header
+  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md` and
+  the engineer header chain to `agent_onboarding/default/general/SKILLS.md`.
 
 Overlay scope
 - User-preference collaboration tone and engagement style.
@@ -12521,7 +12644,7 @@ Overlay docs
 
 SKILLS.md top-level sources
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
+- `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md`
 
 
 
@@ -12537,7 +12660,7 @@ Purpose
   `synaptic_python_developer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
 
 Activation rule
 - All paths listed below are active skills for this role.
@@ -14281,10 +14404,11 @@ Flow
 - Epic, story, and task all include the same artifact path.
 
 3. Capture rationale
-- Add `DECISION`, `EVIDENCE`, and `NEXT` note fields in linked tickets.
+- Add `DECISION`, `EVIDENCE`, `NEXT`, `STEP`, and `CHECKPOINT` note fields in linked tickets.
 
 4. Apply disposition
-- Keep as `retain_as_reference` unless a later docs policy changes it.
+- Keep as `retain_as_reference` unless a later docs policy changes it, and keep
+  `artifact_board.md` rows aligned with `step` and `checkpoint`.
 
 Expected outcome
 - Any reader can reconstruct why the artifact exists and how it supports ticket closure.
@@ -14886,7 +15010,7 @@ files from this package.
 - Responsibilities: read `SKILLS.md`, resolve role path, enforce parent-first
   chain.
 - Inputs: `config/context_compass_config.yaml`, role map in `SKILLS.md`.
-- Outputs: ordered `SKILLS.MD` read chain.
+- Outputs: ordered `SKILLS.md` read chain.
 - Owned State: profile + role map definitions.
 - Invariants/Guarantees: deterministic chain order and explicit path mapping.
 - Failure Modes: bad mapping path, stale references.
@@ -15065,6 +15189,8 @@ Use this structure when mapping real test components.
 - Priority: p1
 - Created: 2026-02-19T00:00:00Z
 - Updated: 2026-02-19T03:10:00Z
+- Step: STEP-2026-02-19-epic-release-readiness-review
+- Checkpoint: CHK-2026-02-19-release-readiness-docs
 - Target Window: 2026-Q1
 - Related Program/Initiative: public-library-release-hardening
 
@@ -15150,6 +15276,8 @@ compaction-safe handoff notes.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- STEP: STEP-2026-02-19-epic-artifact-link
+- CHECKPOINT: CHK-2026-02-19-release-readiness-artifact-linked
 - CLEANUP_TRIGGER: next docs refresh cycle.
 
 ## Notes
@@ -15161,6 +15289,8 @@ compaction-safe handoff notes.
   - `examples/adr_example.md:1-20`
   IMPACT: poor onboarding and weak handoff reliability.
   NEXT: replace with complete repo-based examples.
+  STEP: STEP-2026-02-19-epic-gap-assessment
+  CHECKPOINT: CHK-2026-02-19-release-readiness-gap-scan
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:10:00Z
@@ -15172,6 +15302,8 @@ compaction-safe handoff notes.
   - `examples/repo_overview.md:1-130`
   IMPACT: public users can follow a complete, repo-native workflow.
   NEXT: request user acceptance and close.
+  STEP: STEP-2026-02-19-epic-example-chain-verification
+  CHECKPOINT: CHK-2026-02-19-release-readiness-example-chain
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 
@@ -15199,6 +15331,8 @@ Story and task are complete; only user acceptance remains for closure.
 - Priority: p1
 - Created: 2026-02-19T01:20:00Z
 - Updated: 2026-02-19T03:10:00Z
+- Step: STEP-2026-02-19-story-release-readiness-closure
+- Checkpoint: CHK-2026-02-19-story-release-readiness
 
 ## User Narrative
 As a maintainer preparing this package for public use, I want a realistic,
@@ -15275,6 +15409,8 @@ repo-grounded pattern that can survive compaction and handoff.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- STEP: STEP-2026-02-19-story-artifact-link
+- CHECKPOINT: CHK-2026-02-19-story-artifact-linked
 - CLEANUP_TRIGGER: next major docs refresh.
 
 ## Notes
@@ -15286,6 +15422,8 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md:1-40`
   IMPACT: no end-to-end story-level onboarding reference.
   NEXT: create full story/task pair and link artifact.
+  STEP: STEP-2026-02-19-story-gap-assessment
+  CHECKPOINT: CHK-2026-02-19-story-gap-scan
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:10:00Z
@@ -15297,6 +15435,8 @@ repo-grounded pattern that can survive compaction and handoff.
   - `examples/repo_overview.md:1-130`
   IMPACT: repo now contains a complete sample workflow chain.
   NEXT: await user acceptance.
+  STEP: STEP-2026-02-19-story-deliverable-verification
+  CHECKPOINT: CHK-2026-02-19-story-example-chain
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 
@@ -15322,6 +15462,8 @@ Pending final user acceptance for closure.
 - Priority: p1
 - Created: 2026-02-19T01:40:00Z
 - Updated: 2026-02-19T03:12:00Z
+- Step: STEP-2026-02-19-task-release-readiness-closure
+- Checkpoint: CHK-2026-02-19-task-release-readiness
 
 ## Objective
 Build a complete, template-quality example workflow using this repository as the
@@ -15418,6 +15560,8 @@ and upgraded architecture/component docs.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
+- STEP: STEP-2026-02-19-task-artifact-link
+- CHECKPOINT: CHK-2026-02-19-task-artifact-linked
 - CLEANUP_TRIGGER: next docs refresh cycle.
 
 ## Notes
@@ -15429,6 +15573,8 @@ and upgraded architecture/component docs.
   - `templates/task_template.md:1-103`
   IMPACT: users lacked a credible task-level reference.
   NEXT: replace with full task + story chain.
+  STEP: STEP-2026-02-19-task-template-gap-assessment
+  CHECKPOINT: CHK-2026-02-19-task-gap-scan
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T02:25:00Z
@@ -15440,6 +15586,8 @@ and upgraded architecture/component docs.
   - `examples/adr_example.md:1-20`
   IMPACT: inconsistent onboarding path.
   NEXT: rewrite to repo-based files.
+  STEP: STEP-2026-02-19-task-flow-alignment
+  CHECKPOINT: CHK-2026-02-19-task-flow-docs-aligned
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:12:00Z
@@ -15451,6 +15599,8 @@ and upgraded architecture/component docs.
   - `system_docs/src_components.md:1-200`
   IMPACT: package now has a usable release-readiness workflow example.
   NEXT: request user acceptance and close.
+  STEP: STEP-2026-02-19-task-deliverable-verification
+  CHECKPOINT: CHK-2026-02-19-task-example-chain
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 
@@ -15530,7 +15680,7 @@ Layer 1: Bootstrap and guardrails
 - Entry documents enforce mandatory onboarding and certification gates.
 
 Layer 2: Router and role-chain resolution
-- Profile + role map resolve the active `SKILLS.MD` chain in parent-first order.
+- Profile + role map resolve the active `SKILLS.md` chain in parent-first order.
 
 Layer 3: Ticket microcycle execution
 - Work runs through investigate -> document -> plan -> implement -> validate
@@ -15550,7 +15700,7 @@ Layer 4: Closure and continuity
 2. Read execution contract and compaction requirements.
 3. Read `config/context_compass_config.yaml`.
 4. Read top-level `SKILLS.md` and resolve role.
-5. Read resolved role-chain `SKILLS.MD` files in parent-first order.
+5. Read resolved role-chain `SKILLS.md` files in parent-first order.
 6. Confirm certification approval.
 7. Route to active ticket via `attention_board.md`.
 8. Execute ticket microcycle with evidence-backed notes.
@@ -15708,7 +15858,7 @@ workflow behavior in this repository.
 
 ### Component: Router and Role Resolution Engine
 - Purpose: resolve active role chain deterministically.
-- Responsibilities: map active profile -> role path -> inherited `SKILLS.MD` chain.
+- Responsibilities: map active profile -> role path -> inherited `SKILLS.md` chain.
 - Inputs: `config/context_compass_config.yaml`, `SKILLS.md`.
 - Outputs: ordered readset and role boundaries.
 - Owned State: role map and active profile config.
@@ -16055,6 +16205,8 @@ Next reader should replace estimated ranges with exact measured ranges.
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Step:
+- Checkpoint:
 - Target Window: <e.g., 2026-Q1>
 - Related Program/Initiative:
 
@@ -16140,6 +16292,8 @@ Next reader should replace estimated ranges with exact measured ranges.
 - ARTIFACT_PATHS:
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
+- STEP:
+- CHECKPOINT:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Notes
@@ -16154,6 +16308,8 @@ Next reader should replace estimated ranges with exact measured ranges.
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
@@ -16166,11 +16322,11 @@ Next reader should replace estimated ranges with exact measured ranges.
 - Note focus: program-level direction, cross-story tradeoffs, and tranche order.
 - Add notes when priorities, sequencing, or scope boundaries change.
 - Reference story/task evidence instead of duplicating tactical execution logs.
+- Include `STEP` and `CHECKPOINT` in every note entry.
 - Keep notes append-only and preserve UNKNOWN-first promotion discipline.
 
 ## Context / Handoff Summary
 <Succinct summary of current state, key decisions, and next steps for future context.>
-
 
 
 
@@ -16188,6 +16344,8 @@ Next reader should replace estimated ranges with exact measured ranges.
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Step:
+- Checkpoint:
 
 ## User Narrative
 As a <user/persona>, I want <capability>, so that <outcome>.
@@ -16254,6 +16412,8 @@ As a <user/persona>, I want <capability>, so that <outcome>.
 - ARTIFACT_PATHS:
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
+- STEP:
+- CHECKPOINT:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Notes
@@ -16268,6 +16428,8 @@ As a <user/persona>, I want <capability>, so that <outcome>.
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
@@ -16280,11 +16442,11 @@ As a <user/persona>, I want <capability>, so that <outcome>.
 - Note focus: cross-task synthesis, dependency flow, and state-transition logic.
 - Add notes when task routing changes, gate decisions are made, or risks shift.
 - Reference child-task notes for evidence instead of duplicating tactical detail.
+- Include `STEP` and `CHECKPOINT` in every note entry.
 - Keep notes append-only and preserve UNKNOWN-first promotion discipline.
 
 ## Context / Handoff Summary
 <Succinct summary of current state, key decisions, and next steps for future context.>
-
 
 
 
@@ -16302,6 +16464,8 @@ As a <user/persona>, I want <capability>, so that <outcome>.
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
+- Step:
+- Checkpoint:
 
 ## Objective
 <Define the smallest meaningful outcome this task delivers.>
@@ -16366,12 +16530,15 @@ As a <user/persona>, I want <capability>, so that <outcome>.
 - ARTIFACT_PATHS:
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
+- STEP:
+- CHECKPOINT:
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Noting Behavior
 - Note focus: tactical findings, concrete impacts, and single-step continuation.
 - Add a `## Notes` entry after each meaningful finding before continuing.
 - Keep notes append-only; correct history only for factual errors.
+- Include `STEP` and `CHECKPOINT` in every note entry.
 - Promote `UNKNOWN` to `FACT` only with direct evidence pointers.
 
 ## Notes
@@ -16386,12 +16553,13 @@ As a <user/persona>, I want <capability>, so that <outcome>.
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
+  STEP: <STEP-ID>
+  CHECKPOINT: <CHECKPOINT-ID | none>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 
 ## Context / Handoff Summary
 <Succinct summary of current state, key decisions, and next steps for future context.>
-
 
 
 --- START OF FILE: context_compass\tickets\README.md ---
@@ -16454,7 +16622,8 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 
 ## How To Create An Epic (Deep, Not Minimal)
 1. Copy `context_compass/templates/epic_template.md`.
-2. Fill Metadata and keep `Status` and `Updated` current.
+2. Fill Metadata and keep `Status`, `Updated`, `Step`, and `Checkpoint`
+   current.
 3. Document Problem / Opportunity with concrete evidence and context.
 4. Write MRP Alignment as a durable, coherent core (not a quick experiment).
 5. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
@@ -16467,7 +16636,9 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 11. Add Epic-level Tasks like "Complete story <STORY-ID>" to make progress explicit.
 12. Fill `Applicable Anti-Patterns` with program-level checks (not full catalog).
 13. Keep `Noting Behavior` focused on cross-story tradeoffs and sequencing.
+    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
 14. Add `Artifact Links (Optional)` only when the epic tracks concrete artifacts.
+    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
 15. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) for linked artifacts.
 16. Record Risks / Mitigations, Validation plan, and Decision Log.
@@ -16524,7 +16695,7 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 
 ## How To Create A Story (Deep, Not Minimal)
 1. Copy `context_compass/templates/story_template.md`.
-2. Link the story to its epic in Metadata.
+2. Link the story to its epic in Metadata and set `Step` + `Checkpoint`.
 3. Write a precise User Narrative with a concrete outcome.
 4. Explain Value / MRP Alignment with system-level impact.
 5. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
@@ -16537,8 +16708,10 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 11. Add Validation / Test Plan and any UX/API/Data notes.
 12. Fill `Applicable Anti-Patterns` with lane-specific checks (not full catalog).
 13. Keep `Noting Behavior` aligned to cross-task synthesis notes.
+    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
 14. Add `Artifact Links (Optional)` when story work produces supporting
     artifacts.
+    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
 15. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) for linked artifacts.
 16. Record Risks / Mitigations, Decision Log, and keep Context / Handoff
@@ -16595,7 +16768,7 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
 
 ## How To Create A Task (Deep, Not Minimal)
 1. Copy `context_compass/templates/task_template.md`.
-2. Link the task to its story in Metadata.
+2. Link the task to its story in Metadata and set `Step` + `Checkpoint`.
 3. Write a concrete Objective that defines the smallest meaningful outcome.
 4. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
    `DEPENDENCIES`, `EXIT_GATE`, `FAILURE_ESCALATION`).
@@ -16609,7 +16782,9 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
     full catalog).
 12. Keep `Noting Behavior` aligned to tactical task-level notes and update
     `## Notes` on each meaningful finding.
+    Include `STEP` and `CHECKPOINT` in every `## Notes` entry.
 13. Add `Artifact Links (Optional)` when the task creates supporting artifacts.
+    Include `STEP` and `CHECKPOINT` in the artifact link block when used.
 14. Record artifact disposition (`delete_on_close`, `retain_as_reference`, or
     `promote_to_documentation`) and closure trigger for each linked artifact.
 15. Complete the Done Checklist and keep Context / Handoff Summary current.

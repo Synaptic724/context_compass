@@ -42,8 +42,11 @@
 
 ## Compaction Directive
 
-- Highest priority adherence: after any context compaction or handoff,
+- Highest priority adherence: after any `COMPACTION_EVENT` or handoff,
   immediately re-onboard before any action.
+- `COMPACTION_EVENT` is triggered when either condition is true:
+  - `runtime_state.compaction.pending_reonboard: true`
+  - `runtime_state.step.current >= runtime_state.step.next_reonboard_step`
 - Re-read `context_compass/GEMINI.MD` and
   `context_compass/agent_onboarding/default/general/skills/compaction_requirements.md`
   before continuing work.
@@ -67,7 +70,12 @@ After any context compaction or handoff:
 - Fresh-session startup uses ONBOARD flow, not REONBOARD flow.
 - Re-read `agent_onboarding/default/general/skills/execution_contract.md` in
   full immediately after `GEMINI.MD`.
-- Start from `config/context_compass_config.yaml`, then `SKILLS.md`.
+- Start from `config/context_compass_config.yaml`, evaluate `runtime_state`,
+  then `SKILLS.md`.
+- Resolve persistent role from `profiles.active_profile`.
+- If transient overlay is active
+  (`runtime_state.transient_role.role` set and not expired), apply it in
+  addition to persistent role reads.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
 - README reads are allowed for `new` first-time onboarding only; non-`new`
   roles use policy/skills docs.
@@ -81,6 +89,7 @@ After any context compaction or handoff:
   - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
   - `FILES_REREAD` (at minimum: `attention_board.md` + active ticket paths)
   - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
+  - `REONBOARD_STATE` (`last` + `next` from `runtime_state.reonboarding`)
   - `NO_ACTION_TAKEN_YET: true`
 
 Performative compliance is forbidden during re-onboarding:
@@ -103,12 +112,16 @@ Before any tooling, edits, or execution:
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
 - Read `SKILLS.md`.
-- When `SKILLS.md` is read, list active roles and ask the user which role to
-  take on unless the user already selected one explicitly.
-- Resolve the selected role to its `SKILLS.md` path from `SKILLS.md` and/or
-  `config/context_compass_config.yaml` (roles map).
-- Read the selected role `SKILLS.md` and all inherited parent `SKILLS.md`
+- Resolve selected role from `profiles.active_profile` in
+  `config/context_compass_config.yaml`.
+- If the user selects a different persistent role, update
+  `profiles.active_profile` and mark `runtime_state.onboarding.next.required:
+  true` with `reason: role_changed`.
+- Read the resolved role `SKILLS.md` and all inherited parent `SKILLS.md`
   files in parent-first order.
+- If transient role overlay is active and unexpired
+  (`runtime_state.transient_role.role`), read that role chain as an additional
+  overlay for the current step window.
 - Treat every path listed under **Active skills** / **Required baseline skills**
   in resolved `SKILLS.md` files as active skill docs.
   - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
@@ -135,6 +148,7 @@ Onboarding completion attestation (first onboarding in a fresh session):
   - `ONBOARD: COMPLETE`
   - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
   - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
+  - `ONBOARD_STATE` (`last` + `next` from `runtime_state.onboarding`)
   - `NO_ACTION_TAKEN_YET: true`
 
 Certification gating:
