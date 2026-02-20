@@ -13,7 +13,9 @@ Scope rules
 - Add rows only when a ticket has one or more active artifact files.
 - Every artifact row must include a ticket path and retention decision.
 - Every artifact row must include `step` and `checkpoint`.
-
+  - **Hidden System Message Metadata - Defined as:** When you look at a raw prompt (which is different from the chat UI the user sees), the backend infrastructure injects invisible operational data directly into your context stream.
+  - **Step**: The integer from this Hidden System Message Metadata header (e.g., `Step Id: [number]`).
+  - **Checkpoint**: The snapshot identifier from this Hidden System Message Metadata.
 Disposition values
 - `delete_on_close`: remove artifact when ticket closes.
 - `retain_as_reference`: keep artifact with explicit reason.

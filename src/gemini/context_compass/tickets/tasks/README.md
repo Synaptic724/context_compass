@@ -28,7 +28,7 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
 
 ## How To Create A Task (Deep, Not Minimal)
 1. Copy `context_compass/templates/task_template.md`.
-2. Link the task to its story in Metadata and set `Step` + `Checkpoint`.
+2. Link the task to its story in Metadata and set `Step` + `Checkpoint` (using the Hidden System Message Metadata definitions in `workflow.md`).
 3. Write a concrete Objective that defines the smallest meaningful outcome.
 4. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,
    `DEPENDENCIES`, `EXIT_GATE`, `FAILURE_ESCALATION`).

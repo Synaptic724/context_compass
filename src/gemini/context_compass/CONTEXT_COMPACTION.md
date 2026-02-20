@@ -34,6 +34,7 @@ Core review set (ALWAYS required) - review these files in order:
 - `config/context_compass_config.yaml` `runtime_state` block
 - `SKILLS.md`
 - resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `agent_onboarding/default/general/skills/yaml_state_management.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
@@ -65,7 +66,7 @@ Read discipline (non-negotiable)
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
 
 ## Required Updates
-- Update `runtime_state.step.current` continuously and keep
+- Sync `runtime_state.step.current` to match your current Hidden System Message Metadata (the injected 'Step Id') before handoff, and keep
   `runtime_state.step.next_reonboard_step` aligned to the configured interval.
 - Trigger `COMPACTION_EVENT` when either condition is true:
   - `runtime_state.compaction.pending_reonboard: true`

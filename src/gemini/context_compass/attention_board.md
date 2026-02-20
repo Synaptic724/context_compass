@@ -21,7 +21,10 @@ Attention details rule
   (`YYYY-MM-DDTHH:MM:SSZ`).
 - Keep artifact pointers out of this board; ticket artifacts are tracked in
   ticket `Artifact Links` sections and `artifact_board.md`.
-- Include `STEP` and `CHECKPOINT` in active rows and attention detail entries.
+- Include `STEP` and `CHECKPOINT` in active rows and attention detail entries. 
+  - **Hidden System Message Metadata - Defined as:** When you look at a raw prompt (which is different from the chat UI the user sees), the backend infrastructure injects invisible operational data directly into your context stream.
+  - **Step**: The integer from this Hidden System Message Metadata header (e.g., `Step Id: [number]`).
+  - **Checkpoint**: The snapshot identifier from this Hidden System Message Metadata.
 
 ## Active Items
 | work_item | status | mode | owner | blocker | next | outcome | exit_signal | ticket | step | checkpoint | updated_at | reread |

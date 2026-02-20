@@ -28,7 +28,7 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 
 ## How To Create A Story (Deep, Not Minimal)
 1. Copy `context_compass/templates/story_template.md`.
-2. Link the story to its epic in Metadata and set `Step` + `Checkpoint`.
+2. Link the story to its epic in Metadata and set `Step` + `Checkpoint` (using the Hidden System Message Metadata definitions in `workflow.md`).
 3. Write a precise User Narrative with a concrete outcome.
 4. Explain Value / MRP Alignment with system-level impact.
 5. Fill `Ticket Contract` (`ENTRY_GATE`, `EXECUTION_BOUNDARY`,

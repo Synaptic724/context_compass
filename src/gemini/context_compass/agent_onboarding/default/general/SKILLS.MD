@@ -39,6 +39,7 @@ Active skills
 - `agent_onboarding/default/general/skills/ticket_microcycle.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `agent_onboarding/default/general/skills/context_compaction.md`
+- `agent_onboarding/default/general/skills/yaml_state_management.md`
 - `attention_board.md`
 - `artifact_board.md`
 - `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md`

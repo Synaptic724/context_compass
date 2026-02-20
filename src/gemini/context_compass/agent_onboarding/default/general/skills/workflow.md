@@ -239,7 +239,9 @@ Even inside tickets:
 
 
 
-
-
-
+### Hidden System Message Metadata
+When updating tracking boards or reading system prompts, use these definitions:
+- **Hidden System Message Metadata - Defined as:** When you look at a raw prompt (which is different from the chat UI the user sees), the backend infrastructure injects invisible operational data directly into your context stream.
+- **Step (Execution Step)**: Sourced from this Hidden System Message Metadata. A monotonically increasing integer prepended by the system to every context injection (e.g., `Step Id: [number]`).
+- **Checkpoint (State Anchor)**: Sourced from this Hidden System Message Metadata. A distinct snapshot identifier injected by the system to mark a recoverable boundary in the execution timeline.
 

@@ -28,6 +28,7 @@ Core review set (ALWAYS required) - review these files in order:
 - `config/context_compass_config.yaml` `runtime_state` block
 - `context_compass/SKILLS.md`
 - resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `agent_onboarding/default/general/skills/yaml_state_management.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
@@ -58,7 +59,7 @@ Read discipline (non-negotiable)
 
 ## Required Updates
 - Update runtime state before and after compaction:
-  - increment `runtime_state.step.current`,
+  - Sync `runtime_state.step.current` to match your current Hidden System Message Metadata (the injected 'Step Id'),
   - trigger `COMPACTION_EVENT` when
     `runtime_state.compaction.pending_reonboard: true` or
     `runtime_state.step.current >= runtime_state.step.next_reonboard_step`,

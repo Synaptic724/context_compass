@@ -3,8 +3,8 @@ version: 1
 runtime_state:
   step:
     current: 0
-    reonboard_interval: 100
-    next_reonboard_step: 100
+    reonboard_interval: 400
+    next_reonboard_step: 400
   compaction:
     mode: sliding_window
     pending_reonboard: false

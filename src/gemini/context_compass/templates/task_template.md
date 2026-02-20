@@ -10,8 +10,8 @@
 - Priority: p0 | p1 | p2 | p3
 - Created: YYYY-MM-DDTHH:MM:SSZ
 - Updated: YYYY-MM-DDTHH:MM:SSZ
-- Step:
-- Checkpoint:
+- Step: <!-- Sourced from the Hidden System Message Metadata (e.g., 'Step Id: [num]') -->
+- Checkpoint: <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
 
 ## Objective
 <Define the smallest meaningful outcome this task delivers.>
@@ -77,14 +77,14 @@
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
 - STEP:
-- CHECKPOINT:
+- CHECKPOINT: <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
 
 ## Noting Behavior
 - Note focus: tactical findings, concrete impacts, and single-step continuation.
 - Add a `## Notes` entry after each meaningful finding before continuing.
 - Keep notes append-only; correct history only for factual errors.
-- Include `STEP` and `CHECKPOINT` in every note entry.
+- Include `STEP` and `CHECKPOINT` from the Hidden System Message Metadata in every note entry.
 - Promote `UNKNOWN` to `FACT` only with direct evidence pointers.
 
 ## Notes
@@ -100,7 +100,7 @@
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
   STEP: <STEP-ID>
-  CHECKPOINT: <CHECKPOINT-ID | none>
+  CHECKPOINT: <CHECKPOINT-ID | none> <!-- Sourced from the Hidden System Message Metadata snapshot ID -->
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 

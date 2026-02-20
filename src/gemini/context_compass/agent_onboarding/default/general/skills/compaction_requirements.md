@@ -64,7 +64,7 @@ Run this sequence exactly once per trigger event.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
 8) Re-open `attention_board.md` and all active ticket(s) and verify they match.
 9) Update runtime re-onboarding state:
-   - `runtime_state.reonboarding.last` <- current step/role/checkpoint
+   - `runtime_state.reonboarding.last` <- current step/role/checkpoint (derived from Hidden System Message Metadata, not chat memory)
    - `runtime_state.reonboarding.next.required: false`
    - `runtime_state.step.next_reonboard_step` <-
      `runtime_state.step.current + runtime_state.step.reonboard_interval`

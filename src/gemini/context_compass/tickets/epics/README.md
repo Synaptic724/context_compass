@@ -29,7 +29,7 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 
 ## How To Create An Epic (Deep, Not Minimal)
 1. Copy `context_compass/templates/epic_template.md`.
-2. Fill Metadata and keep `Status`, `Updated`, `Step`, and `Checkpoint`
+2. Fill Metadata and keep `Status`, `Updated`, `Step`, and `Checkpoint` (using the Hidden System Message Metadata definitions in `workflow.md`)
    current.
 3. Document Problem / Opportunity with concrete evidence and context.
 4. Write MRP Alignment as a durable, coherent core (not a quick experiment).

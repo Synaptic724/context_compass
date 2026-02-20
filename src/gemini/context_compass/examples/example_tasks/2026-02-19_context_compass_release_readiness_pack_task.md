@@ -8,8 +8,8 @@
 - Priority: p1
 - Created: 2026-02-19T01:40:00Z
 - Updated: 2026-02-19T03:12:00Z
-- Step: STEP-2026-02-19-task-release-readiness-closure
-- Checkpoint: CHK-2026-02-19-task-release-readiness
+- Step: 42 <!-- Uses the integer from the hidden 'Step Id:' system header -->
+- Checkpoint: chk-20260219-a1b2c3d4 <!-- Uses the snapshot ID provided by the system -->
 
 ## Objective
 Build a complete, template-quality example workflow using this repository as the
@@ -106,8 +106,8 @@ and upgraded architecture/component docs.
 - ARTIFACT_PATHS:
   - `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 - DISPOSITION: retain_as_reference
-- STEP: STEP-2026-02-19-task-artifact-link
-- CHECKPOINT: CHK-2026-02-19-task-artifact-linked
+- STEP: 44
+- CHECKPOINT: chk-20260219-e5f6g7h8
 - CLEANUP_TRIGGER: next docs refresh cycle.
 
 ## Notes
@@ -119,8 +119,8 @@ and upgraded architecture/component docs.
   - `templates/task_template.md:1-103`
   IMPACT: users lacked a credible task-level reference.
   NEXT: replace with full task + story chain.
-  STEP: STEP-2026-02-19-task-template-gap-assessment
-  CHECKPOINT: CHK-2026-02-19-task-gap-scan
+  STEP: 46
+  CHECKPOINT: chk-20260219-i9j0k1l2
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T02:25:00Z
@@ -132,8 +132,8 @@ and upgraded architecture/component docs.
   - `examples/adr_example.md:1-20`
   IMPACT: inconsistent onboarding path.
   NEXT: rewrite to repo-based files.
-  STEP: STEP-2026-02-19-task-flow-alignment
-  CHECKPOINT: CHK-2026-02-19-task-flow-docs-aligned
+  STEP: 48
+  CHECKPOINT: chk-20260219-m3n4o5p6
   REREAD: REQUIRED
   SCORE_0_TO_10: 9
 - DATETIME: 2026-02-19T03:12:00Z
@@ -145,8 +145,8 @@ and upgraded architecture/component docs.
   - `system_docs/src_components.md:1-200`
   IMPACT: package now has a usable release-readiness workflow example.
   NEXT: request user acceptance and close.
-  STEP: STEP-2026-02-19-task-deliverable-verification
-  CHECKPOINT: CHK-2026-02-19-task-example-chain
+  STEP: 50
+  CHECKPOINT: chk-20260219-q7r8s9t0
   REREAD: HELPFUL
   SCORE_0_TO_10: 9
 
