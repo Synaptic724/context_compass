@@ -6,7 +6,7 @@ Purpose
 - This role is optimized for designing software engineering projects with high-quality handoff.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -25,6 +25,10 @@ Rules
 Required baseline skills
 - `agent_onboarding/default/design_engineer/AGENTS.MD`
 - `agent_onboarding/default/design_engineer/skills/architecture_contexts.md`
+- `agent_onboarding/default/design_engineer/skills/patch_framework_design.md`
+- `agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md`
+- `agent_onboarding/default/design_engineer/skills/component_patch_contracts.md`
+- `agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
 - `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
@@ -55,6 +59,6 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.md`
+  `agent_onboarding/default/engineer/SKILLS.MD`
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 

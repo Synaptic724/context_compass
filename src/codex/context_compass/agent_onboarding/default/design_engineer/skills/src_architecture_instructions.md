@@ -21,7 +21,11 @@
 - `context_compass/system_docs/src_components.md`
 - `context_compass/system_docs/tests_architecture.md`
 - `context_compass/system_docs/tests_components.md`
+- `context_compass/system_docs/patches/active/<patch_id>/architecture_patch.md`
+  (when patch lane is active)
 - `context_compass/agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
+- `context_compass/agent_onboarding/default/design_engineer/skills/patch_framework_design.md`
+- `context_compass/agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md`
 - Active ticket and `context_compass/attention_board.md` route
 
 ## Unknowns Gate (Non-Negotiable)
@@ -76,7 +80,9 @@ target in `## Unknowns`.
 8. Capture invariants and failure modes with source evidence.
 9. Build C1 core map with line ranges, LOC, and verification timestamps.
 10. Refresh diagrams to match narrative and naming.
-11. Refresh `Information Sources` and `Context / Handoff Summary`.
+11. If patch lane is active, verify architecture patch updates are complete and
+    linked in tickets.
+12. Refresh `Information Sources` and `Context / Handoff Summary`.
 
 Do not skip sequence order. If blocked, write a `BLOCKER` note in the active
 ticket before expanding scope.
@@ -101,6 +107,7 @@ Pass only when all checks are true:
 - Invariants/failure modes changed.
 - C1 line ranges became stale from code edits.
 - `src_components.md` introduces term/boundary changes.
+- Active `architecture_patch.md` changed for the same patch id.
 
 ## Anti-Patterns (Reject)
 - Placeholder claims without evidence.
@@ -113,5 +120,3 @@ Pass only when all checks are true:
   - what changed,
   - what remains unknown,
   - where the next reader should start.
-
-

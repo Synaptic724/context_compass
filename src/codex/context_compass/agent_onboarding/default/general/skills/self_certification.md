@@ -9,7 +9,7 @@ Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
-  - `context_compass/agent_onboarding/default/general/SKILLS.md`
+  - `context_compass/agent_onboarding/default/general/SKILLS.MD`
   - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`

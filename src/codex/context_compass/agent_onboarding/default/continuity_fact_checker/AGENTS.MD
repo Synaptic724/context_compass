@@ -40,7 +40,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - resolution_recommendations.md
 
 ## 6) References
-- agent_onboarding/default/continuity_fact_checker/SKILLS.md
+- agent_onboarding/default/continuity_fact_checker/SKILLS.MD
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
 - agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md

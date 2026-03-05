@@ -76,6 +76,19 @@ Strongly recommended additions:
 - Ownership matrix (who owns what; who may call what)
 - Cleanup cascade (parent -> child teardown order)
 
+### Patch Docs (Temporary, When Patch Lane Is Active)
+Required minimums for patch docs under `system_docs/patches/active/<patch_id>/`:
+- `architecture_patch.md`: objective/non-goals, changed components, invariants,
+  interface deltas, migration order, rollback, ticket coverage matrix.
+- `component_patch_<component>.md`: before/after behavior, interface deltas,
+  state/failure deltas, dependency/ordering, validation expectations.
+- `code_description_patch_<component>.md` (conditional): control flow,
+  edge/error semantics, invariants/idempotency, explicit non-goals.
+
+Gate rule
+- For system-impacting work, implementation should not start until required
+  patch docs exist and are linked from the active ticket.
+
 ## Metadata & Status (If Present)
 When a doc includes a Metadata block:
 - Update the `Updated:` date whenever you change behavior descriptions.
@@ -104,5 +117,4 @@ When a doc includes a Metadata block:
 - [ ] Concurrency constraints are called out where relevant
 - [ ] ASCII + Mermaid diagrams reflect the written description
 - [ ] Information Sources list includes every file used as evidence
-
 

@@ -6,7 +6,7 @@ Purpose
 - This role is optimized for test strategy, test design, and release quality posture.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -47,6 +47,6 @@ Trigger conditions (any one makes these mandatory):
 
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.md`
+  `agent_onboarding/default/engineer/SKILLS.MD`
 
 

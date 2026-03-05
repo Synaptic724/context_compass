@@ -42,7 +42,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - design_risk_register.md
 
 ## 6) References
-- agent_onboarding/default/story_designer/SKILLS.md
+- agent_onboarding/default/story_designer/SKILLS.MD
 - agent_onboarding/default/story_designer/skills/story_designer.md
 - agent_onboarding/default/story_designer/skills/story_designer_execution.md
 - agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md

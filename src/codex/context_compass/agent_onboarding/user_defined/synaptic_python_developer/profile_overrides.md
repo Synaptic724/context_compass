@@ -9,9 +9,9 @@ Purpose
 Resolved inheritance
 - `general` -> `engineer` -> `synaptic_python_developer`
 - Source of truth:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md` header
-  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md` and
-  the engineer header chain to `agent_onboarding/default/general/SKILLS.md`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` header
+  `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD` and
+  the engineer header chain to `agent_onboarding/default/general/SKILLS.MD`.
 
 Overlay scope
 - User-preference collaboration tone and engagement style.

@@ -39,7 +39,7 @@ Required flow
   - `context_compass/config/context_compass_config.yaml`
   - `context_compass/SKILLS.md`
   - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.md` plus the selected role map
+    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
     entry from `context_compass/SKILLS.md` (and user-defined overlay when
     active).
 - Use manual source-document reads for onboarding; do not use onboarding dump artifacts as policy input.

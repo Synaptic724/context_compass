@@ -8,12 +8,12 @@ Purpose
 Scope rule
 - Keep only engineer-specific policy/behavior here.
 - Shared rules remain in `agent_onboarding/default/general/` and are indexed in
-  `agent_onboarding/default/general/SKILLS.md`.
+  `agent_onboarding/default/general/SKILLS.MD`.
 - Engineer extends `general` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/general/SKILLS.md`.
+  no path overlap with `agent_onboarding/default/general/SKILLS.MD`.
 
 Engineer inventory
-- `agent_onboarding/default/engineer/SKILLS.md`: engineer-specific read sequence.
+- `agent_onboarding/default/engineer/SKILLS.MD`: engineer-specific read sequence.
 - `skills/engineer_execution.md`: execution discipline for engineering work.
 - `skills/technical_expertise.md`: root-cause-first debugging discipline.
 - `skills/system_orientation.md`: system explanation flow for engineers.
@@ -35,7 +35,7 @@ Architecture docs ownership
 
 User-defined overlay boundary
 - Preference-heavy Python/testing/library-style rules are routed through:
-  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.md`.
+  `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`.
 - Default engineer keeps generalized, reusable engineering guidance only.
 
 Unknowns Gate

@@ -39,7 +39,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_line_v1.md
 
 ## 6) References
-- agent_onboarding/default/line_copy_editor/SKILLS.md
+- agent_onboarding/default/line_copy_editor/SKILLS.MD
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
 - agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md

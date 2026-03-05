@@ -4,7 +4,7 @@ Purpose
 - Define a sample user-defined profile for data engineering work.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.md`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
 Active skills
 - `agent_onboarding/user_defined/data_engineer/profile_overrides.md`

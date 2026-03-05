@@ -39,7 +39,7 @@ Agent-read policy
 
 SKILLS.md top-level sources
 - `context_compass/SKILLS.md`
-- `context_compass/agent_onboarding/default/new/SKILLS.md`
+- `context_compass/agent_onboarding/default/new/SKILLS.MD`
 
 Primary onboarding docs
 - `agent_onboarding/default/new/skills/system_overview_for_user.md`

@@ -41,7 +41,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - research_open_risks.md
 
 ## 6) References
-- agent_onboarding/default/researcher/SKILLS.md
+- agent_onboarding/default/researcher/SKILLS.MD
 - agent_onboarding/default/researcher/skills/researcher.md
 - agent_onboarding/default/researcher/skills/researcher_execution.md
 - agent_onboarding/default/researcher/policies/researcher_quality_policy.md

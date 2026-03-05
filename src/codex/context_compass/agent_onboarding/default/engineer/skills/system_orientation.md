@@ -16,8 +16,8 @@ Required behavior
   - `AGENTS.MD`
   - `config/context_compass_config.yaml`
   - `SKILLS.md`
-  - `agent_onboarding/default/general/SKILLS.md`
-  - `agent_onboarding/default/engineer/SKILLS.md`
+  - `agent_onboarding/default/general/SKILLS.MD`
+  - `agent_onboarding/default/engineer/SKILLS.MD`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 
@@ -29,6 +29,8 @@ Core references
 - Components context: `system_docs/src_components.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
+- Active patch docs (when patch lane is active):
+  `system_docs/patches/active/<patch_id>/`
 - Repo examples: `examples/` (within context_compass)
 
 Artifact taxonomy (curated vs scratch)
@@ -47,12 +49,14 @@ Suggested user-facing explanation flow
 1) Authority chain and where behavior lives.
 2) Onboarding sequence in short form.
 3) Ticketing flow (epic -> story -> task).
-4) Architecture/components docs for context.
-5) How we validate changes.
+4) Architecture/components docs plus patch docs (when applicable).
+5) Implementation gate checks and validation flow.
 
 Notes
 - Use clear, direct language; avoid restating full policy documents.
 - Keep explanations faithful to `AGENTS.MD`.
 - When discussing current work state, route via `attention_board.md` and linked tickets, not memory.
+- For system-impacting changes, mention the mandatory patch gate from
+  `patch_framework_gating.md`.
 
 

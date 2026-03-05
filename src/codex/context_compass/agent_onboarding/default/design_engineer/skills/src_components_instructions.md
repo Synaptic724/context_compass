@@ -21,7 +21,14 @@
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/tests_architecture.md`
+- `context_compass/system_docs/patches/active/<patch_id>/component_patch_<component>.md`
+  (when patch lane is active)
+- `context_compass/system_docs/patches/active/<patch_id>/code_description_patch_<component>.md`
+  (when complexity trigger applies)
 - `context_compass/agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
+- `context_compass/agent_onboarding/default/design_engineer/skills/patch_framework_design.md`
+- `context_compass/agent_onboarding/default/design_engineer/skills/component_patch_contracts.md`
+- `context_compass/agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
 - Active ticket and `context_compass/attention_board.md` route
 
 ## Unknowns Gate (Non-Negotiable)
@@ -77,7 +84,9 @@ Each C3 component entry must include:
 7. Capture method-level C1 call flows for core paths.
 8. Build C1 map entries with ranges, LOC, and verification timestamps.
 9. Add/refresh diagrams aligned to catalog terminology.
-10. Refresh `Information Sources` and `Context / Handoff Summary`.
+10. If patch lane is active, verify component/code-description patch updates
+    are complete and linked in tickets.
+11. Refresh `Information Sources` and `Context / Handoff Summary`.
 
 If a component claim conflicts with architecture, log `CONFLICT` in ticket
 notes and escalate before proceeding.
@@ -102,6 +111,7 @@ Pass only when all checks are true:
 - Core method-level flows changed.
 - Architecture boundaries/terms changed.
 - C1 ranges became stale from code edits.
+- Active component/code-description patch docs changed for the same patch id.
 
 ## Anti-Patterns (Reject)
 - Component summaries without ownership/lifecycle details.
@@ -114,5 +124,3 @@ Pass only when all checks are true:
   - what component contracts changed,
   - what is still unknown,
   - which subsystem should be verified next.
-
-

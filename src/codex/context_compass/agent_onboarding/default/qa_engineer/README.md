@@ -11,10 +11,10 @@ Scope rule
   - `agent_onboarding/default/general/` (process, ticketing, gates, certification)
   - `agent_onboarding/default/engineer/` (implementation discipline and architecture docs mechanics)
 - QA Engineer extends `engineer` and must remain a delta layer:
-  no path overlap with `agent_onboarding/default/engineer/SKILLS.md`.
+  no path overlap with `agent_onboarding/default/engineer/SKILLS.MD`.
 
 QA Engineer inventory
-- `agent_onboarding/default/qa_engineer/SKILLS.md`: QA-engineer-specific read sequence.
+- `agent_onboarding/default/qa_engineer/SKILLS.MD`: QA-engineer-specific read sequence.
 - `skills/qa_engineer_execution.md`: QA execution discipline and artifacts.
 - `skills/test_strategy_and_planning.md`: how to build a test strategy for a feature/system.
 - `skills/test_case_design.md`: how to design high-signal test cases.

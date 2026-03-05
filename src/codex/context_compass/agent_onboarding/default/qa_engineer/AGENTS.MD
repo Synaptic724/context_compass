@@ -46,7 +46,7 @@ Do not duplicate shared rules; reference them.
   - known risks and mitigations.
 
 References
-- `agent_onboarding/default/qa_engineer/SKILLS.md`
+- `agent_onboarding/default/qa_engineer/SKILLS.MD`
 - `agent_onboarding/default/qa_engineer/policies/quality_gate_policy.md`
 
 

@@ -39,7 +39,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_final.md
 
 ## 6) References
-- agent_onboarding/default/proofreader/SKILLS.md
+- agent_onboarding/default/proofreader/SKILLS.MD
 - agent_onboarding/default/proofreader/skills/proofreader.md
 - agent_onboarding/default/proofreader/skills/proofreader_execution.md
 - agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md

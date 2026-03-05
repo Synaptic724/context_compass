@@ -6,7 +6,7 @@ Purpose
 - Define required baseline engineering skills for the `engineer` role.
 
 Inheritance
-- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.md`
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -29,6 +29,8 @@ Required baseline skills
 - `agent_onboarding/default/engineer/skills/system_orientation.md`
 - `agent_onboarding/default/engineer/skills/documentation_standards.md`
 - `agent_onboarding/default/engineer/skills/context_protocol.md`
+- `agent_onboarding/default/engineer/skills/patch_framework_gating.md`
+- `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md`
 - `agent_onboarding/default/engineer/skills/staleness_protocol.md`
 - `agent_onboarding/default/engineer/policies/engineer_quality_policy.md`
 - `agent_onboarding/default/engineer/policies/ctx_autonomy_policy.md`

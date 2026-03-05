@@ -42,7 +42,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - visual_canon_risk_log.md
 
 ## 6) References
-- agent_onboarding/default/story_novel_artist/SKILLS.md
+- agent_onboarding/default/story_novel_artist/SKILLS.MD
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
 - agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md

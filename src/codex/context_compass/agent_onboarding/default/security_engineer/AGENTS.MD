@@ -43,7 +43,7 @@ Do not duplicate shared rules; reference them.
 - If a security risk is accepted (not mitigated), request explicit approval and record it.
 
 References
-- `agent_onboarding/default/security_engineer/SKILLS.md`
+- `agent_onboarding/default/security_engineer/SKILLS.MD`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 
 

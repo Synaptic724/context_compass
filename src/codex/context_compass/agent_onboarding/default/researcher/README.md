@@ -10,7 +10,7 @@ Scope rule
 - This role extends general and should remain a delta layer.
 
 Role inventory
-- agent_onboarding/default/researcher/SKILLS.md: role-specific read sequence.
+- agent_onboarding/default/researcher/SKILLS.MD: role-specific read sequence.
 - skills/researcher.md: role mission, boundaries, and artifact model.
 - skills/researcher_execution.md: execution discipline and phase gates.
 - skills/researcher_deliverables.md: artifact requirements and quality bars.

@@ -50,7 +50,7 @@ Do not duplicate shared rules; reference them.
 - Avoid large "big bang" operational changes without explicit approval.
 
 References
-- `agent_onboarding/default/platform_engineer/SKILLS.md`
+- `agent_onboarding/default/platform_engineer/SKILLS.MD`
 - `agent_onboarding/default/platform_engineer/policies/production_change_management_policy.md`
 - `agent_onboarding/default/platform_engineer/policies/operational_safety_policy.md`
 
