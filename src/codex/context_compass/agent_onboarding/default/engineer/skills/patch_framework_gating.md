@@ -52,10 +52,12 @@ Engineer closure gate checklist
       unless an explicit retention exception is approved.
 - [ ] Attention board and artifact board synchronized.
 
-Validation command (recommended)
-- `python context_compass/scripts/validate_patch_gate.py --patch-id <patch_id> --components <component_a> <component_b>`
-- Add `--require-code-description <component_x> <component_y>` when needed.
-- Add `--ticket <ticket_path>` to verify ticket artifact-link coverage.
+Manual validation expectation
+- Confirm required artifacts exist under
+  `system_docs/patches/active/<patch_id>/`.
+- Confirm artifact links are present in the active ticket.
+- Confirm required read-order and mapping notes are documented before
+  implementation.
 
 Failure behavior
 - If any entry/closure gate fails, stop and raise `BLOCKER` or
@@ -66,4 +68,3 @@ References
 - `agent_onboarding/default/general/skills/workflow.md`
 - `agent_onboarding/default/general/skills/ticket_closure_attention_sync.md`
 - `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md`
-- `context_compass/scripts/validate_patch_gate.py`

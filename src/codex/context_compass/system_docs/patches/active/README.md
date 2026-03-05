@@ -12,8 +12,10 @@ Usage
    - `component_patch_<component>.md` (one per changed component)
    - `code_description_patch_<component>.md` (conditional)
 3) Link artifacts in active ticket `Artifact Links`.
-4) Validate artifacts with:
-   - `python context_compass/scripts/validate_patch_gate.py --patch-id <patch_id> --components <component_a> <component_b>`
+4) Validate artifacts manually:
+   - verify required patch files exist for the patch id,
+   - verify artifact links are present in active ticket `Artifact Links`,
+   - verify patch contracts and ticket notes are consistent.
 5) On closure:
    - merge durable deltas into canonical docs,
    - remove temporary patch folder unless explicit retention is approved.

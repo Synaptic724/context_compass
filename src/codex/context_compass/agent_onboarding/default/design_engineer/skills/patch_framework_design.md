@@ -62,10 +62,11 @@ Closure design obligations
 - Ensure implementation evidence is sufficient for canonical merge.
 - Ensure temporary patch artifacts are removed or explicitly retained by policy.
 
-Validation command (recommended)
-- `python context_compass/scripts/validate_patch_gate.py --patch-id <patch_id> --components <component_a> <component_b>`
-- Add `--require-code-description <component_x> <component_y>` when conditional
-  code-description artifacts are required.
+Manual validation expectation
+- Confirm architecture/component/code-description patch artifacts exist as
+  required for the active patch id.
+- Confirm each required artifact is linked from active ticket(s).
+- Confirm design quality checklist is satisfied before handoff.
 
 References
 - `agent_onboarding/default/engineer/skills/patch_framework_gating.md`
@@ -74,4 +75,3 @@ References
 - `agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md`
 - `agent_onboarding/default/design_engineer/skills/component_patch_contracts.md`
 - `agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
-- `context_compass/scripts/validate_patch_gate.py`

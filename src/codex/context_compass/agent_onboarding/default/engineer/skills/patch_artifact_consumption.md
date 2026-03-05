@@ -57,12 +57,12 @@ Before closure
 - Record validation evidence against patch expectations.
 - Complete merge-and-cleanup gates from `patch_framework_gating.md`.
 
-Validation command (recommended)
-- `python context_compass/scripts/validate_patch_gate.py --patch-id <patch_id> --components <component_a> <component_b>`
-- Include `--ticket <ticket_path>` when verifying artifact links are present.
+Manual validation expectation
+- Confirm required artifacts exist for the patch id.
+- Confirm ticket artifact links and consumption mapping notes are present.
+- Confirm closure evidence maps implemented behavior back to patch contracts.
 
 References
 - `agent_onboarding/default/engineer/skills/patch_framework_gating.md`
 - `agent_onboarding/default/engineer/skills/engineer_execution.md`
 - `agent_onboarding/default/general/skills/workflow.md`
-- `context_compass/scripts/validate_patch_gate.py`
