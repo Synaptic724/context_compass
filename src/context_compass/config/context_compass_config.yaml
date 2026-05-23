@@ -1,0 +1,141 @@
+version: 1
+
+profiles:
+  active_profile: design_engineer
+  available_profiles:
+    - new
+    - general
+    - engineer
+    - design_engineer
+    - platform_engineer
+    - qa_engineer
+    - security_engineer
+    - story_designer
+    - story_novel_artist
+    - researcher
+    - draft_writer
+    - developmental_editor
+    - line_copy_editor
+    - continuity_fact_checker
+    - proofreader
+    - synaptic_finishing_developer
+    - synaptic_python_developer
+  user_defined_profiles:
+    - synaptic_finishing_developer
+    - synaptic_python_developer
+  onboarding:
+    first_time_enabled: false
+    first_time_default_profile: new
+    post_onboarding_profile_mode: choose
+    allowed_post_onboarding_profiles:
+      - general
+      - engineer
+      - design_engineer
+      - platform_engineer
+      - qa_engineer
+      - security_engineer
+      - story_designer
+      - story_novel_artist
+      - researcher
+      - draft_writer
+      - developmental_editor
+      - line_copy_editor
+      - continuity_fact_checker
+      - proofreader
+      - synaptic_finishing_developer
+      - synaptic_python_developer
+    fallback_post_onboarding_profile: engineer
+
+router:
+  path: context_compass/SKILLS.md
+  agent_reads_readmes: false
+  readme_role: user_facing_only
+  profile_readme_policy:
+    new: true
+    general: false
+    engineer: false
+    design_engineer: false
+    platform_engineer: false
+    qa_engineer: false
+    security_engineer: false
+    story_designer: false
+    story_novel_artist: false
+    researcher: false
+    draft_writer: false
+    developmental_editor: false
+    line_copy_editor: false
+    continuity_fact_checker: false
+    proofreader: false
+    synaptic_finishing_developer: false
+    synaptic_python_developer: false
+  roles:
+    new: agent_onboarding/default/new/SKILLS.MD
+    general: agent_onboarding/default/general/SKILLS.MD
+    engineer: agent_onboarding/default/engineer/SKILLS.MD
+    design_engineer: agent_onboarding/default/design_engineer/SKILLS.MD
+    platform_engineer: agent_onboarding/default/platform_engineer/SKILLS.MD
+    qa_engineer: agent_onboarding/default/qa_engineer/SKILLS.MD
+    security_engineer: agent_onboarding/default/security_engineer/SKILLS.MD
+    story_designer: agent_onboarding/default/story_designer/SKILLS.MD
+    story_novel_artist: agent_onboarding/default/story_novel_artist/SKILLS.MD
+    researcher: agent_onboarding/default/researcher/SKILLS.MD
+    draft_writer: agent_onboarding/default/draft_writer/SKILLS.MD
+    developmental_editor: agent_onboarding/default/developmental_editor/SKILLS.MD
+    line_copy_editor: agent_onboarding/default/line_copy_editor/SKILLS.MD
+    continuity_fact_checker: agent_onboarding/default/continuity_fact_checker/SKILLS.MD
+    proofreader: agent_onboarding/default/proofreader/SKILLS.MD
+    synaptic_finishing_developer: agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD
+    synaptic_python_developer: agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD
+
+workflow:
+  ticket_microcycle:
+    enabled: true
+    mode: strict
+    require_note_before_continue: true
+    minimum_note_score: 7
+    expansion_gate_max_files: 5
+    unknown_default: true
+  ticket_contract:
+    require_entry_gate: true
+    require_execution_boundary: true
+    require_exit_gate: true
+    require_failure_escalation: true
+    require_transition_reason: true
+    anti_pattern_mode: canonical_catalog_with_applicable_checklist
+  note_behavior:
+    append_only: true
+    require_next_single_step: true
+    require_evidence_ranges: true
+    per_ticket_focus:
+      epic: program_level_direction_and_cross_story_tradeoffs
+      story: cross_task_synthesis_and_dependency_flow
+      task: tactical_findings_and_immediate_next_actions
+
+artifacts:
+  enabled: true
+  store_root: artifacts
+  board_path: artifact_board.md
+  attention_board_tracks_artifacts: false
+  require_ticket_association: true
+  require_ticket_artifact_links_section: true
+  cleanup_on_ticket_close: true
+  default_disposition: delete_on_close
+  allowed_dispositions:
+    - delete_on_close
+    - retain_as_reference
+    - promote_to_documentation
+
+documentation_format:
+  line_length:
+    target_min_chars: 90
+    target_max_chars: 110
+    hard_cap_chars: 120
+  evidence:
+    one_path_per_line_when_paths_gte: 2
+    one_path_per_line_when_exceeds_hard_cap: true
+    allow_inline_single_path_under_hard_cap: true
+
+codex:
+  viewer_tool_read_limit: 500 # Maximum lines per view/read operation
+  read_loc_max: 500 # Maximum LOC per manual chunked read operation
+

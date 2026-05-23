@@ -1,0 +1,81 @@
+
+# SKILLS Role Map
+
+Purpose
+- Define active profile roles and their `SKILLS.md` entry points.
+- Use direct profile-to-skills routing from this top-level `SKILLS.md` file.
+
+Available roles
+- `new`
+- `general`
+- `engineer`
+- `design_engineer`
+- `platform_engineer`
+- `qa_engineer`
+- `security_engineer`
+- `story_designer`
+- `story_novel_artist`
+- `researcher`
+- `draft_writer`
+- `developmental_editor`
+- `line_copy_editor`
+- `continuity_fact_checker`
+- `proofreader`
+- `synaptic_finishing_developer`
+- `synaptic_python_developer`
+- `user_defined/*`
+
+Available path map
+- `new`: `agent_onboarding/default/new/SKILLS.MD`
+- `general`: `agent_onboarding/default/general/SKILLS.MD`
+- `engineer`: `agent_onboarding/default/engineer/SKILLS.MD`
+- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.MD`
+- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.MD`
+- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.MD`
+- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.MD`
+- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.MD`
+- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.MD`
+- `researcher`: `agent_onboarding/default/researcher/SKILLS.MD`
+- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.MD`
+- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.MD`
+- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.MD`
+- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
+- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
+- `synaptic_finishing_developer`: `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD`
+- `synaptic_python_developer`: `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
+- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
+
+Role selection directive (non-negotiable)
+1) When this `SKILLS.md` map is read, list the available roles.
+2) Ask the user which role to take on (unless the user already selected one).
+3) Resolve the selected role to its `SKILLS.md` path from this map.
+4) Read the resolved role `SKILLS.md`.
+5) Treat the resolved role `SKILLS.md` chain as the routing manifest:
+   - You MUST read every path listed under **Active skills** / **Required baseline skills**
+     in each resolved `SKILLS.md` file (parent-first).
+   - **On-demand** skills are conditional: do NOT read them for certification unless a trigger condition is met.
+   - If an on-demand trigger is met, those on-demand paths become mandatory and MUST be read
+     before proceeding in that scope.
+
+Notes
+- This file is a routing manifest, not a license to read the whole repo.
+- `system_docs/` may be empty or may contain starter mock docs in a fresh
+  install.
+- `examples/` is the shipped shape guide for architecture, components, tests,
+  graph-details, and workflow examples.
+- When a repository has enough real architecture or test surface to document
+  and the user wants stronger durable context, create or rewrite repo-specific
+  maps under `system_docs/`.
+- Baseline/on-demand triggers are defined in the resolved role `SKILLS.md` files and enforced
+  by `AGENTS.MD` and `compaction_requirements.md`.
+- The default roles are designed as delta layers:
+  - `general` is the shared baseline for all work.
+  - `engineer` extends `general` for implementation-focused engineering.
+- `design_engineer`, `platform_engineer`, `qa_engineer`, and `security_engineer` extend `engineer`
+  for specialized software development workflows.
+- `synaptic_finishing_developer` extends `engineer` for slow, system-aware
+  public-library docstring, comment, and test finishing work.
+- `story_designer`, `story_novel_artist`, `researcher`, `draft_writer`,
+  `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`, and
+  `proofreader` extend `general` for fiction-authoring workflows.
+

@@ -63,18 +63,17 @@ What improves:
 
 ## Runtime Support
 
-Context Compass supports Codex and Gemini runtime setups.
+This repository currently stores the release candidate under:
+- `src/context_compass/`
 
-Canonical split runtime layout:
-- `src/codex/context_compass/AGENTS.MD`
-- `src/gemini/context_compass/GEMINI.MD`
+That package is the canonical source tree being prepared for upload.
 
-In this layout:
-- policy mechanics stay the same,
-- role map and skill chain behavior stay the same,
-- compaction and re-onboarding behavior stay the same.
-
-Runtime-specific entrypoint filename is the only required difference.
+Current entrypoint model:
+- shipped runtime entrypoint: `src/context_compass/AGENTS.MD`
+- shared routing and policy core live beside it in the same package
+- the current release package is unified and no longer split into separate
+  `src/codex/...` and `src/gemini/...` trees
+- the shipped package assumes one entrypoint model and one documentation tree
 
 ---
 
@@ -192,30 +191,30 @@ Typical pattern:
 
 ## Repository Anatomy
 
-Primary control files:
-- `context_compass/AGENTS.MD`
-- `context_compass/SKILLS.MD`
-- `context_compass/CONTEXT_COMPACTION.md`
-- `context_compass/config/context_compass_config.yaml`
-- `context_compass/attention_board.md`
-- `context_compass/artifact_board.md`
+Primary control files inside `src/context_compass/`:
+- `AGENTS.MD`
+- `SKILLS.md`
+- `CONTEXT_COMPACTION.md`
+- `config/context_compass_config.yaml`
+- `attention_board.md`
+- `artifact_board.md`
 
 Role and policy tree:
-- `context_compass/agent_onboarding/default/...`
-- `context_compass/agent_onboarding/user_defined/...`
+- `src/context_compass/agent_onboarding/default/...`
+- `src/context_compass/agent_onboarding/user_defined/...`
 
 Execution artifacts:
-- `context_compass/tickets/epics/`
-- `context_compass/tickets/stories/`
-- `context_compass/tickets/tasks/`
-- `context_compass/templates/`
-- `context_compass/artifacts/`
+- `src/context_compass/tickets/epics/`
+- `src/context_compass/tickets/stories/`
+- `src/context_compass/tickets/tasks/`
+- `src/context_compass/templates/`
+- `src/context_compass/artifacts/`
 
 System-context docs (when used):
-- `context_compass/system_docs/src_architecture.md`
-- `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/tests_architecture.md`
-- `context_compass/system_docs/tests_components.md`
+- `src/context_compass/system_docs/src_architecture.md`
+- `src/context_compass/system_docs/src_components.md`
+- `src/context_compass/system_docs/tests_architecture.md`
+- `src/context_compass/system_docs/tests_components.md`
 
 ---
 
@@ -251,22 +250,21 @@ System-context docs (when used):
 
 ### Step 1: Place Context Compass in your repo
 
-Use split runtime trees:
-- `src/codex/context_compass/...`
-- `src/gemini/context_compass/...`
+Use the package stored in this repository:
+- `src/context_compass/...`
 
 ### Step 2: Confirm runtime entrypoints
 
-For Codex:
-- `src/codex/context_compass/AGENTS.MD`
+Current shipped entrypoint:
+- `src/context_compass/AGENTS.MD`
 
-For Gemini:
-- `src/gemini/context_compass/GEMINI.MD`
+The current release package is not a split-runtime distribution.
+It ships one entrypoint and one shared documentation tree.
 
 ### Step 3: Configure active profile
 
 Edit:
-- `context_compass/config/context_compass_config.yaml`
+- `src/context_compass/config/context_compass_config.yaml`
 
 Set:
 - `profiles.active_profile`
@@ -314,7 +312,7 @@ After compaction/handoff:
 ## Configuration Model (YAML)
 
 Main config:
-- `context_compass/config/context_compass_config.yaml`
+- `src/context_compass/config/context_compass_config.yaml`
 
 Key sections:
 - `profiles.*`
