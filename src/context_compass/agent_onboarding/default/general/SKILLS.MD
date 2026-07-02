@@ -33,27 +33,27 @@ Active skills
 - `agent_onboarding/default/general/skills/active_documentation.md`
 - `agent_onboarding/default/general/skills/context_window_budget.md`
 - `agent_onboarding/default/general/skills/active_pointerboard.md`
+- `agent_onboarding/default/general/skills/mailbox_protocol.md`
 - `agent_onboarding/default/general/skills/ticket_closure_attention_sync.md`
 - `agent_onboarding/default/general/skills/unknowns_gate_reference.md`
 - `agent_onboarding/default/general/skills/self_certification.md`
 - `agent_onboarding/default/general/skills/user_approved_certification.md`
 - `agent_onboarding/default/general/skills/ticket_microcycle.md`
 - `agent_onboarding/default/general/skills/workflow.md`
+- `agent_onboarding/default/general/skills/role_local_workflows.md`
+- `agent_onboarding/default/general/WORKFLOWS.MD`
+- `agent_onboarding/default/general/workflows/cleanup_context_compass.md`
+- `agent_onboarding/default/general/workflows/start_context_compass_work.md`
+- `agent_onboarding/default/general/workflows/turn_in_selected_tickets.md`
+- `agent_onboarding/default/general/workflows/sync_attention_board.md`
 - `agent_onboarding/default/general/skills/context_compaction.md`
 - `attention_board.md`
 - `artifact_board.md`
+- `agent_onboarding/default/general/skills/context_management.md`
+- `context_management/context_board.md`
 - `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md`
 - `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md`
 - `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md`
-
-System-doc expectation
-- `system_docs/` may be empty or may contain starter mock docs in a fresh
-  install.
-- Treat starter mock docs as templates until they are validated or rewritten
-  against the active repository.
-- When the repository has stable architecture or test surfaces and the user
-  wants stronger durable context, create or rewrite repo-specific maps in
-  `system_docs/` using `examples/` as shape guides.
 
 
 

@@ -1,7 +1,6 @@
 version: 1
 
 profiles:
-  active_profile: design_engineer
   available_profiles:
     - new
     - general

@@ -24,6 +24,7 @@ Rules
 
 Required baseline skills
 - `agent_onboarding/default/platform_engineer/AGENTS.MD`
+- `agent_onboarding/default/platform_engineer/WORKFLOWS.MD`
 - `agent_onboarding/default/platform_engineer/skills/platform_engineer_execution.md`
 - `agent_onboarding/default/platform_engineer/skills/ci_cd_and_release.md`
 - `agent_onboarding/default/platform_engineer/skills/deployment_and_environments.md`

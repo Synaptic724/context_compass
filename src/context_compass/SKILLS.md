@@ -22,7 +22,6 @@ Available roles
 - `continuity_fact_checker`
 - `proofreader`
 - `synaptic_finishing_developer`
-- `synaptic_python_developer`
 - `user_defined/*`
 
 Available path map
@@ -42,7 +41,6 @@ Available path map
 - `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
 - `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
 - `synaptic_finishing_developer`: `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD`
-- `synaptic_python_developer`: `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
 - `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
 
 Role selection directive (non-negotiable)
@@ -59,13 +57,6 @@ Role selection directive (non-negotiable)
 
 Notes
 - This file is a routing manifest, not a license to read the whole repo.
-- `system_docs/` may be empty or may contain starter mock docs in a fresh
-  install.
-- `examples/` is the shipped shape guide for architecture, components, tests,
-  graph-details, and workflow examples.
-- When a repository has enough real architecture or test surface to document
-  and the user wants stronger durable context, create or rewrite repo-specific
-  maps under `system_docs/`.
 - Baseline/on-demand triggers are defined in the resolved role `SKILLS.md` files and enforced
   by `AGENTS.MD` and `compaction_requirements.md`.
 - The default roles are designed as delta layers:

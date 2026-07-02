@@ -1,6 +1,6 @@
 
 
-# AGENTS.MD - Public Library Editing Contract
+# AGENTS.md - Public Library Editing Contract
 
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.

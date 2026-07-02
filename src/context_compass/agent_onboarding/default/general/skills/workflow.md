@@ -21,10 +21,15 @@ Provide a consistent planning and tracking workflow that uses structured tickets
 - `tickets/tasks/backlog/` - parked task tickets not yet active
 - `tickets/tasks/completed/` - completed task tickets with summary + datetime
 - `templates/` - templates for all ticket types
-- `system_docs/` - repo-specific context maps and related guidance when
-  available; may begin empty or contain starter mock docs
+- `system_docs/` - canonical system docs:
+  `src_architecture.md`, `src_components.md`, `tests_architecture.md`,
+  `tests_components.md`, `graph_details_document.md`,
+  `readable_src_graph.json`, and instruction docs
 - `artifact_board.md` - artifact association index (ticket-linked artifacts only)
 - `artifacts/` - supporting artifact storage root
+- `context_management/context_board.md` - optional context-pack association
+  index
+- `context_management/artifacts/` - optional derived context reread packs
 
 ## Workflow Steps
 1. Choose the smallest ticket type that fits the scope:
@@ -40,32 +45,37 @@ Provide a consistent planning and tracking workflow that uses structured tickets
     - `Investigate -> Document -> Strategy/Plan -> Document -> Implement -> Document -> Validate -> Document`.
 6. For every meaningful finding, immediately append a ticket `## Notes` entry before any further investigation.
    - Use evidence ranges (`path:start_line-end_line`) rather than single-line anchors.
-   - If runtime is Gemini and step metadata is available, record Gemini
-     continuity anchors at meaningful review, handoff, compaction, or other
-     resume-critical checkpoints.
+   - If the ticket sets `CONTEXT_MANAGEMENT_REQUIRED: true`, also update the
+     linked context artifact when that finding changes required rereads or
+     active topics.
 7. Update "Context / Handoff Summary" sections as work progresses.
 8. If artifacts are produced:
     - add/update the ticket `Artifact Links (Optional)` section,
     - add/update `artifact_board.md` row(s) for each active artifact.
-   - If runtime is Gemini and the artifact was created at a continuity
-     checkpoint, mirror the same Gemini step/checkpoint anchor in the artifact
-     record.
-9. Before closing a ticket:
+9. If the ticket enables context management:
+    - add/update the ticket `Context Management` section,
+    - add/update `context_management/context_board.md` row(s) for each active
+      context artifact.
+10. Before closing a ticket:
     - Walk through what was delivered.
     - Ask the user to confirm the acceptance criteria are met.
-10. After confirmation:
+11. After confirmation:
     - Add a short completion summary with a UTC datetime.
     - Move the file to its matching completed folder (`tickets/epics/completed/`,
       `tickets/stories/completed/`, or `tickets/tasks/completed/`).
-11. Immediately run deterministic board sync for closure:
+12. Immediately run deterministic board sync for closure:
     - Remove/replace active rows that point to the closed ticket.
     - Prune stale attention details tied only to the closed ticket.
     - Add one compact closed anchor row.
     - Keep closed anchors capped by dropping the oldest rows first.
-12. If ticket artifacts exist, run artifact closure sync:
+13. If ticket artifacts exist, run artifact closure sync:
     - apply artifact disposition (`delete_on_close`, `retain_as_reference`, or
       `promote_to_documentation`),
     - update `artifact_board.md` active/cleared rows accordingly.
+14. If ticket context management is active, run context-board sync:
+    - remove or update active context rows tied only to the closed ticket,
+    - clear or relink rows according to successor ticket state,
+    - keep the board focused on active context-managed lanes only.
 
 ## DO NOT ASSUME / Unknowns Gate
 Rule: No Unverified Claims.
@@ -116,6 +126,9 @@ When unsure:
 - Investigate until one meaningful finding is identified.
 - Immediately document that finding in the ticket `## Notes` section before
   reading more.
+- When `CONTEXT_MANAGEMENT_REQUIRED: true`, also update the linked context
+  artifact before continuing if the finding changes the reusable reread pack or
+  topic focus.
 - Use UNKNOWN as the default claim state; promote to FACT only with evidence.
 - Do not implement from `UNKNOWN` or `HYPOTHESIS` without an evidence-backed
   decision.
@@ -154,9 +167,6 @@ When unsure:
   pointers.
 - Artifact pointers belong in ticket `Artifact Links (Optional)` sections.
 - Artifact associations are indexed in `artifact_board.md`.
-- Gemini-only runtime continuity anchors may be recorded in ticket artifact
-  links or `artifact_board.md` notes when step metadata is available and helps
-  later resume quality.
 - Artifact protocol is YAML-authoritative in
   `artifacts` (`config/context_compass_config.yaml`):
   - `store_root`
@@ -165,6 +175,24 @@ When unsure:
   - `require_ticket_association`
   - `cleanup_on_ticket_close`
   - `allowed_dispositions`
+
+## Context Management Protocol (Optional)
+- Context management is optional and only active when a ticket sets
+  `CONTEXT_MANAGEMENT_REQUIRED: true`.
+- `attention_board.md` remains ticket-routing-only and must not store context
+  artifact pointers.
+- Context artifact pointers belong in ticket `Context Management` sections.
+- Tickets should point at context packs by `Context ID`.
+- Context associations are indexed in `context_management/context_board.md`.
+- Context artifacts live under `context_management/artifacts/`.
+- When active:
+  - linked `Context ID` values must resolve through the context board
+  - linked context artifacts must be read before implementation or validation
+  - ticket section and context board must stay synchronized
+  - linked context artifacts must be updated during the Ticket Microcycle when
+    meaningful findings change required rereads or active topics
+  - if the required context cannot be defined concretely, write `UNKNOWN` and
+    ask the user before implementation
 
 ## Anti-Pattern Catalog (Canonical)
 - Anti-patterns are managed centrally in policy/docs; do not paste the full
@@ -205,6 +233,8 @@ This section exists to reduce "process drift" when the workflow is executed by m
 Before moving a ticket to a completed folder:
 - [ ] `attention_board.md` is synchronized using deterministic closure-sync rules.
 - [ ] `artifact_board.md` is synchronized when ticket artifacts exist.
+- [ ] `context_management/context_board.md` is synchronized when context
+      management is active for the ticket.
 - [ ] Acceptance criteria are explicitly met (not "mostly done").
 - [ ] Any new/changed behavior has been documented in the relevant C4/C3 docs.
 - [ ] Unknowns introduced during work are either resolved (with evidence) or
@@ -216,14 +246,10 @@ Before moving a ticket to a completed folder:
 
 ### When a task changes architecture or components
 If a ticket modifies system behavior, make a small doc update as part of the same change:
-- Create or update `system_docs/src_architecture.md` when system
-  boundaries/boot/ownership/invariants change and the repo is mature enough to
-  benefit from a durable architecture map.
-- Create or update `system_docs/src_components.md` when ownership, wiring,
-  registries, or call flows change and the repo is mature enough to benefit
-  from a durable component map.
-- Create or update graph-details docs only when the repo actually uses
-  graph-based context maintenance.
+- Update `system_docs/src_architecture.md` when system boundaries/boot/ownership/invariants change.
+- Update `system_docs/src_components.md` when ownership, wiring, registries, or call flows change.
+- Update `system_docs/readable_src_graph.json` when documented source wiring or
+  ownership coverage changes.
 - Keep diagrams in sync with the change.
 
 ### Evidence discipline still applies
@@ -250,9 +276,6 @@ Even inside tickets:
   - `NEXT`
   - `REREAD` (`REQUIRED` | `HELPFUL`)
   - `SCORE_0_TO_10` (must meet `workflow.ticket_microcycle.minimum_note_score`)
-- Gemini-only optional fields:
-  - `GEMINI_STEP_COUNTER`
-  - `GEMINI_CHECKPOINT`
 
 
 

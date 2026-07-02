@@ -188,19 +188,22 @@ When adding or modifying `__init__` / initialization flows:
 Cleanup is a core part of this library's correctness contract.
 
 - Cleanup must be deterministic and idempotent.
-- Prefer object teardown: call `cleanup()` on child objects, then null
-  references to assist GC and prevent use-after-clean.
+- Prefer object teardown: call `cleanup()` on child objects, then delete owned
+  references to remove the live surface and prevent use-after-clean.
 - Look at existing implementations of the class for patterns to better
   understand requirements. We cleanup everything; do not leave it to the GC.
 - Logger teardown last.
-- Do not use placeholder comments like "already nulled above." Write the actual
-  null assignments.
+- Do not use placeholder comments like "already deleted above." Write the
+  actual teardown actions.
 
-Cleanup nulling contract:
+Cleanup teardown contract:
 
-- After cleaning children, explicitly set every relevant field/reference to
-  `None`.
-- If a field is not nulled, that must be intentional and documented.
+- Default posture: after cleaning children, delete owned field references with
+  `del`.
+- Allowed exception: use `None` only when the post-cleanup contract explicitly
+  needs a retained tombstone field for callers, tests, or diagnostics.
+- If a field is kept as `None` instead of deleted, that must be intentional
+  and documented.
 
 ### 5.12) Method Size Discipline
 

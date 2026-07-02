@@ -24,6 +24,7 @@ Rules
 
 Required baseline skills
 - `agent_onboarding/default/qa_engineer/AGENTS.MD`
+- `agent_onboarding/default/qa_engineer/WORKFLOWS.MD`
 - `agent_onboarding/default/qa_engineer/skills/qa_engineer_execution.md`
 - `agent_onboarding/default/qa_engineer/skills/test_strategy_and_planning.md`
 - `agent_onboarding/default/qa_engineer/skills/test_case_design.md`

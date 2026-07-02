@@ -10,10 +10,9 @@ Artifacts
 - `system_docs/tests_architecture.md`
 - `system_docs/src_components.md`
 - `system_docs/tests_components.md`
-- optional graph-details surfaces when the repository uses them:
-  - `system_docs/graph_details_document.md`
-  - `system_docs/readable_src_graph.json`
-  - `system_docs/src_graph.json`
+- `system_docs/graph_details_document.md`
+- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.json`
 - `system_docs/patches/active/<patch_id>/architecture_patch.md` (when patch lane is active)
 - `system_docs/patches/active/<patch_id>/component_patch_<component>.md` (when patch lane is active)
 - `system_docs/patches/active/<patch_id>/code_description_patch_<component>.md` (conditional)
@@ -24,9 +23,8 @@ Strict source rule
 
 Update cadence
 - Update docs when boundaries, lifecycle, invariants, or wiring change.
-- Keep graph-details surfaces synchronized with canonical graph state when that
-  workflow is enabled and architecture/components work changes source wiring
-  coverage.
+- Keep `readable_src_graph.json` synchronized with canonical graph state when
+  architecture/components work changes source wiring coverage.
 - Keep ASCII and Mermaid diagrams current.
 - Keep active patch docs synchronized with canonical docs until merge+cleanup closes the patch lane.
 

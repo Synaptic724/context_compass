@@ -80,15 +80,6 @@
 - Mode transitions:
 - Exit signal rules:
 
-## Runtime Continuity (Optional)
-- If the runtime is Gemini and visible step metadata exists:
-  - define which phases or checkpoints should capture
-    `GEMINI_STEP_COUNTER`
-  - define which phases or checkpoints should capture
-    `GEMINI_CHECKPOINT`
-  - define whether those anchors belong in ticket notes, artifact records, or
-    both
-
 ## Escalation Rules
 - <when to stop>
 - <when to raise DECISION_REQUEST>

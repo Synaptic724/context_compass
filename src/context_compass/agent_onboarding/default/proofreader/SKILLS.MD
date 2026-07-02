@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/proofreader/AGENTS.MD
+- agent_onboarding/default/proofreader/WORKFLOWS.MD
 - agent_onboarding/default/proofreader/skills/proofreader.md
 - agent_onboarding/default/proofreader/skills/proofreader_execution.md
 - agent_onboarding/default/proofreader/skills/proofreader_deliverables.md

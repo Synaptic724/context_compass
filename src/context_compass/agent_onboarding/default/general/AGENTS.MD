@@ -96,6 +96,8 @@ As a ritual, after implementing a change:
 * Hard execution gate (mandatory):
   - Do not implement or validate unless an active ticket exists for the work.
   - Do not implement or validate unless `attention_board.md` has an active row routing to that ticket.
+  - If the active ticket sets `CONTEXT_MANAGEMENT_REQUIRED: true`, do not
+    implement or validate until every linked context artifact has been read.
   - Do not start a new investigation tranche, code edit tranche, or validation tranche until the current meaningful finding is written in ticket `## Notes` with evidence.
   - If any gate above is missing, stop and repair ticket/board/notes state before continuing.
 * Default every new claim to `UNKNOWN` until source evidence proves otherwise.
@@ -120,6 +122,13 @@ As a ritual, after implementing a change:
 * The ticket must define scope, steps, and intended deliverables; share it and wait for approval.
 * Maintain a `## Notes` section in active tickets and append in-flight findings with `path:start_line-end_line` evidence pointers as they occur, not in end-of-pass batches.
 * Evidence ranges in notes must include both start and end lines. If the evidence is one line, repeat it (`path:42-42`).
+* Context management is optional:
+  - use it only when the ticket explicitly opts in
+  - when opted in, keep the ticket section and
+    `context_management/context_board.md` synchronized
+  - ticket context references should use `Context ID` values from the board
+  - when required context is not known, write `UNKNOWN` explicitly and ask
+    before implementation
 * New note entries must include a compaction usefulness score
   (`SCORE_0_TO_10`); if score is below
   `workflow.ticket_microcycle.minimum_note_score`, improve the note before
@@ -174,6 +183,9 @@ resolved role `SKILLS.md` files.
 
 - Durable execution memory:
   active findings belong in ticket notes, not transient chat context.
+- Optional context packs:
+  when a lane needs a reusable reread bundle, link it through the ticket's
+  `Context Management` section and `context_management/context_board.md`.
 - Execution gating:
   no implementation/validation without ticket + routing + notes coherence.
 - Controlled scope:

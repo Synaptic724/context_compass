@@ -7,8 +7,6 @@
   - `context_compass/system_docs/src_graph.json`
 - Keep graph authoring aligned with the existing architecture/components doc
   stack instead of creating a competing prose layer.
-- Treat graph-details as an optional repo-specific context surface, not as a
-  mandatory shipped artifact for every fresh install.
 
 ## Canonical Outputs
 - `context_compass/system_docs/graph_details_document.md`
@@ -53,7 +51,7 @@ Exclude:
 
 ## Authoring Contract
 The graph is exhaustive for the eligible files inside the chosen repo-specific
-scope and semantic about how those files are wired.
+those files are wired.
 
 Include every eligible source file as a node-bearing graph entry, then enrich
 important files with stronger role/responsibility/relationship detail where it
@@ -107,7 +105,7 @@ Required workflow:
 2. Re-read architecture/components docs for the target subsystem.
 3. Expand the canonical graph into a patch-lane working copy.
 4. Add or update nodes first.
-   - only for `src/` objects
+   - only for objects in the chosen source/runtime surface
 5. Add or update semantic edges second.
 6. Validate graph JSON and relationship coherence.
 7. Recompress and overwrite canonical storage.

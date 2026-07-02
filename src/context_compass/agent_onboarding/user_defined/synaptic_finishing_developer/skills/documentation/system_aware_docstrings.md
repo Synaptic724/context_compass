@@ -7,10 +7,8 @@ Purpose
 Required read surfaces
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- graph-details surfaces when the repository already has them or the user wants
-  them created:
-  - `system_docs/graph_details_document.md`
-  - `system_docs/readable_src_graph.json`
+- `system_docs/graph_details_document.md`
+- `system_docs/readable_src_graph.json`
 
 Use each surface for a different question
 - `src_architecture.md`
@@ -21,7 +19,7 @@ Use each surface for a different question
   - What owns this object?
   - What does it create, validate, publish, or bind?
   - What are the method-level call flows?
-- `readable_src_graph.json` (when present)
+- `readable_src_graph.json`
   - What does this object own?
   - What does it borrow?
   - What does it create?
@@ -57,5 +55,5 @@ Unknowns rule
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md` (if present)
-- `system_docs/readable_src_graph.json` (if present)
+- `system_docs/graph_details_document.md`
+- `system_docs/readable_src_graph.json`

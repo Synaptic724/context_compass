@@ -27,8 +27,8 @@ Core references
   `templates/`
 - Architecture context: `system_docs/src_architecture.md`
 - Components context: `system_docs/src_components.md`
-- Graph context (if the repo has graph-details surfaces): `system_docs/readable_src_graph.json`
-- Graph workflow context (if present): `system_docs/graph_details_document.md`
+- Graph context: `system_docs/readable_src_graph.json`
+- Graph workflow context: `system_docs/graph_details_document.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
 - Active patch docs (when patch lane is active):
@@ -51,8 +51,7 @@ Suggested user-facing explanation flow
 1) Authority chain and where behavior lives.
 2) Onboarding sequence in short form.
 3) Ticketing flow (epic -> story -> task).
-4) Architecture/components docs plus optional graph-details docs and patch docs
-   (when applicable).
+4) Architecture/components docs plus patch docs (when applicable).
 5) Implementation gate checks and validation flow.
 
 Notes

@@ -1,8 +1,7 @@
 ﻿# Engineer Example: Artifact Workflow
 
 Context
-- An engineer needs to harden the release surface so the package contains only
-  intended runtime references and no stale local or private paths.
+- An engineer needs to harden Context Compass entrypoint wiring so each runtime package references only its native entrypoint.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
 Scratch capture (workspace)
@@ -16,16 +15,15 @@ Scratch capture (workspace)
 - runtime-specific docs must be deterministic after copy/paste install.
 
 ## Early hypothesis
-- the package should expose only intended runtime entrypoints.
-- stale local paths and old package-layout references should be removed before
-  release.
+- codex package should reference `AGENTS.MD` only.
+- gemini package should reference `GEMINI.MD` only.
 
 ## Risk notes
 - broad search/replace can break role-level policy references.
 - docs can drift if validation commands are not captured.
 
 ## Promote when
-- release-surface scans return zero stale private-path or old-layout tokens.
+- runtime-specific scans return zero cross-runtime tokens.
 ```
 
 - Path: `workspace/agent/todo/context_compass_entrypoint_wiring.md`
@@ -45,7 +43,7 @@ Promote to ticket (curated)
 ```md
 # story: context_compass_entrypoint_wiring
 ## Goal
-- release-facing docs and examples contain only intended public references
+- runtime packages reference only their native entrypoint documents
 
 ## Scope
 - top-level readme, system docs, and example docs wiring
@@ -65,12 +63,12 @@ Promote to ticket (curated)
 - malformed path rewrites in code-map sections
 
 ## Tests
-- run a direct-path scan for absolute local or private workspace paths
-- run a legacy-vocabulary scan for stale private project terminology
+- rg -n "GEMINI" src/codex/context_compass
+- rg -n "AGENTS" src/gemini/context_compass
 
 ## Done criteria
-- release-facing docs contain no stale local/private path references
-- release-facing docs contain no unrelated legacy project vocabulary
+- codex distribution has no GEMINI entrypoint references
+- gemini distribution has no AGENTS entrypoint references
 ```
 
 Strategy alignment
@@ -90,7 +88,7 @@ Tactics / runbook
 ## Steps
 1) patch runtime-specific references
 2) verify role-level entrypoint files remain valid
-3) run strict release-surface scrub scans
+3) run strict cross-runtime token scans
 4) document outcomes in ticket notes
 ```
 

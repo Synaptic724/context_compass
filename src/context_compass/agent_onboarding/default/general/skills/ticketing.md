@@ -16,6 +16,7 @@ Templates
 - `templates/task_template.md`
 - `configuration_standards.md`
 - `artifact_board.md`
+- `context_management/context_board.md`
 
 Deep descriptive model (required)
 Each ticket must be specific, evidence-based, and durable. Avoid vague goals.
@@ -38,6 +39,7 @@ Required elements
 - Applicable Anti-Patterns (lane-specific checklist only)
 - Noting Behavior (task/story/epic focus)
 - Artifact Links (Optional, required when artifacts exist)
+- Context Management (Optional, only when reusable reread packs are needed)
 - Notes (active findings with evidence pointers)
 - Context / Handoff summary
 
@@ -88,6 +90,16 @@ Mandatory execution gates
 - Artifact gate:
   - When artifacts are present, ticket `Artifact Links (Optional)` and
     `artifact_board.md` must stay synchronized.
+- Context-management gate:
+  - Context management is optional.
+  - When `CONTEXT_MANAGEMENT_REQUIRED: true`, ticket `Context Management` and
+    `context_management/context_board.md` must stay synchronized.
+  - Tickets should reference reusable context packs by `Context ID`.
+  - When `CONTEXT_MANAGEMENT_REQUIRED: true`, do not implement or validate
+    until linked context artifacts were actually read.
+  - When `CONTEXT_MANAGEMENT_REQUIRED: true`, keep the linked context artifact
+    updated during the Ticket Microcycle whenever meaningful findings change
+    the reread bundle or active topics.
 - Attention-board boundary gate:
   - `attention_board.md` must remain ticket-routing-only (no artifact pointers).
 
@@ -109,14 +121,6 @@ Notes format requirement
   - `SCORE_0_TO_10` (compaction usefulness score; improve entries below
     `workflow.ticket_microcycle.minimum_note_score`)
 - Keep notes append-only except when correcting factual errors.
-- Gemini-only continuity anchors (optional):
-  - If the runtime adapter is Gemini and visible step metadata exists, record:
-    - `GEMINI_STEP_COUNTER`
-    - `GEMINI_CHECKPOINT`
-  - Capture these at meaningful continuity checkpoints such as review approval,
-    artifact creation, compaction, or handoff.
-  - If the same checkpoint created or updated active artifacts, mirror the same
-    Gemini fields in ticket `Artifact Links` or `artifact_board.md` notes.
 - Deep semantic meaning and collaboration behavior for each `TYPE` are defined in:
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`.
 
@@ -156,4 +160,16 @@ Formatting discipline
 Validation reporting
 - Never claim tests ran unless they actually ran.
 - If not run, say "Not run" and explain why.
+
+Optional context-management section
+- Tickets may include:
+  - `CONTEXT_MANAGEMENT_REQUIRED: true | false`
+  - `CONTEXT_IDS:` (0 or more `Context ID` values from
+    `context_management/context_board.md`)
+  - `CONTEXT_TOPICS:` (0 or more topic bullets)
+  - `IF_UNKNOWN:` (`UNKNOWN` | `ask user before implementation` | `none`)
+- Default posture:
+  - `CONTEXT_MANAGEMENT_REQUIRED: false`
+- If a required context-management field is not known, write `UNKNOWN`
+  explicitly.
 

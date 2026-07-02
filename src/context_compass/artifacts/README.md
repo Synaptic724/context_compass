@@ -13,9 +13,6 @@ Canonical protocol
   pointers.
 - If a ticket has artifacts, the ticket must include an `Artifact Links`
   section with artifact paths and disposition.
-- If runtime is Gemini and visible step metadata exists, ticket artifact links
-  or `artifact_board.md` notes may record Gemini continuity anchors
-  (`GEMINI_STEP_COUNTER`, `GEMINI_CHECKPOINT`) to improve resume quality.
 
 Storage contract
 - Root: `context_compass/artifacts/`
@@ -39,5 +36,6 @@ Security
 Historical note
 - Archived/completed tickets may still reference removed historical artifacts.
 - Those links remain historical context and do not define current protocol.
+
 
 

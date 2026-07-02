@@ -19,10 +19,9 @@
 
 ## Required Inputs (Read First)
 - `context_compass/system_docs/src_architecture.md`
-- graph-details surfaces when present or when the user wants them created:
-  - `context_compass/system_docs/graph_details_document.md`
-  - `context_compass/system_docs/readable_src_graph.json`
-  - `context_compass/system_docs/src_graph.json`
+- `context_compass/system_docs/graph_details_document.md`
+- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/src_graph.json`
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/tests_architecture.md`
 - `context_compass/system_docs/patches/active/<patch_id>/component_patch_<component>.md`
@@ -114,8 +113,10 @@ Pass only when all checks are true:
 - Lifecycle/cleanup ordering changed.
 - Core method-level flows changed.
 - Architecture boundaries/terms changed.
-- graph-details files changed because documented source wiring or ownership
-  relationships changed and graph-details workflow is enabled.
+- `readable_src_graph.json` changed because documented source wiring or
+  ownership relationships changed.
+- `src_graph.json` changed because canonical object relationships or ownership
+  moved.
 - C1 ranges became stale from code edits.
 - Active component/code-description patch docs changed for the same patch id.
 

@@ -16,6 +16,8 @@ Activation rule
 
 Active skills
 - `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD`
+- `agent_onboarding/user_defined/synaptic_python_developer/WORKFLOWS.MD`
+- `agent_onboarding/user_defined/synaptic_python_developer/workflows/synaptic_python_developer_onboarding.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/profile_overrides.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/policies/synaptic_policy_overrides.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/skills/synaptic_skill_overrides.md`

@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/story_designer/AGENTS.MD
+- agent_onboarding/default/story_designer/WORKFLOWS.MD
 - agent_onboarding/default/story_designer/skills/story_designer.md
 - agent_onboarding/default/story_designer/skills/story_designer_execution.md
 - agent_onboarding/default/story_designer/skills/story_designer_deliverables.md
