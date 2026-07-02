@@ -182,7 +182,6 @@ Before any tooling, edits, or execution:
     and MUST be read before any work in that scope.
 - If first-time onboarding is active and selected role is `new`, complete
   onboarding then set:
-  - `profiles.active_profile` to the selected steady-state role
   - `profiles.onboarding.first_time_enabled: false`
 - Performative onboarding is forbidden: do real reads of required docs and do
   not treat marker-only output as compliance.

@@ -83,7 +83,6 @@ Class selection model
 
 Where this is configured
 - `config/context_compass_config.yaml`
-  - `profiles.active_profile`
   - `profiles.available_profiles`
   - `profiles.user_defined_profiles`
   - `profiles.onboarding.*`

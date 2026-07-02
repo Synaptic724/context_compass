@@ -84,7 +84,6 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
 - `context_compass/config/context_compass_config.yaml`
 
 Key areas in that file:
-- `profiles.active_profile`
 - `profiles.available_profiles`
 - `profiles.user_defined_profiles`
 - `profiles.onboarding.*`
@@ -194,13 +193,7 @@ roles_map:
     data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
 ```
 
-### Step 5: Set active/default class
-Set active class:
-
-```yaml
-profiles:
-  active_profile: data_engineer
-```
+### Step 5: Register class for onboarding selection
 
 If this class should be selectable after first-time onboarding, update:
 
@@ -264,7 +257,6 @@ Validate workflow discipline (when used):
 - Duplicating entire parent `SKILLS.md` path lists in child classes.
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
-- Setting `active_profile` to a class not in `available_profiles`.
 - Forgetting to register `roles_map.roles.<profile>`.
 - Creating a top-level workflow registry when the workflow should live in the role.
 - Letting agents create or modify workflows at their own discretion.
@@ -361,7 +353,6 @@ Skills
 - [ ] I created `SKILLS.md` under `agent_onboarding/user_defined/<profile_name>/`.
 - [ ] I updated config profile lists and roles-map role registration.
 - [ ] I added the `SKILLS.md` inheritance header.
-- [ ] I set `active_profile` to target class.
 - [ ] I validated `SKILLS.md` paths and overlap contract.
 
 ## Troubleshooting

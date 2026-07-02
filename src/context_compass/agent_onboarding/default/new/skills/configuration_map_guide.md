@@ -19,8 +19,6 @@ Key sections
   - artifact board and lifecycle controls.
 
 Most important keys for onboarding
-- `profiles.active_profile`
-  - Current active class/profile.
 - `profiles.onboarding.first_time_default_profile`
   - First-time entry class (typically `new`).
 - `profiles.onboarding.allowed_post_onboarding_profiles`
@@ -47,8 +45,7 @@ Most important keys for onboarding
 Class assignment basics
 1) Confirm class exists in `profiles.available_profiles`.
 2) Ensure its `SKILLS.md` path exists in the `roles` mapping.
-3) Set `profiles.active_profile` to the chosen class.
-4) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
+3) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
 
 Recommended defaults after onboarding
 - For general code-development work: `engineer` (inherits `general`).
@@ -67,7 +64,7 @@ Recommended defaults after onboarding
   - `proofreader` for final publication lock.
 
 Validation checks
-- `rg -n "active_profile|available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
+- `rg -n "available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
 - `Get-Content context_compass/SKILLS.md`
 - `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
 - `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`

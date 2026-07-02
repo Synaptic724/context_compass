@@ -59,7 +59,6 @@ While active profile is `new`:
      `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`,
      `proofreader`.
 5) Apply onboarding completion config writes:
-   - set `profiles.active_profile` to selected steady-state profile,
    - set `profiles.onboarding.first_time_enabled: false`.
 6) Confirm next read path from selected role `SKILLS.md` via `SKILLS.md`.
 7) State onboarding completion explicitly.
@@ -67,11 +66,9 @@ While active profile is `new`:
 ## 5) Required Config Keys at Completion
 
 Required on onboarding completion:
-- `profiles.active_profile`
 - `profiles.onboarding.first_time_enabled`
 
 Expected completion state:
-- `profiles.active_profile: <selected_role>`
 - `profiles.onboarding.first_time_enabled: false`
 
 ## 6) Notes
