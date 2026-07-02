@@ -76,9 +76,14 @@
   - <artifacts/YYYY-MM-DD_<slug>.<ext>>
 - DISPOSITION: delete_on_close | retain_as_reference | promote_to_documentation
 - CLEANUP_TRIGGER: <when artifact cleanup/retention decision is applied>
-- GEMINI_CONTINUITY (Optional; Gemini only):
-  - STEP_COUNTER: <visible step counter, if available>
-  - CHECKPOINT: <resume or handoff anchor>
+
+## Context Management
+- CONTEXT_MANAGEMENT_REQUIRED: true | false
+- CONTEXT_IDS:
+  - CTX-YYYY-MM-DD-<slug> | UNKNOWN
+- CONTEXT_TOPICS:
+  - <topic or question> | UNKNOWN
+- IF_UNKNOWN: UNKNOWN | ask user before implementation | none
 
 ## Noting Behavior
 - Note focus: tactical findings, concrete impacts, and single-step continuation.
@@ -98,8 +103,6 @@
   - <path:start_line-end_line>
   IMPACT: <why this matters>
   NEXT: <one concrete next action>
-  GEMINI_STEP_COUNTER: <optional; Gemini only>
-  GEMINI_CHECKPOINT: <optional; Gemini only>
   REREAD: REQUIRED | HELPFUL
   SCORE_0_TO_10: <0-10 compaction usefulness>
 

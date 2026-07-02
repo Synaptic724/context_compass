@@ -24,6 +24,8 @@ Active skills
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md`
+- `agent_onboarding/default/general/skills/role_local_workflows.md`
+- `agent_onboarding/default/new/WORKFLOWS.MD`
 - `PROFILE_CLASS_CREATION_GUIDE.md`
 - `agent_onboarding/default/new/README.md`
 

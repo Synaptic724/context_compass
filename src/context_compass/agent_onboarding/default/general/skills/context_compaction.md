@@ -46,10 +46,8 @@ Conditional review set (ONLY when triggered):
   - `system_docs/tests_architecture.md`
   - `system_docs/src_components.md`
   - `system_docs/tests_components.md`
-  - graph-details surfaces only when they exist or the next session must create
-    them:
-    - `system_docs/graph_details_document.md`
-    - `system_docs/readable_src_graph.json`
+  - `system_docs/graph_details_document.md`
+  - `system_docs/readable_src_graph.json`
 
 Read discipline (non-negotiable)
 - Review-set document reads must be manual per file path.

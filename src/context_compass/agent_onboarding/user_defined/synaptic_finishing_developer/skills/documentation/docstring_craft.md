@@ -82,5 +82,5 @@ Review questions
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json` (if present)
+- `system_docs/readable_src_graph.json`
 - `agent_onboarding/user_defined/synaptic_python_developer/skills/python/docstrings.md`

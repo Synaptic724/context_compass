@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/researcher/AGENTS.MD
+- agent_onboarding/default/researcher/WORKFLOWS.MD
 - agent_onboarding/default/researcher/skills/researcher.md
 - agent_onboarding/default/researcher/skills/researcher_execution.md
 - agent_onboarding/default/researcher/skills/researcher_deliverables.md

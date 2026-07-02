@@ -13,4 +13,4 @@ Activation rule
   user-approved only.
 
 Active workflows
-- none
+- `agent_onboarding/user_defined/synaptic_python_developer/workflows/synaptic_python_developer_onboarding.md`

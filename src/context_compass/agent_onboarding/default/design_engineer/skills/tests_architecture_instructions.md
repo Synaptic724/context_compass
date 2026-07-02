@@ -21,8 +21,7 @@
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/readable_src_graph.json` when graph-details
-  workflow is enabled for the repository
+- `context_compass/system_docs/readable_src_graph.json`
 - `context_compass/agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
 - Active ticket and `context_compass/attention_board.md` route
 

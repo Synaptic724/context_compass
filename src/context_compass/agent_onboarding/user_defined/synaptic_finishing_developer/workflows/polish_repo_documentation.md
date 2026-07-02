@@ -62,8 +62,8 @@ Turn repo documentation finishing into a slow, recursive, system-aware macro:
 ## Required Reads
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md` (if present)
-- `system_docs/readable_src_graph.json` (if present)
+- `system_docs/graph_details_document.md`
+- `system_docs/readable_src_graph.json`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/system_aware_docstrings.md`

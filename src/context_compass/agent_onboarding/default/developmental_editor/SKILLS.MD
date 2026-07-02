@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/developmental_editor/AGENTS.MD
+- agent_onboarding/default/developmental_editor/WORKFLOWS.MD
 - agent_onboarding/default/developmental_editor/skills/developmental_editor.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
 - agent_onboarding/default/developmental_editor/skills/developmental_editor_deliverables.md

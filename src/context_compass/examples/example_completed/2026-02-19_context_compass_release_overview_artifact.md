@@ -12,7 +12,7 @@ scenario in public-facing workflow documentation.
 
 ## Decisions
 - Keep examples isolated in `examples/` lanes.
-- Keep references copy-safe for `context_compass/AGENTS.MD`.
+- Keep references copy-safe for `context_compass/AGENTS.md`.
 - Retain this artifact for future release-hardening checks.
 
 ## Evidence

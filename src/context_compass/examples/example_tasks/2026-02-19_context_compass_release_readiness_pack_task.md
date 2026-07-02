@@ -75,7 +75,7 @@ and upgraded architecture/component docs.
 - Completed.
 - Commands used:
   - `rg -n "context_compass_release_readiness|repo_overview" examples`
-  - `rg -n "context_compass/AGENTS.MD" examples`
+  - `rg -n "context_compass/AGENTS.md" examples`
   - `rg -n "\x07|\x08|\x09|\x0d" system_docs examples/example_architecture examples/example_components`
 
 ## Risks / Rollback Notes

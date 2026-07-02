@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/line_copy_editor/AGENTS.MD
+- agent_onboarding/default/line_copy_editor/WORKFLOWS.MD
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
 - agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md

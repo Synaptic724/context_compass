@@ -7,8 +7,6 @@
   - `context_compass/system_docs/src_graph.json`
 - Keep graph authoring aligned with the existing architecture/components doc
   stack instead of creating a competing prose layer.
-- Treat graph-details as an optional repo-specific context surface, not as a
-  mandatory shipped artifact for every fresh install.
 
 ## Canonical Outputs
 - `context_compass/system_docs/graph_details_document.md`
@@ -16,13 +14,10 @@
 - `context_compass/system_docs/readable_src_graph.json`
 
 ## Scope Boundary
-This graph is for one chosen source/runtime surface only.
+This graph is for `src/` only.
 
 Include:
-- every non-`__init__.py` file under the chosen source root when graph-details
-  workflow is enabled for that repository
-- example source roots may look like `src/**` or another repo-local runtime
-  subtree chosen by the user
+- every non-`__init__.py` file under `src/melder/**`
 
 Exclude:
 - `tests/**`
@@ -41,9 +36,6 @@ Exclude:
 - `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
 - active patch docs for the graph lane when patch gating is active
 - active ticket and `context_compass/attention_board.md` route
-- if repo-specific system docs do not exist yet, use the example graph-details
-  pack as the shape guide and create the graph surfaces only when the user wants
-  graph-based durable context
 
 ## Unknowns Gate (Non-Negotiable)
 - New graph claims default to `UNKNOWN`.
@@ -52,8 +44,8 @@ Exclude:
 - Do not infer semantic edges from imports or filename shape alone.
 
 ## Authoring Contract
-The graph is exhaustive for the eligible files inside the chosen repo-specific
-scope and semantic about how those files are wired.
+The graph is exhaustive for eligible `src/melder` files and semantic about how
+those files are wired.
 
 Include every eligible source file as a node-bearing graph entry, then enrich
 important files with stronger role/responsibility/relationship detail where it
@@ -143,7 +135,7 @@ Pass only when all checks are true:
 - failing to regenerate `readable_src_graph.json` after graph edits
 - adding `tests/` objects into `src_graph.json`
 - adding `__init__.py` files as graph nodes
-- leaving eligible files inside the chosen graph scope uncovered
+- leaving eligible `src/melder/**` files uncovered
 - using import-only edges as architecture truth
 - duplicating architecture/components prose into the graph
 - inventing new edge verbs without intentionally revising the schema

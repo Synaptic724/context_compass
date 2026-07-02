@@ -24,6 +24,7 @@ Rules
 
 Required baseline skills
 - `agent_onboarding/default/design_engineer/AGENTS.MD`
+- `agent_onboarding/default/design_engineer/WORKFLOWS.MD`
 - `agent_onboarding/default/design_engineer/skills/architecture_contexts.md`
 - `agent_onboarding/default/design_engineer/skills/patch_framework_design.md`
 - `agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md`
@@ -61,14 +62,5 @@ Trigger conditions (any one makes these mandatory):
 If triggered:
 - Inherit and apply the `engineer` on-demand system-context readset defined in:
   `agent_onboarding/default/engineer/SKILLS.MD`
-- If repo-specific system docs are missing or still starter mocks, raise to the
-  user that architecture/components/tests context maps should be created or
-  rewritten before making durable P0/P1 architecture claims.
-- Use the example packs as shape guides when creating missing docs:
-  - `examples/example_architecture/src_architecture.md`
-  - `examples/example_components/src_components.md`
-  - `examples/example_graph_details/graph_details_document.md`
-- Do not proceed with architecture claims or edits until the required
-  repo-specific readset is satisfied or the missing-doc plan is explicitly
-  aligned with the user.
+- Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 

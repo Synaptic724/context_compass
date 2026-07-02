@@ -68,11 +68,9 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
 * Use `system_docs/src_architecture.md`, `system_docs/src_components.md`,
-  `system_docs/tests_architecture.md`, and `system_docs/tests_components.md`
-  as required context for system understanding and handoffs.
-* Use graph-details files such as `system_docs/readable_src_graph.json` only
-  when the repository has opted into graph-based context maintenance or the
-  user explicitly wants them created.
+  `system_docs/readable_src_graph.json`, `system_docs/tests_architecture.md`,
+  and `system_docs/tests_components.md` as required context for system
+  understanding and handoffs.
 
 Do not treat user ideas as gospel. Be curious, thoughtful, and explicit about uncertainties.
 ---

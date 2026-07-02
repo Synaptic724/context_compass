@@ -21,7 +21,7 @@ It is an additive overlay on top of `engineer`.
 ## 2) Inheritance Directive
 
 This profile inherits and must comply with:
-- `context_compass/AGENTS.MD`
+- `context_compass/AGENTS.md`
 - `context_compass/agent_onboarding/default/general/AGENTS.MD`
 - `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
 
@@ -46,10 +46,8 @@ Before writing or rewriting substantial public-library docstrings or test
 contracts, use the mandatory baseline readset:
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- graph-details surfaces when the repository already has them or the user wants
-  them created:
-  - `system_docs/graph_details_document.md`
-  - `system_docs/readable_src_graph.json`
+- `system_docs/graph_details_document.md`
+- `system_docs/readable_src_graph.json`
 
 The rationale is simple: rich docstrings and rich tests are only trustworthy if
 they describe real system boundaries, ownership, cleanup, and collaborator

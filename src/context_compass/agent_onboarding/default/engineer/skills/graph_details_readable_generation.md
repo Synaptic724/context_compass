@@ -5,15 +5,11 @@
   - `context_compass/system_docs/readable_src_graph.json`
 - Keep the recipe in Markdown only.
 - Do not add or keep a repo script file for this workflow.
-- Use this only when the repository has opted into graph-details context
-  maintenance.
 
 ## When To Use
 - `readable_src_graph.json` is missing.
 - `src_graph.json` changed and the readable file is stale.
 - An agent needs to recreate the readable graph view from canonical storage.
-- Do not use this workflow in a fresh install that has not created graph-detail
-  surfaces yet.
 
 ## Required Contract
 - Source:
@@ -46,8 +42,8 @@ This keeps the output valid JSON while making it line-readable.
 Use this as a one-time inline command block, not as a saved script file:
 
 ```powershell
-$source = 'context_compass/system_docs/src_graph.json'
-$output = 'context_compass/system_docs/readable_src_graph.json'
+$source = 'codex/context_compass/system_docs/src_graph.json'
+$output = 'codex/context_compass/system_docs/readable_src_graph.json'
 $width = 220
 $raw = Get-Content $source -Raw
 $sb = New-Object System.Text.StringBuilder
@@ -107,8 +103,8 @@ Use this as a one-time inline command block, not as a saved script file:
 python - <<'PY'
 from pathlib import Path
 
-source = Path("context_compass/system_docs/src_graph.json")
-output = Path("context_compass/system_docs/readable_src_graph.json")
+source = Path("codex/context_compass/system_docs/src_graph.json")
+output = Path("codex/context_compass/system_docs/readable_src_graph.json")
 width = 220
 raw = source.read_text(encoding="utf-8")
 
@@ -153,8 +149,8 @@ PY
 PowerShell:
 
 ```powershell
-Get-Content context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
-$max = (Get-Content context_compass/system_docs/readable_src_graph.json | ForEach-Object { $_.Length } | Measure-Object -Maximum).Maximum
+Get-Content codex/context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
+$max = (Get-Content codex/context_compass/system_docs/readable_src_graph.json | ForEach-Object { $_.Length } | Measure-Object -Maximum).Maximum
 $max
 ```
 
@@ -165,7 +161,7 @@ python - <<'PY'
 from pathlib import Path
 import json
 
-path = Path("context_compass/system_docs/readable_src_graph.json")
+path = Path("codex/context_compass/system_docs/readable_src_graph.json")
 data = json.loads(path.read_text(encoding="utf-8"))
 max_len = max((len(line) for line in path.read_text(encoding="utf-8").splitlines()), default=0)
 print("OK_READABLE_JSON")

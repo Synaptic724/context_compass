@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/draft_writer/AGENTS.MD
+- agent_onboarding/default/draft_writer/WORKFLOWS.MD
 - agent_onboarding/default/draft_writer/skills/draft_writer.md
 - agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
 - agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md

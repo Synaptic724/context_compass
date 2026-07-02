@@ -21,30 +21,11 @@ Rules
 - `owner` and `agent_name` are different fields:
   - `owner` is the current executor/runtime owner
   - `agent_name` is the user-facing assigned name or names
-- `runtime_adapter` is separate again:
-  - examples: `codex`, `gemini`
-  - do not assume Gemini-only metadata exists in other runtimes
 - `Agent Name` / `agent_name` may contain one name or multiple assigned names
   in a comma-separated list.
 - After certification and before planned implementation or validation work,
   sync the chosen name into the active ticket metadata and active
   `attention_board.md` row when those surfaces are touched in the current lane.
-
-Gemini-only continuity anchors
-- If the runtime adapter is Gemini and visible step metadata exists, record
-  continuity anchors at meaningful checkpoints that affect resumption:
-  - review or approval checkpoints
-  - compaction or handoff checkpoints
-  - artifact-creation checkpoints
-- When those surfaces are touched in the current lane, mirror the continuity
-  anchors in:
-  - ticket `## Notes`
-  - ticket `Artifact Links`
-  - `artifact_board.md` notes when artifacts are involved
-- Suggested Gemini-only fields:
-  - `GEMINI_STEP_COUNTER`
-  - `GEMINI_CHECKPOINT`
-- Do not invent or backfill these fields for Codex or other runtimes.
 
 Non-goals
 - This skill does not define long-term persistence of names across sessions.

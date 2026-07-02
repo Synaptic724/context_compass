@@ -59,9 +59,7 @@ Provide one explicit synaptic-role onboarding macro that:
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
 - `context_compass/SKILLS.md`
-- `context_compass/mission.md`
-- `context_compass/psychology.md`
-- `context_compass/going_to_market.md`
+- all Markdown documents in `context_compass/special_instructions/`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/engineer/SKILLS.MD`
 - `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
@@ -201,3 +199,4 @@ This workflow captures the exact synaptic onboarding macro the user asked for:
 start at `AGENTS.MD`, onboard as `synaptic_python_developer`, use
 `Get-Content`, do not use agents, and read the architecture/components/readable
 graph bundle.
+

@@ -25,7 +25,7 @@ Context Compass turns volatile chat context into durable, file-backed execution
 state through policy bootstrap, role routing, and ticket-first notes.
 
 ## System Boundary and External Interfaces
-- Entrypoints: `AGENTS.MD`
+- Entrypoints: `AGENTS.md`
 - Router/config: `SKILLS.md`, `config/context_compass_config.yaml`
 - Work memory: `attention_board.md`, `tickets/`
 - Artifact memory: `artifact_board.md`, `artifacts/`
@@ -99,7 +99,7 @@ flowchart LR
 ```
 
 ## Information Sources
-- `AGENTS.MD`
+- `AGENTS.md`
 
 - `SKILLS.md`
 - `config/context_compass_config.yaml`

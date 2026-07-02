@@ -5,12 +5,8 @@
   - `context_compass/system_docs/readable_src_graph.json`
 - Keep the graph useful as a fast relationship map without treating it as a
   replacement for architecture/components docs.
-- Graph-details are optional repo-specific context surfaces, not mandatory
-  files in every fresh install.
 
 ## When To Use
-- The repository already has graph-details files, or the user has asked to
-  create them for stronger durable context.
 - You need to understand object wiring fast.
 - You need to know who owns lifecycle vs who only borrows a reference.
 - You need to know what creates, validates, publishes, binds, or queries what.
@@ -24,20 +20,12 @@ Scope rule:
 
 ## Required Read Order
 When relationship questions are in scope:
-1. `context_compass/system_docs/src_architecture.md`
-2. `context_compass/system_docs/src_components.md`
-3. `context_compass/system_docs/readable_src_graph.json` when graph-details
-   files already exist
-4. `context_compass/system_docs/graph_details_document.md` when graph-details
-   workflow is enabled
+1. `context_compass/system_docs/readable_src_graph.json`
+2. `context_compass/system_docs/graph_details_document.md`
+3. `context_compass/system_docs/src_architecture.md`
+4. `context_compass/system_docs/src_components.md`
 5. `context_compass/system_docs/src_graph.json` only when storage verification
    or raw canonical checks matter
-
-If graph-details files do not exist yet:
-- use architecture/components docs first
-- use `examples/example_graph_details/` as the shape guide
-- raise to the user that graph-details can be created if stronger structural
-  context would help
 
 Use the readable graph first for fast orientation.
 Use architecture/components docs for the full narrative and deeper lifecycle
@@ -47,8 +35,6 @@ detail.
 - Read `readable_src_graph.json` in bounded line chunks.
 - Treat `src_graph.json` as storage, not as the normal reading surface.
 - Use `src_graph.expanded.json` only when editing or doing full patch review.
-- Do not treat missing graph files as a blocker unless the user explicitly wants
-  graph-details workflow enabled for the repository.
 
 ## How To Read The Graph
 Read nodes first:
@@ -113,9 +99,8 @@ If graph, architecture/components docs, and source disagree:
   reading.
 
 ## References
-- `context_compass/system_docs/readable_src_graph.json` (if present)
-- `context_compass/system_docs/graph_details_document.md` (if present)
+- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/graph_details_document.md`
 - `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/examples/example_graph_details/`

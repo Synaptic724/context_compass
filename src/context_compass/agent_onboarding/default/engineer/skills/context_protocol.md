@@ -13,8 +13,7 @@ Required flow
 - For architecture/components/tests claims, read the relevant `system_docs/*`
   files first.
 - When the question is about object wiring, ownership, creation, publication,
-  validation, or borrowing relationships, include graph-details surfaces only
-  when the repository actually has them or the user wants them created:
+  validation, or borrowing relationships, include:
   - `context_compass/system_docs/graph_details_document.md`
   - `context_compass/system_docs/readable_src_graph.json`
   - `context_compass/system_docs/src_graph.json` when storage-level graph
@@ -33,14 +32,11 @@ Rules
 - Always prefer documented context over assumptions.
 - Treat UNKNOWN as default until evidence is attached.
 - Keep architecture/components docs in sync with actual boundaries.
-- Treat `readable_src_graph.json` as the primary graph consumption surface only
-  when graph-details workflow is enabled for the repository.
+- Treat `readable_src_graph.json` as the primary graph consumption surface when
+  architecture/components context is required.
 - Block implementation when patch-framework entry-gate artifacts are missing for
   system-impacting work.
-- If a required architecture/components/tests doc is missing, create it before
-  implementing related changes.
-- If graph-details docs are missing and graph-based durable context would help,
-  raise that to the user and create them only with explicit alignment.
+- If a doc is missing, create it before implementing related changes.
 
 Examples
 - `agent_onboarding/default/general/README.md`

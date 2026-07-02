@@ -88,9 +88,8 @@ Key areas in that file:
 - `profiles.available_profiles`
 - `profiles.user_defined_profiles`
 - `profiles.onboarding.*`
-- `router.path`
-- `router.profile_readme_policy.*`
-- `router.roles.*`
+- `roles.*`
+- `roles_map.profile_readme_policy.*`
 - `SKILLS.md` header inheritance:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
 
@@ -190,7 +189,7 @@ profiles:
   user_defined_profiles:
     - data_engineer
 
-router:
+roles_map:
   roles:
     data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
 ```
@@ -266,7 +265,7 @@ Validate workflow discipline (when used):
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
 - Setting `active_profile` to a class not in `available_profiles`.
-- Forgetting to register `router.roles.<profile>`.
+- Forgetting to register `roles_map.roles.<profile>`.
 - Creating a top-level workflow registry when the workflow should live in the role.
 - Letting agents create or modify workflows at their own discretion.
 
@@ -370,7 +369,7 @@ Skills
 ### Class does not load
 Check:
 - class exists in `profiles.available_profiles`
-- role exists under `router.roles`
+- role exists under `roles_map.roles`
 - class `SKILLS.md` path is correct and readable
 
 ### Wrong docs load order

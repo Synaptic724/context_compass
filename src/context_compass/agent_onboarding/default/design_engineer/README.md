@@ -21,8 +21,7 @@ Design Engineer inventory
 - `skills/src_components_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_components.md`.
 - `skills/graph_details_instructions.md`: creation/maintenance mechanics for
-  optional graph-details surfaces such as `system_docs/src_graph.json` and
-  `system_docs/readable_src_graph.json` when a repository wants that context.
+  `system_docs/src_graph.json` and `system_docs/readable_src_graph.json`.
 - `skills/tests_architecture_instructions.md`: creation/maintenance mechanics
   for `system_docs/tests_architecture.md`.
 - `skills/tests_components_instructions.md`: creation/maintenance mechanics for

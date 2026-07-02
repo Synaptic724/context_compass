@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/story_novel_artist/AGENTS.MD
+- agent_onboarding/default/story_novel_artist/WORKFLOWS.MD
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
 - agent_onboarding/default/story_novel_artist/skills/story_novel_artist_deliverables.md

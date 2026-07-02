@@ -24,6 +24,7 @@ Rules
 
 Required baseline skills
 - `agent_onboarding/default/engineer/AGENTS.MD`
+- `agent_onboarding/default/engineer/WORKFLOWS.MD`
 - `agent_onboarding/default/engineer/skills/engineer_execution.md`
 - `agent_onboarding/default/engineer/skills/technical_expertise.md`
 - `agent_onboarding/default/engineer/skills/system_orientation.md`
@@ -49,31 +50,12 @@ Trigger conditions (any one makes these mandatory):
 - You are changing cross-cutting behavior that depends on documented architecture or component boundaries.
 - The user explicitly requests an architecture/components/tests deep dive.
 
-System-doc expectation
-- `system_docs/` may already contain repo-specific docs, starter mock docs, or
-  nothing at all.
-- If repo-specific system docs exist, read the relevant ones before making
-  architecture, component, or test claims.
-- If they do not exist and the repository has enough stable structure to map,
-  raise to the user that creating them will improve durable context and resume
-  quality.
-- Treat starter mock docs as templates until validated.
-
-When repo-specific system docs exist, you MUST read the relevant items below
-(do not skip):
+If triggered, you MUST read the relevant items below (do not skip):
 - `system_docs/tests_architecture.md`
 - `system_docs/tests_components.md`
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-
-Graph-details docs are optional. Create and read them only when the repository
-actually needs graph-based context maintenance:
 - `system_docs/graph_details_document.md`
+RAISE TO USER THE BELOW DOCUMENTS AND ASK IF REQUIRED TO READ:
 - `system_docs/readable_src_graph.json`
 - `system_docs/src_graph.json`
-
-Shape guides for creating missing docs
-- `examples/example_architecture/src_architecture.md`
-- `examples/example_components/src_components.md`
-- `examples/example_graph_details/graph_details_document.md`
-- `examples/example_graph_details/readable_src_graph.json`

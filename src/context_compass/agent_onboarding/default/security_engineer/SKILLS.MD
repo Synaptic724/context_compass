@@ -24,6 +24,7 @@ Rules
 
 Required baseline skills
 - `agent_onboarding/default/security_engineer/AGENTS.MD`
+- `agent_onboarding/default/security_engineer/WORKFLOWS.MD`
 - `agent_onboarding/default/security_engineer/skills/security_engineer_execution.md`
 - `agent_onboarding/default/security_engineer/skills/threat_modeling.md`
 - `agent_onboarding/default/security_engineer/skills/secure_architecture_review.md`

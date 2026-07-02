@@ -22,9 +22,8 @@ When this gate applies
   cross-component behavior.
 - Any design expected to update canonical `system_docs/src_architecture.md` or
   `system_docs/src_components.md`.
-- Any design expected to refresh graph-details surfaces such as
-  `system_docs/readable_src_graph.json` because documented source wiring or
-  ownership moved, when that workflow is enabled for the repository.
+- Any design expected to refresh `system_docs/readable_src_graph.json` because
+  documented source wiring or ownership moved.
 
 Required design outputs (before implementation)
 1) `system_docs/patches/active/<patch_id>/architecture_patch.md`

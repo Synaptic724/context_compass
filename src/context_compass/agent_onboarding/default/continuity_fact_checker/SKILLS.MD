@@ -19,6 +19,7 @@ Rules
 
 Required baseline skills
 - agent_onboarding/default/continuity_fact_checker/AGENTS.MD
+- agent_onboarding/default/continuity_fact_checker/WORKFLOWS.MD
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
 - agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_deliverables.md
