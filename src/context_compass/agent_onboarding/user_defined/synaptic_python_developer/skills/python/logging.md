@@ -1,4 +1,4 @@
-﻿
+
 
 # logging
 
@@ -19,8 +19,8 @@ Rules
   `InitHelpers.resolve_safe_logger(...)`.
 - Stdlib logging is secondary and should be registered at the provider level as
   the basic fallback only.
-- If logger selection is unclear, raise an explicit open question and cite Conduit
-  (src/project/aether/conduit/conduit.py).
+- If logger selection is unclear, raise an explicit open question and cite the
+  repository's real logger owner or logger-factory source file.
 
 Example
 - logger = InitHelpers.resolve_channel_logger(self, channels="system")

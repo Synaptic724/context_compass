@@ -8,9 +8,10 @@
 - Updated: 2026-06-13
 
 ## Purpose
-Define the canonical graph-details contract for `src/melder` so agents can
-load a concise relationship map for eligible source objects without replacing
-the existing long-form architecture and component docs.
+Define the canonical graph-details contract for one chosen repo-local
+source/runtime surface so agents can load a concise relationship map for
+eligible source objects without replacing the existing long-form architecture
+and component docs.
 
 This document is the canonical workflow and schema reference for:
 - `system_docs/src_graph.json`
@@ -49,7 +50,7 @@ This document is the canonical workflow and schema reference for:
 explanation surfaces.
 
 `src_graph.json` is not a third prose architecture document. Its role is:
-- capture eligible `src/melder` source coverage
+- capture eligible source coverage for the chosen source/runtime surface
 - state what each covered object/module is
 - show how those covered objects/modules are wired together
 - distinguish hard ownership from borrowing, creation, validation, and other
@@ -59,10 +60,12 @@ Use the graph for fast structural traversal.
 Use architecture/components docs for full narrative and deeper lifecycle detail.
 
 ## Scope Boundary
-The canonical graph targets `src/` only.
+The canonical graph targets one chosen source/runtime surface at a time.
 
 In scope:
-- `src/melder/**`
+- the repo-local source/runtime surface selected for graph coverage
+- example source roots may look like `src/**` or another runtime subtree
+  chosen by the user
 
 Out of scope:
 - `tests/**`
@@ -105,10 +108,10 @@ Field meanings:
 - `id`
   - stable canonical unique object id
   - use fully qualified code identity
-  - example: `melder.nexus.rift.rift.Rift`
+  - example: `package.runtime.component.ComponentRoot`
 - `label`
   - short display label
-  - example: `Rift`
+  - example: `ComponentRoot`
 - `kind`
   - one of:
     - `class`
@@ -203,11 +206,11 @@ Additional live relation meanings:
 Do not invent ad hoc edge labels unless the schema is intentionally revised.
 
 ## Inclusion Rules
-The graph is exhaustive for eligible `src/melder` source files and semantic
+The graph is exhaustive for eligible files inside the chosen repo-local
 about how those files are wired.
 
 Include:
-- every non-`__init__.py` file under `src/melder/**`
+- every non-`__init__.py` file under the chosen source/runtime surface
 - richer node semantics where the file exposes important classes/components
 - relationships that materially improve ownership, creation, borrowing,
   validation, publication, binding, and runtime wiring comprehension
@@ -432,13 +435,13 @@ Get-Content codex/context_compass/examples/example_graph_details/src_graph.expan
 - using non-unique object names as ids
 - duplicating long-form architecture/components prose into the graph
 - treating the graph as a whole-repo file inventory outside the agreed
-  `src/melder/**` scope
+  chosen source/runtime scope
 - adding relation labels that are not in the controlled vocabulary without
   intentionally revising the schema
 
 ## Context / Handoff Summary
 This document defines the canonical graph-details schema and the required
 expand-edit-compress workflow for maintaining `src_graph.json`. The graph is
-exhaustive over eligible `src/melder` files, relationship-focused, and
+exhaustive over eligible files in the chosen source/runtime surface, relationship-focused, and
 complementary to
 `src_architecture.md` and `src_components.md`, not a replacement for them.

@@ -14,10 +14,13 @@
 - `context_compass/system_docs/readable_src_graph.json`
 
 ## Scope Boundary
-This graph is for `src/` only.
+This graph is for one chosen source/runtime surface only.
 
 Include:
-- every non-`__init__.py` file under `src/melder/**`
+- every non-`__init__.py` file under the chosen source root when graph-details
+  workflow is enabled for that repository
+- example source roots may look like `src/**` or another repo-local runtime
+  subtree chosen by the user
 
 Exclude:
 - `tests/**`
@@ -36,6 +39,9 @@ Exclude:
 - `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
 - active patch docs for the graph lane when patch gating is active
 - active ticket and `context_compass/attention_board.md` route
+- if repo-specific system docs do not exist yet, use the example graph-details
+  pack as the shape guide and create the graph surfaces only when the user wants
+  graph-based durable context
 
 ## Unknowns Gate (Non-Negotiable)
 - New graph claims default to `UNKNOWN`.
@@ -44,7 +50,7 @@ Exclude:
 - Do not infer semantic edges from imports or filename shape alone.
 
 ## Authoring Contract
-The graph is exhaustive for eligible `src/melder` files and semantic about how
+The graph is exhaustive for the eligible files inside the chosen repo-specific
 those files are wired.
 
 Include every eligible source file as a node-bearing graph entry, then enrich
@@ -99,7 +105,7 @@ Required workflow:
 2. Re-read architecture/components docs for the target subsystem.
 3. Expand the canonical graph into a patch-lane working copy.
 4. Add or update nodes first.
-   - only for `src/` objects
+   - only for objects in the chosen source/runtime surface
 5. Add or update semantic edges second.
 6. Validate graph JSON and relationship coherence.
 7. Recompress and overwrite canonical storage.
@@ -135,7 +141,7 @@ Pass only when all checks are true:
 - failing to regenerate `readable_src_graph.json` after graph edits
 - adding `tests/` objects into `src_graph.json`
 - adding `__init__.py` files as graph nodes
-- leaving eligible `src/melder/**` files uncovered
+- leaving eligible files inside the chosen graph scope uncovered
 - using import-only edges as architecture truth
 - duplicating architecture/components prose into the graph
 - inventing new edge verbs without intentionally revising the schema
