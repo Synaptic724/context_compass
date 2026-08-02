@@ -88,16 +88,22 @@ class TestExtract:
         assert any(c["to_label"] == "Stage" for c in d["edge_candidates"])
         assert not any(e.get("relation") == "creates" for e in d["edges_out"])
 
+    # Broken on EVERY Python, which the first version of this fixture was not.
+    # It used a PEP 701 f-string (nested quotes) because that was the real-world
+    # case - but that syntax is *valid* from 3.12, so the test asserted a
+    # SyntaxError that only happens on 3.10 and 3.11. Green on two versions of
+    # the matrix and red on three, for a reason having nothing to do with the
+    # code under test.
+    UNPARSEABLE = "class Broken:\n    def s(self)\n        return 1\n"
+
     def test_an_unparseable_file_names_the_interpreter_version(self, mock_source_tree, tmp_path):
         """A file the running interpreter cannot parse gets no descriptor and
         every node in it silently vanishes. That is right when the file is
         broken and wrong when the file is simply NEWER than the interpreter -
-        and the two look identical. A PEP 701 f-string parses on 3.12+ and
-        raises on 3.10; a real graph came out one class short with nothing
-        saying why.
+        and the two look identical from here, so the message names the version
+        that did the parsing.
         """
-        write(mock_source_tree / "app" / "newer.py",
-              'class Newer:\n    def s(self):\n        return f"x {d.get("k", "v")}"\n')
+        write(mock_source_tree / "app" / "broken.py", self.UNPARSEABLE)
         res = run_tool(EXTRACT, "--src", mock_source_tree, "--out", tmp_path / "d")
 
         assert res.returncode == 0, "one bad file must not abort the run"
@@ -106,8 +112,7 @@ class TestExtract:
         assert "the interpreter is older than the code" in res.stderr
 
     def test_the_other_files_still_extract(self, mock_source_tree, tmp_path):
-        write(mock_source_tree / "app" / "newer.py",
-              'class Newer:\n    def s(self):\n        return f"x {d.get("k", "v")}"\n')
+        write(mock_source_tree / "app" / "broken.py", self.UNPARSEABLE)
         out = tmp_path / "d"
         run_tool(EXTRACT, "--src", mock_source_tree, "--out", out)
         assert (out / "app" / "engine.json").is_file()

@@ -59,10 +59,17 @@ def run_tool(script: pathlib.Path, *args: object) -> subprocess.CompletedProcess
     `main()` would skip argparse, the `sys.path` bootstrap each script performs,
     and the exit-code contract - which is the part downstream automation
     actually depends on.
+
+    `stdin=DEVNULL` because whether an inherited stdin reports as a TTY depends
+    on the platform and the CI harness. On Windows runners it came back True,
+    so tools that refuse to prompt without a terminal instead prompted, hit EOF,
+    and cancelled - safe, but a different message, and a test that passed on
+    Linux and failed on Windows for reasons unrelated to the code under test.
+    Closing stdin outright makes "there is nobody to ask" true everywhere.
     """
     return subprocess.run(
         [sys.executable, str(script), *[str(a) for a in args]],
-        capture_output=True, text=True,
+        capture_output=True, text=True, stdin=subprocess.DEVNULL,
     )
 
 

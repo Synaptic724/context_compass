@@ -19,8 +19,8 @@ SRC = REPO / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
-import contextcompass  # noqa: E402
-from contextcompass.__main__ import main  # noqa: E402
+import contextcompass_cli as contextcompass  # noqa: E402
+from contextcompass_cli.__main__ import main  # noqa: E402
 
 from conftest import TOOLS, run_tool  # noqa: E402
 
@@ -70,13 +70,27 @@ class TestPayloadResolution:
                         if l.startswith("| package_version |"))
         assert contextcompass.__version__ == recorded
 
-    def test_the_installer_module_does_not_claim_the_install_name(self):
-        """Every consuming repo has a `context_compass/` directory. A
-        distribution claiming that import name makes imports resolve
-        differently depending on how Python was invoked."""
-        assert contextcompass.__name__ == "contextcompass"
+    def test_the_source_directory_mirrors_the_install_directory(self):
+        """`src/context_compass/` is what lands as `context_compass/`.
+
+        Deliberately identical, so there is no translation step between what a
+        contributor reads in the repository and what a user gets. These two are
+        the pair that SHOULD match.
+        """
+        assert contextcompass.SOURCE_DIRNAME == contextcompass.INSTALL_DIRNAME
         assert contextcompass.INSTALL_DIRNAME == "context_compass"
+
+    def test_the_module_name_matches_neither_directory(self):
+        """This is the one that must never collide.
+
+        A module sharing a name with the directory sitting in the user's repo
+        resolves differently depending on how Python was invoked - the local
+        folder wins from the repo root, the installed package wins from
+        anywhere else. Same machine, same venv, different answer.
+        """
+        assert contextcompass.__name__ == "contextcompass_cli"
         assert contextcompass.__name__ != contextcompass.INSTALL_DIRNAME
+        assert contextcompass.__name__ != contextcompass.SOURCE_DIRNAME
 
 
 class TestInit:

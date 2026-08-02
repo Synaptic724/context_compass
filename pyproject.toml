@@ -28,7 +28,7 @@ Homepage = "https://github.com/Synaptic724/contextcompass"
 Repository = "https://github.com/Synaptic724/contextcompass"
 
 [project.scripts]
-contextcompass = "contextcompass.__main__:main"
+contextcompass = "contextcompass_cli.__main__:main"
 
 [dependency-groups]
 dev = ["pytest>=8"]
@@ -41,20 +41,21 @@ build-backend = "hatchling.build"
 # the same number and a test asserts they agree; a version maintained in two
 # places is a version that will disagree.
 [tool.hatch.version]
-path = "src/contextcompass/__init__.py"
+path = "src/contextcompass_cli/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/contextcompass"]
+packages = ["src/contextcompass_cli"]
 
 # The ~440 payload files ARE the product. Without this the wheel ships the
 # tooling and none of the Markdown it operates on - which is exactly what the
 # implicit setuptools build produced: 28 .py files, 0 .md.
 #
-# Mapped rather than moved: the source tree keeps `src/context_compass/` where
-# every skill, test and doc reference already points, and the wheel receives it
-# under the installer module.
+# Mapped rather than moved. Three names, none interchangeable: the DISTRIBUTION
+# is `contextcompass`, the MODULE is `contextcompass_cli`, and the DIRECTORY
+# created in a consuming repo is `context_compass`. The module name is kept
+# distinct from both so no import can resolve two ways.
 [tool.hatch.build.targets.wheel.force-include]
-"src/context_compass" = "contextcompass/_package"
+"src/context_compass" = "contextcompass_cli/_package"
 
 [tool.hatch.build.targets.sdist]
 include = ["src/", "tests/", "README.md", "LICENSE", "pyproject.toml"]

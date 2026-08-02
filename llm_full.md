@@ -435,7 +435,7 @@ from the files themselves, which is the only reason it can be trusted.
 | field | value |
 | --- | --- |
 | manifest_version | 1.0.0 |
-| package_version | 2.12.0 |
+| package_version | 2.13.0 |
 | files | 444 |
 
 ## Lane policy
@@ -908,7 +908,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `tools/system_documents/python/assemble_graph.py` | PACKAGE | `5f986909273c6815662682adfedc6a9e2e31abc4fe4cb57b8fbaf1842f8f5252` |
 | `tools/system_documents/python/extract_graph.py` | PACKAGE | `a03cb51b152d39e92ece0f6dc006ba977f7dc907e37b9d4a30c0941774b5a3d7` |
 | `tools/system_documents/python/graph_semantics_tickets.py` | PACKAGE | `a4d98e644c99d4404ef62ecad3b58efd8b837b762989c2b18ca9ebc4a3341eb9` |
-| `tools/system_documents/python/graph_walker.py` | PACKAGE | `5af4189cc2e7bf582be1d5ea036639ed7398959a60d8e8a143804d076ef923a8` |
+| `tools/system_documents/python/graph_walker.py` | PACKAGE | `c6d0825a35c8021d9bf41eb5cc1eb934d2014d6932d8bd28fa982992600ff802` |
 | `tools/system_documents/python/migrate_authored_graph.py` | PACKAGE | `478b9e7e77520ab65c1cc5aaa8445a8083e48390088e1168c0557b70b03b3687` |
 | `tools/update_context_compass.py` | PACKAGE | `871ccca362bcca9637e582566b1c24fe5397acfaf8576e6b3ca8be65f6c57897` |
 | `user_defined/README.md` | INSTANCE | `f58639058dabcaafed2f3b589ca12b7eb94ddd45dd356a807b39f2304b90ab33` |
@@ -28022,7 +28022,16 @@ def confirm(question: str, assume_yes: bool) -> bool:
         return False
     try:
         answer = input(f"  {question} [y/N] ").strip().lower()
-    except (EOFError, KeyboardInterrupt):
+    except EOFError:
+        # `isatty()` said yes and then there was nothing to read. Some CI
+        # harnesses hand a process a stdin that claims to be a terminal but
+        # closes on first read, so this is the same situation as no terminal
+        # at all - and it gets the same answer and the same wording, rather
+        # than a softer one that reads like the user chose to cancel.
+        print("\n  REFUSED: stdin closed before answering, so nobody confirmed.")
+        print("           Pass --yes if you mean it, having read the list above.")
+        return False
+    except KeyboardInterrupt:
         print("\n  cancelled")
         return False
     return answer in ("y", "yes")

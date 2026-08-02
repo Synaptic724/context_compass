@@ -268,7 +268,16 @@ def confirm(question: str, assume_yes: bool) -> bool:
         return False
     try:
         answer = input(f"  {question} [y/N] ").strip().lower()
-    except (EOFError, KeyboardInterrupt):
+    except EOFError:
+        # `isatty()` said yes and then there was nothing to read. Some CI
+        # harnesses hand a process a stdin that claims to be a terminal but
+        # closes on first read, so this is the same situation as no terminal
+        # at all - and it gets the same answer and the same wording, rather
+        # than a softer one that reads like the user chose to cancel.
+        print("\n  REFUSED: stdin closed before answering, so nobody confirmed.")
+        print("           Pass --yes if you mean it, having read the list above.")
+        return False
+    except KeyboardInterrupt:
         print("\n  cancelled")
         return False
     return answer in ("y", "yes")
