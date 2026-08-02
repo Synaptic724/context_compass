@@ -102,6 +102,47 @@ Full format specification:
 11. `## Information Sources`
 12. `## Context / Handoff Summary`
 
+### The document names no path into this package
+
+`tests_components.md` is committed to the repository it describes and, in a
+packaged project, ships inside the wheel. Every reader of that copy has the code
+and does not have Context Compass. A line like
+`context_compass/tools/system_documents/index_document.py` resolves for you and
+for nobody downstream.
+
+**No path in the produced document points into this package - written either
+way.** `context_compass/tools/system_documents/index_document.py` and a bare
+`tools/system_documents/index_document.py` are the same file; the second merely
+drops the prefix because whoever wrote it was thinking install-relative. The
+unprefixed form is the commoner leak and much the easier to miss, so the rule is
+about the destination, not the spelling. The same goes for `agent_onboarding/`,
+`system_docs/`, `patches/active/` and any tool filename.
+
+Not in `## Indexing`, not in `## Information Sources`, not in a Key Files list,
+not in a cross-reference. This is a hard rule, and it is checked in the Quality
+Gate.
+
+- **Maintenance commands are relocated, not deleted.** The command that rebuilds
+  the index lives in this skill, which is where a maintainer already is when
+  they need it. The document's `## Indexing` section states that an index
+  companion exists and what heading rules it depends on. A reader needs both
+  facts and neither one requires naming a tool.
+- **Cross-references use a logical document id**: `tests_architecture`, not
+  `context_compass/system_docs/tests_architecture.md`. The id survives the
+  document being vendored, renamed, or published under a different root. The
+  path does not.
+- **Paths into the subject stay, and stay repo-relative.** `tests/unit/test_x.py`
+  in a C1 entry or a Key Files list is exactly right - that is the suite being
+  documented and it is the whole point of the entry. Relative to the repository
+  root, never absolute: `C:\Users\...\tests\unit\test_x.py` encodes one
+  machine's checkout location into a document that gets committed and shipped,
+  so it is wrong for every reader who is not you, and it breaks the moment the
+  repo is cloned anywhere else. The rule bans paths into the tooling that
+  produced the document, never paths into the thing it describes.
+
+`src_graph.md` is the model to copy: it is fully generated and contains zero
+install-prefixed paths.
+
 ### Sections not in the contract
 
 The contract is a **minimum in a fixed relative order**, not a whitelist. Other
@@ -301,6 +342,8 @@ Pass only when all checks are true:
 - [ ] C1 map entries include path, range, LOC, and verified_at.
 - [ ] Terminology aligns with `tests_architecture.md`.
 - [ ] Information Sources support promoted FACT claims.
+- [ ] No path in the document begins with the install directory, and every path
+      into the documented suite is repo-relative rather than absolute.
 
 Passing this gate means the document is structurally sound, not that it is good.
 Every check above is binary: an entry reading "Runs the suite" satisfies the
@@ -316,6 +359,18 @@ that gap is the finding, not an excuse.
 - `rg -n "^## " context_compass/system_docs/tests_components.md`
 - `rg -n "C3 Components|C2 Subcomponents|Method-Level Call Flows|C1 Code Map" context_compass/system_docs/tests_components.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/tests_components.md`
+
+Two that must return nothing. These are the portability rule, and unlike the
+others a hit is a defect rather than a thing to eyeball:
+
+- `rg -n "context_compass/|agent_onboarding/|tools/system_documents/|index_document\.py|system_docs/|patches/active/" context_compass/system_docs/tests_components.md` -
+  any hit is a path into this package that a downstream reader cannot resolve.
+  Note the alternation. Checking only for `context_compass/` finds nothing on a
+  real leaked document, because an agent writing from inside the install writes
+  `python tools/system_documents/index_document.py --doc system_docs/tests_components.md`
+  with no prefix at all. That is the same file and the same defect.
+- `rg -n "([A-Za-z]:\\\\|^\s*-?\s*path:\s*[\`']?/)" context_compass/system_docs/tests_components.md` -
+  absolute paths, Windows or POSIX, which encode one machine's checkout location
 
 ## Staleness Triggers (When Update Is Mandatory)
 - Test component ownership/wiring changed.
@@ -336,6 +391,12 @@ that gap is the finding, not an excuse.
 - C1 call flows with generic statements and no concrete symbols.
 - C1 map entries missing verification fields.
 - Divergence from tests architecture terminology without escalation.
+- **Naming Context Compass anywhere in the document.** A `context_compass/...`
+  path, a tool invocation, a pointer at a skill file. The document ships with
+  the codebase; the tooling does not ship with it. Reference the documented
+  suite instead, and put maintenance commands in this skill.
+- **Absolute paths in C1 entries, Key Files, or Information Sources.**
+  Repo-relative only. An absolute path is correct on exactly one machine.
 
 ## Handoff Rule
 - End with `Context / Handoff Summary` that states:

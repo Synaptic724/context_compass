@@ -325,6 +325,15 @@ first, then by `(file, label)`, before you assemble anything.
   swallowed 14 real files including `__init__.py` and every dunder module. A
   prefix is a naming convention, not a type.
 - Promoting an edge candidate to an edge without reading the code.
+- **Writing `context_compass/...` into a descriptor's authored prose.** The
+  generated document is clean today - it cites the source tree constantly and
+  names this package nowhere - and that is only true because nothing has typed a
+  tool path into a `role`, `responsibilities`, or `why` field. Those fields flow
+  straight through the assembler into `src_graph.md`, which ships with the
+  codebase to readers who do not have Context Compass. Cite the source; if a
+  reader needs the regeneration command, they are in this skill already.
+- Absolute paths in a descriptor. Repo-relative, or the document is correct on
+  one machine.
 
 References
 - `agent_onboarding/default/engineer/skills/src_graph_usage.md`

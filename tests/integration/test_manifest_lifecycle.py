@@ -86,6 +86,63 @@ class TestCaseDrift:
         assert "removed  SKILLS.MD" in res.stdout
 
 
+class TestCaseCollision:
+    """Both names present at once - the half of the disease that actually shipped.
+
+    Drift is a rename: one name leaves, another arrives. A collision is two
+    files coexisting whose names differ only in case. That is legal on Linux
+    and impossible on Windows and macOS, so whoever creates it cannot see it,
+    and it surfaces only in CI - which is exactly what happened: a green local
+    run, and `added SKILLS.md` on the Ubuntu leg.
+
+    The message matters more than the detection. `added SKILLS.md` invites the
+    repair "add it to the manifest", which would bless a tree that cannot be
+    checked out on half the machines that use it.
+    """
+
+    @pytest.fixture
+    def collided(self, manifested):
+        twin = manifested / "SKILLS.md"
+        twin.write_bytes(b"# a second file the manifest has never heard of\n")
+        if (manifested / "SKILLS.MD").read_bytes() == twin.read_bytes():
+            pytest.skip("case-insensitive filesystem - the two names are one file")
+        return manifested
+
+    def test_the_collision_is_named_rather_than_called_an_add(self, collided):
+        res = run_tool(MANIFEST, "--root", collided, "--check")
+        assert res.returncode == 1
+        assert "CASE COLLISION 1" in res.stdout
+        assert "added    SKILLS.md" not in res.stdout
+
+    def test_it_names_the_manifested_path_it_collides_with(self, collided):
+        """Naming only the stray leaves you hunting for what it collides with."""
+        res = run_tool(MANIFEST, "--root", collided, "--check")
+        assert "COLLIDE  SKILLS.md" in res.stdout
+        assert "manifested SKILLS.MD" in res.stdout
+
+    def test_it_steers_away_from_manifesting_the_stray(self, collided):
+        res = run_tool(MANIFEST, "--root", collided, "--check")
+        assert "Delete the unmanifested one" in res.stdout
+        assert "do NOT add it to" in res.stdout
+
+    def test_it_warns_that_a_local_rename_may_not_remove_it(self, collided):
+        """The trap that kept this alive: renaming on a case-insensitive
+        filesystem looks like a fix locally and changes nothing in the tree."""
+        res = run_tool(MANIFEST, "--root", collided, "--check")
+        assert "case-insensitive" in res.stdout
+
+    def test_differing_contents_are_distinguished_from_identical(self, collided):
+        res = run_tool(MANIFEST, "--root", collided, "--check")
+        assert "contents differ" in res.stdout
+
+    def test_an_unrelated_new_file_is_still_a_plain_add(self, manifested):
+        """The guard must not swallow ordinary additions."""
+        write(manifested / "tools" / "brand_new.py", "x = 1\n")
+        res = run_tool(MANIFEST, "--root", manifested, "--check")
+        assert "CASE COLLISION" not in res.stdout
+        assert "added    tools/brand_new.py" in res.stdout
+
+
 def test_check_without_a_manifest_reports_missing(mock_package):
     chk = run_tool(MANIFEST, "--root", mock_package, "--check")
     assert chk.returncode == 1

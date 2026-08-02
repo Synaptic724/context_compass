@@ -294,8 +294,21 @@ def main() -> int:
         added = [p for p in added if p not in drifted]
         removed = [p for p in removed if p not in drifted]
 
+        # The other half of the same disease, and the half that actually shipped.
+        # Here the twin was never removed: both names exist at once. That cannot
+        # happen on Windows or macOS, so it is invisible to whoever created it and
+        # only ever fails on Linux - reported, before this, as a bare
+        # `added SKILLS.md`, which reads like a stray file somebody forgot to
+        # manifest. The repair for a stray file is "add it to the manifest", and
+        # that is exactly wrong: it would enshrine a tree that cannot be checked
+        # out on half the machines that use it.
+        kept_ci = {p.lower(): p for p in old if p in new}
+        collide = [(kept_ci[p.lower()], p) for p in added if p.lower() in kept_ci]
+        added = [p for p in added if p not in {b for _, b in collide}]
+
         print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}"
-              + (f"  CASE DRIFT {len(drift)}" if drift else ""))
+              + (f"  CASE DRIFT {len(drift)}" if drift else "")
+              + (f"  CASE COLLISION {len(collide)}" if collide else ""))
         for was, now in drift:
             same = old.get(was, (None, None))[1] == new.get(now, (None, "x"))[1]
             print(f"  CASE     {was}  ->  {now}"
@@ -304,6 +317,16 @@ def main() -> int:
             print("           One file whose name changed case, not two files. Rename it")
             print("           back rather than deleting either - on a case-insensitive")
             print("           filesystem both names resolve to the same file.")
+        for manifested, stray in collide:
+            same = new.get(manifested, (None, None))[1] == new.get(stray, (None, "x"))[1]
+            print(f"  COLLIDE  {stray}   collides with manifested {manifested}"
+                  f"   (contents {'identical' if same else 'differ'})")
+        if collide:
+            print("           Two files whose names differ only in case, present at the")
+            print("           same time. Legal on Linux, impossible on Windows and macOS.")
+            print("           Delete the unmanifested one from the tree - do NOT add it to")
+            print("           the manifest, and do not expect a rename on a case-insensitive")
+            print("           filesystem to remove it from version control on its own.")
         for p in added[:20]:
             print(f"  added    {p}")
         for p in removed[:20]:

@@ -263,6 +263,70 @@ finds a mismatch must refuse to slice; see
 `agent_onboarding/default/engineer/skills/src_graph_usage.md` for the
 verification procedure, which is identical.
 
+## The document has to survive leaving this repository
+
+`src_architecture.md`, `src_components.md`, `tests_architecture.md`,
+`tests_components.md` and `src_graph.md` describe a codebase. They get committed
+to that codebase, reviewed with it, and in a packaged project they ship inside
+the wheel - some projects publish one as a module attribute so a consumer can
+read the architecture without leaving the interpreter.
+
+None of those readers have Context Compass. It is a helper repository that
+produced the document; it is not a dependency of the document. So a line like
+
+```
+python context_compass/tools/system_documents/index_document.py --doc ...
+```
+
+is correct for you, at this moment, in this checkout, and is dead text for every
+other reader the document will ever have.
+
+**The rule: a produced system document contains no path that points into this
+package.** No tool invocation, no pointer at a skill file, no cross-reference by
+path.
+
+State it by destination, not by spelling. The install prefix is often absent,
+because an agent authoring from inside the install writes what it sees:
+
+```
+python tools/system_documents/index_document.py --doc system_docs/src_architecture.md
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
+```
+
+Not one of those lines contains the string `context_compass`, and every one of
+them is a path into this package. A check that looks only for the prefix passes
+a thoroughly leaked document. The markers that matter are `context_compass/`,
+`agent_onboarding/`, `tools/system_documents/`, `system_docs/`,
+`patches/active/`, and any tool filename such as `index_document.py`.
+
+What replaces each kind of reference:
+
+| you want to write | write instead |
+| --- | --- |
+| `python tools/system_documents/index_document.py ...` | nothing - the command lives in the role skill, where a maintainer already is |
+| `system_docs/src_components.md`, prefixed or not | `src_components` - the logical document id |
+| `` Spec: `agent_onboarding/.../<skill>.md` `` | nothing - the document does not cite its own tooling |
+| `patches/active/<patch_id>/...` | the patch id alone, if the reader needs it at all |
+| the file being documented | `src/<pkg>/engine.py` - keep it, repo-relative |
+
+Two things this rule does **not** ban, and both matter:
+
+- **Paths into the documented source.** A C1 entry naming `src/<pkg>/engine.py`
+  or `tests/unit/test_engine.py` is the entire value of the entry. Reference the
+  source, always.
+- **Naming a sibling system document.** A reader benefits from knowing
+  `src_components` goes deeper than `src_architecture` on the same subject.
+  Use the id, not the path - the id survives the pair being vendored into
+  another repository, published under a different root, or renamed.
+
+Absolute paths are banned for the same reason and are worse:
+`C:\Users\...\src\<pkg>\engine.py` is correct on exactly one machine and wrong
+the moment the repository is cloned. Repo-relative, always.
+
+`src_graph.md` is the model. It is fully generated, it cites the source tree
+constantly, and it contains zero install-prefixed paths - so the generator
+already gets this right and is the thing to copy.
+
 ## Anti-patterns
 
 - Generating any part of these documents. They are authored.
@@ -275,6 +339,17 @@ verification procedure, which is identical.
 - Omitting `Key Files (C1):`, which silently severs the join to `src_graph.md`.
 - Restating a section list or entry contract here. This skill owns heading shape
   and index mechanics; the `*_instructions.md` skills own what goes in them.
+- **Writing a path into this package into a produced document.** The commonest
+  form is a helpful `## Indexing` section that pastes in the regeneration
+  command. It reads as documentation and is an anti-pattern: it welds a document
+  that ships to a tool that does not.
+- **Assuming the leak says `context_compass`.** It usually does not. An agent
+  authoring from inside the install writes `tools/system_documents/...` and
+  `system_docs/...`, no prefix, and a prefix-only check calls that clean.
+- **Citing a skill file from a produced document.** The document is the output;
+  the skill is the process. A reader holding the wheel has one and never the
+  other.
+- **Absolute paths anywhere in a produced document.** Repo-relative only.
 
 References
 - `system_docs/system_docs_read_first.md` (what a fresh install is allowed to be

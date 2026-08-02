@@ -507,11 +507,11 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/design_engineer/skills/nonfunctional_requirements.md` | PACKAGE | `9d9917f96cbdc1d98dac48a0ee482be89918732c94b7e5becb21eca92d445ecd` |
 | `agent_onboarding/default/design_engineer/skills/patch_framework_design.md` | PACKAGE | `ec6e6f6a65590c0fca64df1323f1c20f0b7b206da5562824728865c296f376b3` |
 | `agent_onboarding/default/design_engineer/skills/requirements_to_architecture.md` | PACKAGE | `1b5fe20054365b2c4fd4277cf4c1dc3650f169f697b2c90ecc9471e108cddef4` |
-| `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md` | PACKAGE | `78211f4c29dff2ac9d2806c598187115851705fed99fad1cc35faf3856b300f8` |
-| `agent_onboarding/default/design_engineer/skills/src_components_instructions.md` | PACKAGE | `123ab2544c17ccb1897c94125be88863137b568443d1d18d0e088731a3061c81` |
+| `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md` | PACKAGE | `40670f0a30094cb7e2b7a6837ec1f810f0e264d915edd03adc011e94109ab9d1` |
+| `agent_onboarding/default/design_engineer/skills/src_components_instructions.md` | PACKAGE | `5ed7d79f15c1216765af0fff4cd345b3b6dcf679cd895ea6e9ba88a37f227042` |
 | `agent_onboarding/default/design_engineer/skills/system_design_method.md` | PACKAGE | `f26ba249567eeeaf4bbd9791901fc6ca76c3755b7093cd8405b416f7cf5e61a1` |
-| `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md` | PACKAGE | `88529bc7716d701693659ef392d0c47b5cc0cbae8959c8ce48c0bcc3056c9b5e` |
-| `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md` | PACKAGE | `3e8f2d6910da45d4107961204b1fa38331fd32aa4addd1a0fd19d226a277cd1d` |
+| `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md` | PACKAGE | `f18d30a26760ce0486f48e9e5c868f97d72648e2b080baa4ce0efc0d2329362b` |
+| `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md` | PACKAGE | `d072ab07cf3abaa52f1312c5c1fa76e71e4a3f68210d3f0114ff32174742a739` |
 | `agent_onboarding/default/design_engineer/WORKFLOWS.MD` | PACKAGE | `b05c817b49933c7b71cf0f4c7d6e32a3dfd109cd69109d83c1ffe9111563218f` |
 | `agent_onboarding/default/design_engineer/workflows/README.md` | PACKAGE | `6bcd77f00c6b1254c2ca6fe2cd5a50e9b251e5c4dd97d5b19a3040d75e485dd3` |
 | `agent_onboarding/default/developmental_editor/AGENTS.MD` | PACKAGE | `4ef39a1cdf9274f44a1f842d0c6e82faf6ef2f2bd81d4743ecef7867d9894705` |
@@ -556,10 +556,10 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/engineer/skills/package_maintenance.md` | PACKAGE | `c4a4c6ae98ee9dc01aaf3b2d225530f2d9b5c37a6bb276f80a9c289a6188855a` |
 | `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md` | PACKAGE | `5b20db99ae4debdf90e9dac96ad81c2e035a552e1bf94ef8c336cd053e7286a2` |
 | `agent_onboarding/default/engineer/skills/patch_framework_gating.md` | PACKAGE | `303738c05c8af351707b929cf7b12c0c019946d2b37af4b819e486c295c2e9d9` |
-| `agent_onboarding/default/engineer/skills/src_graph_generation.md` | PACKAGE | `811ac67f9bf367f5bea813bac9126c893869dd80e741afa61ea0962d267e1fcd` |
+| `agent_onboarding/default/engineer/skills/src_graph_generation.md` | PACKAGE | `3736bb7f1b35499fb82179a2b6b103ddead6a17ffa8bb388f8dc4ab62e1879ce` |
 | `agent_onboarding/default/engineer/skills/src_graph_usage.md` | PACKAGE | `03de5066f06fe2c62405ac1d0e41a83a3e4315cb46383012dd1c05fde0e90b98` |
 | `agent_onboarding/default/engineer/skills/staleness_protocol.md` | PACKAGE | `387fbadd6cc03cd08ea6d6d441d6c2cf4a673126b923393a0d1edb8efabec329` |
-| `agent_onboarding/default/engineer/skills/system_document_build.md` | PACKAGE | `da1be54eb5aca7f7aeb68cf965b27d88bfda3d556ffabc408d8a6d7d7b4ab8ef` |
+| `agent_onboarding/default/engineer/skills/system_document_build.md` | PACKAGE | `b53ca5318f8d695929014ce745e7ff3ffd343a0fda2c23a7354fa87a14220c1e` |
 | `agent_onboarding/default/engineer/skills/system_orientation.md` | PACKAGE | `43deb3bbbc7deb0c96687262a9a4392308ec44337d46d1c6df4e941979693e18` |
 | `agent_onboarding/default/engineer/skills/technical_expertise.md` | PACKAGE | `d2104aca4457b5c4751f6422f6ea6d22286b2808216b2250dc13d922b040045b` |
 | `agent_onboarding/default/engineer/WORKFLOWS.MD` | PACKAGE | `2804d7032d8a718304193ad9fc237e75537e3f778360703b34a3f0383d5c2599` |
@@ -903,9 +903,9 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `tools/build_llm_full.py` | PACKAGE | `4232f0c3ca47a135607e3f7037f8f9a571d4ef273264a2b5ed51599d9b0e4e74` |
 | `tools/cleanup_context_compass.py` | PACKAGE | `b2280c0085ba6264181edd532b949bf18d08abd17e746c2417980ad33ee93bfd` |
 | `tools/migrate_boards.py` | PACKAGE | `14ff0166908e20fc6768fcb42e77ec81048ff34afecedc93fb729bb9487f06fa` |
-| `tools/package_manifest.py` | PACKAGE | `b72ff5045c828163b03fdf94f9008154e73d3e76abbeb075fc47bd4f3d8ff140` |
+| `tools/package_manifest.py` | PACKAGE | `412c7db62e13448aa061ad430dcaaa1211f00c8b54738787166a86c5a2dfc645` |
 | `tools/system_documents/index_document.py` | PACKAGE | `fe0894d1677e3ec342db183419bbb84999c9d236d58d7d1a95382bc60effd36d` |
-| `tools/system_documents/python/assemble_graph.py` | PACKAGE | `5f986909273c6815662682adfedc6a9e2e31abc4fe4cb57b8fbaf1842f8f5252` |
+| `tools/system_documents/python/assemble_graph.py` | PACKAGE | `fda6f9e23bf3227904ea59de359842b11b8bfc477cf88e6ae9f17e31f0a9ede6` |
 | `tools/system_documents/python/extract_graph.py` | PACKAGE | `a03cb51b152d39e92ece0f6dc006ba977f7dc907e37b9d4a30c0941774b5a3d7` |
 | `tools/system_documents/python/graph_semantics_tickets.py` | PACKAGE | `a4d98e644c99d4404ef62ecad3b58efd8b837b762989c2b18ca9ebc4a3341eb9` |
 | `tools/system_documents/python/graph_walker.py` | PACKAGE | `c6d0825a35c8021d9bf41eb5cc1eb934d2014d6932d8bd28fa982992600ff802` |
@@ -3578,6 +3578,48 @@ Full format specification:
 16. `## Information Sources`
 17. `## Context / Handoff Summary`
 
+### The document names no path into this package
+
+`src_architecture.md` is committed to the repository it describes and, in a
+packaged project, ships inside the wheel - some projects publish it as a module
+attribute so a consumer can read the architecture without leaving the
+interpreter. Every one of those readers has the code and does not have Context
+Compass. A line like `context_compass/tools/system_documents/index_document.py`
+resolves for you and for nobody downstream.
+
+**No path in the produced document points into this package - written either
+way.** `context_compass/tools/system_documents/index_document.py` and a bare
+`tools/system_documents/index_document.py` are the same file; the second merely
+drops the prefix because whoever wrote it was thinking install-relative. The
+unprefixed form is the commoner leak and much the easier to miss, so the rule is
+about the destination, not the spelling. The same goes for `agent_onboarding/`,
+`system_docs/`, `patches/active/` and any tool filename.
+
+Not in `## Indexing`, not in `## Information Sources`, not in a cross-reference,
+not in a validation hint. This is a hard rule, and it is checked in the Quality
+Gate.
+
+- **Maintenance commands are relocated, not deleted.** The command that rebuilds
+  the index lives in this skill, which is where a maintainer already is when
+  they need it. The document's `## Indexing` section states that an index
+  companion exists and what heading rules it depends on. A reader needs both
+  facts and neither one requires naming a tool.
+- **Cross-references use a logical document id**: `src_components`, not
+  `context_compass/system_docs/src_components.md`. The id survives the document
+  being vendored, renamed, or published under a different root. The path does
+  not.
+- **Paths into the subject stay, and stay repo-relative.** `src/<pkg>/engine.py`
+  in a C1 entry is exactly right - that is the codebase being documented and it
+  is the whole point of the entry. Relative to the repository root, never
+  absolute: `C:\Users\...\src\<pkg>\engine.py` encodes one machine's checkout
+  location into a document that gets committed and shipped, so it is wrong for
+  every reader who is not you, and it breaks the moment the repo is cloned
+  anywhere else. The rule bans paths into the tooling that produced the
+  document, never paths into the thing it describes.
+
+`src_graph.md` is the model to copy: it is fully generated and contains zero
+install-prefixed paths.
+
 ### Sections not in the contract
 
 The contract is a **minimum in a fixed relative order**, not a whitelist. Other
@@ -3711,6 +3753,8 @@ Pass only when all checks are true:
 - [ ] C1 entries include path, range, LOC, and verified_at.
 - [ ] Diagrams match written flow and use aligned terminology.
 - [ ] Information Sources cover every promoted FACT.
+- [ ] No path in the document begins with the install directory, and every path
+      into the documented codebase is repo-relative rather than absolute.
 
 Passing this gate means the document is structurally sound, not that it is good.
 Every check above is binary and none of them can tell "Uses a lock." from a
@@ -3725,6 +3769,18 @@ is not usable as evidence downstream.
 - `rg -n "^## " context_compass/system_docs/src_architecture.md`
 - `rg -n "UNKNOWN|C1 Code Map|Information Sources|Context / Handoff Summary" context_compass/system_docs/src_architecture.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/src_architecture.md`
+
+Two that must return nothing. These are the portability rule, and unlike the
+others a hit is a defect rather than a thing to eyeball:
+
+- `rg -n "context_compass/|agent_onboarding/|tools/system_documents/|index_document\.py|system_docs/|patches/active/" context_compass/system_docs/src_architecture.md` -
+  any hit is a path into this package that a downstream reader cannot resolve.
+  Note the alternation. Checking only for `context_compass/` finds nothing on a
+  real leaked document, because an agent writing from inside the install writes
+  `python tools/system_documents/index_document.py --doc system_docs/src_architecture.md`
+  with no prefix at all. That is the same file and the same defect.
+- `rg -n "([A-Za-z]:\\\\|^\s*-?\s*path:\s*[\`']?/)" context_compass/system_docs/src_architecture.md` -
+  absolute paths, Windows or POSIX, which encode one machine's checkout location
 
 ## Staleness Triggers (When Update Is Mandatory)
 - Boundary or integration contracts changed.
@@ -3743,6 +3799,12 @@ is not usable as evidence downstream.
 - C1 map entries without ranges/LOC/verified_at.
 - Diagrams that do not match section content.
 - Mixing component-level deep dives into architecture sections.
+- **Naming Context Compass anywhere in the document.** A `context_compass/...`
+  path, a tool invocation, a pointer at a skill file. The document ships with
+  the codebase; the tooling does not ship with it. Reference the documented
+  source instead, and put maintenance commands in this skill.
+- **Absolute paths in C1 entries or Information Sources.** Repo-relative only.
+  An absolute path is correct on exactly one machine.
 
 ## Handoff Rule
 - End with a concise `Context / Handoff Summary` that states:
@@ -3865,6 +3927,48 @@ Full format specification:
 10. `## Diagrams`
 11. `## Information Sources`
 12. `## Context / Handoff Summary`
+
+### The document names no path into this package
+
+`src_components.md` is committed to the repository it describes and, in a
+packaged project, ships inside the wheel - some projects publish it as a module
+attribute so a consumer can read the component map without leaving the
+interpreter. Every one of those readers has the code and does not have Context
+Compass. A line like `context_compass/tools/system_documents/index_document.py`
+resolves for you and for nobody downstream.
+
+**No path in the produced document points into this package - written either
+way.** `context_compass/tools/system_documents/index_document.py` and a bare
+`tools/system_documents/index_document.py` are the same file; the second merely
+drops the prefix because whoever wrote it was thinking install-relative. The
+unprefixed form is the commoner leak and much the easier to miss, so the rule is
+about the destination, not the spelling. The same goes for `agent_onboarding/`,
+`system_docs/`, `patches/active/` and any tool filename.
+
+Not in `## Indexing`, not in `## Information Sources`, not in a Key Files list,
+not in a cross-reference. This is a hard rule, and it is checked in the Quality
+Gate.
+
+- **Maintenance commands are relocated, not deleted.** The command that rebuilds
+  the index lives in this skill, which is where a maintainer already is when
+  they need it. The document's `## Indexing` section states that an index
+  companion exists and what heading rules it depends on. A reader needs both
+  facts and neither one requires naming a tool.
+- **Cross-references use a logical document id**: `src_architecture`, not
+  `context_compass/system_docs/src_architecture.md`. The id survives the
+  document being vendored, renamed, or published under a different root. The
+  path does not.
+- **Paths into the subject stay, and stay repo-relative.** `src/<pkg>/engine.py`
+  in a C1 entry or a Key Files list is exactly right - that is the codebase
+  being documented and it is the whole point of the entry. Relative to the
+  repository root, never absolute: `C:\Users\...\src\<pkg>\engine.py` encodes
+  one machine's checkout location into a document that gets committed and
+  shipped, so it is wrong for every reader who is not you, and it breaks the
+  moment the repo is cloned anywhere else. The rule bans paths into the tooling
+  that produced the document, never paths into the thing it describes.
+
+`src_graph.md` is the model to copy: it is fully generated and contains zero
+install-prefixed paths.
 
 ### Sections not in the contract
 
@@ -4058,6 +4162,8 @@ Pass only when all checks are true:
 - [ ] C1 map entries include path, range, LOC, and verified_at.
 - [ ] Architecture terminology and boundaries are consistent.
 - [ ] Information Sources support all promoted FACT claims.
+- [ ] No path in the document begins with the install directory, and every path
+      into the documented codebase is repo-relative rather than absolute.
 
 Passing this gate means the document is structurally sound, not that it is good.
 Every check above is binary: "Every C3 entry includes the minimum contract
@@ -4073,6 +4179,18 @@ Below 60 it is not usable as evidence downstream.
 - `rg -n "^## " context_compass/system_docs/src_components.md`
 - `rg -n "C3 Components Catalog|C2 Subcomponents Catalog|Method-Level Call Flows|C1 Code Map" context_compass/system_docs/src_components.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/src_components.md`
+
+Two that must return nothing. These are the portability rule, and unlike the
+others a hit is a defect rather than a thing to eyeball:
+
+- `rg -n "context_compass/|agent_onboarding/|tools/system_documents/|index_document\.py|system_docs/|patches/active/" context_compass/system_docs/src_components.md` -
+  any hit is a path into this package that a downstream reader cannot resolve.
+  Note the alternation. Checking only for `context_compass/` finds nothing on a
+  real leaked document, because an agent writing from inside the install writes
+  `python tools/system_documents/index_document.py --doc system_docs/src_components.md`
+  with no prefix at all. That is the same file and the same defect.
+- `rg -n "([A-Za-z]:\\\\|^\s*-?\s*path:\s*[\`']?/)" context_compass/system_docs/src_components.md` -
+  absolute paths, Windows or POSIX, which encode one machine's checkout location
 
 ## Staleness Triggers (When Update Is Mandatory)
 - Component ownership/wiring changed.
@@ -4091,6 +4209,12 @@ Below 60 it is not usable as evidence downstream.
 - C1 call flows without concrete methods.
 - C1 map entries missing verification fields.
 - Architecture mismatch left undocumented.
+- **Naming Context Compass anywhere in the document.** A `context_compass/...`
+  path, a tool invocation, a pointer at a skill file. The document ships with
+  the codebase; the tooling does not ship with it. Reference the documented
+  source instead, and put maintenance commands in this skill.
+- **Absolute paths in C1 entries, Key Files, or Information Sources.**
+  Repo-relative only. An absolute path is correct on exactly one machine.
 
 ## Handoff Rule
 - End with a concise `Context / Handoff Summary` that states:
@@ -4264,6 +4388,46 @@ Full format specification:
 16. `## Information Sources`
 17. `## Context / Handoff Summary`
 
+### The document names no path into this package
+
+`tests_architecture.md` is committed to the repository it describes and, in a
+packaged project, ships inside the wheel. Every reader of that copy has the code
+and does not have Context Compass. A line like
+`context_compass/tools/system_documents/index_document.py` resolves for you and
+for nobody downstream.
+
+**No path in the produced document points into this package - written either
+way.** `context_compass/tools/system_documents/index_document.py` and a bare
+`tools/system_documents/index_document.py` are the same file; the second merely
+drops the prefix because whoever wrote it was thinking install-relative. The
+unprefixed form is the commoner leak and much the easier to miss, so the rule is
+about the destination, not the spelling. The same goes for `agent_onboarding/`,
+`system_docs/`, `patches/active/` and any tool filename.
+
+Not in `## Indexing`, not in `## Information Sources`, not in a cross-reference.
+This is a hard rule, and it is checked in the Quality Gate.
+
+- **Maintenance commands are relocated, not deleted.** The command that rebuilds
+  the index lives in this skill, which is where a maintainer already is when
+  they need it. The document's `## Indexing` section states that an index
+  companion exists and what heading rules it depends on. A reader needs both
+  facts and neither one requires naming a tool.
+- **Cross-references use a logical document id**: `tests_components`, not
+  `context_compass/system_docs/tests_components.md`. The id survives the
+  document being vendored, renamed, or published under a different root. The
+  path does not.
+- **Paths into the subject stay, and stay repo-relative.** `tests/unit/test_x.py`
+  in a C1 entry is exactly right - that is the suite being documented and it is
+  the whole point of the entry. Relative to the repository root, never absolute:
+  `C:\Users\...\tests\unit\test_x.py` encodes one machine's checkout location
+  into a document that gets committed and shipped, so it is wrong for every
+  reader who is not you, and it breaks the moment the repo is cloned anywhere
+  else. The rule bans paths into the tooling that produced the document, never
+  paths into the thing it describes.
+
+`src_graph.md` is the model to copy: it is fully generated and contains zero
+install-prefixed paths.
+
 **This is `src_architecture.md`'s contract, name for name.** That is required,
 not incidental: `system_document_build.md` states the pair share one section
 contract and that divergence between them *is* the defect. Identical names are
@@ -4422,6 +4586,8 @@ Pass only when all checks are true:
 - [ ] Interfaces, lifecycle, and invariants are evidence-backed.
 - [ ] C1 map entries include path, range, LOC, and verified_at.
 - [ ] Diagrams and narrative use consistent terms.
+- [ ] No path in the document begins with the install directory, and every path
+      into the documented suite is repo-relative rather than absolute.
 
 Passing this gate means the document is structurally sound, not that it is good.
 Every check above is binary, and none of them notice a document that restates
@@ -4438,6 +4604,18 @@ on the source side on a first pass; that gap is the finding, not an excuse.
 - `rg -n "^## " context_compass/system_docs/tests_architecture.md`
 - `rg -n "UNKNOWN|System Context|Data Flows|C1 Code Map|Information Sources" context_compass/system_docs/tests_architecture.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/tests_architecture.md`
+
+Two that must return nothing. These are the portability rule, and unlike the
+others a hit is a defect rather than a thing to eyeball:
+
+- `rg -n "context_compass/|agent_onboarding/|tools/system_documents/|index_document\.py|system_docs/|patches/active/" context_compass/system_docs/tests_architecture.md` -
+  any hit is a path into this package that a downstream reader cannot resolve.
+  Note the alternation. Checking only for `context_compass/` finds nothing on a
+  real leaked document, because an agent writing from inside the install writes
+  `python tools/system_documents/index_document.py --doc system_docs/tests_architecture.md`
+  with no prefix at all. That is the same file and the same defect.
+- `rg -n "([A-Za-z]:\\\\|^\s*-?\s*path:\s*[\`']?/)" context_compass/system_docs/tests_architecture.md` -
+  absolute paths, Windows or POSIX, which encode one machine's checkout location
 
 ## Staleness Triggers (When Update Is Mandatory)
 - Test runner/configuration behavior changed.
@@ -4458,6 +4636,12 @@ on the source side on a first pass; that gap is the finding, not an excuse.
 - Missing unknown inventory in partially mapped docs.
 - C1 map entries without verification fields.
 - Copying src architecture claims into tests architecture without proof.
+- **Naming Context Compass anywhere in the document.** A `context_compass/...`
+  path, a tool invocation, a pointer at a skill file. The document ships with
+  the codebase; the tooling does not ship with it. Reference the documented
+  suite instead, and put maintenance commands in this skill.
+- **Absolute paths in C1 entries or Information Sources.** Repo-relative only.
+  An absolute path is correct on exactly one machine.
 
 ## Handoff Rule
 - End with `Context / Handoff Summary` covering:
@@ -4572,6 +4756,47 @@ Full format specification:
 10. `## Diagrams`
 11. `## Information Sources`
 12. `## Context / Handoff Summary`
+
+### The document names no path into this package
+
+`tests_components.md` is committed to the repository it describes and, in a
+packaged project, ships inside the wheel. Every reader of that copy has the code
+and does not have Context Compass. A line like
+`context_compass/tools/system_documents/index_document.py` resolves for you and
+for nobody downstream.
+
+**No path in the produced document points into this package - written either
+way.** `context_compass/tools/system_documents/index_document.py` and a bare
+`tools/system_documents/index_document.py` are the same file; the second merely
+drops the prefix because whoever wrote it was thinking install-relative. The
+unprefixed form is the commoner leak and much the easier to miss, so the rule is
+about the destination, not the spelling. The same goes for `agent_onboarding/`,
+`system_docs/`, `patches/active/` and any tool filename.
+
+Not in `## Indexing`, not in `## Information Sources`, not in a Key Files list,
+not in a cross-reference. This is a hard rule, and it is checked in the Quality
+Gate.
+
+- **Maintenance commands are relocated, not deleted.** The command that rebuilds
+  the index lives in this skill, which is where a maintainer already is when
+  they need it. The document's `## Indexing` section states that an index
+  companion exists and what heading rules it depends on. A reader needs both
+  facts and neither one requires naming a tool.
+- **Cross-references use a logical document id**: `tests_architecture`, not
+  `context_compass/system_docs/tests_architecture.md`. The id survives the
+  document being vendored, renamed, or published under a different root. The
+  path does not.
+- **Paths into the subject stay, and stay repo-relative.** `tests/unit/test_x.py`
+  in a C1 entry or a Key Files list is exactly right - that is the suite being
+  documented and it is the whole point of the entry. Relative to the repository
+  root, never absolute: `C:\Users\...\tests\unit\test_x.py` encodes one
+  machine's checkout location into a document that gets committed and shipped,
+  so it is wrong for every reader who is not you, and it breaks the moment the
+  repo is cloned anywhere else. The rule bans paths into the tooling that
+  produced the document, never paths into the thing it describes.
+
+`src_graph.md` is the model to copy: it is fully generated and contains zero
+install-prefixed paths.
 
 ### Sections not in the contract
 
@@ -4772,6 +4997,8 @@ Pass only when all checks are true:
 - [ ] C1 map entries include path, range, LOC, and verified_at.
 - [ ] Terminology aligns with `tests_architecture.md`.
 - [ ] Information Sources support promoted FACT claims.
+- [ ] No path in the document begins with the install directory, and every path
+      into the documented suite is repo-relative rather than absolute.
 
 Passing this gate means the document is structurally sound, not that it is good.
 Every check above is binary: an entry reading "Runs the suite" satisfies the
@@ -4787,6 +5014,18 @@ that gap is the finding, not an excuse.
 - `rg -n "^## " context_compass/system_docs/tests_components.md`
 - `rg -n "C3 Components|C2 Subcomponents|Method-Level Call Flows|C1 Code Map" context_compass/system_docs/tests_components.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/tests_components.md`
+
+Two that must return nothing. These are the portability rule, and unlike the
+others a hit is a defect rather than a thing to eyeball:
+
+- `rg -n "context_compass/|agent_onboarding/|tools/system_documents/|index_document\.py|system_docs/|patches/active/" context_compass/system_docs/tests_components.md` -
+  any hit is a path into this package that a downstream reader cannot resolve.
+  Note the alternation. Checking only for `context_compass/` finds nothing on a
+  real leaked document, because an agent writing from inside the install writes
+  `python tools/system_documents/index_document.py --doc system_docs/tests_components.md`
+  with no prefix at all. That is the same file and the same defect.
+- `rg -n "([A-Za-z]:\\\\|^\s*-?\s*path:\s*[\`']?/)" context_compass/system_docs/tests_components.md` -
+  absolute paths, Windows or POSIX, which encode one machine's checkout location
 
 ## Staleness Triggers (When Update Is Mandatory)
 - Test component ownership/wiring changed.
@@ -4807,6 +5046,12 @@ that gap is the finding, not an excuse.
 - C1 call flows with generic statements and no concrete symbols.
 - C1 map entries missing verification fields.
 - Divergence from tests architecture terminology without escalation.
+- **Naming Context Compass anywhere in the document.** A `context_compass/...`
+  path, a tool invocation, a pointer at a skill file. The document ships with
+  the codebase; the tooling does not ship with it. Reference the documented
+  suite instead, and put maintenance commands in this skill.
+- **Absolute paths in C1 entries, Key Files, or Information Sources.**
+  Repo-relative only. An absolute path is correct on exactly one machine.
 
 ## Handoff Rule
 - End with `Context / Handoff Summary` that states:
@@ -7581,6 +7826,15 @@ first, then by `(file, label)`, before you assemble anything.
   swallowed 14 real files including `__init__.py` and every dunder module. A
   prefix is a naming convention, not a type.
 - Promoting an edge candidate to an edge without reading the code.
+- **Writing `context_compass/...` into a descriptor's authored prose.** The
+  generated document is clean today - it cites the source tree constantly and
+  names this package nowhere - and that is only true because nothing has typed a
+  tool path into a `role`, `responsibilities`, or `why` field. Those fields flow
+  straight through the assembler into `src_graph.md`, which ships with the
+  codebase to readers who do not have Context Compass. Cite the source; if a
+  reader needs the regeneration command, they are in this skill already.
+- Absolute paths in a descriptor. Repo-relative, or the document is correct on
+  one machine.
 
 References
 - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
@@ -8065,6 +8319,70 @@ finds a mismatch must refuse to slice; see
 `agent_onboarding/default/engineer/skills/src_graph_usage.md` for the
 verification procedure, which is identical.
 
+## The document has to survive leaving this repository
+
+`src_architecture.md`, `src_components.md`, `tests_architecture.md`,
+`tests_components.md` and `src_graph.md` describe a codebase. They get committed
+to that codebase, reviewed with it, and in a packaged project they ship inside
+the wheel - some projects publish one as a module attribute so a consumer can
+read the architecture without leaving the interpreter.
+
+None of those readers have Context Compass. It is a helper repository that
+produced the document; it is not a dependency of the document. So a line like
+
+```
+python context_compass/tools/system_documents/index_document.py --doc ...
+```
+
+is correct for you, at this moment, in this checkout, and is dead text for every
+other reader the document will ever have.
+
+**The rule: a produced system document contains no path that points into this
+package.** No tool invocation, no pointer at a skill file, no cross-reference by
+path.
+
+State it by destination, not by spelling. The install prefix is often absent,
+because an agent authoring from inside the install writes what it sees:
+
+```
+python tools/system_documents/index_document.py --doc system_docs/src_architecture.md
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
+```
+
+Not one of those lines contains the string `context_compass`, and every one of
+them is a path into this package. A check that looks only for the prefix passes
+a thoroughly leaked document. The markers that matter are `context_compass/`,
+`agent_onboarding/`, `tools/system_documents/`, `system_docs/`,
+`patches/active/`, and any tool filename such as `index_document.py`.
+
+What replaces each kind of reference:
+
+| you want to write | write instead |
+| --- | --- |
+| `python tools/system_documents/index_document.py ...` | nothing - the command lives in the role skill, where a maintainer already is |
+| `system_docs/src_components.md`, prefixed or not | `src_components` - the logical document id |
+| `` Spec: `agent_onboarding/.../<skill>.md` `` | nothing - the document does not cite its own tooling |
+| `patches/active/<patch_id>/...` | the patch id alone, if the reader needs it at all |
+| the file being documented | `src/<pkg>/engine.py` - keep it, repo-relative |
+
+Two things this rule does **not** ban, and both matter:
+
+- **Paths into the documented source.** A C1 entry naming `src/<pkg>/engine.py`
+  or `tests/unit/test_engine.py` is the entire value of the entry. Reference the
+  source, always.
+- **Naming a sibling system document.** A reader benefits from knowing
+  `src_components` goes deeper than `src_architecture` on the same subject.
+  Use the id, not the path - the id survives the pair being vendored into
+  another repository, published under a different root, or renamed.
+
+Absolute paths are banned for the same reason and are worse:
+`C:\Users\...\src\<pkg>\engine.py` is correct on exactly one machine and wrong
+the moment the repository is cloned. Repo-relative, always.
+
+`src_graph.md` is the model. It is fully generated, it cites the source tree
+constantly, and it contains zero install-prefixed paths - so the generator
+already gets this right and is the thing to copy.
+
 ## Anti-patterns
 
 - Generating any part of these documents. They are authored.
@@ -8077,6 +8395,17 @@ verification procedure, which is identical.
 - Omitting `Key Files (C1):`, which silently severs the join to `src_graph.md`.
 - Restating a section list or entry contract here. This skill owns heading shape
   and index mechanics; the `*_instructions.md` skills own what goes in them.
+- **Writing a path into this package into a produced document.** The commonest
+  form is a helpful `## Indexing` section that pastes in the regeneration
+  command. It reads as documentation and is an anti-pattern: it welds a document
+  that ships to a tool that does not.
+- **Assuming the leak says `context_compass`.** It usually does not. An agent
+  authoring from inside the install writes `tools/system_documents/...` and
+  `system_docs/...`, no prefix, and a prefix-only check calls that clean.
+- **Citing a skill file from a produced document.** The document is the output;
+  the skill is the process. A reader holding the wheel has one and never the
+  other.
+- **Absolute paths anywhere in a produced document.** Repo-relative only.
 
 References
 - `system_docs/system_docs_read_first.md` (what a fresh install is allowed to be
@@ -25808,8 +26137,21 @@ def main() -> int:
         added = [p for p in added if p not in drifted]
         removed = [p for p in removed if p not in drifted]
 
+        # The other half of the same disease, and the half that actually shipped.
+        # Here the twin was never removed: both names exist at once. That cannot
+        # happen on Windows or macOS, so it is invisible to whoever created it and
+        # only ever fails on Linux - reported, before this, as a bare
+        # `added SKILLS.md`, which reads like a stray file somebody forgot to
+        # manifest. The repair for a stray file is "add it to the manifest", and
+        # that is exactly wrong: it would enshrine a tree that cannot be checked
+        # out on half the machines that use it.
+        kept_ci = {p.lower(): p for p in old if p in new}
+        collide = [(kept_ci[p.lower()], p) for p in added if p.lower() in kept_ci]
+        added = [p for p in added if p not in {b for _, b in collide}]
+
         print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}"
-              + (f"  CASE DRIFT {len(drift)}" if drift else ""))
+              + (f"  CASE DRIFT {len(drift)}" if drift else "")
+              + (f"  CASE COLLISION {len(collide)}" if collide else ""))
         for was, now in drift:
             same = old.get(was, (None, None))[1] == new.get(now, (None, "x"))[1]
             print(f"  CASE     {was}  ->  {now}"
@@ -25818,6 +26160,16 @@ def main() -> int:
             print("           One file whose name changed case, not two files. Rename it")
             print("           back rather than deleting either - on a case-insensitive")
             print("           filesystem both names resolve to the same file.")
+        for manifested, stray in collide:
+            same = new.get(manifested, (None, None))[1] == new.get(stray, (None, "x"))[1]
+            print(f"  COLLIDE  {stray}   collides with manifested {manifested}"
+                  f"   (contents {'identical' if same else 'differ'})")
+        if collide:
+            print("           Two files whose names differ only in case, present at the")
+            print("           same time. Legal on Linux, impossible on Windows and macOS.")
+            print("           Delete the unmanifested one from the tree - do NOT add it to")
+            print("           the manifest, and do not expect a rename on a case-insensitive")
+            print("           filesystem to remove it from version control on its own.")
         for p in added[:20]:
             print(f"  added    {p}")
         for p in removed[:20]:
@@ -26553,8 +26905,15 @@ def assemble(descriptors: list[dict[str, Any]]) -> tuple[str, list[dict[str, Any
         "closes with the matching END FILE comment. Exact line ranges are in",
         f"`{INDEX_NAME}`; prefer the index over scanning for delimiters.",
         "",
-        "Generated by `tools/system_documents/python/assemble_graph.py`.",
-        "Do not hand-edit: edit the per-file descriptors and reassemble.",
+        # Deliberately no tool path here. This document ships with the codebase
+        # it describes - committed, reviewed, and in a packaged project carried
+        # inside the wheel - and its readers have the source but not the tooling
+        # that assembled it. The old line named
+        # `tools/system_documents/python/assemble_graph.py`, which is dead text
+        # for every one of them, and which a check looking for `context_compass/`
+        # never caught because the prefix was never there.
+        "Generated, not authored. Do not hand-edit: edit the per-file",
+        "descriptors and reassemble.",
         "",
     ]
     sections: list[dict[str, Any]] = []
