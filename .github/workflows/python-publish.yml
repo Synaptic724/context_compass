@@ -9,6 +9,35 @@ permissions:
   contents: read
 
 jobs:
+  # Two paths in the git index that differ only by case are ONE file on Windows
+  # and macOS, and two on Linux. Committed from a case-sensitive machine the
+  # duplicate is invisible to everyone on Windows - their checkout silently
+  # collapses it, and whichever entry git writes last wins, so the file appears
+  # to rename itself at random.
+  #
+  # Cheap to check, miserable to diagnose: it presented as a Windows editor
+  # "corrupting" a filename for a day before the index was the obvious suspect.
+  # Runs on Linux because that is the only place both paths are visible.
+  hygiene:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: No two paths differing only by case
+        run: |
+          dupes=$(git ls-files | tr 'A-Z' 'a-z' | sort | uniq -d)
+          if [ -n "$dupes" ]; then
+            echo "Paths in the index that collide case-insensitively:"
+            echo "$dupes" | while read -r low; do
+              git ls-files | grep -ix "$low" | sed 's/^/  /'
+            done
+            echo
+            echo "On Windows these are the SAME file. Keep one:"
+            echo "  git rm --cached <the wrong one>   # index only, file stays"
+            exit 1
+          fi
+          echo "OK: no case-colliding paths"
+
   # The tools are stdlib-only and claim >=3.10. Claiming a range without
   # testing it is how a floor rots: the suite runs on every version the
   # metadata promises, so the promise stays true.
@@ -32,7 +61,7 @@ jobs:
 
   release-build:
     runs-on: ubuntu-latest
-    needs: test
+    needs: [hygiene, test]
 
     steps:
       - uses: actions/checkout@v4
