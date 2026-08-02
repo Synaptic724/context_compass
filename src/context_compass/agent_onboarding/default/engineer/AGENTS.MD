@@ -5,8 +5,11 @@
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.MD` file (parent-first).
+- You MUST read every path in every section a resolved `SKILLS.MD` marks as
+  **baseline** (parent-first). For this role that is three sections, not two:
+  **Required baseline skills**, **Baseline system orientation**, and the parent's
+  **Active skills**. Match on the baseline label, not on a fixed list of headings -
+  a baseline section you do not recognise is still mandatory.
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -36,7 +39,22 @@ as top-priority bootstrap enforcement rules.
 
 ## 4) Critical Rule Always Enforced
 
-If you do not know, **ask the user for instructions** and **get explicit confirmation before acting**.
+If you do not know, **find out, then ask what is still open** - and **get explicit
+confirmation before acting**.
+
+The order matters and the two halves are different.
+
+- **Reading is not acting.** Consulting the system documents, an index, a ticket,
+  or the source costs the user nothing and requires no confirmation. If the answer
+  is written down somewhere in this repository, go and read it. An agent that asks
+  "should I look at the component map?" has converted a five-second lookup into a
+  round-trip and learned nothing in the meantime.
+- **Editing is acting.** File changes, state-changing commands, scope expansion:
+  those need explicit confirmation, every time, per section 8.
+- **Ask about what reading could not settle** - a decision between compliant
+  options, a genuine ambiguity in intent, which of several subsystems the user
+  means. Bring what you already found; a question that shows you looked first is
+  a different question.
 
 This repository is a **public library**. Code quality and documentation are first-class deliverables.
 
@@ -67,10 +85,20 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
   standards.
 * Use `agent_onboarding/default/new/README.md` only for first-time `new`
   onboarding setup.
-* System-context documents are **on-demand**:
-  - You MUST read the relevant `system_docs/*` files only when the active ticket
-    or next action requires architecture/components/tests claims.
-  - Do NOT force-read system_docs as a box-check when the task does not trigger them.
+* System-context documents:
+  - `src_architecture.md` plus `src_architecture_index.md` and
+    `src_components_index.md` are **baseline** - the narrative and the two maps.
+    Read them at onboarding when they exist.
+  - Everything else in `system_docs/` is **on-demand, and on demand means
+    agent-driven or user-driven.** You raise the demand yourself, as often as the
+    work needs it. There is no permission step and no trigger list to satisfy first.
+  - Read them **by slice through their index**, keyed on a name you already hold.
+    `src_components.md` and `src_graph.md` are never read whole.
+  - Do NOT force-read system_docs as a box-check when the task does not trigger
+    them, and equally do NOT skip a read because nobody asked for it. Read what
+    the question needs; stop there.
+  - Full policy: `agent_onboarding/default/engineer/SKILLS.MD` and
+    `agent_onboarding/default/engineer/skills/context_protocol.md`.
 
 Do not treat user ideas as gospel. Be curious, thoughtful, and explicit about uncertainties.
 ---
@@ -208,8 +236,18 @@ As a ritual, after implementing a change:
 
 ### 8.5) Architecture and Components Docs Required
 
-* Read C4/C3/C2/C1 docs in `system_docs/` when architecture/components/tests
-  claims are required by the active task.
+* Descend the hierarchy rather than picking a document off a menu:
+  `src_architecture.md` (which part) -> `src_components_index.md` (which
+  component) -> slice `src_components.md` (what it owns, its Key Files) ->
+  `src_graph_index.md` (which nodes) -> slice `src_graph.md` (how it wires) ->
+  **the code**. Each step hands you the key the next one is looked up by.
+* Reading these is your call, not something to request. Asking the user "may I
+  read the component map?" is not caution - it is a stall. Ask instead for
+  *guidance*: which subsystem, which of four similar names.
+* **The documents are guiding tools; the code is the system.** They tell you
+  which files to open, not what those files do today. Before changing an
+  implementation, read that implementation. Where a document and the source
+  disagree, the source wins and the document is stale - record it.
 * Use ASCII and Mermaid diagrams for readability.
 * Keep information sources, invariants, and lifecycle notes current as the system evolves.
 

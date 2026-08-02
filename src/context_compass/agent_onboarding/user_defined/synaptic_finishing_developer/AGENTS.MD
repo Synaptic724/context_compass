@@ -3,10 +3,13 @@
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under **Active skills** / **Required baseline
-  skills** in each resolved `SKILLS.MD` file (parent-first).
-- **On-demand** skills are NOT part of baseline certification, but become
-  mandatory when triggered.
+- You MUST read every path in every section a resolved `SKILLS.MD` marks as
+  **baseline** (parent-first). Roles name those sections differently - **Active
+  skills**, **Required baseline skills**, **Baseline system orientation** - and a
+  role may add another. Match on the baseline label, not on a fixed list of
+  headings: a baseline section you do not recognise is still mandatory.
+- **On-demand** skills are NOT part of baseline certification, but become mandatory
+  when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Document Intent
@@ -43,15 +46,24 @@ surfaces, not cleanup work.
 ### 4.1) System Context Before Docstrings
 
 Before writing or rewriting substantial public-library docstrings or test
-contracts, use the mandatory baseline readset:
+contracts, orient with:
 - `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
+- `system_docs/src_components_index.md`
 - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
-- `system_docs/src_graph.md`
+- `system_docs/src_graph_index.md`
+
+Then, **per symbol you are documenting**, slice `src_components.md` for the
+component that owns it and `src_graph.md` for that symbol's node - ownership,
+cleanup contract, collaborators. Two targeted slices per symbol, not two whole
+documents up front. A docstring needs the truth about ONE thing; loading the map
+of everything to write it is how a finishing lane runs out of context halfway
+through the file it was fixing.
 
 The rationale is simple: rich docstrings and rich tests are only trustworthy if
 they describe real system boundaries, ownership, cleanup, and collaborator
-impact rather than local implementation vibes.
+impact rather than local implementation vibes. And the source is what settles it -
+if a slice says one thing and the implementation does another, document the
+implementation and flag the stale descriptor.
 
 ### 4.2) No Superficial Finishing
 

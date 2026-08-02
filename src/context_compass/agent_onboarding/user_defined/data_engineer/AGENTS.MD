@@ -3,10 +3,13 @@
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under **Active skills** / **Required baseline
-  skills** in each resolved `SKILLS.MD` file (parent-first).
-- **On-demand** skills are NOT part of baseline certification, but become
-  mandatory when triggered.
+- You MUST read every path in every section a resolved `SKILLS.MD` marks as
+  **baseline** (parent-first). Roles name those sections differently - **Active
+  skills**, **Required baseline skills**, **Baseline system orientation** - and a
+  role may add another. Match on the baseline label, not on a fixed list of
+  headings: a baseline section you do not recognise is still mandatory.
+- **On-demand** skills are NOT part of baseline certification, but become mandatory
+  when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Document Intent

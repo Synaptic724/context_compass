@@ -39,27 +39,31 @@ Core review set (ALWAYS required) - review these files in order:
 Conditional review set (ONLY when triggered):
 - `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
 - `artifacts/README.md` (when artifact lifecycle protocol is active)
-- System-context / architecture docs are **ON-DEMAND**:
-  - Do NOT force-read `system_docs/*` as a box-check.
-  - You MUST read the relevant system-context docs only when:
-    - the active ticket requires architecture/components/tests documentation work, OR
-    - this session modified `system_docs/*`, OR
-    - the next immediate action requires architecture/components/tests claims.
-  If triggered, review:
-  - `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
-  - `system_docs/src_architecture.md`
-  - `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
-  - `system_docs/tests_architecture.md`
-  - `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
-  - `system_docs/src_components.md`
-  - `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
-  - `system_docs/tests_components.md`
+
+System-context documents are governed by ONE document, and it is not this one:
+
+- **`agent_onboarding/default/general/skills/context_compaction.md` is canonical**
+  for which `system_docs/*` are re-read at compaction, which are sliced during the
+  work, and which are on-demand. Follow it.
+- This file previously restated that policy and drifted from it - it gated the
+  orientation set behind a trigger list and named `src_components.md` as a whole-
+  document read, both of which are now wrong. The restatement is removed rather
+  than repaired, because a policy maintained in two places is a policy that will
+  disagree again.
+
+The short version, so this file is not misleading on its own: the role's baseline
+orientation set is re-read at re-entry, and the large indexed documents are sliced
+through their indexes during the work whenever a question needs them - no trigger
+and no permission required. The canonical text is in the skill above.
 
 Read discipline (non-negotiable)
 - Review-set document reads must be manual per file path.
 - Loop-based/batch document-reading commands are forbidden (for/foreach/while
   loops, xargs-style runners, or piped file-list iterators).
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
+- **That chunking rule governs documents you have decided to read whole. It is
+  NOT an instruction to read an indexed document whole.** `src_components.md`,
+  `src_graph.md` and `llm_full.md` are entered through their indexes and sliced.
 
 ## Required Updates
 - Update `attention_board.md` during work so active items, status, blockers, and

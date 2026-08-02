@@ -9,13 +9,19 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role defines two classes of skills:
+- This role ADDS two classes of its own:
   A) **Required baseline skills** (always required for onboarding/certification)
   B) **On-demand security-context skills** (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes, which include `engineer`'s
+  **Baseline system orientation** - `system_docs/system_docs_read_first.md`,
+  `src_architecture.md`, `src_architecture_index.md`, `src_components_index.md`.
+  Those are baseline for this role too. This section describes what this file adds;
+  it is not the complete list of what you must read.
 
 Rules
 - You MUST read **all** paths listed under **Required baseline skills** for this role
-  to be considered onboarded/certifiable as `security_engineer`.
+  to be considered onboarded/certifiable as `security_engineer`, **plus** every
+  baseline section in the inherited chain.
 - You MUST NOT claim an on-demand skill was read unless:
   1) a trigger condition was met, AND
   2) you actually read it in full.

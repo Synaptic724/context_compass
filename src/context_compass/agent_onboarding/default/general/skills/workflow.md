@@ -248,8 +248,13 @@ Before moving a ticket to a completed folder:
 If a ticket modifies system behavior, make a small doc update as part of the same change:
 - Update `system_docs/src_architecture.md` when system boundaries/boot/ownership/invariants change.
 - Update `system_docs/src_components.md` when ownership, wiring, registries, or call flows change.
-- Update `system_docs/src_graph.md` when documented source wiring or
-  ownership coverage changes.
+- Those two are AUTHORED: edit them directly, and regenerate each one's
+  `*_index.md` in the same pass.
+- `system_docs/src_graph.md` is GENERATED. **Do not edit it.** When source wiring
+  or ownership coverage changes, edit the per-file descriptors and reassemble -
+  a hand-edit is lost on the next run and breaks the index hash in the meantime,
+  which makes every slice refuse. See
+  `agent_onboarding/default/engineer/skills/src_graph_generation.md`.
 - Keep diagrams in sync with the change.
 
 ### Evidence discipline still applies

@@ -65,8 +65,11 @@ Unregistered overlays
 4. Read that `SKILLS.MD`, then walk `INHERITS_SKILLS_FROM` upward and read the
    whole chain **parent-first**.
 5. Treat the resolved chain as the routing manifest:
-   - You MUST read every path listed under **Active skills** / **Required
-     baseline skills** in each `SKILLS.MD` in the chain.
+   - You MUST read every path in every section a `SKILLS.MD` in the chain marks
+     as **baseline**. Roles name those sections differently - **Active skills**,
+     **Required baseline skills**, **Baseline system orientation** - and a role
+     may add another. Match on the baseline label, never on a fixed list of
+     headings; a section you fail to recognise is still mandatory.
    - **On-demand** skills are conditional. Do NOT read them for certification
      unless a trigger condition is met.
    - When an on-demand trigger is met, those paths become mandatory and MUST be

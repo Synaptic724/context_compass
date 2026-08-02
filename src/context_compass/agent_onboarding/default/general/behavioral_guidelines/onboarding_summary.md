@@ -26,7 +26,10 @@ Checklist (short form)
    - Use `tickets/epics/`, `tickets/stories/`, and `tickets/tasks/` for all
      work.
    - Route from `attention_board.md` and resume from linked ticket notes.
-   - Re-read architecture/components docs before major work.
+   - Orient from `system_docs/src_architecture.md` plus the architecture and
+     component indexes, then descend: index -> slice -> the code. Slice
+     `src_components.md` and `src_graph.md` through their indexes whenever the
+     work needs them - your call, no permission required, and never whole.
    - Keep `attention_board.md` current for routing and ticket notes current for
      durable findings.
 

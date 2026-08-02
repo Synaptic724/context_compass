@@ -5,10 +5,15 @@ Purpose
   methods and classes as isolated islands.
 
 Required read surfaces
-- `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
+- `system_docs/src_architecture.md` - read whole
+- `system_docs/src_components_index.md` - then slice `src_components.md`
 - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
-- `system_docs/src_graph.md`
+- `system_docs/src_graph_index.md` - then slice `src_graph.md`
+
+"Surface" means a place you go with a question, not a document you ingest. Each
+one below is entered through its index and sliced to the symbol you are
+documenting. On a real repository the components map and the graph run to ~8,400
+and ~25,000 lines; a docstring needs the truth about one symbol.
 
 Use each surface for a different question
 - `src_architecture.md`

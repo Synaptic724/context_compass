@@ -46,7 +46,10 @@ Required flow
     the selected role.
 - Use manual source-document reads for onboarding; do not use onboarding dump
   artifacts as policy input.
-- Treat **Active skills** / **Required baseline skills** as mandatory reads.
+- Treat every section a role `SKILLS.MD` marks as **baseline** as mandatory reads.
+  The headings vary by role - **Active skills**, **Required baseline skills**,
+  **Baseline system orientation** - so match on the baseline label rather than on
+  a fixed list of names.
   - On-demand skills are required only when the task triggers them.
 - After any compaction/handoff re-entry, complete the same full readset before
   any non-onboarding action.
@@ -124,11 +127,30 @@ Summary
 - Keep onboarding, certification, and ticket routing deterministic.
 
 Order of authority (highest to lowest)
+
+This ranking answers **"how should I behave?"** - it is a policy ordering, not a
+statement about where truth lives.
+
 1) AGENTS.MD and any other known AGENTS.MD read by you.
 2) SKILLS.MD and any other SKILLS.MD read by you.
 3) Example documentation.
 4) Repo documentation (`README`, `docs/`).
-5) Code (last resort).
+5) Code (last resort *for policy*).
+
+**A different question has the opposite answer.** For **"what does this system
+actually do?"** the ordering inverts: the code is authoritative and every document
+is a description of it, accurate as of whenever somebody last wrote it down.
+
+- Deciding whether you may edit a file, skip a gate, or claim a test ran -> policy
+  order above. Code does not get a vote.
+- Deciding what a function returns, who owns a lifecycle, whether a field can be
+  `None` -> **read the code.** A document that disagrees with the source is stale,
+  not authoritative. Record the contradiction and fix or file it.
+
+"Code (last resort)" has never meant "avoid reading the source". It means the
+source does not set policy. An agent that cites this line as a reason to describe
+behaviour it never opened has inverted the rule - and the Unknowns Gate in
+`agent_onboarding/default/general/AGENTS.MD` already forbids exactly that.
 
 Operational guidance (enriched)
 - Do not improvise conventions; mirror the skills and examples.

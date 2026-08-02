@@ -10,10 +10,15 @@ Re-entry ritual (required)
   1) Re-open `attention_board.md`.
   2) Re-open the active ticket(s) referenced there.
   3) Re-onboard/Onboard per `agent_onboarding/default/general/skills/compaction_requirements.md`.
-  4) Read system-context docs ONLY when the active ticket or next step requires
-     architecture/components/tests claims.
-     - If triggered, read the relevant `system_docs/*` and the matching instruction docs.
-     - If not triggered, DO NOT force-read `system_docs/*` as a box-check.
+  4) Re-read the orientation set: `system_docs/src_architecture.md` plus
+     `src_architecture_index.md` and `src_components_index.md`. Compaction is
+     when you lose the shape of the system, so this is the wrong place to skimp -
+     and it is the narrative plus two maps, not the whole corpus.
+     - `src_components.md` and `src_graph.md` are NOT re-read in bulk. You hold
+       their indexes; slice them during the work, on your own initiative,
+       whenever a question needs them.
+     - DO NOT force-read `system_docs/*` as a box-check, and equally do not skip
+       a read because nobody asked. Read what the question needs; stop there.
 
 Behavior
 - Update "Context / Handoff Summary" and `## Notes` in active tickets as you learn things.

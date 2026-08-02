@@ -8,7 +8,9 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role defines two classes of skills:
+- This role ADDS two classes of its own (the inherited parent chain contributes
+  its own baseline sections, which are mandatory for this role too - read every
+  section any file in the chain marks as baseline, not just the two below):
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
 

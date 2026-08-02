@@ -27,12 +27,27 @@ Core references
 - Agent stories: `agent_onboarding/default/general/behavioral_guidelines/README.md`
 - Ticketing: `agent_onboarding/default/general/skills/workflow.md` and
   `templates/`
-- Architecture context: `system_docs/src_architecture.md`
-- Components context: `system_docs/src_components.md`
-- Graph context: `system_docs/src_graph.md`
+- System context, in the order it is meant to be used - each step names the key the
+  next one is looked up by. Do not treat these as a flat menu:
+  1. `system_docs/src_architecture.md` - which part of the system (read whole)
+     plus `system_docs/src_architecture_index.md` to slice back into it later
+  2. `system_docs/src_components_index.md` - look up that part
+  3. `system_docs/src_components.md` - **slice**: what it owns, its Key Files
+  4. `system_docs/src_graph_index.md` - look up those nodes
+  5. `system_docs/src_graph.md` - **slice**: wiring, ownership, callers
+  6. the code itself - the only authoritative account of current behaviour
+
+  Steps 1 and 2 are **baseline** - the narrative and the two indexes, read at
+  onboarding when they exist. Everything below them is **on-demand, and on demand
+  means agent-driven**: you slice it yourself, unprompted, whenever the work needs
+  it. No trigger list, no permission step. Authority for both halves is
+  `agent_onboarding/default/engineer/SKILLS.MD`.
 - Graph workflow context: `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
+  (the tests pair describes the suite; it is not step 7 of the chain above, and it
+  is on-demand - read it when the work concerns the suite, not because you were
+  already reading the src pair)
 - Active patch docs (when patch lane is active):
   `system_docs/patches/active/<patch_id>/`
 - Repo examples: `examples/` (within context_compass)

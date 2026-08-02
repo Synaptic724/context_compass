@@ -7,12 +7,40 @@ Purpose
 - Prevent low-quality ctx from cascading into higher-level summaries.
 
 Scope
-- Applies whenever an agent creates or refreshes file_ctx, dir_ctx, component_contexts, or architecture_context.
-- Source-of-truth chain:
+- Applies whenever an agent creates or refreshes a layer of system context.
+
+What "ctx" maps to in this package
+This rubric is written in a layer vocabulary - `file_ctx`, `dir_ctx`,
+`component ctx`, `architecture ctx`. Those are **layer names, not filenames**;
+no artifact in this package is called any of them. Read them as:
+
+| layer in this rubric | the document that holds it |
+| --- | --- |
+| file ctx | a node's authored fields in `system_docs/src_graph.md` (via its descriptor) |
+| dir ctx | a package's section of `src_graph.md` |
+| component ctx | `system_docs/src_components.md` |
+| architecture ctx | `system_docs/src_architecture.md` |
+
+- Source-of-truth chain, and note which way it runs:
   - file ctx reflects code
   - dir ctx reflects file ctx
   - component ctx reflects dir ctx
   - architecture ctx reflects component ctx
+
+**Writing runs bottom-up; reading runs top-down.** They are the same hierarchy
+traversed from opposite ends, and confusing them is a live failure mode:
+
+```
+  WRITE  code -> file -> dir -> component -> architecture   (evidence rises)
+  READ   architecture -> component -> graph -> code         (questions narrow)
+```
+
+Authoring upward means a higher layer never claims more than its inputs support -
+which is exactly what this rubric's score bands enforce. Reading downward means
+each level hands you the key to the next, so you look things up instead of
+searching. See
+`agent_onboarding/default/engineer/skills/context_protocol.md` for the read
+direction.
 
 Policy
 - Evaluate ctx quality with the CTX Autonomy rubric before using it as input for higher layers.

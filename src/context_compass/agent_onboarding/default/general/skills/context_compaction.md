@@ -33,27 +33,42 @@ Core review set (ALWAYS required) - review these files in order:
 Conditional review set (ONLY when triggered):
 - `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
 - `artifacts/README.md` (when artifact lifecycle protocol is active)
-- System-context / architecture docs are **ON-DEMAND** and MUST be reviewed only when:
-  - the active ticket requires architecture/components/tests documentation work, OR
-  - this session modified `system_docs/*`, OR
-  - the handoff requires making architecture claims in the next step.
-  If triggered, review:
+- System-context re-orientation. Re-read after compaction:
+  - `system_docs/src_architecture.md`
+  - `system_docs/src_architecture_index.md`
+  - `system_docs/src_components_index.md`
+
+  These are the baseline orientation set and they are cheap - the narrative plus
+  two maps. Compaction is exactly when you lose the shape of the system, so this
+  is the wrong place to be frugal.
+
+- **Do NOT bulk re-read `src_components.md` or `src_graph.md` here.** They are
+  sliced through the indexes above, during the work, whenever a question needs
+  them - which needs no trigger and no permission. Bulk-reading them at
+  re-entry costs ~33,000 lines to reload context you will immediately compact
+  again. Holding the indexes means you can look anything up in one slice; that
+  is the point of holding them.
+
+- Authoring instructions are on-demand and become mandatory when the session is
+  actually writing a system document:
   - `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
   - `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
   - `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
   - `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
-  - `system_docs/src_architecture.md`
-  - `system_docs/tests_architecture.md`
-  - `system_docs/src_components.md`
-  - `system_docs/tests_components.md`
   - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
-  - `system_docs/src_graph.md`
+  - `system_docs/tests_architecture.md`, `system_docs/tests_components.md`
+    (when the work concerns the suite)
 
 Read discipline (non-negotiable)
 - Review-set document reads must be manual per file path.
 - Loop-based/batch document-reading commands are forbidden (for/foreach/while
   loops, xargs-style runners, or piped file-list iterators).
 - For files over 500 LOC, read in explicit 500-line chunks in sequential order.
+- **This chunking rule is for documents you have decided to read whole. It is not
+  a licence to read an indexed document whole.** `src_components.md` and
+  `src_graph.md` are entered through their indexes and sliced to the section you
+  need. Chunking a 25,000-line graph into fifty sequential reads is not
+  discipline - it is the failure the index was built to prevent.
 
 ## Required Updates
 - Update `attention_board.md` during work so active items, status, blockers, and

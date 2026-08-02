@@ -202,9 +202,14 @@ Before any tooling, edits, or execution:
 - Read the selected role `SKILLS.MD` and all inherited parent `SKILLS.MD`
   files in parent-first order, walking each file's `INHERITS_SKILLS_FROM`
   header.
-- Treat every path listed under **Active skills** / **Required baseline skills**
-  in resolved `SKILLS.MD` files as active skill docs.
-  - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
+- Treat every path in every section a resolved `SKILLS.MD` marks as **baseline**
+  as an active skill doc, and read all of them.
+  - **The test is the label, not the heading.** Roles name their baseline
+    sections differently - **Active skills**, **Required baseline skills**,
+    **Baseline system orientation** - and a role may introduce another. Read
+    what the role marks baseline; do not match against a fixed list of headings.
+  - Only sections explicitly labeled **On-demand** sit outside baseline
+    certification.
   - When an on-demand trigger condition is met, those paths become mandatory
     and MUST be read before any work in that scope.
 - If first-time onboarding is active and selected role is `new`, complete

@@ -51,8 +51,16 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # Pinned to an exact version, unlike the actions/* pins above, because
+      # astral-sh/setup-uv does NOT publish a bare `v8` moving tag. It publishes
+      # `v3`-`v7` and then, for the 8 series, only `v8.0.0`/`v8.1.0`/`v8.2.0`.
+      # `@v8` therefore fails to resolve at all - "unable to find version v8" -
+      # which is a workflow-parse failure, not a step failure, so every matrix
+      # leg dies before it runs. `releases/latest` reporting `v8.2.0` says
+      # nothing about whether the alias exists; only the ref does.
+      # v8.2.0 declares `using: node24`, which is the point of the bump.
       - name: Install uv
-        uses: astral-sh/setup-uv@v8
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -168,8 +176,16 @@ jobs:
           /tmp/probe/bin/python context_compass/tools/package_manifest.py \
               --root context_compass --check
 
+      # v4 is node20 and would draw the same deprecation notice as the pins
+      # above. It escaped the last run's warnings only because the wheel check
+      # failed first, so this step never executed - an absence of warning that
+      # meant "never reached", not "fine".
+      #
+      # upload and download move together and stay on the same major: the
+      # artifact each side speaks is versioned, and a mismatched pair fails at
+      # download, in the publish job, after everything else has gone green.
       - name: Upload distributions
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-dists
           path: dist/
@@ -187,8 +203,9 @@ jobs:
       url: https://pypi.org/project/contextcompass/
 
     steps:
+      # Same major as the upload above. Do not bump one without the other.
       - name: Retrieve release distributions
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: release-dists
           path: dist/

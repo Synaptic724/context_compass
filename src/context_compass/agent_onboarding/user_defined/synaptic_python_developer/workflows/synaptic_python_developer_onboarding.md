@@ -25,8 +25,8 @@ Provide one explicit synaptic-role onboarding macro that:
 - uses `Get-Content` for document reads
 - avoids agents
 - allows up to 30 parallel read threads/tool reads when safe
-- reads `src_architecture.md`, `src_components.md`, and
-  `src_graph.md`
+- reads `src_architecture.md` whole, then descends the hierarchy: the component
+  index, sliced components, the graph index, sliced graph
 
 ## Use When
 - The user explicitly names `synaptic_python_developer_onboarding`.
@@ -63,9 +63,16 @@ Provide one explicit synaptic-role onboarding macro that:
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/engineer/SKILLS.MD`
 - `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
-- `context_compass/system_docs/src_architecture.md`
-- `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/src_graph.md`
+- `context_compass/system_docs/src_architecture.md` (whole)
+- `context_compass/system_docs/src_architecture_index.md`
+- `context_compass/system_docs/src_components_index.md`
+
+`src_components.md` and `src_graph.md` are NOT onboarding reads. They are sliced
+through their indexes during the work, whenever the work needs them - which is
+often, and needs no permission. Onboarding gives you the narrative and the maps;
+it does not preload the territory. On a real repository the three documents
+together run past 36,000 lines, and an agent that reads them all has spent its
+context before the first ticket.
 
 ## Required Skills
 - `agent_onboarding/default/general/skills/self_certification.md`
@@ -85,9 +92,13 @@ Provide one explicit synaptic-role onboarding macro that:
   - `AGENT_NAME: <name>`
   - `CERTIFY: APPROVED`
   before any non-onboarding action.
-- Treat `src_graph.md` as the primary graph consumption surface.
-- Do not substitute `src_graph_index.md` unless the user explicitly asks for the
-  raw storage graph.
+- Consume the graph through `src_graph_index.md` and slice `src_graph.md`. The
+  index is the entry point, not a substitute of last resort. `src_graph.md` is
+  never read whole - on a real repository it runs past 25,000 lines.
+- This workflow does not override
+  `agent_onboarding/default/engineer/skills/context_protocol.md` or
+  `agent_onboarding/default/engineer/SKILLS.MD`. Where a lane preference and the
+  reading hierarchy disagree, the hierarchy wins.
 
 ## Phase Sequence
 1. Intake
@@ -124,24 +135,27 @@ Provide one explicit synaptic-role onboarding macro that:
 
 4. Implementation
 - objective:
-  - complete the requested source-doc read bundle
+  - complete the orientation bundle: the narrative plus the two maps
 - scope controls:
-  - the source-doc bundle is implicit in this workflow and does not require the
-    user to restate it
-  - read `src_architecture.md`, `src_components.md`, and
-    `src_graph.md`
+  - the bundle is implicit in this workflow and does not require the user to
+    restate it
+  - read `src_architecture.md` whole, plus `src_architecture_index.md` and
+    `src_components_index.md`
+  - do NOT bulk-read `src_components.md` or `src_graph.md` here. They are sliced
+    during the work, keyed on names the architecture and the indexes give you
   - use `Get-Content`
   - chunk large files sequentially
   - parallelize only when safe and within the no-agent constraint
 
 5. Validation
 - objective:
-  - prove the onboarding bundle is complete
+  - prove the orientation bundle is complete
 - required checks:
   - `AGENTS.MD` was read first
   - the resolved role chain was read
-  - `src_architecture.md`, `src_components.md`, and
-    `src_graph.md` were read
+  - `src_architecture.md` was read whole, and both indexes were read
+  - `src_components.md` and `src_graph.md` were NOT bulk-read. Having read them
+    end to end is a failed check, not a thorough one
   - no agent workflow was used
 
 6. Handoff / Closure
@@ -181,22 +195,32 @@ Provide one explicit synaptic-role onboarding macro that:
   current policy gates.
 
 ## Success Criteria
-- Running the workflow name alone is sufficient to trigger the full bundle.
+- Running the workflow name alone is sufficient to trigger the orientation bundle.
 - The workflow starts with `context_compass/AGENTS.MD`.
 - The workflow uses `Get-Content` and no agents.
 - The synaptic role chain is onboarded.
-- `src_architecture.md`, `src_components.md`, and
-  `src_graph.md` are read as requested.
+- `src_architecture.md` is read whole; both indexes are read.
+- The agent finishes onboarding able to LOOK UP any component or node on demand,
+  rather than having memorised the documents that contain them.
 
 ## Anti-Patterns
 - Skipping `AGENTS.MD` and jumping directly to source docs.
-- Replacing `src_graph.md` with `src_graph_index.md` without an
-  explicit user request.
+- **Bulk-reading `src_components.md` or `src_graph.md` during onboarding.** This
+  workflow previously required exactly that, and named the raw graph as the
+  primary consumption surface while treating its index as an opt-in extra. That
+  is backwards, it contradicts
+  `agent_onboarding/default/engineer/skills/context_protocol.md`, and on a real
+  repository it costs ~36,000 lines of context before the first ticket is opened.
+- **Asking the user for permission to read a system document during the work.**
+  Reading is agent-driven. Ask for guidance on WHERE to look; never for
+  authorisation to look.
+- Treating an index as a degraded substitute for its document. The index is how
+  the document is meant to be entered.
 - Using agents even though the workflow explicitly forbids them.
 
 ## Context / Handoff Summary
-This workflow captures the exact synaptic onboarding macro the user asked for:
-start at `AGENTS.MD`, onboard as `synaptic_python_developer`, use
-`Get-Content`, do not use agents, and read the architecture/components/readable
-graph bundle.
+Start at `AGENTS.MD`, onboard as `synaptic_python_developer`, use `Get-Content`,
+do not use agents, and finish with the architecture narrative plus both indexes.
+The large documents are not preloaded: they are sliced during the work, on the
+agent's own initiative, keyed on names the narrative and indexes supply.
 

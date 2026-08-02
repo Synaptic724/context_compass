@@ -3,8 +3,11 @@
 
 ## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
 
-- Baseline certification is denied unless every path listed under **Active skills** / **Required baseline skills**
-  in the resolved `SKILLS.MD` chain is read (parent-first).
+- Baseline certification is denied unless every path in every section the resolved
+  `SKILLS.MD` chain marks as **baseline** is read (parent-first). Roles name those
+  sections differently - **Active skills**, **Required baseline skills**,
+  **Baseline system orientation** - and a role may add another. Match on the
+  baseline label, not on a fixed list of headings.
 - On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
 - After any compaction/handoff, assume chat memory is unreliable:
   - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.

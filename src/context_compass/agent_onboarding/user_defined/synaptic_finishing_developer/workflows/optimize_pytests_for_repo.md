@@ -60,9 +60,14 @@ Turn repo pytest improvement into a slow, recursive, system-aware macro:
 
 ## Required Reads
 - `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
+- `system_docs/src_components_index.md`
 - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
-- `system_docs/src_graph.md`
+- `system_docs/src_graph_index.md`
+
+`src_components.md` and `src_graph.md` are sliced through the indexes above, per
+file under test, as the work reaches each one. They are not read whole - listing a
+25,000-line document as a "required read" turns a bounded lane into a context
+burn. See `agent_onboarding/default/engineer/skills/context_protocol.md`.
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/testing_overview.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/pytest_unit.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/component_tests.md`

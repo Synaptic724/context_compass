@@ -20,10 +20,19 @@ Noise control
 - Avoid churn or rewording without new information.
 
 Enforcement rule
-- Do not handwave around stale docs; update canonical `system_docs/` files
-  (`src_architecture.md`, `src_components.md`, `tests_architecture.md`,
-  `tests_components.md`, `src_graph.md`) when boundaries,
-  invariants, or documented source wiring change.
+- Do not handwave around stale docs. When boundaries, invariants, or documented
+  source wiring change, bring the canonical `system_docs/` files current.
+- **AUTHORED documents you edit directly:** `src_architecture.md`,
+  `src_components.md`, `tests_architecture.md`, `tests_components.md`. Regenerate
+  each one's `*_index.md` in the same pass.
+- **GENERATED documents you must NOT edit:** `src_graph.md` and
+  `src_graph_index.md`. Edit the per-file descriptors and reassemble; a hand-edit
+  is overwritten by the next run and, in the meantime, breaks the index hash so
+  every slice is refused. See
+  `agent_onboarding/default/engineer/skills/src_graph_generation.md`.
+- The distinction is not cosmetic. "Update `src_graph.md`" is an instruction that
+  cannot be carried out correctly, and an agent that follows it literally
+  corrupts the staleness proof the whole slicing protocol depends on.
 
 Example transitions
 - missing -> fresh after doc creation.
