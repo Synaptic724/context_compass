@@ -1,28 +1,63 @@
 [project]
-name = "context-compass"
-version = "2.4.1"
+name = "contextcompass"
+dynamic = ["version"]
 description = "Durable, file-backed execution state for coding agents."
 readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.10"
+keywords = ["agents", "llm", "context", "tickets", "handoff", "documentation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Documentation",
+]
 
-# The package ships as source and is copied into a consuming repository, not
-# installed from an index. Every tool under `src/context_compass/tools/` is
-# stdlib-only by design - an agent that has to `pip install` before it can read
-# a document is an agent that cannot read the document on a fresh clone.
+# The payload is Markdown and stdlib-only Python. An agent that has to install
+# something before it can read a document is an agent that cannot read the
+# document on a fresh clone.
 dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Synaptic724/contextcompass"
+Repository = "https://github.com/Synaptic724/contextcompass"
+
+[project.scripts]
+contextcompass = "contextcompass.__main__:main"
 
 [dependency-groups]
 dev = ["pytest>=8"]
 
-[tool.uv]
-# Not a distributable package: no wheel is built and nothing is installed into
-# the environment for this project itself. `uv lock` and `uv sync` still manage
-# the dev dependencies, which is the only reason this file exists.
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# One source of truth for the version. `src/context_compass/MANIFEST.md` records
+# the same number and a test asserts they agree; a version maintained in two
+# places is a version that will disagree.
+[tool.hatch.version]
+path = "src/contextcompass/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/contextcompass"]
+
+# The ~440 payload files ARE the product. Without this the wheel ships the
+# tooling and none of the Markdown it operates on - which is exactly what the
+# implicit setuptools build produced: 28 .py files, 0 .md.
 #
-# `tests/conftest.py` puts the tool directories on sys.path directly, matching
-# how the shipped scripts import each other. Making this an installable package
-# would give the tests an import path the real code does not have.
-package = false
+# Mapped rather than moved: the source tree keeps `src/context_compass/` where
+# every skill, test and doc reference already points, and the wheel receives it
+# under the installer module.
+[tool.hatch.build.targets.wheel.force-include]
+"src/context_compass" = "contextcompass/_package"
+
+[tool.hatch.build.targets.sdist]
+include = ["src/", "tests/", "README.md", "LICENSE", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -32,4 +67,5 @@ markers = [
     "unit: pure functions, no filesystem beyond tmp_path",
     "integration: runs a tool end to end as a subprocess",
     "regression: locks in a bug that actually happened",
+    "packaging: builds a wheel or exercises the installed CLI",
 ]

@@ -116,6 +116,28 @@ Read every section with this in mind:
   its meaning has not been established. Do not infer purpose from a name.
 - Edge candidates are **guesses**.
 
+**Authored does not mean current.** The mechanical tier is rebuilt on every
+extraction and is as fresh as the last run. Authored prose is written once and
+stays exactly as written while the code underneath it moves. A node can carry a
+confident, well-written `role` describing behaviour the class no longer has.
+
+Two states exist to tell you which is which, and neither appears in the document
+itself - ask the walker:
+
+```bash
+python context_compass/tools/system_documents/python/graph_walker.py \
+    --descriptors <dir> --src src --report
+```
+
+| state | what it means for a reader |
+| --- | --- |
+| `AUTHORED` | the source has not changed since the prose was written |
+| `SEMANTICS_STALE` | **the source moved underneath it**; treat the prose as a lead, not a fact |
+| `RETIRED` | the node is gone from source; its prose is kept for adjudication |
+
+If a claim matters and the node is stale, **read the code**. Full loop:
+`agent_onboarding/default/engineer/skills/src_graph_generation.md`.
+
 Cite what you read with `path:start_line-end_line` against `src_graph.md`, the
 same evidence convention used everywhere else in this repository.
 
@@ -127,6 +149,11 @@ same evidence convention used everywhere else in this repository.
 - Treating an UNSEMANTIC node's name as a description of its purpose.
 - Quoting a `source_sha256` as proof the code is current without comparing it
   to the file on disk.
+- Relying on authored prose for a decision without checking whether the node is
+  `SEMANTICS_STALE`. Well-written prose about code that has since changed reads
+  exactly like well-written prose about code that has not.
+- Filling in a node's semantics from its name because a generated ticket asked
+  you to. `UNSEMANTIC` is honest; invented semantics read as verified.
 
 References
 - `agent_onboarding/default/engineer/skills/src_graph_generation.md`

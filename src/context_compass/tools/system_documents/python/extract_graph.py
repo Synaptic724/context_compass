@@ -234,6 +234,22 @@ def shape_signals(cls: ast.ClassDef) -> dict[str, Any]:
             "trivial": not real and not cls.bases}
 
 
+def span_sha(raw: bytes, node: ast.AST) -> str:
+    """Hash of one definition's OWN source lines.
+
+    Per node, not per file, and that is the whole point. A file-level hash marks
+    every node in a 40-class module stale because one class changed, which is a
+    census nobody can act on - the signal has to survive being useful. `ast`
+    gives `end_lineno`, so a definition's own span is cheap to isolate.
+    """
+    start = getattr(node, "lineno", None)
+    end = getattr(node, "end_lineno", None)
+    if not start or not end:
+        return ""
+    lines = raw.decode("utf-8", errors="replace").splitlines()[start - 1:end]
+    return hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
+
+
 def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None:
     """Parse one source file into a mechanical descriptor."""
     rel = path.relative_to(src_root).as_posix()
@@ -264,7 +280,8 @@ def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None
         nodes[cid] = {"id": cid, "label": cls.name, "kind": class_kind(markers),
                       "file": f"{src_root.name}/{rel}", "lineno": cls.lineno,
                       "bases": bases, "markers": markers, "public_methods": methods,
-                      "shape": shape_signals(cls)}
+                      "shape": shape_signals(cls),
+                      "span_sha256": span_sha(raw, cls)}
         # relation is provisional: `implements` vs `specializes` depends on
         # whether the target is an interface, which is only knowable after every
         # file has been parsed. main() resolves it in a second pass.
@@ -331,23 +348,70 @@ def merge(new: dict[str, Any], old: dict[str, Any] | None) -> tuple[dict[str, An
         return new, notes
 
     old_nodes = old.get("nodes", {})
+    carried_over: set[str] = set()          # old ids matched to a new node
+
+    # A rename is the common case, and treating it as a deletion discards months
+    # of authored prose over a renamed class. Match by exact id first, then by
+    # (file, label), then by label alone - narrowest to widest, and each fallback
+    # is reported so the match is reviewable rather than silent.
+    by_file_label = {(n.get("file", ""), n.get("label", "")): nid
+                     for nid, n in old_nodes.items()}
+    by_label: dict[str, list[str]] = {}
+    for nid, n in old_nodes.items():
+        by_label.setdefault(n.get("label", ""), []).append(nid)
 
     for nid, node in new["nodes"].items():
         prev = old_nodes.get(nid)
-        if prev is None:
-            notes.append(f"NEW node {nid} - needs semantics")
-            continue
-        for field in AUTHORED_NODE_FIELDS:
+        if prev is not None:
+            carried_over.add(nid)
+        else:
+            old_id = by_file_label.get((node.get("file", ""), node.get("label", "")))
+            if old_id is None:
+                same_label = by_label.get(node.get("label", ""), [])
+                old_id = same_label[0] if len(same_label) == 1 else None
+                if old_id and any(f in old_nodes[old_id] for f in AUTHORED_NODE_FIELDS):
+                    notes.append(f"RECOVERED node {nid} - matched {old_id} by label; "
+                                 f"authored semantics carried over, VERIFY the match")
+            elif any(f in old_nodes[old_id] for f in AUTHORED_NODE_FIELDS):
+                notes.append(f"RECOVERED node {nid} - matched {old_id} by (file, label); "
+                             f"authored semantics carried over")
+            if old_id is None:
+                notes.append(f"NEW node {nid} - needs semantics")
+                continue
+            prev, = (old_nodes[old_id],)
+            carried_over.add(old_id)
+
+        for field in AUTHORED_NODE_FIELDS + ("semantics_authored_against",):
             if field in prev:
                 node[field] = prev[field]
 
+    # Retain, do not drop. A node gone from source keeps its authored prose in a
+    # quarantine section of the same file, so "resolve by hand" has something to
+    # resolve WITH. Before this, the note said ORPHANED and the prose was written
+    # out of the descriptor in the same pass - recoverable only from git, and
+    # only if you noticed.
+    retired: dict[str, dict[str, Any]] = dict(old.get("nodes_retired", {}))
     for nid in old_nodes:
-        if nid not in new["nodes"]:
-            authored = {f: old_nodes[nid][f] for f in AUTHORED_NODE_FIELDS if f in old_nodes[nid]}
-            if authored:
-                notes.append(f"ORPHANED node {nid} - gone from source, still has authored semantics")
-            else:
-                notes.append(f"REMOVED node {nid}")
+        if nid in new["nodes"] or nid in carried_over:
+            continue
+        authored = {f: old_nodes[nid][f] for f in AUTHORED_NODE_FIELDS
+                    if f in old_nodes[nid]}
+        if authored:
+            entry = dict(old_nodes[nid])
+            entry["retired_reason"] = "gone from source"
+            retired[nid] = entry
+            notes.append(f"ORPHANED node {nid} - gone from source, authored semantics "
+                         f"RETAINED under nodes_retired")
+        else:
+            notes.append(f"REMOVED node {nid}")
+
+    # A retired id that comes back is un-retired rather than duplicated.
+    for nid in list(retired):
+        if nid in new["nodes"]:
+            del retired[nid]
+            notes.append(f"RESTORED node {nid} - back in source, retirement lifted")
+    if retired:
+        new["nodes_retired"] = retired
 
     # Authored edges live under `edges_authored` and are owned entirely by humans/agents.
     if "edges_authored" in old:
@@ -356,6 +420,24 @@ def merge(new: dict[str, Any], old: dict[str, Any] | None) -> tuple[dict[str, An
     for nid, node in new["nodes"].items():
         if not any(f in node for f in AUTHORED_NODE_FIELDS):
             notes.append(f"UNSEMANTIC node {nid}")
+            continue
+        # The state the tier contract implied and never defined: the node still
+        # exists, its source moved, and its authored meaning may now be wrong.
+        # Without it a graph fills up with confident descriptions of code that
+        # no longer works that way, and nothing says which.
+        stamp = node.get("semantics_authored_against")
+        current = node.get("span_sha256", "")
+        if not stamp:
+            # Grandfathered: semantics predate the stamp. Assuming "current" is
+            # the only option that does not flag every existing node stale on
+            # first run, which would make the census useless on day one.
+            if current:
+                node["semantics_authored_against"] = current
+                notes.append(f"GRANDFATHERED node {nid} - semantics stamped against "
+                             f"current source; not verified against it")
+        elif current and stamp != current:
+            notes.append(f"SEMANTICS_STALE node {nid} - source changed since its "
+                         f"semantics were written; re-verify then re-accept")
 
     return new, notes
 
@@ -495,12 +577,35 @@ def main() -> int:
     if tot:
         print(f"  edge targets resolved to ids: {stats_resolved[0]}/{tot} "
               f"({100 * stats_resolved[0] // tot}%)")
-    if stats["orphaned"]:
-        print("\n  ORPHANED authored semantics (resolve by hand):")
-        for n in all_notes:
-            if "ORPHANED" in n:
-                print(f"    {n}")
-    return 1 if (args.check and (stats["new"] or stats["orphaned"])) else 0
+    # Every state that needs a human gets surfaced. A note only in the returned
+    # list is a note nobody reads.
+    for marker, heading in (
+        ("SEMANTICS_STALE",
+         "SEMANTICS_STALE - source changed under authored semantics; re-verify"),
+        ("ORPHANED",
+         "ORPHANED - gone from source; semantics RETAINED under nodes_retired"),
+        ("RECOVERED",
+         "RECOVERED - matched an older id; semantics carried over"),
+        ("RESTORED",
+         "RESTORED - back in source; retirement lifted"),
+        ("GRANDFATHERED",
+         "GRANDFATHERED - semantics predate the stamp, assumed current"),
+    ):
+        hits = [n for n in all_notes if n.startswith(marker) or f" {marker} " in n]
+        if not hits:
+            continue
+        print(f"\n  {heading}: {len(hits)}")
+        for n in hits[:15]:
+            print(f"    {n}")
+        if len(hits) > 15:
+            print(f"    ... +{len(hits) - 15} more")
+
+    stale = sum(1 for n in all_notes if "SEMANTICS_STALE" in n)
+    print(f"\n  census: {stats['unsemantic']} unsemantic, {stale} stale, "
+          f"{stats['orphaned']} orphaned")
+    print("  staleness is tracked per NODE, so one changed class does not")
+    print("  invalidate its whole module. Full report: graph_walker.py --report")
+    return 1 if (args.check and (stats["new"] or stats["orphaned"] or stale)) else 0
 
 
 if __name__ == "__main__":
