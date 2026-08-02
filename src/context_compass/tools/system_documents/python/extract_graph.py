@@ -257,7 +257,21 @@ def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None
     try:
         tree = ast.parse(raw.decode("utf-8", errors="replace"), filename=str(path))
     except SyntaxError as exc:
+        # A file the running interpreter cannot parse gets no descriptor, and
+        # every node in it silently vanishes from the graph. That is correct
+        # when the file is broken and badly wrong when the file is simply
+        # NEWER than the interpreter - and the two look identical here.
+        #
+        # Real case: a PEP 701 f-string (nested quotes) parses on 3.12+ and
+        # raises here on 3.10, so a graph extracted with an older Python was
+        # one class short with nothing saying why. Name the version, since it
+        # is the first thing to check and nothing else reports it.
+        running = f"{sys.version_info.major}.{sys.version_info.minor}"
         print(f"  SKIP (syntax error) {rel}: {exc}", file=sys.stderr)
+        print(f"       parsed with Python {running}. If this file uses newer "
+              f"syntax it is not broken -", file=sys.stderr)
+        print(f"       the interpreter is older than the code. Re-run on the "
+              f"version the project targets.", file=sys.stderr)
         return None
 
     mod = module_id(rel)

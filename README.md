@@ -144,7 +144,7 @@ has no business there.
 Pin a version for reproducibility, or track the latest:
 
 ```bash
-uvx contextcompass@2.11.0 init     # exact, repeatable
+uvx contextcompass@2.12.0 init     # exact, repeatable
 uvx contextcompass@latest init     # whatever is newest
 ```
 
@@ -543,9 +543,9 @@ tooling is built around not destroying that work.
 - **Nothing deletes authored work automatically.** Not a slogan — every tool that
   can remove something refuses without `--apply`, and the one that deletes
   authored prose refuses without a terminal to ask at.
-- **405 tests, and mutation testing on top.** A green suite is equally consistent
+- **412 tests, and mutation testing on top.** A green suite is equally consistent
   with "the code is correct" and "the tests assert nothing".
-  `tests/mutation_check.py` applies 47 deliberate defects and requires that at
+  `tests/mutation_check.py` applies 49 deliberate defects and requires that at
   least one test fails for every single one. Several survived their first run and
   each named a real gap.
 

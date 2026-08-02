@@ -435,7 +435,7 @@ from the files themselves, which is the only reason it can be trusted.
 | field | value |
 | --- | --- |
 | manifest_version | 1.0.0 |
-| package_version | 2.11.0 |
+| package_version | 2.12.0 |
 | files | 444 |
 
 ## Lane policy
@@ -903,10 +903,10 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `tools/build_llm_full.py` | PACKAGE | `4232f0c3ca47a135607e3f7037f8f9a571d4ef273264a2b5ed51599d9b0e4e74` |
 | `tools/cleanup_context_compass.py` | PACKAGE | `b2280c0085ba6264181edd532b949bf18d08abd17e746c2417980ad33ee93bfd` |
 | `tools/migrate_boards.py` | PACKAGE | `14ff0166908e20fc6768fcb42e77ec81048ff34afecedc93fb729bb9487f06fa` |
-| `tools/package_manifest.py` | PACKAGE | `7ccf28746295aff2c2a8b970e8f83dcb859ca44838a6bab14b1f431ae62b7fe8` |
+| `tools/package_manifest.py` | PACKAGE | `b72ff5045c828163b03fdf94f9008154e73d3e76abbeb075fc47bd4f3d8ff140` |
 | `tools/system_documents/index_document.py` | PACKAGE | `fe0894d1677e3ec342db183419bbb84999c9d236d58d7d1a95382bc60effd36d` |
 | `tools/system_documents/python/assemble_graph.py` | PACKAGE | `5f986909273c6815662682adfedc6a9e2e31abc4fe4cb57b8fbaf1842f8f5252` |
-| `tools/system_documents/python/extract_graph.py` | PACKAGE | `f99b628899ba5b0358e6d4a4977d02fb6a1b2757821b39bae7a1501cddd4af02` |
+| `tools/system_documents/python/extract_graph.py` | PACKAGE | `a03cb51b152d39e92ece0f6dc006ba977f7dc907e37b9d4a30c0941774b5a3d7` |
 | `tools/system_documents/python/graph_semantics_tickets.py` | PACKAGE | `a4d98e644c99d4404ef62ecad3b58efd8b837b762989c2b18ca9ebc4a3341eb9` |
 | `tools/system_documents/python/graph_walker.py` | PACKAGE | `5af4189cc2e7bf582be1d5ea036639ed7398959a60d8e8a143804d076ef923a8` |
 | `tools/system_documents/python/migrate_authored_graph.py` | PACKAGE | `478b9e7e77520ab65c1cc5aaa8445a8083e48390088e1168c0557b70b03b3687` |
@@ -25795,7 +25795,29 @@ def main() -> int:
         added = sorted(set(new) - set(old))
         removed = sorted(set(old) - set(new))
         changed = sorted(p for p in set(old) & set(new) if old[p][1] != new[p][1])
-        print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}")
+
+        # A rename that only changes case is ONE file, not an add and a remove.
+        # Reported as two it looks like unrelated churn, and the obvious repair -
+        # "delete the removed one" - destroys the added one, because on a
+        # case-insensitive filesystem they are the same inode. Observed three
+        # times on `SKILLS.MD` in a single day, drifting to `SKILLS.md` from
+        # something outside this package. Naming it is what makes it fixable.
+        removed_ci = {p.lower(): p for p in removed}
+        drift = [(removed_ci[p.lower()], p) for p in added if p.lower() in removed_ci]
+        drifted = {a for _, a in drift} | {b for b, _ in drift}
+        added = [p for p in added if p not in drifted]
+        removed = [p for p in removed if p not in drifted]
+
+        print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}"
+              + (f"  CASE DRIFT {len(drift)}" if drift else ""))
+        for was, now in drift:
+            same = old.get(was, (None, None))[1] == new.get(now, (None, "x"))[1]
+            print(f"  CASE     {was}  ->  {now}"
+                  f"   (contents {'identical' if same else 'ALSO changed'})")
+        if drift:
+            print("           One file whose name changed case, not two files. Rename it")
+            print("           back rather than deleting either - on a case-insensitive")
+            print("           filesystem both names resolve to the same file.")
         for p in added[:20]:
             print(f"  added    {p}")
         for p in removed[:20]:
@@ -26948,7 +26970,21 @@ def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None
     try:
         tree = ast.parse(raw.decode("utf-8", errors="replace"), filename=str(path))
     except SyntaxError as exc:
+        # A file the running interpreter cannot parse gets no descriptor, and
+        # every node in it silently vanishes from the graph. That is correct
+        # when the file is broken and badly wrong when the file is simply
+        # NEWER than the interpreter - and the two look identical here.
+        #
+        # Real case: a PEP 701 f-string (nested quotes) parses on 3.12+ and
+        # raises here on 3.10, so a graph extracted with an older Python was
+        # one class short with nothing saying why. Name the version, since it
+        # is the first thing to check and nothing else reports it.
+        running = f"{sys.version_info.major}.{sys.version_info.minor}"
         print(f"  SKIP (syntax error) {rel}: {exc}", file=sys.stderr)
+        print(f"       parsed with Python {running}. If this file uses newer "
+              f"syntax it is not broken -", file=sys.stderr)
+        print(f"       the interpreter is older than the code. Re-run on the "
+              f"version the project targets.", file=sys.stderr)
         return None
 
     mod = module_id(rel)

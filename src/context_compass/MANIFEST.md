@@ -6,7 +6,7 @@ from the files themselves, which is the only reason it can be trusted.
 | field | value |
 | --- | --- |
 | manifest_version | 1.0.0 |
-| package_version | 2.11.0 |
+| package_version | 2.12.0 |
 | files | 444 |
 
 ## Lane policy
@@ -474,10 +474,10 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `tools/build_llm_full.py` | PACKAGE | `4232f0c3ca47a135607e3f7037f8f9a571d4ef273264a2b5ed51599d9b0e4e74` |
 | `tools/cleanup_context_compass.py` | PACKAGE | `b2280c0085ba6264181edd532b949bf18d08abd17e746c2417980ad33ee93bfd` |
 | `tools/migrate_boards.py` | PACKAGE | `14ff0166908e20fc6768fcb42e77ec81048ff34afecedc93fb729bb9487f06fa` |
-| `tools/package_manifest.py` | PACKAGE | `7ccf28746295aff2c2a8b970e8f83dcb859ca44838a6bab14b1f431ae62b7fe8` |
+| `tools/package_manifest.py` | PACKAGE | `b72ff5045c828163b03fdf94f9008154e73d3e76abbeb075fc47bd4f3d8ff140` |
 | `tools/system_documents/index_document.py` | PACKAGE | `fe0894d1677e3ec342db183419bbb84999c9d236d58d7d1a95382bc60effd36d` |
 | `tools/system_documents/python/assemble_graph.py` | PACKAGE | `5f986909273c6815662682adfedc6a9e2e31abc4fe4cb57b8fbaf1842f8f5252` |
-| `tools/system_documents/python/extract_graph.py` | PACKAGE | `f99b628899ba5b0358e6d4a4977d02fb6a1b2757821b39bae7a1501cddd4af02` |
+| `tools/system_documents/python/extract_graph.py` | PACKAGE | `a03cb51b152d39e92ece0f6dc006ba977f7dc907e37b9d4a30c0941774b5a3d7` |
 | `tools/system_documents/python/graph_semantics_tickets.py` | PACKAGE | `a4d98e644c99d4404ef62ecad3b58efd8b837b762989c2b18ca9ebc4a3341eb9` |
 | `tools/system_documents/python/graph_walker.py` | PACKAGE | `5af4189cc2e7bf582be1d5ea036639ed7398959a60d8e8a143804d076ef923a8` |
 | `tools/system_documents/python/migrate_authored_graph.py` | PACKAGE | `478b9e7e77520ab65c1cc5aaa8445a8083e48390088e1168c0557b70b03b3687` |
