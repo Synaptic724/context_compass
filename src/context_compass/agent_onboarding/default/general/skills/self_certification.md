@@ -8,13 +8,13 @@ Purpose
 Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - selected role `SKILLS.MD` path from `context_compass/SKILLS.MD`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain for the active profile.
+  - `context_compass/SKILLS.MD`
+  - the resolved role `SKILLS.MD` chain.
 - For a given trigger event, complete the readset once; do not duplicate-read
   the same onboarding set before certification unless a new
   compaction/handoff/session-reset event occurs.

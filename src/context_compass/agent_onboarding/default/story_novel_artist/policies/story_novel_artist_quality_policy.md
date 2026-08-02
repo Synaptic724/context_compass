@@ -1,4 +1,4 @@
-﻿# story_novel_artist_quality_policy
+# story_novel_artist_quality_policy
 
 Purpose
 - Establish the quality bar for story_novel_artist outputs.

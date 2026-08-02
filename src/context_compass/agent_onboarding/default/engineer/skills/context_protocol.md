@@ -14,9 +14,9 @@ Required flow
   files first.
 - When the question is about object wiring, ownership, creation, publication,
   validation, or borrowing relationships, include:
-  - `context_compass/system_docs/graph_details_document.md`
-  - `context_compass/system_docs/readable_src_graph.json`
-  - `context_compass/system_docs/src_graph.json` when storage-level graph
+  - `context_compass/agent_onboarding/default/engineer/skills/src_graph_usage.md`
+  - `context_compass/system_docs/src_graph.md`
+  - `context_compass/system_docs/src_graph_index.md` when storage-level graph
     verification or regeneration mechanics are required
 - For system-impacting changes, apply the mandatory gate in
   `agent_onboarding/default/engineer/skills/patch_framework_gating.md` before
@@ -32,7 +32,7 @@ Rules
 - Always prefer documented context over assumptions.
 - Treat UNKNOWN as default until evidence is attached.
 - Keep architecture/components docs in sync with actual boundaries.
-- Treat `readable_src_graph.json` as the primary graph consumption surface when
+- Treat `src_graph.md` as the primary graph consumption surface when
   architecture/components context is required.
 - Block implementation when patch-framework entry-gate artifacts are missing for
   system-impacting work.

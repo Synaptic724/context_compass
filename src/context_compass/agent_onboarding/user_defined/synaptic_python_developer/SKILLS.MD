@@ -1,6 +1,6 @@
 
 
-# SKILLS.md - synaptic_python_developer
+# SKILLS.MD - synaptic_python_developer
 
 Purpose
 - Define active user-defined overlay skills for the

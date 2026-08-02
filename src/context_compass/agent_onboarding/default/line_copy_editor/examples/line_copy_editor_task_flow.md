@@ -1,4 +1,4 @@
-﻿# line_copy_editor_task_flow
+# line_copy_editor_task_flow
 
 Scenario
 - Demonstrate a complete line_copy_editor pass with artifacts and gate decisions.

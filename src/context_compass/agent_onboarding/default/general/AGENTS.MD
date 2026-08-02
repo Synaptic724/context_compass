@@ -6,7 +6,7 @@
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -116,7 +116,7 @@ As a ritual, after implementing a change:
 * If investigation must expand beyond the current subsystem or exceed
   `workflow.ticket_microcycle.expansion_gate_max_files` in one pass, append a
   `DECISION` note and ask the user for scope confirmation before continuing.
-* Follow `SKILLS.md` and
+* Follow `SKILLS.MD` and
   `agent_onboarding/default/general/skills/workflow.md` for the deep
   descriptive format and tracking model.
 * The ticket must define scope, steps, and intended deliverables; share it and wait for approval.
@@ -165,8 +165,8 @@ Ask for explicit confirmation if any of these are true:
 ## General Directory Coverage Contract
 
 This section defines why the general layer matters.
-It does not define read order or routing; that belongs to `SKILLS.md` and
-resolved role `SKILLS.md` files.
+It does not define read order or routing; that belongs to `SKILLS.MD` and
+resolved role `SKILLS.MD` files.
 
 ### 8) Importance Of General Layer Policies
 

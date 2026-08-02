@@ -1,4 +1,4 @@
-﻿# Story: Build Repo-Based Release Readiness Workflow Examples
+# Story: Build Repo-Based Release Readiness Workflow Examples
 
 ## Metadata
 - Story ID: STORY-2026-02-19-context-compass-release-readiness-examples

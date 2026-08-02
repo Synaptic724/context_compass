@@ -1,4 +1,4 @@
-﻿# line_copy_editor_quality_policy
+# line_copy_editor_quality_policy
 
 Purpose
 - Establish the quality bar for line_copy_editor outputs.

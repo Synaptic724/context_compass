@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_execution
+# continuity_fact_checker_execution
 
 Purpose
 - Define deterministic execution phases for continuity_fact_checker.

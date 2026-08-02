@@ -1,4 +1,4 @@
-﻿# developmental_editor_execution
+# developmental_editor_execution
 
 Purpose
 - Define deterministic execution phases for developmental_editor.

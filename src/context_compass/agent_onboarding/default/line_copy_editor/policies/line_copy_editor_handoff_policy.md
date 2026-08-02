@@ -1,4 +1,4 @@
-﻿# line_copy_editor_handoff_policy
+# line_copy_editor_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for line_copy_editor.

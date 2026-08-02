@@ -1,4 +1,4 @@
-﻿# Example: artifact workflow (repo-based)
+# Example: artifact workflow (repo-based)
 
 Scenario
 - A docs release-readiness pass requires a retained rationale artifact.

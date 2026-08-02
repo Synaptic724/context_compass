@@ -61,8 +61,8 @@ Turn repo pytest improvement into a slow, recursive, system-aware macro:
 ## Required Reads
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/testing_overview.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/pytest_unit.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/component_tests.md`

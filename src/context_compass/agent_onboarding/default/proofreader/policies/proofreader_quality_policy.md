@@ -1,4 +1,4 @@
-﻿# proofreader_quality_policy
+# proofreader_quality_policy
 
 Purpose
 - Establish the quality bar for proofreader outputs.

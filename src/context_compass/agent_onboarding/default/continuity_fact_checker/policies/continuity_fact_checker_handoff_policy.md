@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_handoff_policy
+# continuity_fact_checker_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for continuity_fact_checker.

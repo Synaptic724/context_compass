@@ -1,4 +1,4 @@
-﻿# story_novel_artist
+# story_novel_artist
 
 Purpose
 - Define role identity, responsibilities, and gate model for story_novel_artist.

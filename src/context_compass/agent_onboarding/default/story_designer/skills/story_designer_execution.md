@@ -1,4 +1,4 @@
-﻿# story_designer_execution
+# story_designer_execution
 
 Purpose
 - Define deterministic execution phases for story_designer.

@@ -1,4 +1,4 @@
-﻿# developmental_editor_handoff_policy
+# developmental_editor_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for developmental_editor.

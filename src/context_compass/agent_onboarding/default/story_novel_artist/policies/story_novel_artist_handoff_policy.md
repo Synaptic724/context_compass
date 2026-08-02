@@ -1,4 +1,4 @@
-﻿# story_novel_artist_handoff_policy
+# story_novel_artist_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for story_novel_artist.

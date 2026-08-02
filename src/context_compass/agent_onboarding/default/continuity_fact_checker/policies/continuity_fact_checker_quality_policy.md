@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_quality_policy
+# continuity_fact_checker_quality_policy
 
 Purpose
 - Establish the quality bar for continuity_fact_checker outputs.

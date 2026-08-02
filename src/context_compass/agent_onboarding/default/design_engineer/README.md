@@ -20,8 +20,14 @@ Design Engineer inventory
   `system_docs/src_architecture.md`.
 - `skills/src_components_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_components.md`.
-- `skills/graph_details_instructions.md`: creation/maintenance mechanics for
-  `system_docs/src_graph.json` and `system_docs/readable_src_graph.json`.
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`: how to read
+  `system_docs/src_graph_index.md` and slice `system_docs/src_graph.md`.
+  Inherited from `engineer`; it does not live in this folder.
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md`: how those
+  two files are produced by `tools/system_documents/python/`.
+- `agent_onboarding/default/engineer/skills/system_document_build.md`: authoring
+  format and index mechanics for the authored system documents. Inherited from
+  `engineer`; it does not live in this folder.
 - `skills/tests_architecture_instructions.md`: creation/maintenance mechanics
   for `system_docs/tests_architecture.md`.
 - `skills/tests_components_instructions.md`: creation/maintenance mechanics for

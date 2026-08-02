@@ -1,11 +1,11 @@
-# SKILLS.md - story_designer
+# SKILLS.MD - story_designer
 
 Purpose
 - Define required baseline skills for the story_designer role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -18,15 +18,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/story_designer/AGENTS.MD
-- agent_onboarding/default/story_designer/WORKFLOWS.MD
-- agent_onboarding/default/story_designer/skills/story_designer.md
-- agent_onboarding/default/story_designer/skills/story_designer_execution.md
-- agent_onboarding/default/story_designer/skills/story_designer_deliverables.md
-- agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md
-- agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md
-- agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md
-- agent_onboarding/default/story_designer/examples/story_designer_task_flow.md
+- `agent_onboarding/default/story_designer/AGENTS.MD`
+- `agent_onboarding/default/story_designer/WORKFLOWS.MD`
+- `agent_onboarding/default/story_designer/skills/story_designer.md`
+- `agent_onboarding/default/story_designer/skills/story_designer_execution.md`
+- `agent_onboarding/default/story_designer/skills/story_designer_deliverables.md`
+- `agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md`
+- `agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md`
+- `agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md`
+- `agent_onboarding/default/story_designer/examples/story_designer_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -35,5 +35,5 @@ Trigger conditions (any one makes these mandatory):
 - Task requires retrospective architecture salvage of an existing manuscript.
 
 If triggered:
-- Read: agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md
+- `agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.

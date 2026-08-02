@@ -1,4 +1,4 @@
-﻿# Task: Build Repo-Based Release Readiness Example Pack
+# Task: Build Repo-Based Release Readiness Example Pack
 
 ## Metadata
 - Task ID: TASK-2026-02-19-context-compass-release-readiness-pack
@@ -75,7 +75,7 @@ and upgraded architecture/component docs.
 - Completed.
 - Commands used:
   - `rg -n "context_compass_release_readiness|repo_overview" examples`
-  - `rg -n "context_compass/AGENTS.md" examples`
+  - `rg -n "context_compass/AGENTS.MD" examples`
   - `rg -n "\x07|\x08|\x09|\x0d" system_docs examples/example_architecture examples/example_components`
 
 ## Risks / Rollback Notes

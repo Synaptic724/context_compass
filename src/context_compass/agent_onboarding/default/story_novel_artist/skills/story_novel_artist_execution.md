@@ -1,4 +1,4 @@
-﻿# story_novel_artist_execution
+# story_novel_artist_execution
 
 Purpose
 - Define deterministic execution phases for story_novel_artist.

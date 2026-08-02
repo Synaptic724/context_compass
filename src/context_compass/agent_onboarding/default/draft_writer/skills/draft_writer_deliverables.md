@@ -1,4 +1,4 @@
-﻿# draft_writer_deliverables
+# draft_writer_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for draft_writer.

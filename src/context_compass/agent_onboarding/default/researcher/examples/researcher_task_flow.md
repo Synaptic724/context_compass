@@ -1,4 +1,4 @@
-﻿# researcher_task_flow
+# researcher_task_flow
 
 Scenario
 - Demonstrate a complete researcher pass with artifacts and gate decisions.

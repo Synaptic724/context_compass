@@ -12,20 +12,24 @@ Flow
    - Tickets are durable planning memory.
    - Attention board is active routing state.
    - Artifacts support tickets when needed.
-   - Config + maps control onboarding/read paths.
+   - `SKILLS.MD` declares the roles; config controls behaviour.
 3) Explain classes/profiles.
-   - `new` for first-time onboarding.
-   - `general` for system behavior baseline.
-   - `engineer` for code-development specialization.
-   - `user_defined/*` for personal/team overlays.
-4) Explain configuration.
-   - Show where `context_compass_config.yaml` lives.
-   - Show which keys change active/default classes.
-5) Ask for default class selection.
+   - Read the registry table in `context_compass/SKILLS.MD` and present the
+     roles from it; do not recite a list from this file.
+   - `new` is the first-time onboarding entry role and is never steady-state.
+   - Use the `extends` column to explain inheritance.
+4) Explain the authority split.
+   - `context_compass/SKILLS.MD` is the single role registry: which roles
+     exist, where each resolves, and which are selectable.
+   - `context_compass/config/context_compass_config.yaml` holds behaviour
+     settings only. No key in it selects or changes a role.
+5) Ask for role selection.
+   - Offer only roles whose `selectable after onboarding` column is `yes`.
    - Recommend `engineer`.
-6) Confirm selected class and next step.
-   - Update config guidance.
-   - Tell user what happens after leaving `new`.
+6) Confirm the selected role and next step.
+   - Explain that the choice is per session and is not stored anywhere; each
+     new session or re-onboarding selects a role again.
+   - Tell the user what happens after leaving `new`.
 
 Communication style
 - Be concise, explicit, and technical.
@@ -36,8 +40,8 @@ Output checklist
 - [ ] System purpose explained.
 - [ ] AI usage recommendation stated (Extra High reasoning).
 - [ ] Profile model and inheritance explained.
-- [ ] Configuration path and key fields explained.
-- [ ] Default class selection completed (or pending explicit user choice).
+- [ ] Registry vs config authority split explained.
+- [ ] Role selection completed (or pending explicit user choice).
 
 References
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`

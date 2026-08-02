@@ -1,4 +1,4 @@
-﻿# story_novel_artist_advanced_context
+# story_novel_artist_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for story_novel_artist.

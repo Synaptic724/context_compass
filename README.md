@@ -109,6 +109,58 @@ The point is simple:
 - repository state is durable
 - process should be recoverable from files, not vibes
 
+## Install
+
+### Using it needs nothing at all
+
+The package is Markdown. Copying `src/context_compass/` into your repo and
+pointing an agent at `AGENTS.MD` is the whole installation - no runtime, no
+dependencies, no build step. Do not install anything to get started.
+
+### The maintenance tools need Python 3.10 or newer
+
+`tools/` holds the scripts that generate the manifest, index documents, build the
+source graph, and upgrade an install. They are **stdlib-only on purpose**: an
+agent that has to `pip install` before it can read a document is an agent that
+cannot read the document on a fresh clone.
+
+If you already have Python 3.10+, you are done. If not, the fastest way to get
+one is [uv](https://docs.astral.sh/uv/), which installs Python versions for you.
+
+Install uv:
+
+```bash
+# macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# no curl? use wget
+wget -qO- https://astral.sh/uv/install.sh | sh
+```
+
+```powershell
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+Then install a Python and use it:
+
+```bash
+uv python install 3.14        # or 3.12, 3.13, whichever you want
+uv python install 3.14t       # the `t` suffix is the free-threaded build
+
+uv venv --python 3.14         # creates .venv using that interpreter
+```
+
+`uv venv` downloads the interpreter if it is missing, so the separate
+`uv python install` is optional. You can also skip uv entirely - any Python 3.10+
+from python.org, Homebrew, or your distro runs these scripts unchanged.
+
+Verify:
+
+```bash
+python tools/package_manifest.py --root . --check
+```
+
 ## Quickstart
 
 1. Clone this repo or download a copy of it.
@@ -122,7 +174,7 @@ The point is simple:
 
 Core control files inside `src/context_compass/`:
 - `AGENTS.MD`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `config/context_compass_config.yaml`
 - `attention_board.md`
 - `artifact_board.md`
@@ -261,7 +313,7 @@ onboarding into the system.
 
 ### Step 3: Decide how you want the agent to work
 Role maps live in:
-- `src/context_compass/SKILLS.md`
+- `src/context_compass/SKILLS.MD`
 - `src/context_compass/config/context_compass_config.yaml`
 
 For normal software work, the simplest starting point is to ask the agent to
@@ -290,6 +342,57 @@ one chat thread.
 If the chat is compacted, the session resets, or another agent takes over, the
 next agent should re-onboard, rebuild context from the repo state, and continue
 from there instead of relying on temporary chat memory.
+
+## Upgrading An Existing Install
+
+Your repo owns its tickets, artifacts, system docs, project instructions, and
+both `user_defined/` directories. An upgrade never touches any of them. What it
+does update is the package: skills, policies, templates, tools, and the boards'
+package-owned text.
+
+```bash
+# see exactly what would change; writes nothing
+python context_compass/tools/update_context_compass.py \
+    --install context_compass --new /path/to/new/src/context_compass --check
+
+# do it
+python context_compass/tools/update_context_compass.py \
+    --install context_compass --new /path/to/new/src/context_compass --apply
+```
+
+Every tool here refuses to act without `--apply` and prints a full plan under
+`--check`. Read the plan.
+
+### Boards keep your rows
+
+The three boards carry `USER-DEFINED` regions. Everything inside them is yours
+and no tool writes there in any mode; everything outside is package structure
+that gets conformed, so the boards' shape can actually improve over time.
+
+Boards created before those regions existed hold their rows in open text, where
+nothing distinguishes them from stale package headings. The updater will not
+conform such a board - it says so and names the fix:
+
+```bash
+python context_compass/tools/migrate_boards.py \
+    --install context_compass --new /path/to/new/src/context_compass --check --diff
+```
+
+That moves existing content into the matching regions. Anything with no matching
+region is parked under `## Notes` rather than dropped. Run it once; afterwards
+upgrades are ordinary.
+
+### The other tools
+
+| tool | what it does |
+| --- | --- |
+| `package_manifest.py` | what ships, who owns it, its hash. Everything else reads this. |
+| `update_context_compass.py` | upgrade an install to a newer package |
+| `migrate_boards.py` | one-time board migration into `USER-DEFINED` regions |
+| `cleanup_context_compass.py` | repair a broken install, or reset lanes for a release |
+| `system_documents/index_document.py` | line-range index over an authored document |
+| `system_documents/python/extract_graph.py` | derive the source graph from code |
+| `system_documents/python/assemble_graph.py` | render the graph and its index |
 
 ## Final Word
 

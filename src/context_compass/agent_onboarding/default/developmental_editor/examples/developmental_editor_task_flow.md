@@ -1,4 +1,4 @@
-﻿# developmental_editor_task_flow
+# developmental_editor_task_flow
 
 Scenario
 - Demonstrate a complete developmental_editor pass with artifacts and gate decisions.

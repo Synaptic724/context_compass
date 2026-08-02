@@ -1,4 +1,4 @@
-﻿# story_designer_deliverables
+# story_designer_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for story_designer.

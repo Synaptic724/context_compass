@@ -29,8 +29,8 @@ Core review set (ALWAYS required) - review these files in order:
 - `CONTEXT_COMPACTION.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
-- resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `SKILLS.MD`
+- resolved role `SKILLS.MD` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`

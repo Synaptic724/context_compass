@@ -1,0 +1,35 @@
+[project]
+name = "context-compass"
+version = "2.4.1"
+description = "Durable, file-backed execution state for coding agents."
+readme = "README.md"
+requires-python = ">=3.10"
+
+# The package ships as source and is copied into a consuming repository, not
+# installed from an index. Every tool under `src/context_compass/tools/` is
+# stdlib-only by design - an agent that has to `pip install` before it can read
+# a document is an agent that cannot read the document on a fresh clone.
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+# Not a distributable package: no wheel is built and nothing is installed into
+# the environment for this project itself. `uv lock` and `uv sync` still manage
+# the dev dependencies, which is the only reason this file exists.
+#
+# `tests/conftest.py` puts the tool directories on sys.path directly, matching
+# how the shipped scripts import each other. Making this an installable package
+# would give the tests an import path the real code does not have.
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q --strict-markers --tb=short"
+markers = [
+    "unit: pure functions, no filesystem beyond tmp_path",
+    "integration: runs a tool end to end as a subprocess",
+    "regression: locks in a bug that actually happened",
+]

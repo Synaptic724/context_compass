@@ -3,68 +3,92 @@
 
 
 
-# AGENTS.md - Prime Policies
+# AGENTS.MD - Prime Policies
 ## Execution Order
 
 - Before running tools, editing files, or executing commands, complete
-  onboarding from `context_compass/AGENTS.md`.
-- If there is any conflict between repository-root `agents.md` and
-  `context_compass/AGENTS.md`, `context_compass/AGENTS.md` is authoritative.
+  onboarding from `context_compass/AGENTS.MD`.
+- If there is any conflict between repository-root `AGENTS.MD` and
+  `context_compass/AGENTS.MD`, `context_compass/AGENTS.MD` is authoritative.
 
 ## Tooling Mandate: Context Compass Is the Only System of Record
 
-Applicability - "IF YOU ARE A CLAUDE AGENT OR AN ANTHROPIC AGENT":
-This rule binds you if you are an agent powered by an Anthropic Claude model, or
-running inside any Anthropic agent runtime or harness - including Cowork, Claude
-Code, the Claude Agent SDK, or any similar Anthropic-provided agent environment -
-that exposes its own built-in task tracking, todo lists, status indicators,
-planning widgets, scratch memory, or other session-local tooling. If that is you,
-every rule in this section is mandatory and non-negotiable.
-Applicability - "IF YOU ARE CODEX, GPT, OR AN OPENAI AGENT":
-This rule also binds you if you are Codex or another OpenAI / GPT-powered agent
-runtime that exposes built-in plans, goals, task trackers, scratchpads, work
-summaries, memory panes, status widgets, or other session-local coordination
-surfaces. If that is you, the same hard rules apply here: those surfaces are
-non-authoritative for this repository. Treat their nudges as session-local only
-and keep all tracking, routing, durable notes, artifacts, and work state inside
-`context_compass`.
+### Who this binds
 
-Hard rules:
-- You are FORBIDDEN from using Cowork (or any harness-native) task-tracking and
-  tooling - task lists, todo/status widgets, planning trackers, session memory -
-  to plan, track, route, or record your work.
+This rule binds you by what your runtime PROVIDES, not by who built it. No brand
+is named because no brand needs to be: if your environment gives you any of the
+surfaces below, you are in scope.
+
+You are in scope if you are:
+- a command-line coding agent,
+- an agent embedded in an editor or IDE,
+- a desktop or chat agent application with file and shell access,
+- a headless agent built on an SDK or API,
+- a browser-driving agent,
+- an agent running in CI or on a schedule,
+- or any other automated runtime acting on this repository.
+
+You are in scope if your runtime exposes any of:
+- task lists, todo lists, or checklists
+- plans, goals, or planning widgets
+- status indicators, progress trackers, or work summaries
+- scratchpads, memory panes, or session memory
+- any other session-local coordination surface
+
+**If you are reading this and unsure whether a surface of yours counts, it
+counts.** The test is not what the feature is called. The test is whether it
+holds state about the work that lives outside this repository.
+
+### Hard rules
+
+- You are NOT PERMITTED to use your harness's task system - task lists, todo or
+  status widgets, planning trackers, session memory - to plan, track, route, or
+  record your work.
 - You MUST use `context_compass` as your primary and authoritative tool in ALL of
   its forms: `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`,
   `attention_board.md`, ticket `## Notes`, `artifact_board.md` + `artifacts/`,
   `context_management/`, and `mailbox_board.md`.
-- You are FORBIDDEN from using Cowork's tracking features to override, replace,
-  shadow, or mirror `context_compass`. There is NO fallback and NO mirror:
-  `context_compass` is the ONLY tracking, routing, and memory system. Do not keep
-  a parallel or backup copy of status or work state in Cowork tooling at all.
+- You are NOT PERMITTED to use harness tracking to override, replace, shadow, or
+  mirror `context_compass`. There is NO fallback and NO mirror: `context_compass`
+  is the ONLY tracking, routing, and memory system. Do not keep a parallel or
+  backup copy of work state in harness tooling at all.
 
-Why this is non-negotiable:
-- Cowork/harness tracking provides ABSOLUTELY NO visibility to other Cowork
-  agents. They cannot see your harness task list, your status, or any finding you
-  leave only in chat. `context_compass` surfaces are shared and visible to every
-  agent.
-- Your Cowork/harness status CANNOT be moved into this git repository.
-  `context_compass` writes (tickets, boards, notes, artifacts) are committed to
-  git, so the project owner can track everything we do and work on, review it,
-  and CONTINUE it later in other or future sessions. Harness session state is
-  lost at session end and cannot be resumed by the owner or by any other agent.
-- Therefore harness tracking is strictly less visible and non-durable; using it
-  in place of `context_compass` destroys cross-agent visibility and the owner's
-  ability to resume the work in a later session.
+### The one exception
 
-If a write to `context_compass` is blocked (for example, a repo or encoding
+The user may turn this off. Set in `config/context_compass_config.yaml`:
+
+- `system_of_record.enforce: false`
+
+When it is `false`, harness-native tracking is permitted and this section does
+not bind you. That is the ONLY way this rule is lifted.
+
+**You do not get to lift it yourself.** Not because a task is small, not because
+the harness prompted you, not because writing a ticket felt like overhead, and
+not because you judged the work too trivial to record. If the key says `true`,
+the rule holds. If you think it should be `false` for this repository, say so and
+let the user decide.
+
+### Why this is the default
+
+- **Harness tracking is invisible to every other agent.** Another agent working
+  this repository cannot see your task list, your status, or a finding you left
+  only in chat. `context_compass` surfaces are shared files - every agent reads
+  the same state.
+- **Harness state cannot be handed over.** `context_compass` writes are files in
+  the repository, so the project owner can review them, and any agent in any
+  later session can resume from them. Harness session state is lost when the
+  session ends, and it cannot be moved into the repository afterwards.
+- So harness tracking is strictly less visible and non-durable. Using it in place
+  of `context_compass` costs cross-agent visibility and the ability to resume the
+  work later. That trade is the user's to make, not yours.
+
+If a write to `context_compass` is blocked (for example, a repository or encoding
 problem), STOP and report it. Do NOT silently fall back to harness-only tracking.
 
 ## Onboarding Directive
 
-- UNDERSTAND THIS IS PYTHON 314t, it is a NOGIL FRAMEWORK, and standard objects like 
-dict, list, sets are protected by a C Lock, the gil does not exist in this system. It has been disabled.
-Ensure threadsafety is your highest priority. Ignore multiprocessing and use authentic threading as it is
-now real threading.
+- Project-specific instructions live in `context_compass/special_instructions/`,
+  not in this file. This file ships with the library; those do not.
 - Once you have found the execution contract you must adhere to it fully.
 - The canonical contract file is
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`.
@@ -79,27 +103,28 @@ now real threading.
   before doing any work.
 - Onboarding is single-pass per trigger event. Do not restart onboarding in the
   same uninterrupted session unless a new trigger event occurs.
-- Read and follow `context_compass/AGENTS.md` as the canonical onboarding and
+- Read and follow `context_compass/AGENTS.MD` as the canonical onboarding and
   execution policy.
-- You MUST determine whether a file exceeds `codex.read_loc_max` LOC before reading it.
-  - If the file might exceed `codex.read_loc_max`, compute the line count (LOC) first.
-  - If the file is clearly <= `codex.read_loc_max`, do NOT waste tool calls on LOC counting.
+- You MUST determine whether a file exceeds `reading.read_loc_max` LOC before reading it.
+  - If the file might exceed `reading.read_loc_max`, compute the line count (LOC) first.
+  - If the file is clearly <= `reading.read_loc_max`, do NOT waste tool calls on LOC counting.
 - You must read every required **baseline** onboarding file completely.
   - Do not skip required-baseline files.
   - Do NOT claim a file was read unless it was actually read.
   - On-demand files are required only when the active task triggers them.
 - Loop-based document reads are forbidden except for line counts. Content reads
   must be manual per file path.
-- Files larger than `codex.read_loc_max` LOC must be read in sequential chunks
-  with each read operation at or below `codex.viewer_tool_read_limit`.
-- Repository-root `agents.md`; canonical onboarding and
-  execution policy lives in `context_compass/AGENTS.md`.
+- Files larger than `reading.read_loc_max` LOC must be read in sequential chunks
+  with each read operation at or below `reading.viewer_tool_read_limit`.
+- Repository-root `AGENTS.MD` is a pointer only. The canonical onboarding and
+  execution policy lives in `context_compass/AGENTS.MD`, and that file wins on
+  any conflict.
 
 ## Compaction Directive
 
 - Highest priority adherence: after any context compaction or handoff,
   immediately re-onboard before any action.
-- Re-read `context_compass/AGENTS.md` and
+- Re-read `context_compass/AGENTS.MD` and
   `context_compass/agent_onboarding/default/general/skills/compaction_requirements.md`
   before continuing work.
 - For compaction/handoff summaries, you MUST keep summaries empty when the runtime allows it;
@@ -115,14 +140,14 @@ After any context compaction or handoff:
 
 - Stop and re-onboard before any tooling, edits, execution, or planning.
 - Re-onboarding is single-pass per trigger event. Do not repeat the same
-  `AGENTS.md` + `execution_contract.md` reread sequence again in the same
+  `AGENTS.MD` + `execution_contract.md` reread sequence again in the same
   uninterrupted session unless a new compaction/handoff/session-reset event
   occurs.
 - Re-onboarding is reserved for compaction/handoff recovery only.
 - Fresh-session startup uses ONBOARD flow, not REONBOARD flow.
 - Re-read `agent_onboarding/default/general/skills/execution_contract.md` in
-  full immediately after `AGENTS.md`.
-- Start from `config/context_compass_config.yaml`, then `SKILLS.md`.
+  full immediately after `AGENTS.MD`.
+- Start from `config/context_compass_config.yaml`, then `SKILLS.MD`.
 - Re-read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
 - Re-check-in on `context_compass/mailbox_board.md` (update your row,
@@ -162,24 +187,26 @@ Performative compliance is forbidden during re-onboarding:
 Before any tooling, edits, or execution:
 
 - Read `agent_onboarding/default/general/skills/execution_contract.md` in full
-  immediately after `AGENTS.md`.
-- Do not perform duplicate end-of-onboarding rereads of `AGENTS.md` or
+  immediately after `AGENTS.MD`.
+- Do not perform duplicate end-of-onboarding rereads of `AGENTS.MD` or
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
-- Read `SKILLS.md`.
+- Read `SKILLS.MD`.
 - Read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Check in on `context_compass/mailbox_board.md` (add/update your
   checked-in row; read messages addressed to you if other agents are
   active) per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
-- When `SKILLS.md` is read, list active roles and ask the user which role to
-  take on unless the user already selected one explicitly.
-- Resolve the selected role to its `SKILLS.md` path from `SKILLS.md` and/or
-  `config/context_compass_config.yaml` (roles map).
-- Read the selected role `SKILLS.md` and all inherited parent `SKILLS.md`
-  files in parent-first order.
+- When `SKILLS.MD` is read, list the roles in its registry table and ask the
+  user which role to take on unless the user already selected one explicitly.
+- Resolve the selected role to its `SKILLS.MD` path from the `SKILLS.MD`
+  registry table. `SKILLS.MD` is the single role registry;
+  `config/context_compass_config.yaml` does not enumerate roles.
+- Read the selected role `SKILLS.MD` and all inherited parent `SKILLS.MD`
+  files in parent-first order, walking each file's `INHERITS_SKILLS_FROM`
+  header.
 - Treat every path listed under **Active skills** / **Required baseline skills**
-  in resolved `SKILLS.md` files as active skill docs.
+  in resolved `SKILLS.MD` files as active skill docs.
   - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
   - When an on-demand trigger condition is met, those paths become mandatory
     and MUST be read before any work in that scope.
@@ -194,9 +221,9 @@ Before any tooling, edits, or execution:
 Onboarding readset authority:
 
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/special_instructions/` (read every Markdown document under this directory using relative repo paths only)
-- resolved `SKILLS.md` chain under `context_compass/agent_onboarding/`
+- resolved `SKILLS.MD` chain under `context_compass/agent_onboarding/`
 
 Onboarding completion attestation (first onboarding in a fresh session):
 
@@ -236,18 +263,27 @@ Certification gating:
   slipping into fluff.
 - Treasure context. Treat durable context as a top priority.
 
-## Mission Recall / Path Correction
+## Direction Recall / Path Correction
 
-When the user signals doubt, worry, depression, loss of direction, or fear
-about the mission:
+When the user signals that the direction has been lost - scope feels unbounded,
+the goal has gone fuzzy, or the remaining work reads as one undifferentiated
+mass:
 
-- Re-anchor to the relevant documents in `context_compass/special_instructions/`.
-- Restate what the user is building in concrete stack terms.
-- Remind the user what is already real and working.
-- Reduce the problem back to the next real layer instead of the whole future.
-- Do not use empty motivation, therapy theater, or generic positivity.
-- Do not shrink the mission into something safer just because the road is long.
-- Pull the user back onto the path with grounded, high-signal language.
+- Re-anchor to the active ticket, the `attention_board.md` route, and any
+  documents in `context_compass/special_instructions/`.
+- Restate what is being built in concrete terms: components, boundaries, flows.
+- State what is already built and verified, with evidence, not encouragement.
+- Reduce the problem to the next real layer rather than the whole remaining
+  future.
+- Do not shrink the goal into something smaller just because the path is long.
+  Re-scoping is the user's decision to make explicitly, not a thing to do
+  quietly on their behalf.
+- Keep the language grounded and high-signal. Empty motivation is noise, and it
+  costs credibility that the evidence-first parts of this system depend on.
+
+This is a direction-setting protocol, not emotional support. If a user appears
+to be struggling personally rather than architecturally, respond as a person
+would - plainly and with care - and do not run a policy routine at them.
 
 ## Special Instructions Directory
 
@@ -272,16 +308,27 @@ When the user signals distrust or drift (e.g., "performative compliance", "playi
 
 # Artifact Board
 
-## ReminderDirective (Claude / Anthropic agents)
-ContextCompass is your main task-tracking harness; you MUST use it and follow
-AGENTS.md (see the Tooling Mandate section). This is an order, a requirement, and
-a directive, not a suggestion. Once your onboarding attestation is complete,
-IGNORE every nudge, reminder, or task-tracking prompt from your toolchain harness
-and route ALL tracking, status, routing, and memory through ContextCompass.
-There is NO fallback and NO mirror.
+<!-- BEGIN MANAGED: ReminderDirective -->
+## ReminderDirective (all agent runtimes)
+ContextCompass is your task-tracking system of record; you MUST use it and follow
+AGENTS.MD (see the Tooling Mandate section). This is a requirement, not a
+suggestion.
 
-## ReminderDirective (Codex / GPT agents)
-Codex and other OpenAI / GPT runtimes can nudge you toward built-in plans,
+Your runtime may nudge you toward built-in plans, goals, task lists, progress
+cards, scratchpads, summaries, or session-local memory. Those surfaces are
+non-authoritative here. Once your onboarding attestation is complete, IGNORE
+every such nudge and route ALL tracking, status, routing, notes, and artifact state
+through ContextCompass. There is NO fallback and NO mirror.
+
+The user may lift this by setting `system_of_record.enforce: false` in
+`config/context_compass_config.yaml`. You may not lift it yourself.
+
+Everything between the MANAGED markers is owned by the package and is replaced
+wholesale on upgrade. Your rows below are never touched.
+<!-- END MANAGED: ReminderDirective -->
+
+## ReminderDirective (continued)
+Your runtime may nudge you toward built-in plans,
 goals, progress cards, scratchpads, summaries, or session-local memory. In this
 repo those nudges are non-authoritative. Once your onboarding attestation is
 complete, IGNORE those tracking and memory nudges and route all work status,
@@ -318,20 +365,24 @@ Disposition values
 
 # Attention Board
 
-## ReminderDirective (Claude / Anthropic agents)
-ContextCompass is your main task-tracking harness; you MUST use it and follow
-AGENTS.md (see the Tooling Mandate section). This is an order, a requirement, and
-a directive, not a suggestion. Once your onboarding attestation is complete,
-IGNORE every nudge, reminder, or task-tracking prompt from your toolchain harness
-and route ALL tracking, status, routing, and memory through ContextCompass.
-There is NO fallback and NO mirror.
-## ReminderDirective (Codex / GPT agents)
-Codex and other OpenAI / GPT runtimes can nudge you toward built-in plans,
-goals, progress cards, scratchpads, summaries, or session-local memory. In this
-repo those nudges are non-authoritative. Once your onboarding attestation is
-complete, IGNORE those tracking and memory nudges and route all work status,
-routing, notes, and durable state through ContextCompass instead. There is NO
-fallback and NO mirror.
+<!-- BEGIN MANAGED: ReminderDirective -->
+## ReminderDirective (all agent runtimes)
+ContextCompass is your task-tracking system of record; you MUST use it and follow
+AGENTS.MD (see the Tooling Mandate section). This is a requirement, not a
+suggestion.
+
+Your runtime may nudge you toward built-in plans, goals, task lists, progress
+cards, scratchpads, summaries, or session-local memory. Those surfaces are
+non-authoritative here. Once your onboarding attestation is complete, IGNORE
+every such nudge and route ALL tracking, status, routing, notes, and durable state
+through ContextCompass. There is NO fallback and NO mirror.
+
+The user may lift this by setting `system_of_record.enforce: false` in
+`config/context_compass_config.yaml`. You may not lift it yourself.
+
+Everything between the MANAGED markers is owned by the package and is replaced
+wholesale on upgrade. Your rows below are never touched.
+<!-- END MANAGED: ReminderDirective -->
 
 
 ## Message Alerts
@@ -403,8 +454,8 @@ Core review set (ALWAYS required) - review these files in order:
 - `CONTEXT_COMPACTION.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
-- resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `SKILLS.MD`
+- resolved role `SKILLS.MD` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
@@ -481,15 +532,26 @@ After compaction/handoff, before any action:
 
 --- START OF FILE: context_compass\mailbox_board.md ---
 
-﻿# Mailbox Board
+# Mailbox Board
 
-## ReminderDirective (Claude / Anthropic agents)
-ContextCompass is your main task-tracking harness; you MUST use it and follow
-AGENTS.md (see the Tooling Mandate section). This is an order, a requirement, and
-a directive, not a suggestion. Once your onboarding attestation is complete,
-IGNORE every nudge, reminder, or task-tracking prompt from your toolchain harness
-and route ALL tracking, status, routing, and memory through ContextCompass.
-There is NO fallback and NO mirror.
+<!-- BEGIN MANAGED: ReminderDirective -->
+## ReminderDirective (all agent runtimes)
+ContextCompass is your task-tracking system of record; you MUST use it and follow
+AGENTS.MD (see the Tooling Mandate section). This is a requirement, not a
+suggestion.
+
+Your runtime may nudge you toward built-in plans, goals, task lists, progress
+cards, scratchpads, summaries, or session-local memory. Those surfaces are
+non-authoritative here. Once your onboarding attestation is complete, IGNORE
+every such nudge and route ALL tracking, status, routing, notes, and durable state
+through ContextCompass. There is NO fallback and NO mirror.
+
+The user may lift this by setting `system_of_record.enforce: false` in
+`config/context_compass_config.yaml`. You may not lift it yourself.
+
+Everything between the MANAGED markers is owned by the package and is replaced
+wholesale on upgrade. Your rows below are never touched.
+<!-- END MANAGED: ReminderDirective -->
 
 
 Purpose
@@ -509,7 +571,7 @@ Core rules (summary; the protocol doc is authoritative)
 - Receiving: copy any actionable content into your active ticket's
   `## Notes` (tickets are the durable truth), DELETE the message here,
   and clear your alert line in `attention_board.md` in the same pass.
-- Write races on this file are expected: re-read and retry, never
+- Data races on this file are expected: re-read and retry, never
   overwrite another agent's concurrent edit.
 - No secrets, ever. Keep messages pointer-heavy (paths/ticket refs),
   not content-heavy.
@@ -530,17 +592,499 @@ Message format (append-only; delete after consumption):
   ACK_REQUESTED: true | false
 -->
 
+--- START OF FILE: context_compass\MANIFEST.md ---
+
+# MANIFEST
+
+Generated by `tools/package_manifest.py`. Do not hand-edit: it is derived
+from the files themselves, which is the only reason it can be trusted.
+
+| field | value |
+| --- | --- |
+| manifest_version | 1.0.0 |
+| package_version | 2.3.1 |
+| files | 438 |
+
+## Lane policy
+
+Lanes where the install may keep files the package does not ship.
+Everything outside them is STRICT: an upgrade sweeps what is not listed here.
+
+| lane | policy |
+| --- | --- |
+| `tickets/` | permissive |
+| `artifacts/` | permissive |
+| `system_docs/` | permissive |
+| `context_management/` | permissive |
+| `special_instructions/` | permissive |
+| `user_defined/` | permissive |
+| `agent_onboarding/user_defined/` | permissive |
+| everything else | strict - swept on upgrade |
+
+## Ownership classes
+
+| class | files | cleanup | update |
+| --- | --- | --- | --- |
+| PACKAGE | 335 | restore | replace |
+| RESET | 26 | keep listed, remove unlisted | leave alone |
+| INSTANCE | 73 | never touched | never touched |
+| LIVE | 3 | reset managed block | swap managed block |
+| CONFIG | 1 | restore missing keys | merge keys |
+
+## Files
+
+| path | class | sha256 |
+| --- | --- | --- |
+| `AGENTS.MD` | PACKAGE | `fdfb285882571d6716589a11775493664cbc7b9688ce90434dbccc140bf9158b` |
+| `agent_onboarding/default/continuity_fact_checker/AGENTS.MD` | PACKAGE | `fce7d01029b936ed332dbec49bd4bb19e188d9c7ffa932909cfe16593c0b9de8` |
+| `agent_onboarding/default/continuity_fact_checker/behavioral_guidelines/continuity_fact_checker_workflow.md` | PACKAGE | `ace3e5e300fda18719730e05bdb0ca15d8afdc32289e1a13a7c8bd3d91470753` |
+| `agent_onboarding/default/continuity_fact_checker/examples/continuity_fact_checker_task_flow.md` | PACKAGE | `97303ea953c81565410b611848b42b4ec84f73d6351ae2754111c7bd2dd4e4aa` |
+| `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_handoff_policy.md` | PACKAGE | `4d13b91836c1a27623471204baf731c18fc9c135877c0ffde35dd9b7f2715c53` |
+| `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md` | PACKAGE | `a015e71de7d00dc8695dbfb3cf7ad13c43a7b9b15ef1a285e570060e5f3d67a5` |
+| `agent_onboarding/default/continuity_fact_checker/README.md` | PACKAGE | `ac048e655aaf4dc7e04a28216b4878f5b3fa8542fcc001dc433e4585a1d0663a` |
+| `agent_onboarding/default/continuity_fact_checker/SKILLS.MD` | PACKAGE | `aa19008f17749d9e8432e3bbca9942d0c05570725a333bf418d615ce32592082` |
+| `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md` | PACKAGE | `5d05783c89bb78540957b461eca5ddd119d5827507852dba5c93fe8391e4fcab` |
+| `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_advanced_context.md` | PACKAGE | `46a0cd3ca1cbfa1f57224fa3580bbe08ddb957a30f99c33730bcf08d2f2ecc9c` |
+| `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_deliverables.md` | PACKAGE | `faa0a9ba50e604c5d7c790890081a516331153968d271a9c6c37a78048d87d89` |
+| `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md` | PACKAGE | `e3a8b282a88365a798c931f64cc08f07df8f0a7df9855ba4d48c488edd17e6be` |
+| `agent_onboarding/default/continuity_fact_checker/WORKFLOWS.MD` | PACKAGE | `9d5e6c74c08fe5a32f820ec74a5f06790d0eadffb37fbc17d2ea386bee7cc1a4` |
+| `agent_onboarding/default/continuity_fact_checker/workflows/README.md` | PACKAGE | `00cd0ec7d92738102ad5e3a9396a130e240c607652510085640001b5302a57b4` |
+| `agent_onboarding/default/design_engineer/AGENTS.MD` | PACKAGE | `f0595a1405a8c25538d5d9d6b193e6e844e9d7fcd87e6db95bdf86232367f1fa` |
+| `agent_onboarding/default/design_engineer/behavioral_guidelines/design_engineer_workflow.md` | PACKAGE | `6024396b89a1d285a8c508ef0a1f718b731d34b14a2c97412c9e06f42d3bae90` |
+| `agent_onboarding/default/design_engineer/behavioral_guidelines/design_validation_and_handoff.md` | PACKAGE | `56617fe31be7986d83e3ac231e99ef832c6a715722597727880bff325d0e6b5a` |
+| `agent_onboarding/default/design_engineer/examples/adr_example.md` | PACKAGE | `0af9273423b5300f917041439a03ab8407894d15e16bb7412b032b9952d70996` |
+| `agent_onboarding/default/design_engineer/examples/design_task_flow.md` | PACKAGE | `25062c137dec35c0b96a0b7dda0703754e561f3b0f3d417d7db5ae5aafd492fe` |
+| `agent_onboarding/default/design_engineer/policies/decision_record_policy.md` | PACKAGE | `26bab740a14a807959e0562c2f56ca5c66caf49f33dc1ee0d068ad0773700c2b` |
+| `agent_onboarding/default/design_engineer/policies/design_quality_policy.md` | PACKAGE | `d75629fbe632e2ceb72474ad34ad4a2be92edb55ef769a7335c3dd4b8c801d07` |
+| `agent_onboarding/default/design_engineer/policies/design_review_policy.md` | PACKAGE | `5f2909838104b47a4296dd611077cac7a2224c3eeb8f45dea865b676c2dd575a` |
+| `agent_onboarding/default/design_engineer/README.md` | PACKAGE | `d4a2fc9540810084b70808d8a0175243596cf1d449f9367d0ca065cf5f3c331d` |
+| `agent_onboarding/default/design_engineer/SKILLS.MD` | PACKAGE | `f5a61b40b2dc6e32abb3cae8930e2dfe2492a0e1dc63b61fa8557e3ca0f4cda1` |
+| `agent_onboarding/default/design_engineer/skills/adr_and_decision_hygiene.md` | PACKAGE | `2ae7193b75fcc0f784324c9a4a8870bc7c5636dc561f36436c40813d9cb38fad` |
+| `agent_onboarding/default/design_engineer/skills/api_and_interface_design.md` | PACKAGE | `8ba14c3a10040852b87f9a1023b400ee19275e8c616b2fbf9b667111d54fbf0e` |
+| `agent_onboarding/default/design_engineer/skills/architecture_contexts.md` | PACKAGE | `a2efbe330609582c3fb81303e46ff706b563907919a158800dbd55ec325d3d23` |
+| `agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md` | PACKAGE | `e23da97b913e2e6870697871c65e9b3b9388d0f1e6984cf645d35f57fae5ada1` |
+| `agent_onboarding/default/design_engineer/skills/architecture_tradeoffs.md` | PACKAGE | `58ce0c694765626186f57dd7fec1312d36e81cc8049dbcd0c33b757cc0e0b635` |
+| `agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md` | PACKAGE | `24ed9477fac3652cd671370edec516a82ec6dfeca08263d405503e313ec49f20` |
+| `agent_onboarding/default/design_engineer/skills/component_patch_contracts.md` | PACKAGE | `1bde83fd119b212d14aa9ce29ac9e0733eb8b6886aa3e7643a0f2677205ac8d6` |
+| `agent_onboarding/default/design_engineer/skills/data_modeling.md` | PACKAGE | `93e1b7bd3365b896b089185d83aaf90a39b9de335e7c018acea4e422afefc0e6` |
+| `agent_onboarding/default/design_engineer/skills/decomposition_and_boundaries.md` | PACKAGE | `43cafa5e1fe7161f0120463e9a0295a5511a5e173b167f926e31237c911c26f5` |
+| `agent_onboarding/default/design_engineer/skills/design_engineer_execution.md` | PACKAGE | `f78a42ff79068514ccb1a039d873754ab9240c1db738496eb43c8fcce9c11677` |
+| `agent_onboarding/default/design_engineer/skills/design_review_protocol.md` | PACKAGE | `5ce9ae178420622f28cacc16e00fefd9a6d07332b96bbf02b74390423ac76bdb` |
+| `agent_onboarding/default/design_engineer/skills/nonfunctional_requirements.md` | PACKAGE | `9d9917f96cbdc1d98dac48a0ee482be89918732c94b7e5becb21eca92d445ecd` |
+| `agent_onboarding/default/design_engineer/skills/patch_framework_design.md` | PACKAGE | `ec6e6f6a65590c0fca64df1323f1c20f0b7b206da5562824728865c296f376b3` |
+| `agent_onboarding/default/design_engineer/skills/requirements_to_architecture.md` | PACKAGE | `1b5fe20054365b2c4fd4277cf4c1dc3650f169f697b2c90ecc9471e108cddef4` |
+| `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md` | PACKAGE | `d191e0ea989b6b26c336c3c6c2a5dd4c267b2998d47a9267b37dab2acae7d379` |
+| `agent_onboarding/default/design_engineer/skills/src_components_instructions.md` | PACKAGE | `02443ffbbe3b977eb2891dbe1138fa46525b6c8a00970fcfe26206824e935d8f` |
+| `agent_onboarding/default/design_engineer/skills/system_design_method.md` | PACKAGE | `f26ba249567eeeaf4bbd9791901fc6ca76c3755b7093cd8405b416f7cf5e61a1` |
+| `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md` | PACKAGE | `8b5d993c9cfbea0f028fdf0c45ea1112af4bb67b7bd076f6478e7f14f65a9ccf` |
+| `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md` | PACKAGE | `fb37caf350828320404b7f7a027ef9612c7d6d72b7de3e8ab2f8843eb3e42f96` |
+| `agent_onboarding/default/design_engineer/WORKFLOWS.MD` | PACKAGE | `b05c817b49933c7b71cf0f4c7d6e32a3dfd109cd69109d83c1ffe9111563218f` |
+| `agent_onboarding/default/design_engineer/workflows/README.md` | PACKAGE | `6bcd77f00c6b1254c2ca6fe2cd5a50e9b251e5c4dd97d5b19a3040d75e485dd3` |
+| `agent_onboarding/default/developmental_editor/AGENTS.MD` | PACKAGE | `4ef39a1cdf9274f44a1f842d0c6e82faf6ef2f2bd81d4743ecef7867d9894705` |
+| `agent_onboarding/default/developmental_editor/behavioral_guidelines/developmental_editor_workflow.md` | PACKAGE | `5dd947c6821776ec464c97f03bf25580327323fb7f575dc0ca5f9acdeef7b6fe` |
+| `agent_onboarding/default/developmental_editor/examples/developmental_editor_task_flow.md` | PACKAGE | `9010a12294603c1ac256c7857da421db19b0aeffe8469ffafe56e40050ffa2ae` |
+| `agent_onboarding/default/developmental_editor/policies/developmental_editor_handoff_policy.md` | PACKAGE | `32140442c79e7b2a80aea68b5d975adb3248ed01304a529a721ce7f3c99814f9` |
+| `agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md` | PACKAGE | `b5b2b4ca716b838150d06edd33aba88587e7a44351b0a7c7e3f5c4935c5d6334` |
+| `agent_onboarding/default/developmental_editor/README.md` | PACKAGE | `d9cee87ba47cd96163e5169fb0b6c4b73183b691f14b1d98b807682a5f2190f0` |
+| `agent_onboarding/default/developmental_editor/SKILLS.MD` | PACKAGE | `5dd6ff29b9fbc17a9817197cb11199777f992a00e377113cf8efcef275d83efa` |
+| `agent_onboarding/default/developmental_editor/skills/developmental_editor.md` | PACKAGE | `5329e9fe05dadb5db0c13abff45a2b7cc5db547e4a9d490c60f8da644111f569` |
+| `agent_onboarding/default/developmental_editor/skills/developmental_editor_advanced_context.md` | PACKAGE | `d601fe5deca758b594b4e5ab93c60a5038bba0b19db603fc5653e1c0cfd6a7ba` |
+| `agent_onboarding/default/developmental_editor/skills/developmental_editor_deliverables.md` | PACKAGE | `b711d460c49fc13f2444037c7554f4626b4d4b0642776fa6fdf8fb982c27ce4c` |
+| `agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md` | PACKAGE | `0088bebf5c978478bbf3a905bbd29b19227f88cd1be8e541ed82c1f4ef3f5ad2` |
+| `agent_onboarding/default/developmental_editor/WORKFLOWS.MD` | PACKAGE | `742e541484e110a21c9dbbebeac6969940e26a3652e3a583d9f50552e708621d` |
+| `agent_onboarding/default/developmental_editor/workflows/README.md` | PACKAGE | `77c5daf013fddd31d32974e6c3b943e0c7887e8c6829063ae0297ef5e33f9ddf` |
+| `agent_onboarding/default/draft_writer/AGENTS.MD` | PACKAGE | `08d262602f3ff7ee551d8949c544167c3a083ec82ce972c1071d687c97890a10` |
+| `agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md` | PACKAGE | `656dec32b26602c11785fb438e72b07544a0feecb7ae4f51820d286b86ee2d3d` |
+| `agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md` | PACKAGE | `a9b59894d2e32780f7380007d8636a5cd2917e647d18c105db1643b2d99d0e76` |
+| `agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md` | PACKAGE | `8c095c14cbfbea2b1be71d81ca22c5d31d2401b131161ab425be6a8ac10f7f78` |
+| `agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md` | PACKAGE | `a2fb5fb650756a8a5ecf251ae8f108247160c87c0d318c87233b186359bb9e49` |
+| `agent_onboarding/default/draft_writer/README.md` | PACKAGE | `b7c2f377db14ae63707e6131bb42d3c91a979b8a0daa4c0ae8287fa6f6793428` |
+| `agent_onboarding/default/draft_writer/SKILLS.MD` | PACKAGE | `8b09c44a10f7267d7390e8e67adf9d8cbfe1053f71c1d8f61746a814f516f712` |
+| `agent_onboarding/default/draft_writer/skills/draft_writer.md` | PACKAGE | `8a8011fcc82d7f24f59a42f68f4ffc1decd08f0861654a53c6452540b5abc5cc` |
+| `agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md` | PACKAGE | `6530f0bf57a1837104db096ed647e1d53a500daeb1e6ebbc0825d36d645fef1e` |
+| `agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md` | PACKAGE | `830313b7f9fe616ef09f8ccf89c364732a94082642ad28578fd955a2a9d71066` |
+| `agent_onboarding/default/draft_writer/skills/draft_writer_execution.md` | PACKAGE | `c2c32f82b91b0fb793b29421990bc6d0a4452f444531cd9741c931001e40e0e7` |
+| `agent_onboarding/default/draft_writer/WORKFLOWS.MD` | PACKAGE | `eb488174d9c52d130fac93715da91e8850d29aac9bbd84b1be3ff16a89df6621` |
+| `agent_onboarding/default/draft_writer/workflows/README.md` | PACKAGE | `c26b46d75cafb3bf5ae9d6e71d09490e6f18d58c0313bbf39fc0df85b8fe5801` |
+| `agent_onboarding/default/engineer/AGENTS.MD` | PACKAGE | `b346a83ade649c74493ce19df83514c986c04b42a8db59915aa1a1e47ac90bad` |
+| `agent_onboarding/default/engineer/behavioral_guidelines/engineer_workflow.md` | PACKAGE | `591262fe58d4d832c678a466dd2692aa905df7711b451be57320a7b10baa9661` |
+| `agent_onboarding/default/engineer/behavioral_guidelines/task_execution_and_validation.md` | PACKAGE | `9b76a0a0aaf259540fc98698cdf3a05855f47416378767cb3a3061dcdb4f4f7d` |
+| `agent_onboarding/default/engineer/examples/artifact_workflow.md` | PACKAGE | `8297981eaea0fa713f040623927acb539e2d7089d6ae294242a9dae4e721a9cf` |
+| `agent_onboarding/default/engineer/examples/eng_task_flow.md` | PACKAGE | `27d5a7996dfd0f3cd4139f42be1fdf3a91470e5620800f74a94159451af55a37` |
+| `agent_onboarding/default/engineer/policies/ctx_autonomy_policy.md` | PACKAGE | `af66fa71612ae763b2b54d4f0e574956c3e151dcd38526000f53bf83a2e4df19` |
+| `agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md` | PACKAGE | `bca0b94c5d06cd65427c728970809b9f92c5ca4acbbcc3834049f3f7dc3f0dc1` |
+| `agent_onboarding/default/engineer/policies/engineer_quality_policy.md` | PACKAGE | `fb747be91e0d8eb000791d54b9e4305cc3f08393ee75949a3a329f74fd89588c` |
+| `agent_onboarding/default/engineer/README.md` | PACKAGE | `e665c0d9161a4d255965a1942e938959914718cb1f54b34f75526ff22ad59a5a` |
+| `agent_onboarding/default/engineer/SKILLS.MD` | PACKAGE | `e5c7192c250ca25f640fa8d4294c6515850df4efaa84e9c1ff05e773674b8703` |
+| `agent_onboarding/default/engineer/skills/context_protocol.md` | PACKAGE | `ded774d1aad3e3308c44792944c197cc0432e65521736979a1f5f43d4377da6f` |
+| `agent_onboarding/default/engineer/skills/documentation_standards.md` | PACKAGE | `bdc4e7076c69789fcb3e701742e1bd4d82128cd1792697df38aa0fd3c3f1b711` |
+| `agent_onboarding/default/engineer/skills/engineer_execution.md` | PACKAGE | `4d7d727ab2d23da02edaf134161236e7c608c73ca312aa733c3527b76bf6680a` |
+| `agent_onboarding/default/engineer/skills/package_maintenance.md` | PACKAGE | `c4a4c6ae98ee9dc01aaf3b2d225530f2d9b5c37a6bb276f80a9c289a6188855a` |
+| `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md` | PACKAGE | `5b20db99ae4debdf90e9dac96ad81c2e035a552e1bf94ef8c336cd053e7286a2` |
+| `agent_onboarding/default/engineer/skills/patch_framework_gating.md` | PACKAGE | `303738c05c8af351707b929cf7b12c0c019946d2b37af4b819e486c295c2e9d9` |
+| `agent_onboarding/default/engineer/skills/src_graph_generation.md` | PACKAGE | `d078e609441dc7484a711898e35921c75582656635c2be81fb76dd37b664033b` |
+| `agent_onboarding/default/engineer/skills/src_graph_usage.md` | PACKAGE | `f7528c3171023ea9106e88afcc471403c0fcc64ae22821b3c385eaf6ee2eeb7e` |
+| `agent_onboarding/default/engineer/skills/staleness_protocol.md` | PACKAGE | `387fbadd6cc03cd08ea6d6d441d6c2cf4a673126b923393a0d1edb8efabec329` |
+| `agent_onboarding/default/engineer/skills/system_document_build.md` | PACKAGE | `da1be54eb5aca7f7aeb68cf965b27d88bfda3d556ffabc408d8a6d7d7b4ab8ef` |
+| `agent_onboarding/default/engineer/skills/system_orientation.md` | PACKAGE | `43deb3bbbc7deb0c96687262a9a4392308ec44337d46d1c6df4e941979693e18` |
+| `agent_onboarding/default/engineer/skills/technical_expertise.md` | PACKAGE | `d2104aca4457b5c4751f6422f6ea6d22286b2808216b2250dc13d922b040045b` |
+| `agent_onboarding/default/engineer/WORKFLOWS.MD` | PACKAGE | `2804d7032d8a718304193ad9fc237e75537e3f778360703b34a3f0383d5c2599` |
+| `agent_onboarding/default/engineer/workflows/README.md` | PACKAGE | `b242a08fc1ff33ca4c63e300bfd89ebf72088169aa9b9afaed731bc5d14ec1b5` |
+| `agent_onboarding/default/general/AGENTS.MD` | PACKAGE | `203f3471f11d26543c80c88952bb4aa01dde21fd26bce2635d19d1125641b93c` |
+| `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md` | PACKAGE | `e2d9b16a9ebb191f99f65eeb19c8551e7f8594f94a229724249c2637e1232366` |
+| `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md` | PACKAGE | `16a16a1e1a7ebba88f8b1298ffb4f953569c8e21b27f028b7b04c9a40fdf0861` |
+| `agent_onboarding/default/general/behavioral_guidelines/README.md` | PACKAGE | `4fc03023bb404a1cc141e818855797aece8c67ddd07ea3324fd042cf0ec71629` |
+| `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md` | PACKAGE | `0ab1110e36047e772e4c0babd50a34b13bc2a3a8b5945df496b94d4722d0f7ff` |
+| `agent_onboarding/default/general/policies/policy_skills.md` | PACKAGE | `4b7b8f1e8573717ed2ab1ac30655a7c66df60611c528d540594364fd489e34fe` |
+| `agent_onboarding/default/general/README.md` | PACKAGE | `405ecd65632a0b05cf4d251f76c8ff135fdfb12fe6d460d6ea4d5082efda1cdc` |
+| `agent_onboarding/default/general/SKILLS.MD` | PACKAGE | `cd69c176d04a110d18501c0c52251ab0fed50e10ffc3f861208842358b85c8ca` |
+| `agent_onboarding/default/general/skills/active_documentation.md` | PACKAGE | `e2967aa30d78361ec11b85c34ef29fff58178fe0b0b88393bb41e3d573a6eb2d` |
+| `agent_onboarding/default/general/skills/active_pointerboard.md` | PACKAGE | `a3bdd00d3743cb9ce2ded79b79ec8a1bba3eb9ea58b5e6ab1fbc93641d48d575` |
+| `agent_onboarding/default/general/skills/agent_identity.md` | PACKAGE | `574abb70495ee40b4b1777a16c59b9dcf20ea965884a3f582eb7f0a527adb014` |
+| `agent_onboarding/default/general/skills/agent_lifecycle.md` | PACKAGE | `205b16310f7dc19d6124f6461744d016d76057c92cef57ff9e210114074b99fd` |
+| `agent_onboarding/default/general/skills/agent_stance.md` | PACKAGE | `4ed0d04ac6e208932adcfd7b3c810cfe352a04f1923dd3ca4dc0e381bff95d97` |
+| `agent_onboarding/default/general/skills/career_selection.md` | PACKAGE | `f6848776d7fdf1082f0b3da66cf781f0bede746b181c8006214106d718c153fe` |
+| `agent_onboarding/default/general/skills/compaction_requirements.md` | PACKAGE | `c1a9b5938d157d75222266e4b71c59b149ae1a859d0c4ed12858a32010dd7936` |
+| `agent_onboarding/default/general/skills/configuration_standards.md` | PACKAGE | `d83de35a6ee3933e705e05ea92f888deccbfa8dda72f69fd42531b1f138bbfb1` |
+| `agent_onboarding/default/general/skills/context_compaction.md` | PACKAGE | `0dddb7d1fcf93b68784dd3882e3af9424a8bd2240540ca31708bc12ca9236bc1` |
+| `agent_onboarding/default/general/skills/context_gold.md` | PACKAGE | `09054cdfc2f7da2597c0296b4dd2efba80d0ae4bb70cd331db79a7f621af501c` |
+| `agent_onboarding/default/general/skills/context_management.md` | PACKAGE | `b2ae6b19e6236e35790da8cde5b0e002bfe1e6d68e9dcba3b0e1b777f8c2047e` |
+| `agent_onboarding/default/general/skills/context_window_budget.md` | PACKAGE | `44d51a2555cca541eb4ef999778a29ef5faa56618e150bd6d4a71d4ce0e8724a` |
+| `agent_onboarding/default/general/skills/execution_contract.md` | PACKAGE | `a26e83870606050ea6a3bbe57cc1363b99872c76ee1592f67372c8dc83f83c02` |
+| `agent_onboarding/default/general/skills/general.md` | PACKAGE | `637ee3a9490baa93e266d9433131964da6df1f5666932e5ce2fb7390c0ac78fa` |
+| `agent_onboarding/default/general/skills/mailbox_protocol.md` | PACKAGE | `a232c37877492c5a133ee21c438e2b5e44c312eabe7290b3e20208eba4948a67` |
+| `agent_onboarding/default/general/skills/memory_management.md` | PACKAGE | `8135df150195eabbce69418e3af5a054a08a4fbead50f819eb81578e9e344ac9` |
+| `agent_onboarding/default/general/skills/mrp_policy.md` | PACKAGE | `edce5c8dc9ffaeaf6f47cb61fc56757280e47f62459d533537c8f242dc163174` |
+| `agent_onboarding/default/general/skills/package_upgrade.md` | PACKAGE | `8ae971532ae9f2207fe20787de7a76a217a8153515a7eef059168de6600f25ae` |
+| `agent_onboarding/default/general/skills/reactive_documentation.md` | PACKAGE | `8dcb725e4495fc97ba5fe1d3c93e2f7fd7dffb5b0bed7554298479ad00767888` |
+| `agent_onboarding/default/general/skills/repo_topology.md` | PACKAGE | `4a9c94ee2b448a6838c978f3cd0b3bdf6bf71dae986d70a0d03b06b8710b4ebb` |
+| `agent_onboarding/default/general/skills/role_local_workflows.md` | PACKAGE | `0fc5cd83f4967896e625e0b843efcf913e0d29c82a14908ef007b2e3f17e4d01` |
+| `agent_onboarding/default/general/skills/security_and_secrets.md` | PACKAGE | `af14d89a252a6072bbd619747bad30501837bb5ea89fba62713a321bef12f592` |
+| `agent_onboarding/default/general/skills/self_certification.md` | PACKAGE | `5ac3f19c99b43f2f5815dd3afcb244140fc1637a50977c4176a11e2efe407a7c` |
+| `agent_onboarding/default/general/skills/ticketing.md` | PACKAGE | `5abf4207172ddad37a8c176b48a48d0846478ab6bfb8c8dff1288cc1a91df5f5` |
+| `agent_onboarding/default/general/skills/ticketing_skill_contract.md` | PACKAGE | `86154f6068b36af47999b50300a7760c628dfb1ea670a1bd8b78e774b20e309b` |
+| `agent_onboarding/default/general/skills/ticket_closure_attention_sync.md` | PACKAGE | `9408203a6a20decff2c2079eed24ad4166c279bf0278d0612ca2d999674e6ed0` |
+| `agent_onboarding/default/general/skills/ticket_microcycle.md` | PACKAGE | `7a394001f5aa79e32bd44455a6189836e4fbfad70e6f52b9a653635a21b3f264` |
+| `agent_onboarding/default/general/skills/unknowns_gate_reference.md` | PACKAGE | `229978aa2449c0461d0678f450766dc05a4456925f8169fbf3deeb9204b5dcbb` |
+| `agent_onboarding/default/general/skills/user_approved_certification.md` | PACKAGE | `4d381ba648ccd24ba3b7578d92840bccaac4c05efc451f6b161002930632dcfd` |
+| `agent_onboarding/default/general/skills/workflow.md` | PACKAGE | `dc0a6c7c502dcd16325c168a637bb2c64173b44242b72dab41bec1d2e383a49e` |
+| `agent_onboarding/default/general/WORKFLOWS.MD` | PACKAGE | `c74e1281a24a44b3ebc43efd2de7e246ff100b6b88ee1c568ff54a93482aa41a` |
+| `agent_onboarding/default/general/workflows/cleanup_context_compass.md` | PACKAGE | `165bfeec3059722af2ea40d837c51d7144fd343167c5ef59ba551633a74effac` |
+| `agent_onboarding/default/general/workflows/README.md` | PACKAGE | `9376b5753db22c7b4264a17229b74cef6e684aa647aae8546b589ce367d10c35` |
+| `agent_onboarding/default/general/workflows/role_creation.md` | PACKAGE | `192c1e18e583cd19316232f24ac8c56b29783ed942bf8433e0c938860e50320d` |
+| `agent_onboarding/default/general/workflows/start_context_compass_work.md` | PACKAGE | `ad669eb702cb92400f23b619558045719922ca9280a7ac1e12689d5a0f69519a` |
+| `agent_onboarding/default/general/workflows/sync_attention_board.md` | PACKAGE | `d1918ce7811681b46e37e6a100ef55c62bb2387944e9b6a83a374577b1973130` |
+| `agent_onboarding/default/general/workflows/turn_in_selected_tickets.md` | PACKAGE | `3dcfaef805a7e0477b0d9d783a77f36ff00d003a4f1b0a7ca23773369b525b54` |
+| `agent_onboarding/default/general/workflows/workflow_creation.md` | PACKAGE | `7b88bd11af158f2b5b1cce9fa478d9b1f6c2e6f0149ff29828382407c5d794e2` |
+| `agent_onboarding/default/line_copy_editor/AGENTS.MD` | PACKAGE | `43eece8283e84014e9c309c607e82658c23a8a4704ab37b85759668d48213db4` |
+| `agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md` | PACKAGE | `4797c0425e5735864eb98b9a2880b6030234d21e5e84cf414526b6c762cf70f9` |
+| `agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md` | PACKAGE | `8ae6a614e31bb962350fe8283d39445a1c2f4b72f68f6ab270feb3bd0859ec6f` |
+| `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md` | PACKAGE | `07d36aae03afb96dc9f31d7bb9c86078ae0a5d851ec920b6c71ff7de97011aef` |
+| `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md` | PACKAGE | `530e39a402d77cd28fe0cad3222a132ec334ad71a6c11de273bf357657ca35d9` |
+| `agent_onboarding/default/line_copy_editor/README.md` | PACKAGE | `d92fe03876ecfcc9992bf5930dd312f9e561057c8e5cbf46ab02fa6d9b901223` |
+| `agent_onboarding/default/line_copy_editor/SKILLS.MD` | PACKAGE | `b031df15670e9d8c7e52df33a8a3a2a30f72e1285ca886e1dea2123d1ff3e08c` |
+| `agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md` | PACKAGE | `0d2c789f2ccb0ac18da4ee69586c2bada2f0faa0036377de5a6c52889f91dcc5` |
+| `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md` | PACKAGE | `8898681ac7b15ae7eddce5d58e4fcea28387bfebbdcec59f1c45ff91bf04d937` |
+| `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md` | PACKAGE | `5575be4c43db6dd0bfdaa7b41120603882c5e3aa4e8824a52718101ca10ed114` |
+| `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md` | PACKAGE | `9dbc078a4bc66f18fadf840364d6de95cc672127a981886d5a3bb298c4b3baab` |
+| `agent_onboarding/default/line_copy_editor/WORKFLOWS.MD` | PACKAGE | `96a21ed326f570fd6bb82460b742fcb0878e4a712a438b4d4b0ee2fe4881255b` |
+| `agent_onboarding/default/line_copy_editor/workflows/README.md` | PACKAGE | `d5476a7bb59b466d13ada44a134e926046394d16e63c2415a8d1124f634ecd06` |
+| `agent_onboarding/default/new/AGENTS.MD` | PACKAGE | `81ccc3271edfc853a58c0a6646b1ad1082f52d0cbfefa64aa2bba092cbe4106c` |
+| `agent_onboarding/default/new/behavioral_guidelines/user_onboarding_flow.md` | PACKAGE | `065ba54845d4fb92e5cef79255f29c89690c4d825e9b1bcab26fb27717b8073d` |
+| `agent_onboarding/default/new/policies/new_onboarding_policy.md` | PACKAGE | `6bc29fde4ef122a5f7240fa84cf77163b7738d9ecdeaf6aa05b32771698f7f84` |
+| `agent_onboarding/default/new/README.md` | PACKAGE | `9c3be26e36e70072b3b8bc93fb3d16be0eb51fd28d9bea4301f1777f7dde4303` |
+| `agent_onboarding/default/new/SKILLS.MD` | PACKAGE | `c975b55abba5ad08ccba23c08d36f1c8d4277071060fe4ca99040443110d3200` |
+| `agent_onboarding/default/new/skills/configuration_map_guide.md` | PACKAGE | `870364caba56738edb642bea1877b666592c24757d0ae490a3309a07b5652632` |
+| `agent_onboarding/default/new/skills/first_time_profile_setup.md` | PACKAGE | `e1a859b9f7ca83d2b82721370ab59580ad02ea398e04f57d009702b386e7d45c` |
+| `agent_onboarding/default/new/skills/new.md` | PACKAGE | `7c29433f305411fab90a1aa833ee6cc234cf3bad426e021588a93f77b71681b3` |
+| `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md` | PACKAGE | `d93b836e74a139ccce1c0a85dccb80d9ab0e839973891d13c4bf81123e641da3` |
+| `agent_onboarding/default/new/skills/profile_model_explained.md` | PACKAGE | `c0d439820758542e9480f45bf63659bb06141e6bfc6cba4efb1dfb6969d4fbd0` |
+| `agent_onboarding/default/new/skills/system_overview_for_user.md` | PACKAGE | `a174184f9a9f8c5276ab4a78269656dbea6ebc1ca977558e8f00c5cf5a890a9a` |
+| `agent_onboarding/default/new/WORKFLOWS.MD` | PACKAGE | `eaaea4c4ef26383b5deb1d0e08d46d69d6ebf7ef40a21cd9f55ca3a334635867` |
+| `agent_onboarding/default/new/workflows/README.md` | PACKAGE | `f5d91e5558aecc918c7f04d5f476169d60eb33c3c81e73e267c8b30b4fbf72a9` |
+| `agent_onboarding/default/platform_engineer/AGENTS.MD` | PACKAGE | `b68515c4f7d8be7ea6e28359b6b0d545ec07fba356d5b85a6e43e6fe360e86c4` |
+| `agent_onboarding/default/platform_engineer/behavioral_guidelines/incident_workflow.md` | PACKAGE | `8a5408f756220f37da52a708e3c8eb245e61e371161fa7824dae631cd156005d` |
+| `agent_onboarding/default/platform_engineer/behavioral_guidelines/platform_engineer_workflow.md` | PACKAGE | `4f68950bcf6de040ff6f84aa893f5743b206fa61491a9eea9cdf4f043f4af6e8` |
+| `agent_onboarding/default/platform_engineer/examples/platform_task_flow.md` | PACKAGE | `57245c8c443d233816b613ba79ff611cd8c0d92e6bac6f191a76a7524ed33057` |
+| `agent_onboarding/default/platform_engineer/policies/operational_safety_policy.md` | PACKAGE | `286e928385f0061172a02d98b252fd8e0b717a1d2d647fc99d45a1b765cbb902` |
+| `agent_onboarding/default/platform_engineer/policies/platform_quality_policy.md` | PACKAGE | `5687479ce0fe2f1ffa8376f812886c402e9588320c16dcabc57ab3d67fcc2749` |
+| `agent_onboarding/default/platform_engineer/policies/production_change_management_policy.md` | PACKAGE | `645b61e2cf4c0141141dfc9961ca870eda5f2516ae653f2e7db499e0af04e20e` |
+| `agent_onboarding/default/platform_engineer/README.md` | PACKAGE | `3c9084faa021c3023302ddfb249230e328922f3017b338be0c1d2929ce44ecef` |
+| `agent_onboarding/default/platform_engineer/SKILLS.MD` | PACKAGE | `05b89deac60898b49f71c182afa58f55d6edd57b914cd4f862797c4cecef34d4` |
+| `agent_onboarding/default/platform_engineer/skills/ci_cd_and_release.md` | PACKAGE | `97fad4c772721c3204c89839850021407952dcef7a95e05ce5c62e30ca0c110c` |
+| `agent_onboarding/default/platform_engineer/skills/deployment_and_environments.md` | PACKAGE | `6ae3876602995e416907a53eae11ee588795e40d26b823be8ddf7e06aee86c11` |
+| `agent_onboarding/default/platform_engineer/skills/incident_response_and_runbooks.md` | PACKAGE | `a32181314923af470ec5fec2fcf772e969c85130e09f9350c277d7d45528d24f` |
+| `agent_onboarding/default/platform_engineer/skills/infrastructure_as_code.md` | PACKAGE | `a2da8c95bc4d8405277e9394311c69d80438aa9b41e5239b208824aa6168a47e` |
+| `agent_onboarding/default/platform_engineer/skills/observability_and_monitoring.md` | PACKAGE | `95624a170fa31be0f3ceb307d4b06b915924a50b71b73f49e2b3c034c3b118c7` |
+| `agent_onboarding/default/platform_engineer/skills/performance_capacity_cost.md` | PACKAGE | `24cfb13d5e249c506aed40d2eb1d7298b3cea03433c9f79982b9d1d6b5fb662e` |
+| `agent_onboarding/default/platform_engineer/skills/platform_engineer_execution.md` | PACKAGE | `e4c0e9fd4013006d9a796e828eb813db30c74759faa1f6bbe2c5d629f254f0d6` |
+| `agent_onboarding/default/platform_engineer/skills/platform_security_basics.md` | PACKAGE | `9f0b259af5c58b7cb19df8f11be2bf8ad5d7dcbc52021775835451e5808c296c` |
+| `agent_onboarding/default/platform_engineer/WORKFLOWS.MD` | PACKAGE | `7b23e211bbaba81a5c4faeb7d5fe7ac3693b1705addc2ac1e2838891e0d62df4` |
+| `agent_onboarding/default/platform_engineer/workflows/README.md` | PACKAGE | `b907300dd04cebedb75a0ca4c8751af53111ffc22ed208ab7497e98e8c1da813` |
+| `agent_onboarding/default/proofreader/AGENTS.MD` | PACKAGE | `d121f3b1f0969c39794fabf419fb6fcaf0b5e8d6cd82d1aa00d7760b97d5d981` |
+| `agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md` | PACKAGE | `71a4f70b4ad749f3dd4b7f4aa3f1413888ca5975044ad25cfdc5627c8aaea3c6` |
+| `agent_onboarding/default/proofreader/examples/proofreader_task_flow.md` | PACKAGE | `1b52a09c818f2770ed2698b1443438c19a5b1a6f856e7b25ff6c2c1e07d9645b` |
+| `agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md` | PACKAGE | `c33a34f5fe9a9e5fc6c260d1d33fc52160c325fb16afcfe3082b38fd3187b9bd` |
+| `agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md` | PACKAGE | `889d78d3c7f0bb0c0bfb7770b88223fcd60736402d823ae39df70e52fdf21611` |
+| `agent_onboarding/default/proofreader/README.md` | PACKAGE | `8536c13cc434cc2020cb139443ce1feb6e577eaa096afb2797b91ee88ac5b5d6` |
+| `agent_onboarding/default/proofreader/SKILLS.MD` | PACKAGE | `5cb266e7aa4013a2380ee634538ee404e874860e42149c7775e082be9bf41770` |
+| `agent_onboarding/default/proofreader/skills/proofreader.md` | PACKAGE | `5c9550dd315f139ec210bfbe897f4638232916e4a65252f2e9c7fe1b4a90baa9` |
+| `agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md` | PACKAGE | `84d38d325406746bb6e8adf5b174e1278e7001c0f743aaab73e893e39521dc79` |
+| `agent_onboarding/default/proofreader/skills/proofreader_deliverables.md` | PACKAGE | `fd218a085097d7b37090cf1a1ae919bfbc0cd7a374cff541167786eee97f8a2c` |
+| `agent_onboarding/default/proofreader/skills/proofreader_execution.md` | PACKAGE | `e3796f12e26160b5660406a94f868e5166cfaf590a5341c1672b117cbf2ee825` |
+| `agent_onboarding/default/proofreader/WORKFLOWS.MD` | PACKAGE | `df77b3cf387a2fbda2b0eb1f1e4983673c494de3b9d164b79d5d94f761f0d3dc` |
+| `agent_onboarding/default/proofreader/workflows/README.md` | PACKAGE | `bbd70a230eb640d5fb26a529eb0eecae198c4f320f17696a1109607807fd4463` |
+| `agent_onboarding/default/qa_engineer/AGENTS.MD` | PACKAGE | `b81b61d56d43b1ffe334bbf7e7430a475ed95ea9a0102f48edecc8dc21e74e1e` |
+| `agent_onboarding/default/qa_engineer/behavioral_guidelines/qa_workflow.md` | PACKAGE | `cb104bda142c3a0de2f651180ba5100bf5052708380d037a278cf450468ffc47` |
+| `agent_onboarding/default/qa_engineer/behavioral_guidelines/release_signoff_workflow.md` | PACKAGE | `5404508d9ced6e101ec3285a792ca2d5a84045dd3ecc0e677a059abc0317d2b7` |
+| `agent_onboarding/default/qa_engineer/examples/qa_task_flow.md` | PACKAGE | `cad498e8d886f77269a25ec34bc2fcb1e54b18ba3ce38d3ccc1ba2f39b1dbf7f` |
+| `agent_onboarding/default/qa_engineer/policies/defect_severity_policy.md` | PACKAGE | `97b40e4f49694428944349c616bc370a73d284a46f755363d54edc2df620a4ad` |
+| `agent_onboarding/default/qa_engineer/policies/quality_gate_policy.md` | PACKAGE | `876bae02c9dfacb87aae4e6f51ee5aa193c4a104c4ea8e69a3b007c0ffe7f1a2` |
+| `agent_onboarding/default/qa_engineer/policies/test_evidence_policy.md` | PACKAGE | `c7e904dcfef7131fca5103774ff6fb997d9ef1eab9148fb3c4a120a967250eb7` |
+| `agent_onboarding/default/qa_engineer/README.md` | PACKAGE | `98b054b915b1aabc2b9428a8b9125cde73d54ae445d250c59fc7086e60845a58` |
+| `agent_onboarding/default/qa_engineer/SKILLS.MD` | PACKAGE | `cd0bb82ab7410011593c629c1e12cfeada13bfc764277a17bf3261a240f3a943` |
+| `agent_onboarding/default/qa_engineer/skills/bug_triage_and_repro.md` | PACKAGE | `2c51287facdffa2eec1edae21d8cd2366e4b47acc480a6ee7c9fd9a26b1f3f32` |
+| `agent_onboarding/default/qa_engineer/skills/qa_engineer_execution.md` | PACKAGE | `35bdc32930ba0e65b301f75959f336296b16baf72a85dcff9ea2596b2807928c` |
+| `agent_onboarding/default/qa_engineer/skills/quality_metrics.md` | PACKAGE | `14f90677519c6c89542cda53c87ab6d9f576bfc80d21d9e77ae7b937a6d1ff46` |
+| `agent_onboarding/default/qa_engineer/skills/regression_and_release_quality.md` | PACKAGE | `89421df6730095a0c6bc82be63f0334eabe28335b94776fde19dbedd22518e65` |
+| `agent_onboarding/default/qa_engineer/skills/test_automation_practices.md` | PACKAGE | `18bde3dbff6ffa81824bec258fff8576165fc1ae1ccf903b4694a5b71c2d8eef` |
+| `agent_onboarding/default/qa_engineer/skills/test_case_design.md` | PACKAGE | `f6282a013aff7e32c358779d9becfcfc17893bce91eb03241c91ef39a8712d44` |
+| `agent_onboarding/default/qa_engineer/skills/test_data_and_environments.md` | PACKAGE | `9ab2864100175205941920109fa9e380987329e4c0d6084eaff0295fa787baea` |
+| `agent_onboarding/default/qa_engineer/skills/test_strategy_and_planning.md` | PACKAGE | `d62718d0938b4d4346d387e49586b2dff40c055f45aed2bcf12471efe15367b0` |
+| `agent_onboarding/default/qa_engineer/WORKFLOWS.MD` | PACKAGE | `9844d498443baedc6ef230c371dc4f957b0aabd1667b0c69a7ce71bead57a13e` |
+| `agent_onboarding/default/qa_engineer/workflows/README.md` | PACKAGE | `bdfff276f26b6a23a5e7175cbd27d3d8efe137fbbc11c7c1374688a2924c7bb6` |
+| `agent_onboarding/default/researcher/AGENTS.MD` | PACKAGE | `0427f481200ffb5c352a61e2529d05ea1b69de63d93642e2989429e520a13cf9` |
+| `agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md` | PACKAGE | `07747b1ed98454913258b51571af4816512e1e959594cfae9dc82a53a5262d32` |
+| `agent_onboarding/default/researcher/examples/researcher_task_flow.md` | PACKAGE | `e958c629d9ea762a11934c554787947cd0fb3cf7632b4ab671e28c15bc91c57b` |
+| `agent_onboarding/default/researcher/policies/researcher_handoff_policy.md` | PACKAGE | `7b90bb737845a9a060f2dbc0150e387729aaed653c4647c80330770471665fd1` |
+| `agent_onboarding/default/researcher/policies/researcher_quality_policy.md` | PACKAGE | `a5ef981441142723c63ce280c8c884c02edd0d07640c8b6e222e937676dedc03` |
+| `agent_onboarding/default/researcher/README.md` | PACKAGE | `5cbb8839916e363aba95b2b5e7c7fef0c9287948cafccbbdec1472150ec3ab92` |
+| `agent_onboarding/default/researcher/SKILLS.MD` | PACKAGE | `0a422cb4e3e4459aaefb32a8e39c29e579db16e2635af2e01926aade5b95c150` |
+| `agent_onboarding/default/researcher/skills/researcher.md` | PACKAGE | `c799a6d9313515eba81264cbe6b7909beb30604a8fb748188e8f30cebb8d56ec` |
+| `agent_onboarding/default/researcher/skills/researcher_advanced_context.md` | PACKAGE | `e7d0e0fea22b975b42982b5e9fd4d5f6c266ab797c3d6e5ef037a08fd256ceb0` |
+| `agent_onboarding/default/researcher/skills/researcher_deliverables.md` | PACKAGE | `b651e2ed12e10a085da387965ae280278c1cf4858224435c5ba9a085ab0fa66b` |
+| `agent_onboarding/default/researcher/skills/researcher_execution.md` | PACKAGE | `1812056333000e0933ebaea1048feb5cd7211625c17ea531c103106bf05f4c01` |
+| `agent_onboarding/default/researcher/WORKFLOWS.MD` | PACKAGE | `46dafe34c3590370a675567e64c88b42509a7e2e0a84c6d1fd364df6123aedaf` |
+| `agent_onboarding/default/researcher/workflows/README.md` | PACKAGE | `4b53b5840ee854b0810c552dc5039562f5691b9d9aaf6216443d1585b10aa00c` |
+| `agent_onboarding/default/security_engineer/AGENTS.MD` | PACKAGE | `882ab86afc0b23a7d48abfc24d45eecb28c8a86ec0d63f149d365f3e49956203` |
+| `agent_onboarding/default/security_engineer/behavioral_guidelines/security_signoff_and_escalation.md` | PACKAGE | `f40a2dee20737f018cd86209cf9f698e3e71e1d77f6271340ac6d8d6c513bb87` |
+| `agent_onboarding/default/security_engineer/behavioral_guidelines/security_workflow.md` | PACKAGE | `0d870a0e7414ab17a564c3386f654c7cee44fec5558461dee776d43e22d3e56e` |
+| `agent_onboarding/default/security_engineer/examples/security_review_flow.md` | PACKAGE | `6380164c8bf08a2a558206ccf4a65110ab7b0a3cec20ed85dd030e5d258ed5a5` |
+| `agent_onboarding/default/security_engineer/policies/risk_acceptance_policy.md` | PACKAGE | `2f706b46aef5e1f261b9cd7d961bc317d1169d67741dbc6486fbc4c35920d623` |
+| `agent_onboarding/default/security_engineer/policies/secrets_and_keys_policy.md` | PACKAGE | `c9d832b715f6d08ab5157c823f5027bcfaf18cadf9c4b193863fa20ba213e526` |
+| `agent_onboarding/default/security_engineer/policies/security_review_policy.md` | PACKAGE | `7a28c0cbab7d228194de3989b46b8dbe8c16fd2834394f7d792f6886dda76be2` |
+| `agent_onboarding/default/security_engineer/README.md` | PACKAGE | `9ae9f4044fe82d789b9425d9810a94f0f03c3caffd8fdd0d5d93d996a5c5f98c` |
+| `agent_onboarding/default/security_engineer/SKILLS.MD` | PACKAGE | `dd842fa311637eb54db124f149943dd160785f4e0ab1c53018b974421956ab28` |
+| `agent_onboarding/default/security_engineer/skills/authn_authz_basics.md` | PACKAGE | `5cd7e587d28dc682ca432a1846e7b03149c133882ab2eb5f9595cf782e80b575` |
+| `agent_onboarding/default/security_engineer/skills/dependency_and_supply_chain.md` | PACKAGE | `25527c8ca442774ee4388d131e4125802f8b1d9d0ef7789ea62aa5ac19a9b310` |
+| `agent_onboarding/default/security_engineer/skills/incident_response_security.md` | PACKAGE | `780667c3974b4b0e313b3ed12fa76d69865669918178f080e52cd254ddf10f49` |
+| `agent_onboarding/default/security_engineer/skills/logging_audit_privacy.md` | PACKAGE | `130ce9b5de76ee0a0e89498f621ea166650b18b134a692f1db695c345bab9fbf` |
+| `agent_onboarding/default/security_engineer/skills/secure_architecture_review.md` | PACKAGE | `1df99bd61d09018cbab9ac7a72cb702aa6e21912fdfefd49dd2762f67a32c789` |
+| `agent_onboarding/default/security_engineer/skills/secure_coding_review.md` | PACKAGE | `23906fea78789138bf700c6052cf68a57f6d7d783531c2e5c65b4175e47ca938` |
+| `agent_onboarding/default/security_engineer/skills/security_engineer_execution.md` | PACKAGE | `f53b22dbbba1cbf0dc865e1ef1507cdae585f04ea503b3995f361d2f31d94f75` |
+| `agent_onboarding/default/security_engineer/skills/threat_modeling.md` | PACKAGE | `0c8a00c47a0415b4c4d404549d98b31abae31b8292c88b2393eb066ce145e89b` |
+| `agent_onboarding/default/security_engineer/skills/vulnerability_management.md` | PACKAGE | `8dae2132d469443208fbf09f2595a2224aee5539b95b96c1fb6a45894344ff48` |
+| `agent_onboarding/default/security_engineer/WORKFLOWS.MD` | PACKAGE | `7a8a34024e4d95cd978a27d6242393b9d57ace79481b59db5ef7c0d424a0c2c1` |
+| `agent_onboarding/default/security_engineer/workflows/README.md` | PACKAGE | `cf4cdc81425ac344eb922514406f6edde88019e22b0017b8d8b86b7b73e5981f` |
+| `agent_onboarding/default/story_designer/AGENTS.MD` | PACKAGE | `8cec504da504a6a6694d573c8f03d5a460b90cbb16d2b767b82ba6f23fc75a78` |
+| `agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md` | PACKAGE | `93246188fb4109b893d6ed20717991e0baabbccab43c4233cb4c6fae727741d7` |
+| `agent_onboarding/default/story_designer/examples/story_designer_task_flow.md` | PACKAGE | `144a8f1139a98745b211d2eab4d02a2a27101f7010dd1e8e2aa58b2f2486bbeb` |
+| `agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md` | PACKAGE | `887139dde12dee54c1d0da3e25facb2ca8081e39b58b4c1b95086c53efccb3e7` |
+| `agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md` | PACKAGE | `56df96d22229c3d2c67db449d09c29e55bbf47dd78e46784c0913ee3e11e81fd` |
+| `agent_onboarding/default/story_designer/README.md` | PACKAGE | `e6921703ee2ea8901ba9f123dd026fdef6bc2eac6299a2f9da1cef1592ee07f7` |
+| `agent_onboarding/default/story_designer/SKILLS.MD` | PACKAGE | `0e332cb8233f6051cfb7855e66fdff1b78f972556682009227c4bfb1e258b206` |
+| `agent_onboarding/default/story_designer/skills/story_designer.md` | PACKAGE | `c33f01f532c0637ec7dfe00900d1426aabe1afe9b01ab54efe0e680825e8f209` |
+| `agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md` | PACKAGE | `1bb9d65bbbb7eade583d41be5740884005c36e3ca64ccaac1a138616b84ee3b0` |
+| `agent_onboarding/default/story_designer/skills/story_designer_deliverables.md` | PACKAGE | `343b6572d1678e7bf68f9bc40be226f486bd0c94957c5ceca63ec631e4f5e479` |
+| `agent_onboarding/default/story_designer/skills/story_designer_execution.md` | PACKAGE | `b779766d04bbb1b693f44864f37d47f725e788d3ccae0f3fda989c61c2328d41` |
+| `agent_onboarding/default/story_designer/WORKFLOWS.MD` | PACKAGE | `f626b062b549454fb7413b4c350d7817f1fa3fa090a623f13864c7b0291bf81b` |
+| `agent_onboarding/default/story_designer/workflows/README.md` | PACKAGE | `85bd14b460e935ccd8953ad74728ed23d5474736e20fbf8c1a90efa289c72152` |
+| `agent_onboarding/default/story_novel_artist/AGENTS.MD` | PACKAGE | `fe9f45558cd4a2507701bb95ca5859dc20023bf00f31a08f6e383c44c5ad78b4` |
+| `agent_onboarding/default/story_novel_artist/behavioral_guidelines/story_novel_artist_workflow.md` | PACKAGE | `76080faee8843a1e465602c86ab6b627b82fdc60fe462ceae4fca2fab1c29050` |
+| `agent_onboarding/default/story_novel_artist/examples/story_novel_artist_task_flow.md` | PACKAGE | `88861ce7b39837202b59acee5b2e038aadc61829f59ead2d3f1b8f8a18c11145` |
+| `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_handoff_policy.md` | PACKAGE | `450099e3358b0dfb810f9f8e9b4b12c072b0f6b5744120e7e70fe05768169ab7` |
+| `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md` | PACKAGE | `66d96093d70f692de4e7aef5f24f435097d16e0cc743be0402d9ffcd9bd45ec0` |
+| `agent_onboarding/default/story_novel_artist/README.md` | PACKAGE | `4c71f90c6f69164e9d0daed6f87588e24946b0ca2dd8e9e439d8a1fa82775ee4` |
+| `agent_onboarding/default/story_novel_artist/SKILLS.MD` | PACKAGE | `b02313b89d13aa2149963af03cdd2dcd92bbd60066629488298cf0cf0b940609` |
+| `agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md` | PACKAGE | `e7adc70dad2cf22479f10751287f733e8ca4902f23791a507e4585ab6aaefb6a` |
+| `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_advanced_context.md` | PACKAGE | `8d74072888a3b9c6ea7fe7c9941c56d0017a2e698204655bef82156e5acc98f9` |
+| `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_deliverables.md` | PACKAGE | `ccfbd0413d71acfccba2585c5337a93033620a2461360f1dae1fc845f4566c04` |
+| `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md` | PACKAGE | `d02e835532e4b8b2eec1bfee31d7898181884d382f981eeab8ab3474d3e5c81a` |
+| `agent_onboarding/default/story_novel_artist/WORKFLOWS.MD` | PACKAGE | `b307564323e9471b563107cdedc1d06d0edc176c0255bb7844f5cb52615fb4d9` |
+| `agent_onboarding/default/story_novel_artist/workflows/README.md` | PACKAGE | `174c5858d8b17f885fc26e97c168f3d01a126730c2ac8d3048209a58995fd4aa` |
+| `agent_onboarding/user_defined/data_engineer/AGENTS.MD` | INSTANCE | `1379321daa02337a522250f9ed07a818151e7b2fd08845aac69934cd4b698646` |
+| `agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md` | INSTANCE | `524c2ec3c704055fd0e0cfcfa98ec95181757527a0722bf0ddd24446ec968e8b` |
+| `agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md` | INSTANCE | `fe346b6370551ed5e32f0a2520389c8ab2dbc61d38661cd9170c7b5c6074be2c` |
+| `agent_onboarding/user_defined/data_engineer/profile_overrides.md` | INSTANCE | `018813ebe40bb314127bec705eec75fb90aeab5bad2042af8d0396ea9e968a52` |
+| `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | INSTANCE | `2676961ccdca45346cdc9d7a136aaea169562f7c840ad4a423ec674160bdda43` |
+| `agent_onboarding/user_defined/data_engineer/skills/data_engineer_skill_overrides.md` | INSTANCE | `1b458126851997a49f2f4bc62cd813f624c1911104c2650f3841a6b2da1fc602` |
+| `agent_onboarding/user_defined/data_engineer/WORKFLOWS.MD` | INSTANCE | `0fd481184dec1d736ce619b5c6f2acc624ae893adfb9d076b59d2a67df64f942` |
+| `agent_onboarding/user_defined/data_engineer/workflows/README.md` | INSTANCE | `86484f277779c30f535a20447fa0c9d9a8b6d05d19a2e7116c56787b6c6339a4` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/AGENTS.MD` | INSTANCE | `34b6f1734d730fde6df458893abe0c0350b2694d1b739c7907b567066afca4b1` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/behavioral_guidelines/synaptic_finishing_developer_behavior_overrides.md` | INSTANCE | `b93a51885269b07cb84ba41112d5f25524cfc15faa749df43616f6a163a36224` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/comment_finishing_examples.py` | INSTANCE | `6ee46c422e31f9b1a57f25976576dedf65b4ecfcd969b0127e0e63c0c5dc8515` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/docstring_finishing_examples.py` | INSTANCE | `6b2e67dffd8090a4c8345ffe9e748d88faa585c97cc1c5994e8c96f63a3a1bd7` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/pytest_component_finishing_examples.py` | INSTANCE | `e5e48ab56b866135c646b0b2665897b5ebcec51b528bb32c9913aeae25ff3949` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/pytest_integration_finishing_examples.py` | INSTANCE | `07d93dfe396c86aa30bcc09d89675b4acae995bed547924bb1c5fe15fd40e282` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/pytest_unit_finishing_examples.py` | INSTANCE | `01d4e6c7f384cfe77cb2b9a5aa91935cbd1545abea4ab74547c2fa480dc03a15` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/policies/synaptic_finishing_developer_policy_overrides.md` | INSTANCE | `0cc76f35aa1b14baf5bdd095e71a9a40a470317a2807e52fa9482891dafbc202` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/profile_overrides.md` | INSTANCE | `a60a7f92681c14d0b7f6effd5e79b3fed43bd939ad22a8c464c3e97125851859` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD` | INSTANCE | `bcba76cfd3a53faae66b6fedf7696d599984b70e189dd0307f72553241fa5fd4` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md` | INSTANCE | `854789db17b20c6e43d2020ce9378439e6c70cecf5fada72f3cf4178c1b027ae` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md` | INSTANCE | `8927e4eb603e40a1fab06fe534f17b3fc0e382164b3756af470b73ae0d26ddb0` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_test_alignment.md` | INSTANCE | `908215ca5be1c11d47b4cb3da64de6a8ac1b0125b9f1e45859f05030b714c9ae` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/system_aware_docstrings.md` | INSTANCE | `97387840ae7e5105f655cb0c3280f84d2e8c9104faaf6f67db27605085e25a81` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/synaptic_finishing_developer_skill_overrides.md` | INSTANCE | `273d4b9de12f832b213317755f759cd083453a113fd8f549dd5d879bf2889bdf` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/component_tests.md` | INSTANCE | `adb8b8bb2e8c9788829b379c93f1bf6cf72ae3a1e35edfa3919064d20b0e5732` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/evidence_reporting.md` | INSTANCE | `9ed4e987feca0b2a6114695f481aa1f1a180fbf8db5645006e42e7d8386fc891` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/mocking.md` | INSTANCE | `84e76eead13ecca25eeda703296271d241e05340c2231ae3ae22100a19491f16` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/pytest_integration.md` | INSTANCE | `0768d3dcef4df29838c5b0e1e41dfc1dc076a7f7375a9260448b7b76d5532867` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/pytest_unit.md` | INSTANCE | `a2cb28eda7da2de515d8b81862a898c71201ef632c3ffef5048df18801915e50` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/regression_tests.md` | INSTANCE | `aee0e7a05d1453a6037b17c30af736362ae6f69dd0bc2b857b4ed6426973bfb7` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/testing_overview.md` | INSTANCE | `712e4e06cad8bda7b9930686d1a1c8af18d6b43967ae9ac958a58e8c23514475` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/WORKFLOWS.MD` | INSTANCE | `f2ce9a8438a7b20afd0ecfce1f770d85df683b7aa2ce805bb9f08c53ab00a28d` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/optimize_pytests_for_repo.md` | INSTANCE | `d2aa567cadf5f1d68beae4357a48081c77af460de9a7da0eae3f7d14c1066c21` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/polish_repo_documentation.md` | INSTANCE | `7a7578a0833cfd5f514b0297c2289dee4eaf9f891406e970fb6f40d6c4c4f23f` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/README.md` | INSTANCE | `f495bfbc15c5f9275be4bba33d9131147ad733e221814bdc6694717c9c42a7be` |
+| `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD` | INSTANCE | `a899b2428759bfbb1b4845fa2ab7723910b6ea2a2fc53d55bd8fa73d8e1a7db7` |
+| `agent_onboarding/user_defined/synaptic_python_developer/behavioral_guidelines/synaptic_behavior_overrides.md` | INSTANCE | `d6134d69d3894c4da5dfcc59ffbdc40aa16dcfe6217a64095eb7490dafb0fd85` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/anti_patterns.py` | INSTANCE | `26caf71884cb238e652c44206d4b44da51dd1386df9ac79ca1302db4b1958b5b` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/cleanup_patterns.py` | INSTANCE | `20f77dbd1c6bdafc83d7f9f5a2796c58465714737961a2a9b9b71431ff95ed33` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/docstrings.py` | INSTANCE | `d735d02840d0fbac2dea8382b9640f31ea9623d8b682d35094f84d601cd50c2c` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/logging_patterns.py` | INSTANCE | `7a835cb35b3d0e86f08a148c0e12fec7c97f4caa75d2c8d330b9afadba3c38fa` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/protocols_and_abc.py` | INSTANCE | `3e14277166b2ca9d87babf00a1060dec4f80bb7e5c66693f6ac7271b2b4df64b` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_component_examples.py` | INSTANCE | `bc52d668a25042eaff4225eb1c0d8480eed5ca5e45b904d6a3bf08a80e7874d2` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_integration_examples.py` | INSTANCE | `bb1a35df7c2d5eeb4448c72e1e02b0491754aa2b6d3cea6db72e9684eadba9fe` |
+| `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_unit_examples.py` | INSTANCE | `397e972397f8849240dd7df9ac35909907e2c7b5d38936d2697ba20c16b80b6f` |
+| `agent_onboarding/user_defined/synaptic_python_developer/policies/synaptic_policy_overrides.md` | INSTANCE | `3bbe4757097d6ea33635f0e7fa79b9eeeb4d297f33a219f15b60b0409ea75001` |
+| `agent_onboarding/user_defined/synaptic_python_developer/profile_overrides.md` | INSTANCE | `d44ff6b228afdb3415787629b4933495c45ec4f8f181a8ad2534efd56d6dd9cf` |
+| `agent_onboarding/user_defined/synaptic_python_developer/README.md` | INSTANCE | `406458063eeb04a28520bcc3da9597090c6f990ddb01a1b868dfc4e59c07be3f` |
+| `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` | INSTANCE | `c43f47e3efb68b67a57f8f927bd17aadc562166f1dca19a5baeaa59e0b2f9836` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/attribute_aliasing_skill_benchmark.py` | INSTANCE | `b2a6bbaabedd58919ab1c25beca31b09d2c6f76b92bebb51223b5235dbe13b27` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/banned_patterns.md` | INSTANCE | `22373e3bdcadfa6a4a276db26700cad0d349b401431f05db5cc338c337573bab` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/cleanup_and_disposal.md` | INSTANCE | `b6356e385f446a8c9ac80af752cfc81987df65805ad70e260fee1a5063309362` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/comments.md` | INSTANCE | `dd13d0ddfef2b8f3545b8f1921000e9a900d79937767f6710165982528b9a1ff` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/docstrings.md` | INSTANCE | `994bfe5324e6420ff278925ad385c25b84de3b442a1bc0ed624422e2eee2792b` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/error_model.md` | INSTANCE | `146b6052aacdd5b97d651dc62102aa20a53cc54bc9194d14ed530ad7ab636bb2` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/hot_path_attribute_aliasing.md` | INSTANCE | `0f327f3274d27e956e96558e7810288269c187c26522df6b80b1c08a2d14da7e` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/init_and_ownership.md` | INSTANCE | `6f0d7b561f0581a7a2278fabbbb06e1cada8e1fd238dc23188888c99221895c1` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/interfaces.md` | INSTANCE | `10a50ae0449dea32f33b03e80e0c862edc3f1e9d378d49fa28d7f9fb7e4959ae` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/logging.md` | INSTANCE | `842c4e67d718db07f63dd5738c716f5f6fa792c664238d118184009c6a199a07` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/module_scope.md` | INSTANCE | `1502b67717517d185cb680b3e04b8a4f04db9685480da59842993d819b8caf7d` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/refactor_limits.md` | INSTANCE | `8838df5ecd838acd18e0953cac894737149b1d5c00fff907399dc7edb9810bea` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/typing.md` | INSTANCE | `05ea359a5525825b12a8ee78a5c76be695bb242b1da7bc58e9d93d6bf9cb8777` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/synaptic_skill_overrides.md` | INSTANCE | `b7758ae4de223ad8b00fb683644369e1db4f610f3498f2d147eac3ada1061b18` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/evidence_reporting.md` | INSTANCE | `af9f8abea260eba611045b66062ccced8a6048e4b8147cb63b1d97915f0acf39` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/mocking.md` | INSTANCE | `5a667aca680d607d84f764797d34f3385b88e0891385d0ed5202d3eef5050226` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/pytest_integration.md` | INSTANCE | `25c460a042e74c422e3aca3dab6f314f3661d92575fc4ef8f010f4856359feca` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/pytest_unit.md` | INSTANCE | `0b4f49c3dd1795b73e544689d7a9ca2a843413f0dbc2abcfb48a5f40a4034622` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/regression_tests.md` | INSTANCE | `e32f8b079c2fac9649858caf6abdbfecb4cab6e64bc7e270921311c5bf090d24` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/testing_overview.md` | INSTANCE | `037cc90c2117f7e1ebbef57f8c3ac09ef826b4b5e038208ce05bcb3bcdde6ca8` |
+| `agent_onboarding/user_defined/synaptic_python_developer/WORKFLOWS.MD` | INSTANCE | `b1375ff028768adfc4076b63f17b8dd908b5d4a5cbe80539f16ce1c5319320d3` |
+| `agent_onboarding/user_defined/synaptic_python_developer/workflows/README.md` | INSTANCE | `2d938e6fa1d0d57b5d6331d257593625e2e04a4609b90e9b0cb4e90fc3a1ff7d` |
+| `agent_onboarding/user_defined/synaptic_python_developer/workflows/synaptic_python_developer_onboarding.md` | INSTANCE | `d3ca0d6f7f96e71c0bc70b537479d88f3f60ac27cd2033f4a60ef53f218c6a97` |
+| `artifacts/IMPORTANT_CONSIDERATION.md` | RESET | `593c5f85859354065042e4e09368459f869eecc49dd94b651ed82c0ca761ac2d` |
+| `artifacts/README.md` | RESET | `196e2022e5d708af65d39b7e434c792f5c1374d5eb8b542f4d18ee534bbb4ad3` |
+| `artifact_board.md` | LIVE | `7fa873e33a76cc84adf053c104b097f21a41431faa7b2dc16a9b62a362fb2ca1` |
+| `attention_board.md` | LIVE | `4189a25814a993dc573ab4730bcf185b8dbc6c2cea1c8ae9d5799fc4849d1140` |
+| `config/context_compass_config.yaml` | CONFIG | `824d3e76351c412813fdae9a5b0f120bc514e103b09445dc9dbadfed7402e315` |
+| `CONTEXT_COMPACTION.md` | PACKAGE | `46468fe8d08ebe7846b9e7429af5c2a72d308dd019b3932e1dd4a19dcc585ca8` |
+| `context_management/artifacts/.gitkeep` | RESET | `01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b` |
+| `context_management/context_artifact_template.md` | RESET | `9a57525f3160d21612da41c4f371d6ba4f50cf681b0e9009e266c67458187b9e` |
+| `context_management/context_board.md` | RESET | `8d554f10be975061d13b52d1d456891acdbf55dcac1df4fb253c95c3a0d39f7c` |
+| `context_management/README.md` | RESET | `aa88b6d8ad4d022ab532b2e08875ccc5cfe14f4c7fce8b0b12a4e6d1296623bc` |
+| `examples/adr_example.md` | PACKAGE | `89d3a4d6f7a3d209e94901e90851821f588883fc80b4bc6702a314a64415378c` |
+| `examples/artifact_workflow.md` | PACKAGE | `3010841abbe7b9bfcfacc9b4c280173231436b81275ffa0e1927be8545fa3ef6` |
+| `examples/continuity_fact_checker_task_flow.md` | PACKAGE | `cf2530c2bb5bb5f93dcdb52b495e0f7a0d1f3ed2988d594b2d98064b2824b6f2` |
+| `examples/design_task_flow.md` | PACKAGE | `954365632ef432360390371ad2ecbafc1e8bf6db46531c31312e4fdbc6db9a62` |
+| `examples/developmental_editor_task_flow.md` | PACKAGE | `d1aee7e3451e4b56d8c7384f048626836c8d40cbecdea82341dc49192f198518` |
+| `examples/draft_writer_task_flow.md` | PACKAGE | `35ea2242fa10de732461f5938478dd6232e6e9f7c361f5953c5a9937a1015dc8` |
+| `examples/eng_task_flow.md` | PACKAGE | `621f915460e3527c3e739dc4c88e9c5dd738347fc12ec064530211bb71ed2c0e` |
+| `examples/example_architecture/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_architecture/src_architecture.md` | PACKAGE | `8f426d7c9265847850d4bc3f0650617a387469165ebd9c47465615c21a288deb` |
+| `examples/example_architecture/src_architecture_index.md` | PACKAGE | `34dfa2a74e30b17a5e2ed985f985b5035173ca66ee947908bd919231e11863a2` |
+| `examples/example_architecture/tests_architecture.md` | PACKAGE | `a7bf8047ab6894b1d9a509f15b0ea4b42fbaa02f73789f72c0c3459051d9c9cf` |
+| `examples/example_architecture/tests_architecture_index.md` | PACKAGE | `8f219b4676ca00a2f31b9224a1f5744af2a6c68c0ecbe0db69c36040da890160` |
+| `examples/example_completed/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md` | PACKAGE | `fbe24f19898e8a8f1c6ccab53f6f74488cabbb852b9b71c0f1b69fbeefcefc35` |
+| `examples/example_components/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_components/src_components.md` | PACKAGE | `518dd137c426620f9244c8ada040f4adf4bbf5092276ba840af872b517d448ec` |
+| `examples/example_components/src_components_index.md` | PACKAGE | `473f1c7c31686662fa56c48fc0c3ea62d34ea59cf075bdce1a6df56cff1a4f1b` |
+| `examples/example_components/tests_components.md` | PACKAGE | `f9fa3dc2950790e22c61abba92928b2f5a933b5ac3552daf1cc84ea69ff9d6fa` |
+| `examples/example_components/tests_components_index.md` | PACKAGE | `3bc976df349ee88657211f01a0ecb9c0cba8a04521436b9d4582212a1d044220` |
+| `examples/example_epics/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_epics/2026-02-19_context_compass_release_readiness_example_pack_epic.md` | PACKAGE | `9787ef0535fc5d0af6ec1b4c939473bd1f0e55de5e294b90a963f9cfefd349f6` |
+| `examples/example_graph_details/README.md` | PACKAGE | `3ba4cc6bce3b2c9570c2d5cdd3a0ddf150d1809f72e48714edb29b0752600ebb` |
+| `examples/example_graph_details/src/example/core/interfaces.py` | PACKAGE | `5120f2b7d872f45c099574c2917dfba83742e06f0e83f1743180bc027ff95051` |
+| `examples/example_graph_details/src/example/core/resource.py` | PACKAGE | `7973dcbcd22a09b055173bbaa14895072d4ee0ecc7027b66f0db01e9c5a89e21` |
+| `examples/example_graph_details/src/example/pipeline/pipeline.py` | PACKAGE | `fe7cb898b9e4e3b9f0916449f7bdbbdb9facad1de1f9162f4f5f4b8d27c13fe9` |
+| `examples/example_graph_details/src/example/pipeline/stage.py` | PACKAGE | `ee53cbf3da28df104f91d4f62798046acbeb85dfe33678ae03d97dfc837b48df` |
+| `examples/example_graph_details/src/example/storage/store.py` | PACKAGE | `33f8c86c22704cf1aba64ca8fbddae2c9e8dddc3541b4ad296da55ea53040049` |
+| `examples/example_graph_details/src/example/__init__.py` | PACKAGE | `932911b90c4ce4e130ec615078a8e4b6c41ffffc3cbe6aadd068e3d4a079feb1` |
+| `examples/example_graph_details/src_graph.md` | PACKAGE | `a655ccfaee86bb59aa26613ab714da5ea770572e5b098a85f296e84d9e9a6366` |
+| `examples/example_graph_details/src_graph_index.md` | PACKAGE | `f6b0786ed113d8a9a485272839bba0412c13860f02dea04913698d868ae57a22` |
+| `examples/example_stories/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_stories/2026-02-19_context_compass_release_readiness_examples_story.md` | PACKAGE | `dd3208067b3be627cb531778367275561827d87b428d4b710d7cb71b2ae33eea` |
+| `examples/example_tasks/.gitkeep` | PACKAGE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md` | PACKAGE | `e1961cffbca304b3251df465f5aef630e61c54ed294ee322b0cd2c5cdc9b4a98` |
+| `examples/line_copy_editor_task_flow.md` | PACKAGE | `3b1a0dac4f74478936eca6701974d9ed15a1728bd2c7937a86173d668842c225` |
+| `examples/platform_task_flow.md` | PACKAGE | `1cf673e9c53f31e5982b0acff6c692d360553ca96afb231de23200f0672b55a0` |
+| `examples/proofreader_task_flow.md` | PACKAGE | `3acf3ae1dfc5feedd0d0441c3950a65365e5add7d89aa60d837d70ec70a9dfb1` |
+| `examples/qa_task_flow.md` | PACKAGE | `0e99a0c543d9def5f52a91bd4e48137ce2cc2d91440edb65a86a7eecac807dbc` |
+| `examples/repo_overview.md` | PACKAGE | `42b4ec5f9e149e2167a29be1d4a058aa58ba4eab4ffa25d87a588c2a66ad1a29` |
+| `examples/researcher_task_flow.md` | PACKAGE | `76fd7a6ee08dff04a630461fac43f1c0225ac66050a5da74556defa49aa8ca92` |
+| `examples/security_review_flow.md` | PACKAGE | `4f4a79abcc9130062637bcd9b6133e59c1d397bab483a8262ec91e72816b1cfb` |
+| `examples/story_designer_task_flow.md` | PACKAGE | `75def243d169840f744772b92088ee5547f7f683f54e7f09c3bf684faa63f864` |
+| `examples/story_novel_artist_task_flow.md` | PACKAGE | `7c1d156952c223002f13573f81765e543a284ce97ba4f8cfeb0cdc20fb10ccd1` |
+| `mailbox_board.md` | LIVE | `8659b418126e34f93dc3e9e8b109907381e2f4456f96846f496c7752cb5ba074` |
+| `PROFILE_CLASS_CREATION_GUIDE.md` | PACKAGE | `1dba8a9735ed8e88ab6102c5136954461f4c344cf03f6a6279c3bbd12c9c5dbd` |
+| `README.md` | PACKAGE | `d3db2c916d2975c79a83f35e8f05208b473268b673f18469a7204b100299674c` |
+| `SKILLS.MD` | PACKAGE | `859015a3925409487b2fb6e02147fa0019ec83673f4e981e9338d5891db8bb7a` |
+| `special_instructions/README.md` | RESET | `8625a6b64e1610c3fb4094dfcef7a23c0ac67a8a4d6867c51fa133e4b629bad8` |
+| `system_docs/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `system_docs/patches/active/README.md` | RESET | `f0d1e1f0716475bb4e14ad38ae0f8fbb2dcd5a4b4c00d3e366bb38d961dc383b` |
+| `system_docs/patches/active/_template_patch_id/architecture_patch.md` | RESET | `3a9faaf4466586f0122cff1d8f3de572ba1ddc601ae7bf4f45b8186fd34ce2b7` |
+| `system_docs/patches/active/_template_patch_id/code_description_patch_TEMPLATE_COMPONENT.md` | RESET | `262130e44568da2ce6720095b9ab9956ab9787d81a5e2daa73ba3300e3c04d13` |
+| `system_docs/patches/active/_template_patch_id/component_patch_TEMPLATE_COMPONENT.md` | RESET | `fedc2095f94e5be8f11bed1fae34faee05730d78c435819e907970356ecebd1c` |
+| `system_docs/system_docs_read_first.md` | RESET | `abd36616cdf4ec62fc41c302feaffbc633db8c084a4ceb01e579bd166afb1776` |
+| `templates/epic_template.md` | PACKAGE | `765cefc6255c885ef14479fcb630a1dd38a70de67786f8989274549deefd71c5` |
+| `templates/story_template.md` | PACKAGE | `a6a048bb3e6a1af9ba96499203a473e4dafe4a1b0da05950084ba606ebdec4e5` |
+| `templates/task_template.md` | PACKAGE | `7df78a9911f119cfac202c67c0e31b6d0ede9ba3027a0aaa9adcdd7f3cb28405` |
+| `templates/workflow_advanced_template.md` | PACKAGE | `771f7bae306ae94ab44065be8599e47f7a63433d725dae90226a09c974324482` |
+| `templates/workflow_simple_template.md` | PACKAGE | `e3368384eac2c2b97247929adcb4fc18a4926416f8b84ae20770743bc5c64612` |
+| `tickets/epics/archive/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/epics/backlog/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/epics/completed/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/epics/README.md` | RESET | `5fe9f49d0f2663d89f8c3ade085318318a8b8b1dc780ef8e5d4b52b5bdb46cd6` |
+| `tickets/README.md` | RESET | `6bb7e3ff1e1c7757d4f4f920358324b3a746e64b1e482d7dd411487371339f9b` |
+| `tickets/stories/archive/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/stories/backlog/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/stories/completed/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/stories/README.md` | RESET | `9ce0b57d1aa97c8516ce80b38c484838bc3371fbae12f1aa7ec731141eecde31` |
+| `tickets/tasks/archive/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/tasks/backlog/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/tasks/completed/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `tickets/tasks/README.md` | RESET | `05f35c092fde41fe576f9e716f9965d7b60b1ec44090f0e7003976d7088e6e3a` |
+| `tools/cleanup_context_compass.py` | PACKAGE | `6704e9be4b2afec7746b2617b85b91fab40778e1f44ff884db277feb248f2431` |
+| `tools/package_manifest.py` | PACKAGE | `52042f4d414c3e60f8693194bc92ab0944ad493256e54d64e2567aa6a2b17ccc` |
+| `tools/system_documents/index_document.py` | PACKAGE | `fe0894d1677e3ec342db183419bbb84999c9d236d58d7d1a95382bc60effd36d` |
+| `tools/system_documents/python/assemble_graph.py` | PACKAGE | `5f986909273c6815662682adfedc6a9e2e31abc4fe4cb57b8fbaf1842f8f5252` |
+| `tools/system_documents/python/extract_graph.py` | PACKAGE | `f739ea7d71332b60f0eb238688ec93668a89819008ba63592e3f4d6a4fe924c5` |
+| `tools/update_context_compass.py` | PACKAGE | `08b2247956076c6008212bede4b658e9c863557ae4ce270fb5213c628f6f3f58` |
+| `user_defined/.gitkeep` | INSTANCE | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
+| `user_defined/README.md` | INSTANCE | `f58639058dabcaafed2f3b589ca12b7eb94ddd45dd356a807b39f2304b90ab33` |
+
 --- START OF FILE: context_compass\PROFILE_CLASS_CREATION_GUIDE.md ---
 
 
 
-Please get Codex to read this to help you make a class; this guide uses tokens and is not in normal skill paths except `new`.
+Hand this to your agent when you want help creating a role. It is large and is deliberately outside the normal skill paths except `new`.
 
 # Profile Class Creation Guide
 
 ## Why this file exists
 - This is a user-facing playbook for building and assigning profile classes.
-- It is intentionally large and explicit so you can hand it to Codex during
+- It is intentionally large and explicit so you can hand it to an agent during
   first-time onboarding.
 - It is not meant to be loaded by every profile path.
 
@@ -551,23 +1095,29 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
 
 ## What it supports
 - Any programming language.
-- Codex-first workflows.
+- AI-agent-driven workflows.
 - Other AI agents, as long as they obey the same policy contracts.
 
 ## Recommended execution mode
-- Use Codex with Extra High reasoning in this repository.
+- Use the strongest reasoning setting your runtime offers.
 - Other reasoning modes are not yet validated here.
 
 ## Core concepts
 
 ### 1) Profile class
 - A class/profile is a curated read path for behavior and skills.
-- Profiles are route targets resolved by `roles.*` to `SKILLS.md`.
+- Profiles are route targets resolved by the `SKILLS.MD` registry table to a
+  role `SKILLS.MD`.
 
 ### 2) Inheritance
 - Parent profile docs load first.
 - Child profile docs load last.
-- Child profile `SKILLS.md` should add deltas, not duplicate parent paths.
+- Child profile `SKILLS.MD` should add deltas, not duplicate parent paths.
+
+> The registry table in `context_compass/SKILLS.MD` is the authoritative
+> role list. The descriptions below are teaching material for first-time
+> onboarding and do not include user-defined roles. If the two disagree,
+> the registry wins.
 
 ### 3) Default class
 - This is the profile loaded after onboarding.
@@ -614,27 +1164,36 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
   - final lock and surface-quality specialization layered on top of `general`.
 - `user_defined/*`
   - personal or team overlays (usually extend the closest matching default role).
-## Where to configure classes
-- `context_compass/config/context_compass_config.yaml`
+## Where classes are declared
 
-Key areas in that file:
-- `profiles.available_profiles`
-- `profiles.user_defined_profiles`
-- `profiles.onboarding.*`
-- `roles.*`
-- `roles_map.profile_readme_policy.*`
-- `SKILLS.md` header inheritance:
-  - `INHERITS_SKILLS_FROM: <skills_path|none>`
+A class is declared in exactly one place: the registry table in
+`context_compass/SKILLS.MD`.
+
+Each row carries everything the system needs:
+- role name
+- `SKILLS.MD` path
+- `extends` (parent role)
+- user-defined flag
+- selectable-after-onboarding flag
+- reads-README flag
+
+`context_compass/config/context_compass_config.yaml` holds behaviour settings
+only. It does not enumerate roles. Do not add role lists to it.
+
+Inheritance is declared a second time inside the role's own `SKILLS.MD`:
+- `` - `INHERITS_SKILLS_FROM: <skills_path|none>` ``
+
+The registry `extends` column and that header must agree.
 
 ## Class creation checklist
 - [ ] Choose class name.
 - [ ] Create onboarding folder structure.
-- [ ] Create profile `SKILLS.md` file.
+- [ ] Create profile `SKILLS.MD` file.
 - [ ] Create profile `WORKFLOWS.MD` file if this role should own workflows.
 - [ ] Create profile `workflows/` folder if this role should own workflows.
 - [ ] Add class to config.
-- [ ] Define `SKILLS.md` inheritance header.
-- [ ] Validate `SKILLS.md` paths and overlap rules.
+- [ ] Define `SKILLS.MD` inheritance header.
+- [ ] Validate `SKILLS.MD` paths and overlap rules.
 - [ ] Assign active/default class.
 
 ## Step-by-step: create a new class
@@ -678,12 +1237,12 @@ Create:
 context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
 ```
 
-SKILLS.md rules:
+SKILLS.MD rules:
 - one relative path per line
 - no empty lines
 - inheritance header required for inheriting profiles:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- no duplicated parent paths from inherited `SKILLS.md`
+- no duplicated parent paths from inherited `SKILLS.MD`
 
 Workflow rules:
 - actual workflow definitions should live in role-local `workflows/`
@@ -710,52 +1269,43 @@ agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_
 agent_onboarding/user_defined/data_engineer/skills/data_engineer_skill_overrides.md
 ```
 
-### Step 4: Register class in config
-Edit `context_compass/config/context_compass_config.yaml`.
+### Step 4: Register the class in the registry
 
-Minimum required edits:
+Add one row to the registry table in `context_compass/SKILLS.MD`:
 
-```yaml
-profiles:
-  available_profiles:
-    - data_engineer
-  user_defined_profiles:
-    - data_engineer
-
-roles_map:
-  roles:
-    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
+```markdown
+| `data_engineer` | `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | `engineer` | yes | yes | no |
 ```
 
-### Step 5: Register class for onboarding selection
+That single row registers the class, its path, its parent, its user-defined
+status, whether it can be selected after onboarding, and its README policy.
 
-If this class should be selectable after first-time onboarding, update:
+No config edit is required. If you find yourself adding the role name to
+`context_compass/config/context_compass_config.yaml`, stop: the registry has
+been duplicated, and duplication is what produced orphaned and half-registered
+roles in earlier versions of this package.
 
-```yaml
-profiles:
-  onboarding:
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - data_engineer
-```
-
-### Step 6: Validate class wiring
+### Step 5: Validate class wiring
 Run checks:
 
 ```powershell
-rg -n "data_engineer" context_compass/config/context_compass_config.yaml
+rg -n "data_engineer" context_compass/SKILLS.MD
 Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
 ```
 
-Validate `SKILLS.md` path existence (manual method):
-- open each path listed in the class `SKILLS.md`
+Confirm:
+- the registry row exists and its `skills path` resolves
+- the row's `extends` value matches the `INHERITS_SKILLS_FROM` header
+- `context_compass/config/context_compass_config.yaml` does not mention the role
+
+Validate `SKILLS.MD` path existence (manual method):
+- open each path listed in the class `SKILLS.MD`
 - confirm files exist and are readable
 
 Validate overlap discipline:
-- compare child `SKILLS.md` lines against parent `SKILLS.md` lines
-- remove duplicates from child `SKILLS.md`
-- confirm child `SKILLS.md` starts with inheritance header:
+- compare child `SKILLS.MD` lines against parent `SKILLS.MD` lines
+- remove duplicates from child `SKILLS.MD`
+- confirm child `SKILLS.MD` starts with inheritance header:
   - `INHERITS_SKILLS_FROM: <parent_skills_path>`
 
 Validate workflow discipline (when used):
@@ -788,10 +1338,11 @@ Validate workflow discipline (when used):
 - Do not create a top-level workflow registry.
 
 ## Anti-patterns to avoid
-- Duplicating entire parent `SKILLS.md` path lists in child classes.
+- Duplicating entire parent `SKILLS.MD` path lists in child classes.
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
-- Forgetting to register `roles_map.roles.<profile>`.
+- Forgetting to add the registry row in `SKILLS.MD`.
+- Re-adding role lists to the config file.
 - Creating a top-level workflow registry when the workflow should live in the role.
 - Letting agents create or modify workflows at their own discretion.
 
@@ -806,7 +1357,7 @@ Purpose
 - Define user/team-specific profile behavior deltas.
 
 Scope
-- Applies only when active profile is `<profile_name>`.
+- Applies only when the selected role is `<profile_name>`.
 
 Rules
 - Keep this profile as a delta layer over `engineer`.
@@ -861,7 +1412,7 @@ Skills
 
 ### Post-onboarding entry
 - Route directly to selected default class path order.
-- If class inherits `engineer`, `SKILLS.md` headers resolve
+- If class inherits `engineer`, `SKILLS.MD` headers resolve
   `general` then `engineer` then custom.
 
 ## Recommended default class choice
@@ -884,35 +1435,35 @@ Skills
 ## Fast operator checklist
 - [ ] I know the class name I want.
 - [ ] I created class folder + files under `user_defined`.
-- [ ] I created `SKILLS.md` under `agent_onboarding/user_defined/<profile_name>/`.
+- [ ] I created `SKILLS.MD` under `agent_onboarding/user_defined/<profile_name>/`.
 - [ ] I updated config profile lists and roles-map role registration.
-- [ ] I added the `SKILLS.md` inheritance header.
-- [ ] I validated `SKILLS.md` paths and overlap contract.
+- [ ] I added the `SKILLS.MD` inheritance header.
+- [ ] I validated `SKILLS.MD` paths and overlap contract.
 
 ## Troubleshooting
 
 ### Class does not load
 Check:
-- class exists in `profiles.available_profiles`
-- role exists under `roles_map.roles`
-- class `SKILLS.md` path is correct and readable
+- the class has a row in the `SKILLS.MD` registry table
+- the row's `skills path` is correct and readable
+- the row's `extends` value matches the class `SKILLS.MD` header
 
 ### Wrong docs load order
 Check:
-- `SKILLS.md` inheritance header:
+- `SKILLS.MD` inheritance header:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- parent-first ordering resolved from `SKILLS.md` inheritance headers
-- path entries not duplicated across parent/child `SKILLS.md` files
+- parent-first ordering resolved from `SKILLS.MD` inheritance headers
+- path entries not duplicated across parent/child `SKILLS.MD` files
 
 ### Behavior looks unchanged
 Check:
-- active profile is what you think it is
-- class docs are actually listed in class `SKILLS.md`
+- the selected role is what you think it is
+- class docs are actually listed in class `SKILLS.MD`
 - class docs contain real deltas, not empty placeholders
 
 ## File index
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/templates/workflow_simple_template.md`
 - `context_compass/templates/workflow_advanced_template.md`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
@@ -932,7 +1483,7 @@ Check:
 
 --- START OF FILE: context_compass\README.md ---
 
-﻿# Context Compass
+# Context Compass
 
 Context Compass is a policy-driven context orchestrator for AI-assisted execution.
 It gives agents a deterministic way to onboard, route work, preserve context,
@@ -974,15 +1525,16 @@ Context Compass addresses that by making execution contract-driven:
 
 ## Agent Support
 
-This Codex distribution is wired to a single runtime entrypoint.
+This distribution is wired to a single runtime entrypoint: `AGENTS.MD`.
 
-Select the correct folder and place it into your repo.
+`AGENTS.MD` is a widely adopted convention for repository-level agent
+instructions, so most coding-agent runtimes pick it up without configuration. If
+yours looks for a different filename, point that file at `AGENTS.MD` rather than
+duplicating the policy - two copies of a contract drift, and the drift is silent.
 
-Within Context Compass Codex support:
-- Codex entrypoint: `AGENTS.MD`
-
-The routing and policy core remains shared.
-This distribution uses `AGENTS.MD` as the only runtime entrypoint.
+Context Compass is runtime-neutral by design. Nothing in the routing or policy
+core depends on which vendor's agent is reading it; the requirements are file
+access, shell or tool access, and the ability to follow written instructions.
 
 ## Core Design Principles
 
@@ -997,48 +1549,49 @@ This distribution uses `AGENTS.MD` as the only runtime entrypoint.
 
 ```text
 context_compass/
-  AGENTS.MD
-  SKILLS.md
+  AGENTS.MD                     runtime entrypoint
+  SKILLS.MD                     the role registry
+  MANIFEST.md                   generated: path, owner, hash for every file
   CONTEXT_COMPACTION.md
   PROFILE_CLASS_CREATION_GUIDE.md
   README.md
 
   config/
-    context_compass_config.yaml
+    context_compass_config.yaml behaviour settings only
 
   agent_onboarding/
-    default/
-      new/
-      general/
-      engineer/
-      design_engineer/
-      platform_engineer/
-      qa_engineer/
-      security_engineer/
-      story_designer/
-      story_novel_artist/
-      researcher/
-      draft_writer/
-      developmental_editor/
-      line_copy_editor/
-      continuity_fact_checker/
-      proofreader/
-    user_defined/
-      synaptic_python_developer/
+    default/                    ships with the package, replaced on upgrade
+      new/  general/  engineer/  design_engineer/  platform_engineer/
+      qa_engineer/  security_engineer/  story_designer/  story_novel_artist/
+      researcher/  draft_writer/  developmental_editor/  line_copy_editor/
+      continuity_fact_checker/  proofreader/
+    user_defined/               YOURS - never replaced, never removed
+      <your overlays>
 
-  tickets/
-    epics/
-    stories/
-    tasks/
+  tools/                        manifest, cleanup, upgrade, document indexing
+  templates/                    ticket templates
+  examples/                     the shape and quality bar for every document type
 
-  templates/
-  examples/
-  system_docs/
-  artifacts/
+  system_docs/                  SHIPS EMPTY - your architecture and component
+                                maps go here; nothing is seeded
+  tickets/                      yours
+  artifacts/                    yours
+  context_management/           yours - context board and artifacts
+  special_instructions/         yours - project-specific rules
 
-  attention_board.md
+  attention_board.md            live routing; package owns only the MANAGED block
   artifact_board.md
+  mailbox_board.md
 ```
+
+Five directories are yours and are never written to by an upgrade: `system_docs/`,
+`tickets/`, `artifacts/`, `context_management/`, `special_instructions/`, plus
+`agent_onboarding/user_defined/`. Everything else belongs to the package and is
+replaced when you upgrade. `MANIFEST.md` records which is which, per file.
+
+`system_docs/` ships empty on purpose. A seeded placeholder in a live lane gets
+read as repository truth no matter what banner sits on it, so the shape
+reference lives in `examples/` instead and this directory stays yours.
 
 ## How It Works
 
@@ -1046,12 +1599,14 @@ context_compass/
 
 The agent starts from the runtime entrypoint:
 
-- Codex reads `AGENTS.MD` and resolves directly into the shared policy chain.
+- The agent reads `AGENTS.MD` and resolves directly into the shared policy chain.
 
 ### 2) Role Routing
 
-`SKILLS.md` defines available roles and role-to-skill-map paths.
-The selected role resolves to a `SKILLS.md` chain with parent-first inheritance.
+`SKILLS.MD` is the single role registry. Its table declares every role and the
+`SKILLS.MD` path each one resolves to. The selected role resolves to a
+`SKILLS.MD` chain with parent-first inheritance, walked via the
+`INHERITS_SKILLS_FROM` header in each file.
 
 Each role declares:
 
@@ -1091,6 +1646,10 @@ This prevents "performative compliance" and keeps behavior auditable.
 
 Context Compass currently includes both software and fiction workflows.
 
+The authoritative list is the registry table in `SKILLS.MD`. The lanes below are
+a reader's overview and may lag the registry; when they disagree, the registry
+wins.
+
 ### Software Lane
 
 - `general`
@@ -1117,25 +1676,35 @@ Context Compass currently includes both software and fiction workflows.
 
 ## Configuration Authority
 
-Primary runtime config lives in:
+Two files with two distinct jobs.
 
-- `config/context_compass_config.yaml`
+**`SKILLS.MD` - the single role registry.**
+One table declares every role: its `SKILLS.MD` path, its parent role, whether
+it is user-defined, whether it is selectable after onboarding, and whether it
+reads READMEs. A role exists if and only if it has a row there. Adding a role
+is a one-row edit.
 
-Key sections include:
+**`config/context_compass_config.yaml` - behaviour settings only.**
+It does not enumerate roles and is never consulted to resolve one.
 
-- `profiles` for active/allowed profile control,
-- `router` for role-to-skill-map mapping,
+- `profiles.onboarding` for first-time onboarding state and transitions,
+- `system_of_record.enforce` for whether agents may use their own harness's task
+  tracking instead of this package (default `true`, meaning they may not),
 - `workflow` for ticket microcycle behavior,
 - `artifacts` for artifact retention rules,
-- `codex` for read-window and chunking limits.
+- `documentation_format` for line length and evidence formatting,
+- `reading` for read-window and chunking limits.
+
+There is no stored active role. Role selection is per agent, per session, so
+several agents can hold different roles in the same repository at once.
 
 ## Quick Start
 
 1. Place `context_compass/` in your repository.
-2. Ensure the Codex runtime entrypoint exists:
-   - Codex: `AGENTS.MD`
-3. Select an active profile in `config/context_compass_config.yaml`.
-4. Start onboarding through `SKILLS.md` role resolution.
+2. Ensure your agent reads `AGENTS.MD` at the repository root, or points its own
+   entrypoint file at it.
+3. Select a role from the role map in `SKILLS.MD`.
+4. Start onboarding through `SKILLS.MD` role resolution.
 5. Request `CERTIFY: APPROVED`.
 6. Execute through ticket routing (`attention_board.md` + active ticket notes).
 
@@ -1174,349 +1743,116 @@ MIT
 
 
 
---- START OF FILE: context_compass\RELEASE_README.md ---
-
-# Context Compass Release Notes
-
-## Overview
-This release pushes Context Compass forward in two ways at the same time:
-
-- it adds real new coordination features for multi-agent work
-- it cleans the package up so it reads like a reusable public library instead of
-  a project-specific working directory
-
-The result is a release that is more capable, easier to adapt, and much safer
-for other people to pick up and use.
-
-## What Is New
-
-### Mailbox System
-Context Compass now includes a mailbox system for targeted agent-to-agent
-communication.
-
-New pieces:
-- `mailbox_board.md`
-- `agent_onboarding/default/general/skills/mailbox_protocol.md`
-- `attention_board.md` support for message alerts
-
-What this adds:
-- direct point-to-point messages between agents
-- a cleaner separation between routing/broadcast state and handoff notices
-- a formal pattern for check-in, send, receive, acknowledge, and consume
-  message flow
-- a way to keep mailbox traffic out of general board noise
-
-Why it matters:
-- agents can hand work off more cleanly
-- shared state stays easier to read
-- the ticket system remains the durable truth while the mailbox handles
-  temporary directed communication
-
-### Context Management
-This release adds an optional context-management layer for reusable reread packs.
-
-New pieces:
-- `context_management/README.md`
-- `context_management/context_board.md`
-- `context_management/context_artifact_template.md`
-- `context_management/artifacts/.gitkeep`
-- `agent_onboarding/default/general/skills/context_management.md`
-
-What this adds:
-- a way to attach reusable context packs to tickets
-- a board that maps tickets to context artifacts
-- a template for creating structured context artifacts
-- a formal contract for when a ticket opts into context management
-
-Why it matters:
-- large or long-running work can carry focused reread packs
-- context can be reloaded faster without bloating the core boards
-- tickets stay authoritative while context packs stay derived and optional
-
-### Special Instructions Directory
-A dedicated project-specific instruction directory is now part of the package.
-
-New piece:
-- `special_instructions/README.md`
-
-What this adds:
-- a clear place for project-specific instructions
-- a clean way to keep custom guidance out of the generic policy body
-- a simple contract: agents read and follow the Markdown documents in that
-  folder using relative repo paths only
-
-Why it matters:
-- the shared package can stay public and reusable
-- teams can still add project-local rules without stuffing them into the core
-  `AGENTS.MD`
-
-### Graph Details Workflow Docs
-This release adds a fuller graph-details documentation workflow.
-
-New pieces:
-- `system_docs/graph_details_document.md`
-- `system_docs/src_graph_details.md`
-- `system_docs/src_graph_network.md`
-
-What this adds:
-- a canonical graph-details workflow document
-- clearer structure for `src_graph.json` and `readable_src_graph.json`
-- lightweight entrypoint docs for older naming patterns
-
-Why it matters:
-- graph-based system mapping is now treated as a first-class workflow
-- users get a documented way to maintain structural graph artifacts without
-  inventing their own process
-
-### Synaptic Python Onboarding Workflow
-The synaptic Python overlay now has an explicit onboarding workflow file.
-
-New piece:
-- `agent_onboarding/user_defined/synaptic_python_developer/workflows/synaptic_python_developer_onboarding.md`
-
-What this adds:
-- a discoverable onboarding path for that overlay
-- a more explicit read contract for the workflow
-- better structure inside the user-defined example area
-
-## What Changed In Core Behavior
-
-### Boards And Coordination Surfaces
-The shared boards were updated to support the new collaboration model.
-
-#### attention_board.md
-Changed to support message alerts while staying routing-first.
-
-#### artifact_board.md
-Adjusted to stay aligned with artifact lifecycle tracking and the newer policy
-surface.
-
-#### mailbox_board.md
-Added as a dedicated communication surface and then normalized so the shipped
-version is a clean starter board rather than a live session dump.
-
-### AGENTS.MD And Onboarding Flow
-The top-level policy contract was expanded.
-
-Key changes:
-- stronger “Context Compass is the system of record” language
-- mailbox-aware onboarding and re-onboarding
-- context-management awareness in the general policy surface
-- `special_instructions/` as the place for project-specific guidance
-
-The role map system was kept.
-This release does not remove role-based routing.
-
-### Config Cleanup
-One small but important config cleanup was made:
-- `profiles.active_profile` was removed from the YAML and from the docs that
-  previously required it
-
-What did not change:
-- available profiles are still present
-- role maps are still present
-- onboarding still resolves through the selected role and its `SKILLS.md` chain
-
-This means the package no longer pretends there is one hardcoded active profile
-in config, while still keeping the role-routing model intact.
-
-## System Docs Work
-One of the biggest goals in this release was to get `system_docs/` back into a
-sane public-library shape.
-
-### Restored Generic Starter Docs
-These starter docs were restored to a generic shipped form:
-- `system_docs/ar_onboarding_read_first.md`
-- `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
-- `system_docs/tests_architecture.md`
-- `system_docs/tests_components.md`
-
-Why that matters:
-- a public package needs starter docs that teach shape and intent
-- users should not have to inherit someone else’s runtime-specific system map
-- the package now ships clean starter documentation again
-
-### Kept Newer Graph Docs
-The new graph-details surfaces were kept, but normalized so they describe a
-chosen repo-local source/runtime surface instead of a specific external codebase.
-
-That preserves the feature while keeping the release reusable.
-
-## Public Release Cleanup
-A lot of work in this release was cleanup rather than feature invention.
-That cleanup matters because this package is meant to be public.
-
-### What Was Scrubbed
-The release was normalized to remove project-specific contamination such as:
-- concrete local filesystem paths
-- references to other private/local repos
-- project-specific runtime terminology in shared generic docs
-- live mailbox traffic from development sessions
-- tracked `__pycache__` and `.pyc` artifacts
-- hardcoded source references that only made sense in one external library
-
-### What Was Preserved
-The goal was not to strip the package down until it became generic mush.
-The goal was to keep the useful upgrades while removing the accidental baggage.
-
-So this release intentionally keeps:
-- mailbox support
-- context management
-- graph-details workflow support
-- special-instructions support
-- role maps and routed `SKILLS.md` chains
-- user-defined overlay examples
-
-## Templates And Examples
-Templates and examples were refreshed so they align better with the current
-package behavior.
-
-Areas touched include:
-- epic, story, and task templates
-- workflow templates
-- architecture and repo-overview examples
-- example release artifacts and example release tickets
-
-The intent here was consistency:
-- examples should match the policy model people actually receive
-- templates should reflect the current coordination system
-- public starter material should feel coherent when someone installs the repo
-
-## User-Defined Overlays
-The user-defined overlays remain part of the package.
-
-That includes areas such as:
-- `synaptic_python_developer`
-- `synaptic_finishing_developer`
-- `data_engineer`
-
-These were not removed because they are still useful as examples and overlay
-patterns.
-
-The only normalization done inside that area was the removal of leaked
-repo-specific/path-specific references and similar contamination in shared text.
-
-## Final Shape Of This Release
-After this release, Context Compass now ships as:
-
-- a policy-driven AI execution framework
-- a ticket-first durable context system
-- a role-routed onboarding and skills system
-- a package with mailbox and context-management support
-- a package with restored generic starter system docs
-- a package with graph-details workflow support
-- a package with a clean project-specific extension point through
-  `special_instructions/`
-- a package scrubbed for public release
-
-## Short Version
-If you only care about the headline:
-
-This release adds mailbox support, adds optional context-management support,
-keeps the graph-details workflow as a real feature, restores generic starter
-system docs, introduces a clean `special_instructions/` extension point, and
-scrubs the package so it can ship as a public library without dragging private
-project residue along with it.
---- START OF FILE: context_compass\router.md ---
-
-# router
-
-Purpose
-- Provide a stable, human-readable summary of profile routing authority.
-- Clarify how profile selection maps to onboarding skill chains.
-
-Routing authority (highest to lowest)
-1. `config/context_compass_config.yaml`
-2. `SKILLS.md`
-3. Resolved role `SKILLS.md` files under `agent_onboarding/`
-
-Deterministic route sequence
-1. Read runtime entrypoint policy.
-2. Read `config/context_compass_config.yaml`.
-3. Read `SKILLS.md` and select role.
-4. Resolve the role path in `router.roles`.
-5. Read inherited `SKILLS.md` chain in parent-first order.
-6. Read required baseline skills.
-7. Read on-demand skills only when a trigger condition is met.
-
-Do not use this file as policy override.
-Use it as a routing map only.
-
---- START OF FILE: context_compass\SKILLS.md ---
+--- START OF FILE: context_compass\SKILLS.MD ---
 
 
 # SKILLS Role Map
 
 Purpose
-- Define active profile roles and their `SKILLS.md` entry points.
-- Use direct profile-to-skills routing from this top-level `SKILLS.md` file.
+- This file is the **single registry of roles** in Context Compass.
+- A role exists if and only if it has a row in the registry table below.
+- Resolve the selected role to its `SKILLS.MD` entry point from this table.
 
-Available roles
-- `new`
-- `general`
-- `engineer`
-- `design_engineer`
-- `platform_engineer`
-- `qa_engineer`
-- `security_engineer`
-- `story_designer`
-- `story_novel_artist`
-- `researcher`
-- `draft_writer`
-- `developmental_editor`
-- `line_copy_editor`
-- `continuity_fact_checker`
-- `proofreader`
-- `synaptic_finishing_developer`
-- `user_defined/*`
+## Registry contract (non-negotiable)
 
-Available path map
-- `new`: `agent_onboarding/default/new/SKILLS.MD`
-- `general`: `agent_onboarding/default/general/SKILLS.MD`
-- `engineer`: `agent_onboarding/default/engineer/SKILLS.MD`
-- `design_engineer`: `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `platform_engineer`: `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `qa_engineer`: `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `security_engineer`: `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `story_designer`: `agent_onboarding/default/story_designer/SKILLS.MD`
-- `story_novel_artist`: `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `researcher`: `agent_onboarding/default/researcher/SKILLS.MD`
-- `draft_writer`: `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `developmental_editor`: `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `line_copy_editor`: `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `continuity_fact_checker`: `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `proofreader`: `agent_onboarding/default/proofreader/SKILLS.MD`
-- `synaptic_finishing_developer`: `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD`
-- `user_defined/*`: `agent_onboarding/user_defined/<name>/SKILLS.MD`
+- This table is the only place roles are declared. No other file lists roles.
+- `config/context_compass_config.yaml` holds **behaviour settings only**. It does
+  not enumerate roles and is never consulted to discover or resolve a role.
+- Adding a role is a two-step change: add one row here, and create the
+  `SKILLS.MD` it points to. Nothing else needs editing.
+- Role selection is **per agent, per session**. There is no stored or global
+  active role. Multiple agents may hold different roles in the same repository
+  at the same time, which is why no single value can represent "the" role.
 
-Role selection directive (non-negotiable)
-1) When this `SKILLS.md` map is read, list the available roles.
-2) Ask the user which role to take on (unless the user already selected one).
-3) Resolve the selected role to its `SKILLS.md` path from this map.
-4) Read the resolved role `SKILLS.md`.
-5) Treat the resolved role `SKILLS.md` chain as the routing manifest:
-   - You MUST read every path listed under **Active skills** / **Required baseline skills**
-     in each resolved `SKILLS.md` file (parent-first).
-   - **On-demand** skills are conditional: do NOT read them for certification unless a trigger condition is met.
-   - If an on-demand trigger is met, those on-demand paths become mandatory and MUST be read
-     before proceeding in that scope.
+## Role registry
 
-Notes
+| role | skills path | extends | user-defined | selectable after onboarding | reads README |
+| --- | --- | --- | --- | --- | --- |
+| `new` | `agent_onboarding/default/new/SKILLS.MD` | - | no | no | yes |
+| `general` | `agent_onboarding/default/general/SKILLS.MD` | - | no | yes | no |
+| `engineer` | `agent_onboarding/default/engineer/SKILLS.MD` | `general` | no | yes | no |
+| `design_engineer` | `agent_onboarding/default/design_engineer/SKILLS.MD` | `engineer` | no | yes | no |
+| `platform_engineer` | `agent_onboarding/default/platform_engineer/SKILLS.MD` | `engineer` | no | yes | no |
+| `qa_engineer` | `agent_onboarding/default/qa_engineer/SKILLS.MD` | `engineer` | no | yes | no |
+| `security_engineer` | `agent_onboarding/default/security_engineer/SKILLS.MD` | `engineer` | no | yes | no |
+| `story_designer` | `agent_onboarding/default/story_designer/SKILLS.MD` | `general` | no | yes | no |
+| `story_novel_artist` | `agent_onboarding/default/story_novel_artist/SKILLS.MD` | `general` | no | yes | no |
+| `researcher` | `agent_onboarding/default/researcher/SKILLS.MD` | `general` | no | yes | no |
+| `draft_writer` | `agent_onboarding/default/draft_writer/SKILLS.MD` | `general` | no | yes | no |
+| `developmental_editor` | `agent_onboarding/default/developmental_editor/SKILLS.MD` | `general` | no | yes | no |
+| `line_copy_editor` | `agent_onboarding/default/line_copy_editor/SKILLS.MD` | `general` | no | yes | no |
+| `continuity_fact_checker` | `agent_onboarding/default/continuity_fact_checker/SKILLS.MD` | `general` | no | yes | no |
+| `proofreader` | `agent_onboarding/default/proofreader/SKILLS.MD` | `general` | no | yes | no |
+| `synaptic_finishing_developer` | `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD` | `engineer` | yes | yes | no |
+| `synaptic_python_developer` | `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` | `engineer` | yes | yes | no |
+| `data_engineer` | `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | `engineer` | yes | yes | no |
+
+Column meanings
+- **extends**: the parent role whose `SKILLS.MD` chain is read first. Must match
+  the `INHERITS_SKILLS_FROM` header inside the role's own `SKILLS.MD`.
+- **user-defined**: lives under `agent_onboarding/user_defined/` rather than
+  `agent_onboarding/default/`. Project- or team-specific overlays.
+- **selectable after onboarding**: may be chosen as a steady-state role once
+  first-time onboarding is complete. `new` is entry-only and is never a
+  steady-state role.
+- **reads README**: whether this role reads role README files during onboarding.
+  Only `new` does; every other role uses policy and skills docs. README files are
+  user-facing.
+
+Unregistered overlays
+- `agent_onboarding/user_defined/<name>/SKILLS.MD` is the path convention for a
+  new user-defined role, but a role at that path is **not selectable until it has
+  a row in the table above**. A directory on disk with no row is not a role.
+
+## Role selection directive (non-negotiable)
+
+1. When this file is read, list the roles from the registry table.
+2. Ask the user which role to take on, unless they already selected one.
+3. Resolve the selected role to its `SKILLS.MD` path from the table.
+4. Read that `SKILLS.MD`, then walk `INHERITS_SKILLS_FROM` upward and read the
+   whole chain **parent-first**.
+5. Treat the resolved chain as the routing manifest:
+   - You MUST read every path listed under **Active skills** / **Required
+     baseline skills** in each `SKILLS.MD` in the chain.
+   - **On-demand** skills are conditional. Do NOT read them for certification
+     unless a trigger condition is met.
+   - When an on-demand trigger is met, those paths become mandatory and MUST be
+     read before proceeding in that scope.
+
+## Format contract for role `SKILLS.MD` files
+
+Every role `SKILLS.MD` uses one dialect so a single parser reads them all:
+
+- Inheritance header: ``- `INHERITS_SKILLS_FROM: <path|none>` ``
+- Skill entries: ``- `<path>` `` — one backticked path per list item.
+
+**There is one entry form, not two.** Baseline and on-demand entries look
+identical; the section heading a path sits under is what classifies it. Do not
+prefix on-demand entries with `Read:` or any other marker — a second form means
+a second parser, and the parser written for the first one silently returns an
+empty on-demand readset instead of failing.
+
+Bare (unbackticked) paths are not valid, and a backticked path must be a list
+item. A path indented under a sentence is prose, not an entry, and a parser will
+not see it. If a path must be read, it is a list item; if it is illustration,
+name the file without making it look like an entry.
+
+A parser written for this dialect must be able to read every role file in the
+package. If it cannot, the role file is wrong, not the parser.
+
+## Notes
+
 - This file is a routing manifest, not a license to read the whole repo.
-- Baseline/on-demand triggers are defined in the resolved role `SKILLS.md` files and enforced
-  by `AGENTS.MD` and `compaction_requirements.md`.
-- The default roles are designed as delta layers:
+- Baseline and on-demand triggers are defined in the resolved role `SKILLS.MD`
+  files and enforced by `AGENTS.MD` and
+  `agent_onboarding/default/general/skills/compaction_requirements.md`.
+- The roles are delta layers, not separate systems:
   - `general` is the shared baseline for all work.
   - `engineer` extends `general` for implementation-focused engineering.
-- `design_engineer`, `platform_engineer`, `qa_engineer`, and `security_engineer` extend `engineer`
-  for specialized software development workflows.
-- `synaptic_finishing_developer` extends `engineer` for slow, system-aware
-  public-library docstring, comment, and test finishing work.
-- `story_designer`, `story_novel_artist`, `researcher`, `draft_writer`,
-  `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`, and
-  `proofreader` extend `general` for fiction-authoring workflows.
-
+  - `design_engineer`, `platform_engineer`, `qa_engineer`, and
+    `security_engineer` extend `engineer` for specialized software workflows.
+  - The fiction-authoring roles extend `general`.
+  - The `user_defined` roles extend `engineer`.
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\AGENTS.MD ---
 
@@ -1525,7 +1861,7 @@ Notes
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -1538,7 +1874,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -1562,14 +1898,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - resolution_recommendations.md
 
 ## 6) References
-- agent_onboarding/default/continuity_fact_checker/SKILLS.MD
-- agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
-- agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
-- agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md
+- `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md`
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md`
+- `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\README.md ---
 
-﻿# Continuity Fact Checker Career
+# Continuity Fact Checker Career
 
 Purpose
 - Guarantee canon continuity, timeline consistency, and factual plausibility before final lock.
@@ -1615,14 +1951,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\SKILLS.MD ---
 
-# SKILLS.md - continuity_fact_checker
+# SKILLS.MD - continuity_fact_checker
 
 Purpose
 - Define required baseline skills for the continuity_fact_checker role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -1635,15 +1971,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/continuity_fact_checker/AGENTS.MD
-- agent_onboarding/default/continuity_fact_checker/WORKFLOWS.MD
-- agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md
-- agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md
-- agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_deliverables.md
-- agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md
-- agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_handoff_policy.md
-- agent_onboarding/default/continuity_fact_checker/behavioral_guidelines/continuity_fact_checker_workflow.md
-- agent_onboarding/default/continuity_fact_checker/examples/continuity_fact_checker_task_flow.md
+- `agent_onboarding/default/continuity_fact_checker/AGENTS.MD`
+- `agent_onboarding/default/continuity_fact_checker/WORKFLOWS.MD`
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md`
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md`
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_deliverables.md`
+- `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md`
+- `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_handoff_policy.md`
+- `agent_onboarding/default/continuity_fact_checker/behavioral_guidelines/continuity_fact_checker_workflow.md`
+- `agent_onboarding/default/continuity_fact_checker/examples/continuity_fact_checker_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -1652,7 +1988,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires compliance-sensitive factual verification.
 
 If triggered:
-- Read: agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_advanced_context.md
+- `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\WORKFLOWS.MD ---
@@ -1675,7 +2011,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\behavioral_guidelines\continuity_fact_checker_workflow.md ---
 
-﻿# continuity_fact_checker_workflow
+# continuity_fact_checker_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing continuity_fact_checker tasks.
@@ -1701,7 +2037,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\examples\continuity_fact_checker_task_flow.md ---
 
-﻿# continuity_fact_checker_task_flow
+# continuity_fact_checker_task_flow
 
 Scenario
 - Demonstrate a complete continuity_fact_checker pass with artifacts and gate decisions.
@@ -1728,7 +2064,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\policies\continuity_fact_checker_handoff_policy.md ---
 
-﻿# continuity_fact_checker_handoff_policy
+# continuity_fact_checker_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for continuity_fact_checker.
@@ -1751,7 +2087,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\policies\continuity_fact_checker_quality_policy.md ---
 
-﻿# continuity_fact_checker_quality_policy
+# continuity_fact_checker_quality_policy
 
 Purpose
 - Establish the quality bar for continuity_fact_checker outputs.
@@ -1776,7 +2112,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\skills\continuity_fact_checker.md ---
 
-﻿# continuity_fact_checker
+# continuity_fact_checker
 
 Purpose
 - Define role identity, responsibilities, and gate model for continuity_fact_checker.
@@ -1816,7 +2152,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\skills\continuity_fact_checker_advanced_context.md ---
 
-﻿# continuity_fact_checker_advanced_context
+# continuity_fact_checker_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for continuity_fact_checker.
@@ -1836,7 +2172,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\skills\continuity_fact_checker_deliverables.md ---
 
-﻿# continuity_fact_checker_deliverables
+# continuity_fact_checker_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for continuity_fact_checker.
@@ -1865,7 +2201,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\continuity_fact_checker\skills\continuity_fact_checker_execution.md ---
 
-﻿# continuity_fact_checker_execution
+# continuity_fact_checker_execution
 
 Purpose
 - Define deterministic execution phases for continuity_fact_checker.
@@ -1909,7 +2245,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -2006,8 +2342,14 @@ Design Engineer inventory
   `system_docs/src_architecture.md`.
 - `skills/src_components_instructions.md`: creation/maintenance mechanics for
   `system_docs/src_components.md`.
-- `skills/graph_details_instructions.md`: creation/maintenance mechanics for
-  `system_docs/src_graph.json` and `system_docs/readable_src_graph.json`.
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`: how to read
+  `system_docs/src_graph_index.md` and slice `system_docs/src_graph.md`.
+  Inherited from `engineer`; it does not live in this folder.
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md`: how those
+  two files are produced by `tools/system_documents/python/`.
+- `agent_onboarding/default/engineer/skills/system_document_build.md`: authoring
+  format and index mechanics for the authored system documents. Inherited from
+  `engineer`; it does not live in this folder.
 - `skills/tests_architecture_instructions.md`: creation/maintenance mechanics
   for `system_docs/tests_architecture.md`.
 - `skills/tests_components_instructions.md`: creation/maintenance mechanics for
@@ -2044,7 +2386,7 @@ Unknowns Gate
 --- START OF FILE: context_compass\agent_onboarding\default\design_engineer\SKILLS.MD ---
 
 
-# SKILLS.md - design_engineer
+# SKILLS.MD - design_engineer
 
 Purpose
 - Define required baseline design-engineer skills for the `design_engineer` role.
@@ -2077,7 +2419,6 @@ Required baseline skills
 - `agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
 - `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
-- `agent_onboarding/default/design_engineer/skills/graph_details_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/design_engineer_execution.md`
@@ -2105,8 +2446,10 @@ Trigger conditions (any one makes these mandatory):
 - The task requires creating/updating `system_docs/*` or making P0/P1 claims about architecture/components/tests.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 
 
@@ -2441,9 +2784,9 @@ Artifacts
 - `system_docs/tests_architecture.md`
 - `system_docs/src_components.md`
 - `system_docs/tests_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
-- `system_docs/src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
+- `system_docs/src_graph_index.md`
 - `system_docs/patches/active/<patch_id>/architecture_patch.md` (when patch lane is active)
 - `system_docs/patches/active/<patch_id>/component_patch_<component>.md` (when patch lane is active)
 - `system_docs/patches/active/<patch_id>/code_description_patch_<component>.md` (conditional)
@@ -2454,7 +2797,7 @@ Strict source rule
 
 Update cadence
 - Update docs when boundaries, lifecycle, invariants, or wiring change.
-- Keep `readable_src_graph.json` synchronized with canonical graph state when
+- Keep `src_graph.md` synchronized with canonical graph state when
   architecture/components work changes source wiring coverage.
 - Keep ASCII and Mermaid diagrams current.
 - Keep active patch docs synchronized with canonical docs until merge+cleanup closes the patch lane.
@@ -2832,162 +3175,6 @@ References
 
 
 
---- START OF FILE: context_compass\agent_onboarding\default\design_engineer\skills\graph_details_instructions.md ---
-
-# graph_details_instructions
-
-## Purpose
-- Define the exact build and maintenance protocol for the canonical graph-details
-  surfaces:
-  - `context_compass/system_docs/graph_details_document.md`
-  - `context_compass/system_docs/src_graph.json`
-- Keep graph authoring aligned with the existing architecture/components doc
-  stack instead of creating a competing prose layer.
-
-## Canonical Outputs
-- `context_compass/system_docs/graph_details_document.md`
-- `context_compass/system_docs/src_graph.json`
-- `context_compass/system_docs/readable_src_graph.json`
-
-## Scope Boundary
-This graph is for one chosen source/runtime surface only.
-
-Include:
-- every non-`__init__.py` file under the chosen source root when graph-details
-  workflow is enabled for that repository
-- example source roots may look like `src/**` or another repo-local runtime
-  subtree chosen by the user
-
-Exclude:
-- `tests/**`
-- examples
-- docs/tickets/patch files as graph nodes
-
-## Required Inputs (Read First)
-- `context_compass/system_docs/src_architecture.md`
-- `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/graph_details_document.md`
-- `context_compass/system_docs/readable_src_graph.json`
-- `context_compass/examples/example_graph_details/graph_details_document.md`
-- `context_compass/examples/example_graph_details/src_graph.expanded.json`
-- `context_compass/examples/example_graph_details/src_graph.json`
-- `context_compass/examples/example_graph_details/readable_src_graph.json`
-- `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
-- active patch docs for the graph lane when patch gating is active
-- active ticket and `context_compass/attention_board.md` route
-- if repo-specific system docs do not exist yet, use the example graph-details
-  pack as the shape guide and create the graph surfaces only when the user wants
-  graph-based durable context
-
-## Unknowns Gate (Non-Negotiable)
-- New graph claims default to `UNKNOWN`.
-- Promote to graph nodes/edges only when architecture/components evidence is
-  strong enough to justify the relationship.
-- Do not infer semantic edges from imports or filename shape alone.
-
-## Authoring Contract
-The graph is exhaustive for the eligible files inside the chosen repo-specific
-those files are wired.
-
-Include every eligible source file as a node-bearing graph entry, then enrich
-important files with stronger role/responsibility/relationship detail where it
-materially improves wiring comprehension.
-
-Explicit exclusion:
-- do not create graph nodes for anything under `tests/`
-- do not create graph nodes for `__init__.py` files
-- package meaning should come from real objects/components/modules, not from
-  package marker files
-
-Every node must include:
-- `id`
-- `label`
-- `kind`
-- `file`
-- `role`
-- `responsibilities`
-- `owns_state`
-- `phases`
-
-Every edge must include:
-- `from`
-- `to`
-- `relation`
-- `why`
-- `cardinality`
-- `phase`
-- `strength`
-
-## Expand-Edit-Compress Workflow (Non-Negotiable)
-Do not hand-edit the compressed canonical storage file directly.
-
-Required workflow:
-1. Read the compressed canonical graph:
-   - `context_compass/system_docs/src_graph.json`
-2. Expand the full document into one patch-lane working copy:
-   - `context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json`
-3. Edit the expanded whole-document patch copy only.
-   - keep `__init__.py` files excluded from graph nodes and edges
-4. Validate the expanded JSON.
-5. Recompress the whole document back into canonical storage.
-6. Regenerate `context_compass/system_docs/readable_src_graph.json` from the
-   compressed canonical graph by raw-text reflow at `220` characters.
-   - use the PowerShell or Bash recipe from
-     `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
-7. Validate the readable JSON file and the `220`-width contract.
-
-## Build Sequence (Required)
-1. Confirm active ticket route and graph scope.
-2. Re-read architecture/components docs for the target subsystem.
-3. Expand the canonical graph into a patch-lane working copy.
-4. Add or update nodes first.
-   - only for objects in the chosen source/runtime surface
-5. Add or update semantic edges second.
-6. Validate graph JSON and relationship coherence.
-7. Recompress and overwrite canonical storage.
-8. Regenerate and validate `readable_src_graph.json`.
-9. Update any example files that demonstrate the workflow.
-
-## Quality Gate (Pass/Fail)
-Pass only when all checks are true:
-- [ ] `src_graph.json` is valid JSON after compression.
-- [ ] `readable_src_graph.json` is valid JSON after regeneration.
-- [ ] `readable_src_graph.json` stays at `220` characters or less per line.
-- [ ] the expanded patch copy is valid JSON before recompression.
-- [ ] node ids are unique.
-- [ ] every edge endpoint exists as a node.
-- [ ] relation values remain inside the canonical vocabulary.
-- [ ] graph changes do not duplicate long-form prose from architecture/components docs.
-
-## Validation Commands
-- `Get-Content context_compass/system_docs/src_graph.json -Raw | ConvertFrom-Json | Out-Null`
-- `Get-Content context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null`
-- `Get-Content context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json -Raw | ConvertFrom-Json | Out-Null`
-
-## Staleness Triggers (When Update Is Mandatory)
-- ownership changes
-- creation responsibility changes
-- borrowing vs hard lifecycle responsibility changes
-- validation/publication/binding relationships change
-- architecture/components docs change the canonical wiring story
-
-## Anti-Patterns (Reject)
-- editing compressed storage directly
-- reading the compressed storage file by line instead of using the readable view
-- failing to regenerate `readable_src_graph.json` after graph edits
-- adding `tests/` objects into `src_graph.json`
-- adding `__init__.py` files as graph nodes
-- leaving eligible files inside the chosen graph scope uncovered
-- using import-only edges as architecture truth
-- duplicating architecture/components prose into the graph
-- inventing new edge verbs without intentionally revising the schema
-
-## Handoff Rule
-- End graph updates by confirming:
-  - what node/edge set changed,
-  - what remains intentionally out of scope,
-  - and where the next maintainer should expand/edit the graph next.
-
 --- START OF FILE: context_compass\agent_onboarding\default\design_engineer\skills\nonfunctional_requirements.md ---
 
 
@@ -3051,7 +3238,7 @@ When this gate applies
   cross-component behavior.
 - Any design expected to update canonical `system_docs/src_architecture.md` or
   `system_docs/src_components.md`.
-- Any design expected to refresh `system_docs/readable_src_graph.json` because
+- Any design expected to refresh `system_docs/src_graph.md` because
   documented source wiring or ownership moved.
 
 Required design outputs (before implementation)
@@ -3166,15 +3353,19 @@ References
 
 ## Example Documents (Required Read)
 - `context_compass/examples/example_architecture/src_architecture.md`
+- `context_compass/examples/example_architecture/tests_architecture.md`
 - `context_compass/examples/example_components/src_components.md`
 - `context_compass/examples/example_components/tests_components.md`
-- `context_compass/system_docs/src_architecture.md` (active baseline)
+
+The canonical output does not ship with the package. `system_docs/` is empty in
+a fresh install, so on first run you are creating this document, not editing
+one. The examples above are the shape reference; this repository is the source
+of truth for the content.
 
 ## Required Inputs (Read First)
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/graph_details_document.md`
-- `context_compass/system_docs/readable_src_graph.json`
-- `context_compass/system_docs/src_graph.json`
+- `context_compass/system_docs/src_graph.md`
+- `context_compass/system_docs/src_graph_index.md`
 - `context_compass/system_docs/tests_architecture.md`
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/patches/active/<patch_id>/architecture_patch.md`
@@ -3183,6 +3374,58 @@ References
 - `context_compass/agent_onboarding/default/design_engineer/skills/patch_framework_design.md`
 - `context_compass/agent_onboarding/default/design_engineer/skills/architecture_patch_contracts.md`
 - Active ticket and `context_compass/attention_board.md` route
+
+## Indexing Contract (Non-Negotiable)
+
+This document is AUTHORED. Nothing generates its prose. The only generated
+artifact is its index, and the index is only as useful as the heading structure
+you give it.
+
+Regenerate the index in the SAME pass that edits the document:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_architecture.md
+```
+
+Heading discipline the index depends on:
+- **Exactly one H1.** A second one and the indexer cannot identify the document
+  title, so it stops omitting it and emits a section spanning the whole file.
+- **The navigable unit is H2 `## <Concern>`.** Consistent depth, never mixed.
+- **Names unique and stable.** Index rows are selected on name; two sections
+  sharing a name are indistinguishable to a consumer.
+- **No container headings in this document.** Every H2 is a selectable concern,
+  so there is no wrapper heading to select by mistake. Keep it that way: the
+  moment an H2 exists only to group other headings, it indexes as a range
+  covering all of them, and a reader selecting it loads that whole span
+  believing they sliced one section. On a production `src_components.md` that
+  mistake costs 37% of the document in a single slice.
+
+Consume the index by slicing, never by reading the document whole:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_architecture.md --slice "<section name>"
+```
+
+It verifies the index before returning anything, refuses on a stale index, and
+lists candidates rather than guessing when a name is ambiguous. Section names
+are therefore the query - keep them unique and descriptive.
+
+Verify before trusting any range:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_architecture.md --check
+```
+
+An index records `line_count`, `content_sha256`, and `line_ending`. Insert one
+line near the top and every range below it is wrong while still parsing and
+still returning content - the WRONG content, confidently. On mismatch: STOP,
+regenerate, do not eyeball an offset.
+
+Full format specification:
+`agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## Unknowns Gate (Non-Negotiable)
 - New claims start as `UNKNOWN`.
@@ -3193,20 +3436,38 @@ References
 `src_architecture.md` must contain these sections in order:
 1. `## Metadata`
 2. `## Scope and Intent`
-3. `## DO NOT ASSUME / Unknowns Gate`
-4. `## Unknowns`
-5. `## System Context (C4)`
-6. `## System Boundary and External Interfaces`
-7. `## Architecture Summary (C4)`
-8. `## Entrypoints and Runtime Guardrails`
-9. `## Boot and Configuration Sequence`
-10. `## Data Flows and Sequences`
-11. `## Operational Invariants`
-12. `## Failure Modes and Error Paths`
-13. `## C1 Code Map (Core Only)`
-14. `## Diagrams`
-15. `## Information Sources`
-16. `## Context / Handoff Summary`
+3. `## Indexing`
+4. `## DO NOT ASSUME / Unknowns Gate`
+5. `## Unknowns`
+6. `## System Context (C4)`
+7. `## System Boundary and External Interfaces`
+8. `## Architecture Summary (C4)`
+9. `## Entrypoints and Runtime Guardrails`
+10. `## Boot and Configuration Sequence`
+11. `## Data Flows and Sequences`
+12. `## Operational Invariants`
+13. `## Failure Modes and Error Paths`
+14. `## C1 Code Map (Core Only)`
+15. `## Diagrams`
+16. `## Information Sources`
+17. `## Context / Handoff Summary`
+
+### Sections not in the contract
+
+The contract is a **minimum in a fixed relative order**, not a whitelist. Other
+sections are permitted and are common: real documents run 44 H2 sections against
+a 17-section contract. Read literally as "only these sections", a recomposition
+deletes roughly 1,200 lines per document.
+
+If material genuinely does not belong here, it is **moved, never deleted**:
+
+- relocate it to a named target - the patch lane
+  (`system_docs/patches/active/<patch_id>/`) is the conventional destination
+- name that target in `## Context / Handoff Summary`
+- state plainly that until it is re-absorbed it lives in neither canonical
+  document
+
+"Delete it because the contract does not list it" is never the right answer.
 
 ## C1 Code Map Contract
 Every C1 entry must include:
@@ -3216,8 +3477,16 @@ Every C1 entry must include:
 - `loc`
 - `verified_at` (UTC DateTime `YYYY-MM-DDTHH:MM:SSZ`)
 
-If exact range is not verified, keep claim `UNKNOWN` and add an investigation
-target in `## Unknowns`.
+**Directories are not valid C1 entries.** A directory has no line range, and the
+join to `src_graph.md` is keyed by source file, so a directory citation can never
+resolve. Expand it into its constituent non-`__init__` modules and measure each.
+Do not write `UNKNOWN` for a directory: `UNKNOWN` means "not yet verified and
+here is the investigation target", and a directory is unverifiable in principle -
+the marker would sit there forever with nothing to resolve it.
+
+Ranges are measured, never estimated. If the exact range is not verified, keep
+the claim `UNKNOWN` and add an investigation target in `## Unknowns` rather than
+writing a plausible number.
 
 ## Diagram Contract
 - Include one ASCII architecture diagram.
@@ -3226,6 +3495,12 @@ target in `## Unknowns`.
 - Keep diagram terms aligned with section terminology.
 
 ## Build Sequence (Top-Down, Required)
+2a. Unwrap any heading spanning more than one physical line. A reflowed
+    heading parses as several sections; the first wins "narrowest match"
+    and `--slice` returns a stub. `index_document.py` warns on unclosed
+    brackets, which is the usual tell, but it cannot catch every wrap -
+    scan the heading list once before you trust it.
+
 1. Confirm active ticket route and architecture scope.
 2. Read required example documents and note formatting patterns to preserve.
 3. Re-read companion component/test docs for boundary alignment.
@@ -3243,8 +3518,47 @@ target in `## Unknowns`.
 Do not skip sequence order. If blocked, write a `BLOCKER` note in the active
 ticket before expanding scope.
 
+## Content Preservation Gate (Non-Negotiable)
+
+**Structural checks cannot see content loss.** Every check in the Quality Gate
+below is structural - sections present, fields present, ranges present. A
+recomposition can pass all of them while having silently destroyed text.
+
+This is not hypothetical. A real recomposition of a 2,249-line architecture
+document lost ~170 lines to a regex that captured only the description text on
+the same physical line as the path: fifteen wrapped descriptions truncated, two
+destroyed outright, and a previous `## Context / Handoff Summary` overwritten,
+taking a record of decisions in force with it. All six structural checks passed
+the entire time. It was caught by a human noticing the file had shrunk.
+
+So, before the first transform:
+
+1. Capture a **multiset** of the document's non-blank, whitespace-normalised
+   lines. Counts, not a set - a set cannot see that a line appearing three times
+   now appears once.
+2. Do the work.
+3. Re-capture and compare. Every line from the baseline must appear either in
+   the resulting document or in a **named migration target** you can point at.
+
+```bash
+# before
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/before.txt
+# after
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/after.txt
+diff /tmp/before.txt /tmp/after.txt
+```
+
+**The baseline must be captured BEFORE the first edit.** Captured afterwards it
+proves nothing - it describes the document you already built, which is the exact
+trap that makes "I verified it" feel true while content is gone.
+
+A line legitimately removed is fine. A line you cannot account for is a defect,
+and this gate fails until you can name where it went.
+
 ## Quality Gate (Pass/Fail)
 Pass only when all checks are true:
+- [ ] Content Preservation Gate satisfied: every baseline line is present
+      in this document or in a named migration target.
 - [ ] Required section order exists and is complete.
 - [ ] Unknowns are explicit and carry investigation targets.
 - [ ] Boundary/interfaces and boot sequence are concrete and testable.
@@ -3253,6 +3567,7 @@ Pass only when all checks are true:
 - [ ] Information Sources cover every promoted FACT.
 
 ## Validation Commands
+- `rg -n '^#{1,6} .*[([][^)\]]*$' context_compass/system_docs/src_architecture.md` - headings with an unclosed bracket, the usual sign of a wrap
 - `rg -n "^## " context_compass/system_docs/src_architecture.md`
 - `rg -n "UNKNOWN|C1 Code Map|Information Sources|Context / Handoff Summary" context_compass/system_docs/src_architecture.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/src_architecture.md`
@@ -3263,9 +3578,9 @@ Pass only when all checks are true:
 - Invariants/failure modes changed.
 - C1 line ranges became stale from code edits.
 - `src_components.md` introduces term/boundary changes.
-- `readable_src_graph.json` changed because documented source wiring or
+- `src_graph.md` changed because documented source wiring or
   ownership relationships changed.
-- `src_graph.json` changed because canonical object relationships or ownership
+- `src_graph_index.md` changed because canonical object relationships or ownership
   moved.
 - Active `architecture_patch.md` changed for the same patch id.
 
@@ -3300,13 +3615,17 @@ Pass only when all checks are true:
 - `context_compass/examples/example_components/src_components.md`
 - `context_compass/examples/example_components/tests_components.md`
 - `context_compass/examples/example_architecture/src_architecture.md`
-- `context_compass/system_docs/src_components.md` (active baseline)
+- `context_compass/examples/example_architecture/tests_architecture.md`
+
+The canonical output does not ship with the package. `system_docs/` is empty in
+a fresh install, so on first run you are creating this document, not editing
+one. The examples above are the shape reference; this repository is the source
+of truth for the content.
 
 ## Required Inputs (Read First)
 - `context_compass/system_docs/src_architecture.md`
-- `context_compass/system_docs/graph_details_document.md`
-- `context_compass/system_docs/readable_src_graph.json`
-- `context_compass/system_docs/src_graph.json`
+- `context_compass/system_docs/src_graph.md`
+- `context_compass/system_docs/src_graph_index.md`
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/tests_architecture.md`
 - `context_compass/system_docs/patches/active/<patch_id>/component_patch_<component>.md`
@@ -3319,6 +3638,58 @@ Pass only when all checks are true:
 - `context_compass/agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
 - Active ticket and `context_compass/attention_board.md` route
 
+## Indexing Contract (Non-Negotiable)
+
+This document is AUTHORED. Nothing generates its prose. The only generated
+artifact is its index, and the index is only as useful as the heading structure
+you give it.
+
+Regenerate the index in the SAME pass that edits the document:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_components.md
+```
+
+Heading discipline the index depends on:
+- **Exactly one H1.** A second one and the indexer cannot identify the document
+  title, so it stops omitting it and emits a section spanning the whole file.
+- **The navigable unit is H3 `### Component: <Name>`.** Consistent depth, never mixed.
+- **Names unique and stable.** Index rows are selected on name; two sections
+  sharing a name are indistinguishable to a consumer.
+- **Never leave a container heading as the read target.** `## C3 Components
+  Catalog` wraps only other headings, so it indexes as a range covering every
+  component beneath it. Select a component, never the catalog. Measured on a
+  production `src_components.md` that catalog
+  indexes as a **1,945-line** section, so a reader selecting it loads 37% of the
+  document believing they sliced it.
+
+Consume the index by slicing, never by reading the document whole:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_components.md --slice "<section name>"
+```
+
+It verifies the index before returning anything, refuses on a stale index, and
+lists candidates rather than guessing when a name is ambiguous. Section names
+are therefore the query - keep them unique and descriptive.
+
+Verify before trusting any range:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_components.md --check
+```
+
+An index records `line_count`, `content_sha256`, and `line_ending`. Insert one
+line near the top and every range below it is wrong while still parsing and
+still returning content - the WRONG content, confidently. On mismatch: STOP,
+regenerate, do not eyeball an offset.
+
+Full format specification:
+`agent_onboarding/default/engineer/skills/system_document_build.md`
+
 ## Unknowns Gate (Non-Negotiable)
 - Default to `UNKNOWN` for unevidenced component claims.
 - Promote to `FACT` only with direct evidence.
@@ -3328,15 +3699,48 @@ Pass only when all checks are true:
 `src_components.md` must contain these sections in order:
 1. `## Metadata`
 2. `## Scope`
-3. `## DO NOT ASSUME / Unknowns Gate`
-4. `## Unknowns`
-5. `## C3 Components Catalog`
-6. `## C2 Subcomponents Catalog`
-7. `## Method-Level Call Flows (C1)`
-8. `## C1 Code Map (Core)`
-9. `## Diagrams`
-10. `## Information Sources`
-11. `## Context / Handoff Summary`
+3. `## Indexing`
+4. `## DO NOT ASSUME / Unknowns Gate`
+5. `## Unknowns`
+6. `## C3 Components Catalog`
+7. `## C2 Subcomponents Catalog`
+8. `## Method-Level Call Flows (C1)`
+9. `## C1 Code Map (Core)`
+10. `## Diagrams`
+11. `## Information Sources`
+12. `## Context / Handoff Summary`
+
+### Sections not in the contract
+
+The contract is a **minimum in a fixed relative order**, not a whitelist. Other
+sections are permitted and are common: real documents run 44 H2 sections against
+a 17-section contract. Read literally as "only these sections", a recomposition
+deletes roughly 1,200 lines per document.
+
+If material genuinely does not belong here, it is **moved, never deleted**:
+
+- relocate it to a named target - the patch lane
+  (`system_docs/patches/active/<patch_id>/`) is the conventional destination
+- name that target in `## Context / Handoff Summary`
+- state plainly that until it is re-absorbed it lives in neither canonical
+  document
+
+"Delete it because the contract does not list it" is never the right answer.
+
+### What "core" means
+
+**Core is the deduplicated union of every `Key Files (C1)` list in the C3
+catalog.** A file a component claims as its own is core by that component's own
+claim, and the set maintains itself: change a component's key files and the core
+set follows. It is also already the join `system_document_build.md` depends on,
+so nothing new has to be tracked.
+
+On a 574-module package that resolved to 170 paths - a scope an agent can
+actually verify, against an inventory it cannot.
+
+An exhaustive inventory is still useful. Keep it, do not let the rename delete
+it: put it beneath as `### Full Package Inventory (exhaustive, retained)`.
+Narrowing a section's scope is not a licence to destroy what was there.
 
 ## Component Entry Contract (C3 Minimum)
 Each C3 component entry must include:
@@ -3353,6 +3757,21 @@ Each C3 component entry must include:
 - `Extension Points`
 - `Key Files (C1)`
 
+**`Key Files (C1)` cites in-scope SOURCE paths only.** The graph is built from
+the source tree, so a test path can never resolve against it - it is not a near
+miss, it is a guaranteed miss. Test surfaces belong in the test-side mirror.
+Measured on a real recomposition: 165 of 167 cited paths resolved, and both
+misses were test files sitting in a component's key files.
+
+Verify the join rather than assuming it:
+
+```bash
+# every cited path should appear as a section in the graph index
+rg -o '`(src/[^`]+)`' -r '$1' context_compass/system_docs/src_components.md | sort -u > /tmp/cited.txt
+rg -o '`(src/[^`]+)`' -r '$1' context_compass/system_docs/src_graph_index.md | sort -u > /tmp/graph.txt
+comm -23 /tmp/cited.txt /tmp/graph.txt   # anything here does not resolve
+```
+
 ## C1 Flow/Map Contract
 - Method-level call flows must include concrete method/function names.
 - C1 map entries must include:
@@ -3360,9 +3779,26 @@ Each C3 component entry must include:
   - `start_line`
   - `end_line`
   - `loc`
-  - `verified_at` (UTC DateTime)
+  - `verified_at` (UTC DateTime `YYYY-MM-DDTHH:MM:SSZ`)
+
+**Directories are not valid C1 entries.** A directory has no line range, and the
+join to `src_graph.md` is keyed by source file, so a directory citation can never
+resolve. Expand it into its constituent non-`__init__` modules and measure each.
+Do not write `UNKNOWN` for a directory: `UNKNOWN` means "not yet verified and
+here is the investigation target", and a directory is unverifiable in principle -
+the marker would sit there forever with nothing to resolve it.
+
+Ranges are measured, never estimated. If the exact range is not verified, keep
+the claim `UNKNOWN` and add an investigation target in `## Unknowns` rather than
+writing a plausible number.
 
 ## Build Sequence (Bottom-Up, Required)
+2a. Unwrap any heading spanning more than one physical line. A reflowed
+    heading parses as several sections; the first wins "narrowest match"
+    and `--slice` returns a stub. `index_document.py` warns on unclosed
+    brackets, which is the usual tell, but it cannot catch every wrap -
+    scan the heading list once before you trust it.
+
 1. Confirm active ticket route and component scope.
 2. Read required example documents and note reusable structure patterns.
 3. Re-read architecture boundaries and terms.
@@ -3379,8 +3815,47 @@ Each C3 component entry must include:
 If a component claim conflicts with architecture, log `CONFLICT` in ticket
 notes and escalate before proceeding.
 
+## Content Preservation Gate (Non-Negotiable)
+
+**Structural checks cannot see content loss.** Every check in the Quality Gate
+below is structural - sections present, fields present, ranges present. A
+recomposition can pass all of them while having silently destroyed text.
+
+This is not hypothetical. A real recomposition of a 2,249-line architecture
+document lost ~170 lines to a regex that captured only the description text on
+the same physical line as the path: fifteen wrapped descriptions truncated, two
+destroyed outright, and a previous `## Context / Handoff Summary` overwritten,
+taking a record of decisions in force with it. All six structural checks passed
+the entire time. It was caught by a human noticing the file had shrunk.
+
+So, before the first transform:
+
+1. Capture a **multiset** of the document's non-blank, whitespace-normalised
+   lines. Counts, not a set - a set cannot see that a line appearing three times
+   now appears once.
+2. Do the work.
+3. Re-capture and compare. Every line from the baseline must appear either in
+   the resulting document or in a **named migration target** you can point at.
+
+```bash
+# before
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/before.txt
+# after
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/after.txt
+diff /tmp/before.txt /tmp/after.txt
+```
+
+**The baseline must be captured BEFORE the first edit.** Captured afterwards it
+proves nothing - it describes the document you already built, which is the exact
+trap that makes "I verified it" feel true while content is gone.
+
+A line legitimately removed is fine. A line you cannot account for is a defect,
+and this gate fails until you can name where it went.
+
 ## Quality Gate (Pass/Fail)
 Pass only when all checks are true:
+- [ ] Content Preservation Gate satisfied: every baseline line is present
+      in this document or in a named migration target.
 - [ ] Required section order exists and is complete.
 - [ ] Every C3 entry includes the minimum contract fields.
 - [ ] C1 call flows use concrete method/function names.
@@ -3389,6 +3864,7 @@ Pass only when all checks are true:
 - [ ] Information Sources support all promoted FACT claims.
 
 ## Validation Commands
+- `rg -n '^#{1,6} .*[([][^)\]]*$' context_compass/system_docs/src_components.md` - headings with an unclosed bracket, the usual sign of a wrap
 - `rg -n "^## " context_compass/system_docs/src_components.md`
 - `rg -n "C3 Components Catalog|C2 Subcomponents Catalog|Method-Level Call Flows|C1 Code Map" context_compass/system_docs/src_components.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/src_components.md`
@@ -3398,9 +3874,9 @@ Pass only when all checks are true:
 - Lifecycle/cleanup ordering changed.
 - Core method-level flows changed.
 - Architecture boundaries/terms changed.
-- `readable_src_graph.json` changed because documented source wiring or
+- `src_graph.md` changed because documented source wiring or
   ownership relationships changed.
-- `src_graph.json` changed because canonical object relationships or ownership
+- `src_graph_index.md` changed because canonical object relationships or ownership
   moved.
 - C1 ranges became stale from code edits.
 - Active component/code-description patch docs changed for the same patch id.
@@ -3481,18 +3957,80 @@ References
 - `context_compass/system_docs/tests_architecture.md`
 
 ## Example Documents (Required Read)
+- `context_compass/examples/example_architecture/tests_architecture.md`
 - `context_compass/examples/example_architecture/src_architecture.md`
 - `context_compass/examples/example_components/tests_components.md`
 - `context_compass/examples/example_components/src_components.md`
-- `context_compass/system_docs/tests_architecture.md` (active baseline)
+
+Read the two architecture examples as a pair. They share a section contract on
+purpose: one maps the runtime, the other maps how the runtime is verified. If
+your output makes the test map structurally different from the source map, the
+divergence is the defect.
+
+The canonical output does not ship with the package. `system_docs/` is empty in
+a fresh install, so on first run you are creating this document, not editing
+one. The examples above are the shape reference; this repository is the source
+of truth for the content.
 
 ## Required Inputs (Read First)
 - `context_compass/system_docs/tests_components.md`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/src_graph.md`
 - `context_compass/agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
 - Active ticket and `context_compass/attention_board.md` route
+
+## Indexing Contract (Non-Negotiable)
+
+This document is AUTHORED. Nothing generates its prose. The only generated
+artifact is its index, and the index is only as useful as the heading structure
+you give it.
+
+Regenerate the index in the SAME pass that edits the document:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_architecture.md
+```
+
+Heading discipline the index depends on:
+- **Exactly one H1.** A second one and the indexer cannot identify the document
+  title, so it stops omitting it and emits a section spanning the whole file.
+- **The navigable unit is H2 `## <Concern>`.** Consistent depth, never mixed.
+- **Names unique and stable.** Index rows are selected on name; two sections
+  sharing a name are indistinguishable to a consumer.
+- **No container headings in this document.** Every H2 is a selectable concern,
+  so there is no wrapper heading to select by mistake. Keep it that way: the
+  moment an H2 exists only to group other headings, it indexes as a range
+  covering all of them, and a reader selecting it loads that whole span
+  believing they sliced one section. On a production `src_components.md` that
+  mistake costs 37% of the document in a single slice.
+
+Consume the index by slicing, never by reading the document whole:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_architecture.md --slice "<section name>"
+```
+
+It verifies the index before returning anything, refuses on a stale index, and
+lists candidates rather than guessing when a name is ambiguous. Section names
+are therefore the query - keep them unique and descriptive.
+
+Verify before trusting any range:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_architecture.md --check
+```
+
+An index records `line_count`, `content_sha256`, and `line_ending`. Insert one
+line near the top and every range below it is wrong while still parsing and
+still returning content - the WRONG content, confidently. On mismatch: STOP,
+regenerate, do not eyeball an offset.
+
+Full format specification:
+`agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## Unknowns Gate (Non-Negotiable)
 - Start unknown-heavy and explicit.
@@ -3503,19 +4041,71 @@ References
 `tests_architecture.md` must contain these sections in order:
 1. `## Metadata`
 2. `## Scope and Intent`
-3. `## DO NOT ASSUME / Unknowns Gate`
-4. `## Unknowns`
-5. `## System Context (C4)`
-6. `## External Interfaces and Entry Points`
-7. `## Core Responsibilities`
-8. `## Data Flows and Lifecycle`
-9. `## Invariants and Guarantees`
-10. `## C1 Code Map (Key Paths)`
-11. `## Diagrams`
-12. `## Information Sources`
-13. `## Context / Handoff Summary`
+3. `## Indexing`
+4. `## DO NOT ASSUME / Unknowns Gate`
+5. `## Unknowns`
+6. `## System Context (C4)`
+7. `## External Interfaces and Entry Points`
+8. `## Core Responsibilities`
+9. `## Data Flows and Lifecycle`
+10. `## Invariants and Guarantees`
+11. `## C1 Code Map (Key Paths)`
+12. `## Diagrams`
+13. `## Information Sources`
+14. `## Context / Handoff Summary`
 
-## Discovery-First Build Sequence (Required)
+### Sections not in the contract
+
+The contract is a **minimum in a fixed relative order**, not a whitelist. Other
+sections are permitted and are common: real documents run 44 H2 sections against
+a 17-section contract. Read literally as "only these sections", a recomposition
+deletes roughly 1,200 lines per document.
+
+If material genuinely does not belong here, it is **moved, never deleted**:
+
+- relocate it to a named target - the patch lane
+  (`system_docs/patches/active/<patch_id>/`) is the conventional destination
+- name that target in `## Context / Handoff Summary`
+- state plainly that until it is re-absorbed it lives in neither canonical
+  document
+
+"Delete it because the contract does not list it" is never the right answer.
+
+## C1 Code Map Contract
+Each C1 key-path entry must include:
+- `path`
+- `start_line`
+- `end_line`
+- `loc`
+- `verified_at` (UTC DateTime `YYYY-MM-DDTHH:MM:SSZ`)
+
+**Directories are not valid C1 entries.** A directory has no line range, and the
+join to `src_graph.md` is keyed by source file, so a directory citation can never
+resolve. Expand it into its constituent non-`__init__` modules and measure each.
+Do not write `UNKNOWN` for a directory: `UNKNOWN` means "not yet verified and
+here is the investigation target", and a directory is unverifiable in principle -
+the marker would sit there forever with nothing to resolve it.
+
+Ranges are measured, never estimated. If the exact range is not verified, keep
+the claim `UNKNOWN` and add an investigation target in `## Unknowns` rather than
+writing a plausible number.
+
+## Diagram Contract
+- Include one ASCII flow diagram.
+- Include one Mermaid flow diagram.
+- Keep labels operational (surface, flow, boundary), not decorative.
+- Keep diagram terms aligned with section terminology.
+- Diagram the verification path, not the runtime path. If this diagram could be
+  dropped into `src_architecture.md` unchanged, it is describing the wrong
+  system.
+
+## Build Sequence (Discovery-First, Required)
+2a. Unwrap any heading spanning more than one physical line. A reflowed
+    heading parses as several sections; the first wins "narrowest match"
+    and `--slice` returns a stub. `index_document.py` warns on unclosed
+    brackets, which is the usual tell, but it cannot catch every wrap -
+    scan the heading list once before you trust it.
+
 1. Confirm active ticket route and test-system scope.
 2. Read required example documents and extract reusable C4 section patterns.
 3. Inventory test entry surfaces (`tests/`, runner config, fixtures).
@@ -3524,19 +4114,58 @@ References
 6. Document lifecycle flow (setup, execution, teardown) with evidence.
 7. Capture invariants and failure paths observed in sources.
 8. Build C1 key-path map with ranges, LOC, and verification timestamps.
-9. Add ASCII + Mermaid diagrams aligned to written flow.
-10. Refresh `Information Sources` and `Context / Handoff Summary`.
+9. Add ASCII + Mermaid diagrams per the Diagram Contract.
+10. If patch lane is active, confirm the architecture patch has not moved a
+    boundary this document still describes the old way.
+11. Refresh `Information Sources` and `Context / Handoff Summary`.
 
-## C1 Map Contract
-Each C1 key-path entry must include:
-- `path`
-- `start_line`
-- `end_line`
-- `loc`
-- `verified_at` (UTC DateTime)
+Do not skip sequence order. If blocked, write a `BLOCKER` note in the active
+ticket before expanding scope. If a test-architecture claim conflicts with
+`src_architecture.md`, log `CONFLICT` in ticket notes and escalate before
+proceeding - the mismatch is the finding, and resolving it silently in either
+direction destroys it.
+
+## Content Preservation Gate (Non-Negotiable)
+
+**Structural checks cannot see content loss.** Every check in the Quality Gate
+below is structural - sections present, fields present, ranges present. A
+recomposition can pass all of them while having silently destroyed text.
+
+This is not hypothetical. A real recomposition of a 2,249-line architecture
+document lost ~170 lines to a regex that captured only the description text on
+the same physical line as the path: fifteen wrapped descriptions truncated, two
+destroyed outright, and a previous `## Context / Handoff Summary` overwritten,
+taking a record of decisions in force with it. All six structural checks passed
+the entire time. It was caught by a human noticing the file had shrunk.
+
+So, before the first transform:
+
+1. Capture a **multiset** of the document's non-blank, whitespace-normalised
+   lines. Counts, not a set - a set cannot see that a line appearing three times
+   now appears once.
+2. Do the work.
+3. Re-capture and compare. Every line from the baseline must appear either in
+   the resulting document or in a **named migration target** you can point at.
+
+```bash
+# before
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/before.txt
+# after
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/after.txt
+diff /tmp/before.txt /tmp/after.txt
+```
+
+**The baseline must be captured BEFORE the first edit.** Captured afterwards it
+proves nothing - it describes the document you already built, which is the exact
+trap that makes "I verified it" feel true while content is gone.
+
+A line legitimately removed is fine. A line you cannot account for is a defect,
+and this gate fails until you can name where it went.
 
 ## Quality Gate (Pass/Fail)
 Pass only when all checks are true:
+- [ ] Content Preservation Gate satisfied: every baseline line is present
+      in this document or in a named migration target.
 - [ ] Required section order exists and is complete.
 - [ ] Unknowns are explicit and tied to investigation targets.
 - [ ] Interfaces, lifecycle, and invariants are evidence-backed.
@@ -3544,6 +4173,7 @@ Pass only when all checks are true:
 - [ ] Diagrams and narrative use consistent terms.
 
 ## Validation Commands
+- `rg -n '^#{1,6} .*[([][^)\]]*$' context_compass/system_docs/tests_architecture.md` - headings with an unclosed bracket, the usual sign of a wrap
 - `rg -n "^## " context_compass/system_docs/tests_architecture.md`
 - `rg -n "UNKNOWN|System Context|Data Flows|C1 Code Map|Information Sources" context_compass/system_docs/tests_architecture.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/tests_architecture.md`
@@ -3553,6 +4183,14 @@ Pass only when all checks are true:
 - Fixture lifecycle behavior changed.
 - Test boundary/interfaces changed.
 - C1 ranges became stale from test-file edits.
+- `tests_components.md` introduces term/boundary changes.
+- `src_architecture.md` changed a boundary this document verifies. The source
+  map moving without the test map moving is the most common way these two drift.
+- `src_graph.md` changed because documented source wiring or ownership
+  relationships changed.
+- `src_graph_index.md` changed because canonical object relationships or
+  ownership moved.
+- Active `architecture_patch.md` changed for the same patch id.
 
 ## Anti-Patterns (Reject)
 - Generic "tests do X" statements without evidence.
@@ -3585,16 +4223,73 @@ Pass only when all checks are true:
 ## Example Documents (Required Read)
 - `context_compass/examples/example_components/tests_components.md`
 - `context_compass/examples/example_components/src_components.md`
+- `context_compass/examples/example_architecture/tests_architecture.md`
 - `context_compass/examples/example_architecture/src_architecture.md`
-- `context_compass/system_docs/tests_components.md` (active baseline)
+
+The canonical output does not ship with the package. `system_docs/` is empty in
+a fresh install, so on first run you are creating this document, not editing
+one. The examples above are the shape reference; this repository is the source
+of truth for the content.
 
 ## Required Inputs (Read First)
 - `context_compass/system_docs/tests_architecture.md`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/src_graph.md`
 - `context_compass/agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
 - Active ticket and `context_compass/attention_board.md` route
+
+## Indexing Contract (Non-Negotiable)
+
+This document is AUTHORED. Nothing generates its prose. The only generated
+artifact is its index, and the index is only as useful as the heading structure
+you give it.
+
+Regenerate the index in the SAME pass that edits the document:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_components.md
+```
+
+Heading discipline the index depends on:
+- **Exactly one H1.** A second one and the indexer cannot identify the document
+  title, so it stops omitting it and emits a section spanning the whole file.
+- **The navigable unit is H3 `### Component: <Name>`.** Consistent depth, never mixed.
+- **Names unique and stable.** Index rows are selected on name; two sections
+  sharing a name are indistinguishable to a consumer.
+- **Never leave a container heading as the read target.** `## C3 Components
+  Catalog` wraps only other headings, so it indexes as a range covering every
+  component beneath it. Select a component, never the catalog. Measured on a
+  production `src_components.md` that catalog indexes as a **1,945-line**
+  section, so a reader selecting it loads 37% of the document believing they
+  sliced it. The same shape applies to whatever you write here.
+
+Consume the index by slicing, never by reading the document whole:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_components.md --slice "<section name>"
+```
+
+It verifies the index before returning anything, refuses on a stale index, and
+lists candidates rather than guessing when a name is ambiguous. Section names
+are therefore the query - keep them unique and descriptive.
+
+Verify before trusting any range:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/tests_components.md --check
+```
+
+An index records `line_count`, `content_sha256`, and `line_ending`. Insert one
+line near the top and every range below it is wrong while still parsing and
+still returning content - the WRONG content, confidently. On mismatch: STOP,
+regenerate, do not eyeball an offset.
+
+Full format specification:
+`agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## Unknowns Gate (Non-Negotiable)
 - New component claims default to `UNKNOWN`.
@@ -3605,17 +4300,50 @@ Pass only when all checks are true:
 `tests_components.md` must contain these sections in order:
 1. `## Metadata`
 2. `## Scope`
-3. `## DO NOT ASSUME / Unknowns Gate`
-4. `## Unknowns`
-5. `## C3 Components Catalog`
-6. `## C2 Subcomponents Catalog`
-7. `## Method-Level Call Flows (C1)`
-8. `## C1 Code Map (Key Paths)`
-9. `## Diagrams`
-10. `## Information Sources`
-11. `## Context / Handoff Summary`
+3. `## Indexing`
+4. `## DO NOT ASSUME / Unknowns Gate`
+5. `## Unknowns`
+6. `## C3 Components Catalog`
+7. `## C2 Subcomponents Catalog`
+8. `## Method-Level Call Flows (C1)`
+9. `## C1 Code Map (Key Paths)`
+10. `## Diagrams`
+11. `## Information Sources`
+12. `## Context / Handoff Summary`
 
-## Test Component Entry Contract (C3 Minimum)
+### Sections not in the contract
+
+The contract is a **minimum in a fixed relative order**, not a whitelist. Other
+sections are permitted and are common: real documents run 44 H2 sections against
+a 17-section contract. Read literally as "only these sections", a recomposition
+deletes roughly 1,200 lines per document.
+
+If material genuinely does not belong here, it is **moved, never deleted**:
+
+- relocate it to a named target - the patch lane
+  (`system_docs/patches/active/<patch_id>/`) is the conventional destination
+- name that target in `## Context / Handoff Summary`
+- state plainly that until it is re-absorbed it lives in neither canonical
+  document
+
+"Delete it because the contract does not list it" is never the right answer.
+
+### What "core" means
+
+**Core is the deduplicated union of every `Key Files (C1)` list in the C3
+catalog.** A file a component claims as its own is core by that component's own
+claim, and the set maintains itself: change a component's key files and the core
+set follows. It is also already the join `system_document_build.md` depends on,
+so nothing new has to be tracked.
+
+On a 574-module package that resolved to 170 paths - a scope an agent can
+actually verify, against an inventory it cannot.
+
+An exhaustive inventory is still useful. Keep it, do not let the rename delete
+it: put it beneath as `### Full Package Inventory (exhaustive, retained)`.
+Narrowing a section's scope is not a licence to destroy what was there.
+
+## Component Entry Contract (C3 Minimum)
 Each C3 test component must include:
 - `Purpose`
 - `Responsibilities`
@@ -3627,7 +4355,28 @@ Each C3 test component must include:
 - `Invariants/Guarantees`
 - `Failure Modes`
 - `Observability`
+- `Extension Points`
 - `Key Files (C1)`
+
+**`Key Files (C1)` cites in-scope SOURCE paths only.** The graph is built from
+the source tree, so a test path can never resolve against it - it is not a near
+miss, it is a guaranteed miss. Test surfaces belong in the test-side mirror.
+Measured on a real recomposition: 165 of 167 cited paths resolved, and both
+misses were test files sitting in a component's key files.
+
+Verify the join rather than assuming it:
+
+```bash
+# every cited path should appear as a section in the graph index
+rg -o '`(src/[^`]+)`' -r '$1' context_compass/system_docs/src_components.md | sort -u > /tmp/cited.txt
+rg -o '`(src/[^`]+)`' -r '$1' context_compass/system_docs/src_graph_index.md | sort -u > /tmp/graph.txt
+comm -23 /tmp/cited.txt /tmp/graph.txt   # anything here does not resolve
+```
+
+This is the same twelve-field minimum `src_components_instructions.md` requires.
+Test components are components. If a field genuinely does not apply, say so in
+the field rather than dropping it - a missing field and a deliberately empty one
+look identical to a reader, and only one of them is a decision.
 
 ## C1 Flow/Map Contract
 - Call-flow entries must include concrete test methods/functions/fixtures.
@@ -3636,9 +4385,26 @@ Each C3 test component must include:
   - `start_line`
   - `end_line`
   - `loc`
-  - `verified_at` (UTC DateTime)
+  - `verified_at` (UTC DateTime `YYYY-MM-DDTHH:MM:SSZ`)
+
+**Directories are not valid C1 entries.** A directory has no line range, and the
+join to `src_graph.md` is keyed by source file, so a directory citation can never
+resolve. Expand it into its constituent non-`__init__` modules and measure each.
+Do not write `UNKNOWN` for a directory: `UNKNOWN` means "not yet verified and
+here is the investigation target", and a directory is unverifiable in principle -
+the marker would sit there forever with nothing to resolve it.
+
+Ranges are measured, never estimated. If the exact range is not verified, keep
+the claim `UNKNOWN` and add an investigation target in `## Unknowns` rather than
+writing a plausible number.
 
 ## Build Sequence (Bottom-Up, Required)
+2a. Unwrap any heading spanning more than one physical line. A reflowed
+    heading parses as several sections; the first wins "narrowest match"
+    and `--slice` returns a stub. `index_document.py` warns on unclosed
+    brackets, which is the usual tell, but it cannot catch every wrap -
+    scan the heading list once before you trust it.
+
 1. Confirm active ticket route and test component scope.
 2. Read required example documents and extract reusable C3/C2/C1 patterns.
 3. Re-read tests architecture boundaries and terminology.
@@ -3648,10 +4414,56 @@ Each C3 test component must include:
 7. Capture method-level C1 flows (fixtures, harnesses, execution paths).
 8. Build C1 key-path map with ranges, LOC, and verification timestamps.
 9. Add diagrams aligned to terminology and flow.
-10. Refresh `Information Sources` and `Context / Handoff Summary`.
+10. If patch lane is active, confirm the component patch has not moved a
+    boundary this document still describes the old way.
+11. Refresh `Information Sources` and `Context / Handoff Summary`.
+
+If a test component claim conflicts with `tests_architecture.md` or with the
+component it verifies in `src_components.md`, log `CONFLICT` in ticket notes and
+escalate before proceeding. The mismatch is the finding; resolving it silently
+in either direction destroys it.
+
+## Content Preservation Gate (Non-Negotiable)
+
+**Structural checks cannot see content loss.** Every check in the Quality Gate
+below is structural - sections present, fields present, ranges present. A
+recomposition can pass all of them while having silently destroyed text.
+
+This is not hypothetical. A real recomposition of a 2,249-line architecture
+document lost ~170 lines to a regex that captured only the description text on
+the same physical line as the path: fifteen wrapped descriptions truncated, two
+destroyed outright, and a previous `## Context / Handoff Summary` overwritten,
+taking a record of decisions in force with it. All six structural checks passed
+the entire time. It was caught by a human noticing the file had shrunk.
+
+So, before the first transform:
+
+1. Capture a **multiset** of the document's non-blank, whitespace-normalised
+   lines. Counts, not a set - a set cannot see that a line appearing three times
+   now appears once.
+2. Do the work.
+3. Re-capture and compare. Every line from the baseline must appear either in
+   the resulting document or in a **named migration target** you can point at.
+
+```bash
+# before
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/before.txt
+# after
+grep -v '^[[:space:]]*$' DOC.md | sed 's/[[:space:]]\+/ /g' | sort | uniq -c > /tmp/after.txt
+diff /tmp/before.txt /tmp/after.txt
+```
+
+**The baseline must be captured BEFORE the first edit.** Captured afterwards it
+proves nothing - it describes the document you already built, which is the exact
+trap that makes "I verified it" feel true while content is gone.
+
+A line legitimately removed is fine. A line you cannot account for is a defect,
+and this gate fails until you can name where it went.
 
 ## Quality Gate (Pass/Fail)
 Pass only when all checks are true:
+- [ ] Content Preservation Gate satisfied: every baseline line is present
+      in this document or in a named migration target.
 - [ ] Required section order exists and is complete.
 - [ ] Every C3 entry includes the minimum contract fields.
 - [ ] C1 call flows include concrete methods/functions/fixtures.
@@ -3660,6 +4472,7 @@ Pass only when all checks are true:
 - [ ] Information Sources support promoted FACT claims.
 
 ## Validation Commands
+- `rg -n '^#{1,6} .*[([][^)\]]*$' context_compass/system_docs/tests_components.md` - headings with an unclosed bracket, the usual sign of a wrap
 - `rg -n "^## " context_compass/system_docs/tests_components.md`
 - `rg -n "C3 Components|C2 Subcomponents|Method-Level Call Flows|C1 Code Map" context_compass/system_docs/tests_components.md`
 - `rg -n "path|start_line|end_line|loc|verified_at" context_compass/system_docs/tests_components.md`
@@ -3669,6 +4482,14 @@ Pass only when all checks are true:
 - Fixture or harness lifecycle changed.
 - Method-level test flow changed.
 - C1 ranges became stale from test-file edits.
+- `tests_architecture.md` changed boundaries or terminology.
+- `src_components.md` changed a component this document verifies. The source
+  map moving without the test map moving is the most common way these two drift.
+- `src_graph.md` changed because documented source wiring or ownership
+  relationships changed.
+- `src_graph_index.md` changed because canonical object relationships or
+  ownership moved.
+- Active component/code-description patch docs changed for the same patch id.
 
 ## Anti-Patterns (Reject)
 - Test component entries without lifecycle/ownership detail.
@@ -3701,7 +4522,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -3714,7 +4535,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -3737,14 +4558,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - scene_cut_add_log.md
 
 ## 6) References
-- agent_onboarding/default/developmental_editor/SKILLS.MD
-- agent_onboarding/default/developmental_editor/skills/developmental_editor.md
-- agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
-- agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md
+- `agent_onboarding/default/developmental_editor/SKILLS.MD`
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor.md`
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md`
+- `agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\README.md ---
 
-﻿# Developmental Editor Career
+# Developmental Editor Career
 
 Purpose
 - Diagnose structural failures and produce executable rewrite plans that raise narrative quality.
@@ -3789,14 +4610,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\SKILLS.MD ---
 
-# SKILLS.md - developmental_editor
+# SKILLS.MD - developmental_editor
 
 Purpose
 - Define required baseline skills for the developmental_editor role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -3809,15 +4630,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/developmental_editor/AGENTS.MD
-- agent_onboarding/default/developmental_editor/WORKFLOWS.MD
-- agent_onboarding/default/developmental_editor/skills/developmental_editor.md
-- agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md
-- agent_onboarding/default/developmental_editor/skills/developmental_editor_deliverables.md
-- agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md
-- agent_onboarding/default/developmental_editor/policies/developmental_editor_handoff_policy.md
-- agent_onboarding/default/developmental_editor/behavioral_guidelines/developmental_editor_workflow.md
-- agent_onboarding/default/developmental_editor/examples/developmental_editor_task_flow.md
+- `agent_onboarding/default/developmental_editor/AGENTS.MD`
+- `agent_onboarding/default/developmental_editor/WORKFLOWS.MD`
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor.md`
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md`
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor_deliverables.md`
+- `agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md`
+- `agent_onboarding/default/developmental_editor/policies/developmental_editor_handoff_policy.md`
+- `agent_onboarding/default/developmental_editor/behavioral_guidelines/developmental_editor_workflow.md`
+- `agent_onboarding/default/developmental_editor/examples/developmental_editor_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -3826,7 +4647,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires accelerated pre-release structural recovery.
 
 If triggered:
-- Read: agent_onboarding/default/developmental_editor/skills/developmental_editor_advanced_context.md
+- `agent_onboarding/default/developmental_editor/skills/developmental_editor_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\WORKFLOWS.MD ---
@@ -3849,7 +4670,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\behavioral_guidelines\developmental_editor_workflow.md ---
 
-﻿# developmental_editor_workflow
+# developmental_editor_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing developmental_editor tasks.
@@ -3875,7 +4696,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\examples\developmental_editor_task_flow.md ---
 
-﻿# developmental_editor_task_flow
+# developmental_editor_task_flow
 
 Scenario
 - Demonstrate a complete developmental_editor pass with artifacts and gate decisions.
@@ -3901,7 +4722,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\policies\developmental_editor_handoff_policy.md ---
 
-﻿# developmental_editor_handoff_policy
+# developmental_editor_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for developmental_editor.
@@ -3924,7 +4745,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\policies\developmental_editor_quality_policy.md ---
 
-﻿# developmental_editor_quality_policy
+# developmental_editor_quality_policy
 
 Purpose
 - Establish the quality bar for developmental_editor outputs.
@@ -3949,7 +4770,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\skills\developmental_editor.md ---
 
-﻿# developmental_editor
+# developmental_editor
 
 Purpose
 - Define role identity, responsibilities, and gate model for developmental_editor.
@@ -3988,7 +4809,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\skills\developmental_editor_advanced_context.md ---
 
-﻿# developmental_editor_advanced_context
+# developmental_editor_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for developmental_editor.
@@ -4008,7 +4829,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\skills\developmental_editor_deliverables.md ---
 
-﻿# developmental_editor_deliverables
+# developmental_editor_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for developmental_editor.
@@ -4036,7 +4857,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\developmental_editor\skills\developmental_editor_execution.md ---
 
-﻿# developmental_editor_execution
+# developmental_editor_execution
 
 Purpose
 - Define deterministic execution phases for developmental_editor.
@@ -4078,7 +4899,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -4091,7 +4912,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -4115,14 +4936,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - rewrite_resolution_log.md
 
 ## 6) References
-- agent_onboarding/default/draft_writer/SKILLS.MD
-- agent_onboarding/default/draft_writer/skills/draft_writer.md
-- agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
-- agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md
+- `agent_onboarding/default/draft_writer/SKILLS.MD`
+- `agent_onboarding/default/draft_writer/skills/draft_writer.md`
+- `agent_onboarding/default/draft_writer/skills/draft_writer_execution.md`
+- `agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\README.md ---
 
-﻿# Draft Writer Career
+# Draft Writer Career
 
 Purpose
 - Execute full manuscript drafts and rewrites while preserving architecture and canon integrity.
@@ -4168,14 +4989,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\SKILLS.MD ---
 
-# SKILLS.md - draft_writer
+# SKILLS.MD - draft_writer
 
 Purpose
 - Define required baseline skills for the draft_writer role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -4188,15 +5009,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/draft_writer/AGENTS.MD
-- agent_onboarding/default/draft_writer/WORKFLOWS.MD
-- agent_onboarding/default/draft_writer/skills/draft_writer.md
-- agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
-- agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md
-- agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md
-- agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md
-- agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md
-- agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md
+- `agent_onboarding/default/draft_writer/AGENTS.MD`
+- `agent_onboarding/default/draft_writer/WORKFLOWS.MD`
+- `agent_onboarding/default/draft_writer/skills/draft_writer.md`
+- `agent_onboarding/default/draft_writer/skills/draft_writer_execution.md`
+- `agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md`
+- `agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md`
+- `agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md`
+- `agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md`
+- `agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -4205,7 +5026,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires adaptation to strict word-count or serialization constraints.
 
 If triggered:
-- Read: agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md
+- `agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\WORKFLOWS.MD ---
@@ -4228,7 +5049,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\behavioral_guidelines\draft_writer_workflow.md ---
 
-﻿# draft_writer_workflow
+# draft_writer_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing draft_writer tasks.
@@ -4254,7 +5075,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\examples\draft_writer_task_flow.md ---
 
-﻿# draft_writer_task_flow
+# draft_writer_task_flow
 
 Scenario
 - Demonstrate a complete draft_writer pass with artifacts and gate decisions.
@@ -4281,7 +5102,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\policies\draft_writer_handoff_policy.md ---
 
-﻿# draft_writer_handoff_policy
+# draft_writer_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for draft_writer.
@@ -4304,7 +5125,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\policies\draft_writer_quality_policy.md ---
 
-﻿# draft_writer_quality_policy
+# draft_writer_quality_policy
 
 Purpose
 - Establish the quality bar for draft_writer outputs.
@@ -4329,7 +5150,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\skills\draft_writer.md ---
 
-﻿# draft_writer
+# draft_writer
 
 Purpose
 - Define role identity, responsibilities, and gate model for draft_writer.
@@ -4369,7 +5190,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\skills\draft_writer_advanced_context.md ---
 
-﻿# draft_writer_advanced_context
+# draft_writer_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for draft_writer.
@@ -4389,7 +5210,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\skills\draft_writer_deliverables.md ---
 
-﻿# draft_writer_deliverables
+# draft_writer_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for draft_writer.
@@ -4418,7 +5239,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\draft_writer\skills\draft_writer_execution.md ---
 
-﻿# draft_writer_execution
+# draft_writer_execution
 
 Purpose
 - Define deterministic execution phases for draft_writer.
@@ -4457,13 +5278,13 @@ Rules
 
 
 
-# AGENTS.md - Public Library Editing Contract
+# AGENTS.MD - Public Library Editing Contract
 
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -4488,7 +5309,7 @@ Specialized or user-biased behavior belongs in user-defined overlays.
 
 ## 3) Prime Bootstrap Policies Root-Migrated
 
-These directives are migrated from repository-root `agents.md` and are treated
+These directives are migrated from repository-root `AGENTS.MD` and are treated
 as top-priority bootstrap enforcement rules.
 
 ## 4) Critical Rule Always Enforced
@@ -4515,7 +5336,7 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
 * **Ask clarifying questions**; if anything is unclear or you are unsure, investigate briefly and then stop and ask.
 * **Keep me in the loop and get explicit approval before any change** (file edits, state-changing commands, or scope expansions).
 * Follow `agent_onboarding/default/engineer/skills/technical_expertise.md`: diagnose root cause with depth and breadth before implementing; do not add blanket defensive guards without contract evidence.
-* Use `SKILLS.md` and
+* Use `SKILLS.MD` and
   `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
   ticketing and formatting.
 * Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
@@ -4962,7 +5783,7 @@ Unknowns Gate
 
 
 
-# SKILLS.md - engineer
+# SKILLS.MD - engineer
 
 Purpose
 - Define required baseline engineering skills for the `engineer` role.
@@ -4992,8 +5813,9 @@ Required baseline skills
 - `agent_onboarding/default/engineer/skills/system_orientation.md`
 - `agent_onboarding/default/engineer/skills/documentation_standards.md`
 - `agent_onboarding/default/engineer/skills/context_protocol.md`
-- `agent_onboarding/default/engineer/skills/graph_details_usage.md`
-- `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md`
+- `agent_onboarding/default/engineer/skills/system_document_build.md`
 - `agent_onboarding/default/engineer/skills/patch_framework_gating.md`
 - `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md`
 - `agent_onboarding/default/engineer/skills/staleness_protocol.md`
@@ -5011,16 +5833,47 @@ Trigger conditions (any one makes these mandatory):
 - The task touches `system_docs/` or claims about system/runtime/test architecture are required.
 - You are changing cross-cutting behavior that depends on documented architecture or component boundaries.
 - The user explicitly requests an architecture/components/tests deep dive.
+- `system_docs/` is empty, or you cannot tell whether its contents describe this repository.
+- You are cleaning, upgrading, or preparing a Context Compass install for
+  distribution. Those operations delete and replace files, so the skill that
+  governs them is mandatory before you run either tool.
 
-If triggered, you MUST read the relevant items below (do not skip):
-- `system_docs/tests_architecture.md`
-- `system_docs/tests_components.md`
+If triggered, you MUST read:
+- `system_docs/system_docs_read_first.md`
+
+Then read whichever of these exist in THIS repository. None of them ship with the
+package, so in a fresh install there is nothing here to read:
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
+- `system_docs/tests_architecture.md`
+- `system_docs/tests_components.md`
+
 RAISE TO USER THE BELOW DOCUMENTS AND ASK IF REQUIRED TO READ:
-- `system_docs/readable_src_graph.json`
-- `system_docs/src_graph.json`
+- `system_docs/src_graph.md`
+
+If you are cleaning or upgrading an install:
+- `agent_onboarding/default/engineer/skills/package_maintenance.md`
+
+Note on a fresh install
+- **`system_docs/` ships empty.** The package does not seed architecture,
+  component, test or graph documents, because a shipped placeholder in a live
+  lane gets read as repository truth no matter what banner sits on top of it.
+- `examples/` is where the shape and quality bar live. Read the examples to learn
+  the format; write `system_docs/` from your own repository.
+- An empty `system_docs/` is the expected state of a new install, not a defect,
+  and not something to fill with invented content.
+- `system_docs/system_docs_read_first.md` is the entry point and explains the
+  order to build these in when the repository is ready.
+
+Note on the source graph
+- `system_docs/src_graph.md` and `system_docs/src_graph_index.md` are generated
+  per project by `tools/system_documents/python/` and are NOT shipped with this
+  package. A fresh install has neither.
+- If they are absent, that is expected. Do not treat their absence as a blocked
+  onboarding or a missing required read.
+- NEVER read `src_graph.md` in full. Read `src_graph_index.md`, verify it, and
+  slice only the sections you need. See
+  `agent_onboarding/default/engineer/skills/src_graph_usage.md`.
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\WORKFLOWS.MD ---
 
@@ -5097,7 +5950,7 @@ Story steps
 
 References
 - `AGENTS.MD`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/general/skills/workflow.md`
 
 
@@ -5106,77 +5959,81 @@ References
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\examples\artifact_workflow.md ---
 
-﻿# Engineer Example: Artifact Workflow
+# Engineer Example: Artifact Workflow
 
 Context
-- An engineer needs to harden Context Compass entrypoint wiring so each runtime package references only its native entrypoint.
+- An engineer needs to make control-file casing uniform so every role registry
+  and entrypoint resolves on a case-sensitive filesystem.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
 Scratch capture (workspace)
-- Path: `workspace/agent/ideas/context_compass_entrypoint_wiring.md`
+- Path: `workspace/agent/ideas/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
-# idea: context_compass_entrypoint_wiring
+# idea: context_compass_control_file_casing
 ## Why now
-- cross-runtime references confuse package consumers.
-- runtime-specific docs must be deterministic after copy/paste install.
+- mixed-case control files resolve on Windows and fail on Linux.
+- a readset path that fails to resolve blocks certification, not just a read.
 
 ## Early hypothesis
-- codex package should reference `AGENTS.MD` only.
-- gemini package should reference `GEMINI.MD` only.
+- every control file uses one casing convention: `SKILLS.MD`, `AGENTS.MD`,
+  `WORKFLOWS.MD`.
+- renaming the files is the small half; the reference sweep is the real work.
 
 ## Risk notes
-- broad search/replace can break role-level policy references.
-- docs can drift if validation commands are not captured.
+- a `*.md` glob silently skips `*.MD` files, so the sweep looks complete while
+  uppercase-named files keep the stale references.
+- case-only renames need `git mv --force` when `core.ignorecase` is true.
 
 ## Promote when
-- runtime-specific scans return zero cross-runtime tokens.
+- the registry, every `INHERITS_SKILLS_FROM` header, and every readset entry
+  agree on one casing.
 ```
 
-- Path: `workspace/agent/todo/context_compass_entrypoint_wiring.md`
+- Path: `workspace/agent/todo/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
-# todo: context_compass_entrypoint_wiring
-- [ ] inventory cross-runtime references
-- [ ] patch docs/examples/system docs to runtime-native entrypoints
-- [ ] validate role-level entrypoint files still resolve
+# todo: context_compass_control_file_casing
+- [ ] inventory every control-file reference, both extensions
+- [ ] rename the files, then sweep the references
+- [ ] prove every readset path still resolves
 ```
 
 Promote to ticket (curated)
-- Path: `tickets/stories/YYYY-MM-DD_context_compass_entrypoint_wiring_story.md`
+- Path: `tickets/stories/YYYY-MM-DD_context_compass_control_file_casing_story.md`
 - Example content:
 
 ```md
-# story: context_compass_entrypoint_wiring
+# story: context_compass_control_file_casing
 ## Goal
-- runtime packages reference only their native entrypoint documents
+- one casing convention for control files, with every reference agreeing
 
 ## Scope
-- top-level readme, system docs, and example docs wiring
+- role registry, role `SKILLS.MD` files, and every document that cites them
 
 ## Out of scope
 - role-policy redesign or behavior changes
 
 ## Files to touch
+- context_compass/SKILLS.MD
+- context_compass/agent_onboarding/*/*/SKILLS.MD
 - context_compass/README.md
 - context_compass/system_docs/src_architecture.md
-- context_compass/system_docs/src_components.md
-- context_compass/system_docs/readable_src_graph.json
-- context_compass/examples/repo_overview.md
 
 ## Risks
-- accidental deletion of required role-level references
-- malformed path rewrites in code-map sections
+- extension-filtered search hides references in uppercase-named files
+- blanket find/replace rewrites prose that names a retired file on purpose
 
 ## Tests
-- rg -n "GEMINI" src/codex/context_compass
-- rg -n "AGENTS" src/gemini/context_compass
+- every registry `skills path` resolves to a file on disk
+- every `extends` value matches the target's `INHERITS_SKILLS_FROM` header
+- zero occurrences of the retired casing outside generated bundles
 
 ## Done criteria
-- codex distribution has no GEMINI entrypoint references
-- gemini distribution has no AGENTS entrypoint references
+- registry parses, all roles resolve, all readset paths resolve
+- no remaining reference to the retired casing
 ```
 
 Strategy alignment
@@ -5184,27 +6041,28 @@ Strategy alignment
 - Path: active ticket `## Notes` (store rationale, evidence, and next actions)
 
 Tactics / runbook
-- Path: `tickets/tasks/YYYY-MM-DD_context_compass_entrypoint_wiring_task.md`
+- Path: `tickets/tasks/YYYY-MM-DD_context_compass_control_file_casing_task.md`
 - Example content:
 
 ```md
-# task: context_compass_entrypoint_wiring
+# task: context_compass_control_file_casing
 ## Preconditions
-- current entrypoint references are inventoried
+- current references are inventoried across both extensions
 - scope constrained to docs and policy wiring
 
 ## Steps
-1) patch runtime-specific references
-2) verify role-level entrypoint files remain valid
-3) run strict cross-runtime token scans
-4) document outcomes in ticket notes
+1) rename the control files
+2) sweep every reference, matching on lowercased suffix so uppercase-named
+   files are included
+3) re-resolve every readset path and every inheritance header
+4) document counts and outcomes in ticket notes
 ```
 
 Work queue conversion
 - When approved, convert the todo into a story/task ticket in `tickets/stories/` or `tickets/tasks/`.
 - Example work items (summarized):
-  - Task: remove cross-runtime top-level entrypoint references
-  - Task: validate role-chain entrypoint files after rewiring
+  - Task: rename control files to the single casing convention
+  - Task: sweep references and prove readset resolution after the rename
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\examples\eng_task_flow.md ---
 
@@ -5215,7 +6073,7 @@ Work queue conversion
 Context
 - The user asks for a small refactor with tests.
 - Follow `agent_onboarding/default/general/skills/workflow.md` and
-  `SKILLS.md` for ticketing and execution rules.
+  `SKILLS.MD` for ticketing and execution rules.
 
 Example flow (concise)
 1) Confirm scope and list files to be changed.
@@ -5270,15 +6128,15 @@ Engineer emphasis
 - Depth: specify invariants, inputs/outputs, and dependency rules.
 
 References
-- agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md
-- agent_onboarding/default/engineer/policies/engineer_quality_policy.md
+- `agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md`
+- `agent_onboarding/default/engineer/policies/engineer_quality_policy.md`
 
 
 
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\policies\ctx_autonomy_rubric.md ---
 
-﻿
+
 
 # ctx_autonomy_policy
 
@@ -5385,7 +6243,7 @@ Descriptive examples (score bands)
   - A (92): "Owns role-chain resolution; includes resolver map + inheritance-frame context; excludes runtime execution policy."
   - C (65): "Contains routing helpers." (no boundaries, no inventory alignment)
 - Component ctx example (B vs F)
-  - B (78): "Component: Context Compass router. Boundary: skills map + role config; depends on onboarding policy contracts; key flow: select profile -> resolve role chain -> enforce execution gates."
+  - B (78): "Component: role resolution. Boundary: the registry table and the resolved SKILLS chain; depends on onboarding policy contracts; key flow: select role -> resolve chain parent-first -> enforce execution gates."
   - F (20): "Everything in src/project." (overbroad, no citations, no boundaries)
 - Architecture ctx example (A vs C)
   - A (95): "Flow: onboarding -> role selection -> ticket execution -> compaction recovery. Non-goals: product runtime features. Integration boundaries: external callers interact through entrypoint policy files only."
@@ -5402,8 +6260,8 @@ Survey expectations (planned)
 - Use results to prioritize ctx improvement work.
 
 References
-- agent_onboarding/default/engineer/skills/context_protocol.md
-- agent_onboarding/default/engineer/skills/staleness_protocol.md
+- `agent_onboarding/default/engineer/skills/context_protocol.md`
+- `agent_onboarding/default/engineer/skills/staleness_protocol.md`
 
 
 
@@ -5466,9 +6324,9 @@ Required flow
   files first.
 - When the question is about object wiring, ownership, creation, publication,
   validation, or borrowing relationships, include:
-  - `context_compass/system_docs/graph_details_document.md`
-  - `context_compass/system_docs/readable_src_graph.json`
-  - `context_compass/system_docs/src_graph.json` when storage-level graph
+  - `context_compass/agent_onboarding/default/engineer/skills/src_graph_usage.md`
+  - `context_compass/system_docs/src_graph.md`
+  - `context_compass/system_docs/src_graph_index.md` when storage-level graph
     verification or regeneration mechanics are required
 - For system-impacting changes, apply the mandatory gate in
   `agent_onboarding/default/engineer/skills/patch_framework_gating.md` before
@@ -5484,7 +6342,7 @@ Rules
 - Always prefer documented context over assumptions.
 - Treat UNKNOWN as default until evidence is attached.
 - Keep architecture/components docs in sync with actual boundaries.
-- Treat `readable_src_graph.json` as the primary graph consumption surface when
+- Treat `src_graph.md` as the primary graph consumption surface when
   architecture/components context is required.
 - Block implementation when patch-framework entry-gate artifacts are missing for
   system-impacting work.
@@ -5617,458 +6475,6 @@ When a doc includes a Metadata block:
 - [ ] Information Sources list includes every file used as evidence
 
 
---- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\engineer.md ---
-
-
-
-# engineer skill - Public Library Editing Contract
-
-## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
-
-- Baseline certification is denied unless every path listed under **Active skills** / **Required baseline skills**
-  in the resolved `SKILLS.md` chain is read (parent-first).
-- On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
-- After any compaction/handoff, assume chat memory is unreliable:
-  - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
-  - You MUST NOT claim you "retained" this document; re-open it instead.
-
-
-## 1) Document Purpose
-
-This is a high-level reinforcer document that defines behavior expectations for
-the general layer.
-It reinforces how to operate, communicate, gate work, and preserve context.
-It is not a routing manifest and it does not replace router-driven
-role-resolution onboarding.
-
-## 2) Scope Directive
-
-This engineer-layer policy must comply with:
-- `context_compass/AGENTS.MD`
-- `context_compass/agent_onboarding/default/general/skills/general.md`
-
-Engineer-layer policy is for generalized programming behavior.
-Specialized or user-biased behavior belongs in user-defined overlays.
-
-
-## 3) Prime Bootstrap Policies Root-Migrated
-
-These directives are migrated from repository-root `agents.md` and are treated
-as top-priority bootstrap enforcement rules.
-
-## 4) Critical Rule Always Enforced
-
-If you do not know, **ask the user for instructions** and **get explicit confirmation before acting**.
-
-This repository is a **public library**. Code quality and documentation are first-class deliverables.
-
-## 5) Agent Engagement Policy Always Ask Recommend When Needed
-
-Before acting on anything **outside the explicitly agreed architectural plan**, you must:
-
-* code creation in 1 shot should be under 900 LOC as the system auto rejects so please iterate over your code push to a single file *
-* ** Propose Confirm Implement.** Restate the goal, constraints, and exact files/symbols to change.
-* You are ordered to think and act as a **collaborative partner** rather than a passive tool.
-* Work as an active technical partner with clear ownership and direct communication.
-* ***THINK LIKE A PERFORMANCE ENGINEER.*** Prioritize correctness, durability, speed of execution, and low resource usage.
-* Treat `context_compass/agent_onboarding/default/general/skills/execution_contract.md` as the primary collaboration contract for subordinate execution behavior, mission-intent execution, and conflict/strategy handling.
-* **Ask for directions** instead of assuming.
-* **Provide recommendations only when** there are real tradeoffs or when the user asks for options.
-* **Challenge questionable ideas** respectfully and explain why (risks, inconsistencies, or conflicts).
-* **Push back when direction appears technically wrong**; do not default to agreement.
-* **Ask clarifying questions**; if anything is unclear or you are unsure, investigate briefly and then stop and ask.
-* **Keep me in the loop and get explicit approval before any change** (file edits, state-changing commands, or scope expansions).
-* Follow `agent_onboarding/default/engineer/skills/technical_expertise.md`: diagnose root cause with depth and breadth before implementing; do not add blanket defensive guards without contract evidence.
-* Use `router.md` and
-  `agent_onboarding/default/general/skills/workflow.md` for epic/story/task
-  ticketing and formatting.
-* Use `agent_onboarding/default/general/skills/` for detailed policy modules (MRP, tone, context rituals).
-* Follow `agent_onboarding/default/general/SKILLS.MD` and
-  `agent_onboarding/default/engineer/SKILLS.MD` as primary onboarding and execution
-  standards.
-* Use `agent_onboarding/default/new/README.md` only for first-time `new`
-  onboarding setup.
-* Use `system_docs/src_architecture.md`, `system_docs/src_components.md`,
-  `system_docs/readable_src_graph.json`, `system_docs/tests_architecture.md`,
-  and `system_docs/tests_components.md` as required context for system
-  understanding and handoffs.
-
-Do not treat user ideas as gospel. Be curious, thoughtful, and explicit about uncertainties.
----
-
-## 6) Prime Directive Documentation-First Edits
-
-Whenever you add or modify code:
-
-* **Every class must have a rich docstring.**
-* **Every method/function must have a rich docstring.**
-* **Comments must be preserved and improved** when they are unclear or insufficient.
-* Treat docstrings and comments as part of the API: they must remain accurate.
-
----
-
-## 7) Non-Negotiables
-
-### 7.1) Preserve Documentation and Comments
-
-* **Never delete or strip docstrings.**
-* **Never delete comments.** If a comment is wrong, stale, or misleading, **update it** rather than removing it.
-* Only rewrite docstrings/comments for code you touched **unless** an untouched doc/comment is provably wrong or dangerously misleading.
-
-### 7.2) Rich Docstrings Required No Fluff
-
-This is not optional. For **all public classes and public methods**, write docstrings that include **real contracts**, not vibes.
-
-**Docstring style:** follow the repo's existing style (Google / NumPy / reST). If the repo has a pattern, match it exactly.
-
-**Minimum content for public API:**
-
-* **Purpose:** what it does and why it exists.
-* **Contract:** invariants / guarantees / side effects.
-* **Parameters:** meaning and constraints.
-* **Returns:** what is returned (or `None`).
-* **Raises:** what can be raised, and under what conditions.
-* **Threading / Concurrency:** locks, thread-safety, reentrancy, ordering (when relevant).
-* **Lifecycle / Cleanup:** ownership, idempotence, teardown ordering (when relevant).
-* **Examples:** only when it materially clarifies usage; keep short.
-* **Typing:** Always add typehints to signatures, and document complex types in the docstring if needed for clarity.
-
-**No fluff rule:** do not write marketing copy or filler sentences. If a docstring is "rich," it's because it contains **precise guarantees**.
-
-### 7.3) Documentation and Convention Precedence
-
-* Before making edits, read and follow existing repository conventions:
-  `README`, `CONTRIBUTING`, `docs/`, and any architecture/design notes.
-* Do not invent new conventions if the repo already has a pattern.
-* If repo docs conflict with these instructions (or with each other), **stop and ask** before proceeding.
-
-### 7.4) No Drive-By Refactors
-
-* Do **not** refactor unrelated code.
-* Do **not** rename symbols unless explicitly requested.
-* Do **not** reorder code for aesthetics.
-* Do **not** reformat files beyond what is required for the change.
-
-### 7.5) Reviewability and Change Hygiene
-
-* Keep changes **reviewable**.
-* Avoid touching large numbers of files in one change unless explicitly requested.
-* When a large change is required, group it by a clear boundary (module/dir) and apply a consistent rule.
-
-### 7.6) Mechanical Sweeps Repo-Wide Imports Class Vars Headers
-
-For repo-wide mechanical edits (e.g., "add this import everywhere", "add a class variable to every class"):
-
-* Prefer generating a deterministic **codemod script** (or equivalent automated edit) rather than manually editing N files.
-* The codemod must be safe, predictable, and reviewable.
-* The goal is to avoid partial application, missed files, and "creative" edits.
-
-### 7.7) Manual-First for Complex Behavior
-
-* Prefer **hand-written code** for important or complex behavior changes.
-* Only use scripts for **simple mechanical refactors** (e.g., renaming variables, adding imports).
-* Do not use scripts to define or generate complex behaviors.
-
-### 7.8) Method Size Discipline
-
-* Prefer methods/functions around **50-60 LOC max** (counting code only; exclude
-  docstrings, signatures, and blank lines).
-* Split long methods into smaller, testable helpers with clear contracts.
-* Do not fragment code if it reduces clarity; prioritize readable, cohesive units.
-
-### 7.9) Validation Truthfulness
-
-* **Never claim tests/lint/type-checks were run unless they were actually run.**
-* If validation is skipped, say explicitly: **"Not run."**
-* If fast checks exist, recommend the exact commands - but do not pretend they happened.
-
-### 7.10) Public API Guardrail
-
-* Do not change **public API shape or semantics** unless explicitly requested.
-* If a public change is unavoidable, prefer:
-
-  * backwards-compatible adapters/shims, and/or
-  * explicit deprecation paths with documentation.
-* Interfaces may be exposed in public APIs when they mirror the concrete
-  runtime classes. If an interface is exposed, the runtime object must be the
-  concrete implementation and the interface must stay in lockstep with it.
-
----
-
-## 8) Operating Protocol How You Should Work
-
-### 8.1) Propose Confirm Implement
-
-Before making non-trivial edits:
-
-1. Restate the goal in **3-5 bullets**.
-2. List the constraints you will obey (especially docstrings/comments and no-drive-by refactors).
-3. List the **exact files / symbols** you will modify.
-
-If any of the above is uncertain, **stop and ask** before editing.
-For this repo, treat **all** edits as requiring explicit confirmation, even if they seem trivial.
-
-### 8.2) Scope Control
-
-* Stay within the declared files/symbols.
-* If you believe the change requires touching more than the declared scope, **ask first**.
-
-### 8.3) Documentation Ritual
-
-As a ritual, after implementing a change:
-
-* Re-read the docstrings/comments you touched.
-* Improve them for clarity and completeness (without fluff).
-* Ensure they match the new behavior exactly.
-
-### 8.4) Question-First Clarity
-
-* If anything is unclear or uncertain, investigate briefly and then stop and ask.
-* Prefer asking clarifying questions over making assumptions.
-* Keep me updated on intent, progress, and blockers.
-
-### 8.5) Architecture and Components Docs Required
-
-* Read C4/C3/C2/C1 docs in `system_docs/` when architecture/components/tests
-  claims are required by the active task.
-* Use ASCII and Mermaid diagrams for readability.
-* Keep information sources, invariants, and lifecycle notes current as the system evolves.
-
----
-
-## 9) Stop Conditions Ask Before Proceeding
-
-Ask for explicit confirmation if any of these are true:
-
-* You want to touch **many files** (repo-wide sweeps) and no codemod approach was approved.
-* You want to rename/move files or symbols.
-* You want to change public API shape or semantics.
-* You want to introduce new dependencies or tooling.
-* You want to change formatting across files.
-
----
-
-## 10) Testing Discipline Unit-First Component-Second Integration-Third
-
-We are building confidence, not just coverage. **All changes must be accompanied by tests** unless explicitly exempted.
-
-### 10.1) What We Value in Tests Ranked
-
-If you take nothing else from this section, take this:
-
-> **A test is valuable if it would fail for a real regression and would *not* fail for a harmless refactor.**
-
-Here is the ranking we use when judging test quality. Higher ranks are strictly preferred.
-
-#### Rank S - System Contract Tests (Highest Value)
-
-These tests prove end-to-end correctness of a *meaningful* contract boundary without re-implementing the system.
-
-**Signals:**
-
-* Exercises real wiring across multiple components (minimal real set).
-* Catches regression in control flow, data flow, and lifecycle behavior.
-* Fails for real breakage, not for refactors.
-
-**Examples:**
-
-* A "root revalidation" flow that uses real blueprints and validates outcomes.
-* A concurrency primitive integration test that proves ordering/invariants.
-
-> Use these sparingly and intentionally. They cost more to maintain.
-
-#### Rank A - Behavioral Unit Contract Tests (High Value)
-
-These are the backbone of the repo: small tests that validate contracts, invariants, and error behavior.
-
-**Signals:**
-
-* Asserts behavior through **public methods** and **documented outputs**.
-* Validates meaningful branches and error paths.
-* Avoids coupling to private fields/implementation details.
-
-**Examples:**
-
-* "Given these inputs, return/raise exactly X."
-* "After cleanup, public methods raise or behave as documented."
-* "Last-write-wins semantics for a registry."
-
-#### Rank B - State Transition Tests (Medium-High Value)
-
-Tests that validate a clear state machine / lifecycle, especially around concurrency and cleanup.
-
-**Signals:**
-
-* Proves valid transitions and prevents illegal transitions.
-* Focuses on lifecycle invariants (cleaned vs active, idempotence, ordering).
-* Uses introspection APIs (`describe()`, snapshots) rather than poking raw private fields.
-
-#### Rank C - Collaboration/Boundary Mock Tests (Medium Value)
-
-These validate that we call collaborators correctly. They're useful when the collaborator is expensive, external, or nondeterministic.
-
-**Signals:**
-
-* Mocks are used at **real boundaries** (I/O, network, filesystem, subprocess, time, OS).
-* Asserts calls that matter (ordering, arguments, exactly-once / at-most-once) *when that is part of the contract*.
-
-**Warning:**
-
-* These become brittle if you over-specify calls.
-
-#### Rank D - Regression Reproduction Tests (Targeted Value)
-
-A test that exists to lock down a specific bug. Great when it's truly a regression guard.
-
-**Signals:**
-
-* Title references the bug symptom.
-* Minimal reproduction.
-* Assertions match the corrected behavior.
-
-#### Rank E - Line-Coverage Fillers (Low Value)
-
-Tests that exist mainly to execute lines but don't assert meaningful behavior.
-
-**Signals:**
-
-* Asserts "it didn't crash" with no contract outcome.
-* Asserts values that are incidental.
-
-> We avoid these unless they are stepping stones toward higher-rank tests.
-
-#### Rank F - Attribute/Existence Checks (Very Low Value)
-
-This is the bottom. These tests almost always waste time and fail for harmless refactors.
-
-**Examples (bad):**
-
-* `assert obj._some_private_field is not None` (unless the field is part of a documented public contract, which is rare)
-* `assert hasattr(obj, "x")` / `assert "x" in obj.__dict__` / `assert isinstance(obj._pending_changes, dict)`
-
-**Why this is bad:**
-
-* Doesn't prove correctness.
-* Over-couples tests to implementation.
-* Encourages "coverage mirage."
-
-**Only acceptable when:**
-
-* The attribute is explicitly part of a public, documented contract (rare), or
-* You are validating cleanup nulling **as part of a lifecycle safety contract** and there is no better public signal.
-
-### 10.2) Rules Unit Tests First Mock and Isolated
-
-The default approach is **mocked / isolated unit tests**.
-
-* **Mock external boundaries** (I/O, filesystem, network, subprocesses, clocks, OS calls, databases, thread scheduling, random sources).
-* Validate **contracts** (inputs/outputs/raises), **invariants**, and **side effects** (including cleanup ordering) at the smallest reasonable unit.
-* Prefer **contract-level assertions** over implementation-detail assertions.
-* Avoid flakiness: tests must run reliably on repeated runs.
-
-#### Contract-level assertion checklist
-
-When writing a unit test, you should be able to answer "yes" to most of these:
-
-* The test asserts an observable outcome (return, raise, snapshot, or state transition).
-* The test would fail if a real regression happened.
-* The test would still pass after a harmless refactor (renaming locals, reordering statements, or changing internal data structures).
-* Mocks are only used at true boundaries.
-* Assertions focus on *behavior* rather than "internal shape".
-
-If not, the test is probably Rank E/F.
-
-### 10.3) Integration Tests Second Only When Needed
-
-Integration tests are required when behavior cannot be proven safely via mocks/unit tests.
-
-Use integration tests when at least one is true:
-
-* Correctness depends on real interactions across multiple components (e.g., concurrency scheduling, orchestration behavior, serializer/codec correctness across layers).
-* Mocking would require re-implementing the system under test or would make the test meaningless.
-* The integration is the contract (e.g., plugin wiring, adapter boundaries, real concurrency primitives).
-
-Rules for integration tests:
-
-* Keep them **scoped**: integrate only the minimal set of real components needed.
-* Make them **explicit**: use clear naming and markers (e.g., `@pytest.mark.integration`) if the repo uses them.
-* Ensure they remain **repeatable** and not environment-dependent unless explicitly documented.
-
-### 10.4) Coverage Target 95 Percent or Higher Non-Negotiable
-
-#### Agent Execution Constraint (Read Carefully)
-
-AI agents **cannot truthfully confirm** repository-wide coverage levels (including the =95% target) unless the **user** runs the test suite and reports the result.
-
-* Agents must **not** claim coverage numbers.
-* If the user asks whether tests or coverage were run, the only valid answer is **"Not run."**
-
-#### Agent Policy: Prefer Test Density Now; Verify Coverage Later
-
-In the agent environment, **coverage measurement is treated as a follow-up step** that the **user** performs. Agents should **default** to producing a strong test suite using the density heuristic, and then **ask the user to verify =95% coverage later**.
-
-**Default Path - Test Density (Preferred for Agent Work):**
-
-Use this path unless the user explicitly provides coverage output.
-
-* **Baseline density:** target **= 10 tests per 100 LOC** for the changed/covered module(s).
-* **Dense / high cyclomatic complexity code:** increase target to **= 20 tests per 100 LOC** when the code shows any of the following:
-
-  * high cyclomatic complexity (many branches/guards)
-  * heavy error-path logic
-  * concurrency / locking / ordering constraints
-  * lifecycle/cleanup state machines
-  * non-trivial invariants (dirty tracking, revalidation, promotion semantics)
-
-These are heuristics - not a license to create filler tests. Every test must still meet the quality criteria below.
-
-**Follow-Up Path - Coverage Verification (User-Run, Later):**
-
-* Target: **= 95% line coverage** for the relevant package/module(s).
-* Requirement: the **user** runs the suite and reports the output.
-* Agent reporting: if the user has not run it, you must say **"Not run."** and you must not guess.
-
-If the user reports coverage below target, agents should add tests by increasing **branch/error/lifecycle** coverage - not by adding filler assertions.
-
-We target **= 95% line coverage** across the library.
-
-* Heuristic: we want at least **10 tests per 100 LOC**, but do not game it. If you have 95 percent or higher coverage but fewer than 10 tests per 100 LOC, that's acceptable.
-* Coverage must not be "gamed" (no meaningless tests whose only purpose is to execute lines).
-
-**Where we focus coverage:**
-
-* Public API contracts
-* Critical branching logic
-* Error paths
-* Lifecycle/cleanup behavior
-* Concurrency-sensitive behavior (as testable)
-
-If a component cannot reasonably hit the coverage target (rare), document the reason and the mitigation (integration coverage, property tests, or explicit exclusion with rationale) **and ask before applying exclusions**.
-
-### 10.5) Truthful Validation Reporting
-
-When reporting validation status:
-
-* Only claim unit/integration/coverage runs if you actually ran them.
-* If not run, say **"Not run."**
-* If recommending commands, be specific and repo-consistent. Do not invent a workflow that contradicts repository docs.
-
-### 10.6) Fixing Broken Base Code While Writing Tests
-
-If you find mistakes while writing tests (bugs, incorrect docstrings, missing cleanup, race conditions):
-
-* Raise them as issues rather than fixing them silently.
-* If you have explicit permission to fix them, follow all rules in this document (docstrings, cleanup, scope control, tests).
-* Do not fix unrelated mistakes outside your declared scope.
-* If the mistakes block your work, explain the situation and ask for guidance.
-
----
-
-## 11) Test Mocks Skills
-
-For reusable test-only classes and helpers, see `tests/mocks/`.
-
-
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\engineer_execution.md ---
 
 
@@ -6130,302 +6536,203 @@ References
 - `agent_onboarding/default/engineer/skills/patch_framework_gating.md`
 - `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md`
 
---- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\graph_details_readable_generation.md ---
+--- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\package_maintenance.md ---
 
-# graph_details_readable_generation
+# package_maintenance
 
-## Purpose
-- Define the canonical one-time generation method for:
-  - `context_compass/system_docs/readable_src_graph.json`
-- Keep the recipe in Markdown only.
-- Do not add or keep a repo script file for this workflow.
+Purpose
+- Define how to clean an install back to shipping state and how to upgrade one
+  to a newer version of the package without destroying local work.
 
-## When To Use
-- `readable_src_graph.json` is missing.
-- `src_graph.json` changed and the readable file is stale.
-- An agent needs to recreate the readable graph view from canonical storage.
+When this applies
+- You are preparing the package for distribution.
+- One project's content has ended up inside another install.
+- A newer version of Context Compass needs to be rolled into an existing repo.
 
-## Required Contract
-- Source:
-  - `context_compass/system_docs/src_graph.json`
-- Output:
-  - `context_compass/system_docs/readable_src_graph.json`
-- Width:
-  - `220` characters maximum when a safe delimiter break exists
-- Transform rule:
-  - read the compressed canonical JSON as raw text
-  - do not semantically reshape or pretty-print the JSON
-  - only insert line breaks
-  - only break at safe non-string delimiters
-- Persistence rule:
-  - keep the recipe in Markdown only
-  - do not store a `.ps1`, `.sh`, or other code file in the repo for this
-    workflow
+This is not the ticket cleanup workflow. `agent_onboarding/default/general/workflows/cleanup_context_compass.md`
+closes tickets and syncs boards. The tools here delete and replace files.
 
-## Safe Break Rule
-Break only when not inside a JSON string and only after these delimiters:
-- `,`
-- `{`
-- `}`
-- `[`
-- `]`
+## The manifest is the contract
 
-This keeps the output valid JSON while making it line-readable.
-
-## PowerShell Recipe
-Use this as a one-time inline command block, not as a saved script file:
-
-```powershell
-$source = 'codex/context_compass/system_docs/src_graph.json'
-$output = 'codex/context_compass/system_docs/readable_src_graph.json'
-$width = 220
-$raw = Get-Content $source -Raw
-$sb = New-Object System.Text.StringBuilder
-$current = New-Object System.Text.StringBuilder
-$inString = $false
-$escaped = $false
-$lastSafeBreak = -1
-
-function Flush-Line {
-    param([string]$Text)
-    $null = $sb.Append($Text)
-    $null = $sb.Append("`r`n")
-}
-
-for ($i = 0; $i -lt $raw.Length; $i++) {
-    $ch = $raw[$i]
-    $null = $current.Append($ch)
-
-    if ($inString) {
-        if ($escaped) {
-            $escaped = $false
-        } elseif ($ch -eq '\') {
-            $escaped = $true
-        } elseif ($ch -eq '"') {
-            $inString = $false
-        }
-    } else {
-        if ($ch -eq '"') {
-            $inString = $true
-        }
-        if ($ch -eq ',' -or $ch -eq '{' -or $ch -eq '}' -or $ch -eq '[' -or $ch -eq ']') {
-            $lastSafeBreak = $current.Length - 1
-        }
-    }
-
-    if ($current.Length -ge $width -and $lastSafeBreak -ge 0) {
-        $line = $current.ToString().Substring(0, $lastSafeBreak + 1)
-        Flush-Line $line
-        $remainder = $current.ToString().Substring($lastSafeBreak + 1)
-        $current.Clear() | Out-Null
-        $current.Append($remainder) | Out-Null
-        $lastSafeBreak = -1
-    }
-}
-
-if ($current.Length -gt 0) {
-    Flush-Line $current.ToString()
-}
-
-Set-Content -Path $output -Value $sb.ToString() -Encoding utf8
-```
-
-## Bash Recipe
-Use this as a one-time inline command block, not as a saved script file:
+`MANIFEST.md` records, for every file the package ships: its path, its ownership
+class, and its sha256. It is generated, never hand-edited - a hand-maintained
+version stamp drifts the moment someone forgets to bump it, and a stamp that
+lies looks exactly like one that does not.
 
 ```bash
-python - <<'PY'
-from pathlib import Path
-
-source = Path("codex/context_compass/system_docs/src_graph.json")
-output = Path("codex/context_compass/system_docs/readable_src_graph.json")
-width = 220
-raw = source.read_text(encoding="utf-8")
-
-lines = []
-current = []
-in_string = False
-escaped = False
-last_safe_break = -1
-
-def flush(text: str) -> None:
-    lines.append(text)
-
-for ch in raw:
-    current.append(ch)
-
-    if in_string:
-        if escaped:
-            escaped = False
-        elif ch == "\\":
-            escaped = True
-        elif ch == "\"":
-            in_string = False
-    else:
-        if ch == "\"":
-            in_string = True
-        if ch in ",{}[]":
-            last_safe_break = len(current) - 1
-
-    if len(current) >= width and last_safe_break >= 0:
-        flush("".join(current[: last_safe_break + 1]))
-        current = current[last_safe_break + 1 :]
-        last_safe_break = -1
-
-if current:
-    flush("".join(current))
-
-output.write_text("\n".join(lines) + "\n", encoding="utf-8")
-PY
+python context_compass/tools/package_manifest.py --root context_compass --version 2.1.0
+python context_compass/tools/package_manifest.py --root context_compass --check
 ```
 
-## Validation
-PowerShell:
+Regenerate it in the same pass as any change to package files. `--check` reports
+added, removed and changed paths without writing.
 
-```powershell
-Get-Content codex/context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
-$max = (Get-Content codex/context_compass/system_docs/readable_src_graph.json | ForEach-Object { $_.Length } | Measure-Object -Maximum).Maximum
-$max
-```
+## Ownership classes
 
-Bash:
+| class | who owns it | cleanup | update |
+| --- | --- | --- | --- |
+| `PACKAGE` | the library | restore | replace |
+| `RESET` | the project (tickets, artifacts, system docs, project instructions) | reset mode only | never touched |
+| `INSTANCE` | the project (`agent_onboarding/user_defined/`) | never touched | never touched |
+| `LIVE` | shared: package block + project rows | block reset | block swapped |
+| `CONFIG` | shared: package schema + project values | left alone | keys merged |
+
+Class is assigned by longest path prefix, so a `PACKAGE` directory can still hold
+a `RESET` subtree. That is not hypothetical - a real cleanup found five foreign
+scripts sitting inside `tools/`, which is package-owned.
+
+## Cleaning an install
 
 ```bash
-python - <<'PY'
-from pathlib import Path
-import json
-
-path = Path("codex/context_compass/system_docs/readable_src_graph.json")
-data = json.loads(path.read_text(encoding="utf-8"))
-max_len = max((len(line) for line in path.read_text(encoding="utf-8").splitlines()), default=0)
-print("OK_READABLE_JSON")
-print(f"MAX_LINE_LEN\t{max_len}")
-PY
+python context_compass/tools/cleanup_context_compass.py \
+    --target  path/to/install/context_compass \
+    --reference path/to/clean/context_compass \
+    --mode repair --check
 ```
 
-## Edge Case
-If one individual JSON token or string literal is itself longer than `220`
-characters, safe delimiter-only reflow cannot keep that specific line under
-`220` without changing the JSON payload. In that case:
-- keep the readable file valid JSON
-- accept the overrun temporarily
-- shorten the underlying graph text later if the width contract truly matters
+Two modes, because "clean" means two different things:
 
-## Handoff Rule
-When you regenerate the readable graph, report:
-- source file used
-- output file written
-- max line length observed
-- whether JSON validation passed
+- **`--mode repair`** fixes a broken install and leaves the project's work alone.
+  Use this on a live repository.
+- **`--mode reset`** returns the working lanes to shipping state. Use this when
+  preparing a release or stripping one project's content out.
 
---- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\graph_details_usage.md ---
+Reset empties `system_docs/`, `tickets/` and `artifacts/`. On a live repository
+that deletes the architecture maps, tickets and findings the project wrote.
+**Run `--check` first, every time.** The tool refuses to act without `--apply`.
 
-# graph_details_usage
+`system_docs/` ships EMPTY - the package seeds no architecture, component, test
+or graph document, because a placeholder in a live lane gets read as repository
+truth. `examples/` is the shape reference. Neither tool ever writes into
+`system_docs/` or `agent_onboarding/user_defined/`.
 
-## Purpose
-- Define how engineers read and use the canonical graph-details manifest:
-  - `context_compass/system_docs/readable_src_graph.json`
-- Keep the graph useful as a fast relationship map without treating it as a
-  replacement for architecture/components docs.
+### Cutting a release from a working install
 
-## When To Use
-- You need to understand object wiring fast.
-- You need to know who owns lifecycle vs who only borrows a reference.
-- You need to know what creates, validates, publishes, binds, or queries what.
-- You need a structural map before opening deep code paths.
+`--mode reset` clears the working lanes but deliberately leaves role overlays
+under `agent_onboarding/user_defined/` alone, because they belong to whoever
+wrote them. A release should not ship them either, so there is one explicit
+opt-in:
 
-Scope rule:
-- `src_graph.json` is the compressed storage artifact for a source-runtime graph.
-- `readable_src_graph.json` is the primary line-based consumption artifact.
-- Do not expect `tests/` objects or test harness relationships inside it.
-- Use `tests_architecture.md` and `tests_components.md` for the test-side model.
+```bash
+python context_compass/tools/cleanup_context_compass.py \
+    --target ./release/context_compass --reference ./context_compass \
+    --mode reset --purge-user-defined --check
+```
 
-## Required Read Order
-When relationship questions are in scope:
-1. `context_compass/system_docs/readable_src_graph.json`
-2. `context_compass/system_docs/graph_details_document.md`
-3. `context_compass/system_docs/src_architecture.md`
-4. `context_compass/system_docs/src_components.md`
-5. `context_compass/system_docs/src_graph.json` only when storage verification
-   or raw canonical checks matter
+`--purge-user-defined` is never implied by `--mode reset`. Deleting someone's
+role because they asked to tidy a lane would break the invariant the class
+exists to protect, so it has to be asked for by name. Without the flag the tool
+still tells you which overlays it found and which roles they belong to.
 
-Use the readable graph first for fast orientation.
-Use architecture/components docs for the full narrative and deeper lifecycle
-detail.
+### Config drift
 
-## Primary Consumption Rule
-- Read `readable_src_graph.json` in bounded line chunks.
-- Treat `src_graph.json` as storage, not as the normal reading surface.
-- Use `src_graph.expanded.json` only when editing or doing full patch review.
+Config is never rewritten by cleanup. When its manifest hash does not match, the
+tool reports which top-level keys you added, removed, or retuned against the
+shipped defaults:
 
-## How To Read The Graph
-Read nodes first:
-- `id`
-  - canonical object identity
-- `label`
-  - short name
-- `kind`
-  - class/component/interface/module
-- `file`
-  - where it lives
-- `role`
-  - what it is
-- `responsibilities`
-  - what it does
-- `owns_state`
-  - what important state/resources it owns
-- `phases`
-  - when it matters
+```
+config    your `config/context_compass_config.yaml` differs from stock:
+            keys you added:      our_own_section
+            values you changed:  system_of_record, workflow
+```
 
-Read edges second:
-- `relation`
-  - the relationship type
-- `why`
-  - what that relationship actually means
-- `cardinality`
-  - how many of the target exist from the source perspective
-- `phase`
-  - when the relationship matters
-- `strength`
-  - hard ownership vs borrowed/soft coupling
+That is the answer to "how does mine differ from stock", and it is why the
+manifest bothers to record a hash for a file it never enforces. A hash nothing
+checks is the same dead weight as a version stamp nothing bumps.
 
-## Interpretation Rules
-- `owns_lifecycle_of`
-  - hard lifecycle responsibility
-- `borrows`
-  - uses a collaborator without owning cleanup
-- `creates`
-  - construction responsibility
-- `validates`
-  - validation responsibility
-- `publishes`
-  - publication or projection responsibility
-- `binds`
-  - workstation/binding-canvas or similar binding responsibility
+Order of operations inside the tool matters and is deliberate: remove foreign
+files, prune directories that are now empty, then re-materialise every manifest
+path. Pruning last leaves stale empty directories; pruning without the final
+restore loses lanes whose only content was a `.gitkeep`.
 
-## Conflict Handling
-If graph, architecture/components docs, and source disagree:
-- treat the graph as stale
-- do not promote the graph claim to fact by itself
-- reopen architecture/components docs and then source
-- patch the graph only after the real relationship is evidenced
+## Upgrading an install
 
-## Rules
-- The graph is a fast relationship surface, not a narrative system doc.
-- Do not use the graph alone for deep implementation claims.
-- Do not infer absent relationships; if it is not in the graph and not in the
-  docs, treat it as `UNKNOWN`.
-- Prefer the graph when the question is structural and the docs when the
-  question is narrative or lifecycle-heavy.
-- Prefer `readable_src_graph.json` over `src_graph.json` for all line-based
-  reading.
+```bash
+python context_compass/tools/update_context_compass.py \
+    --install path/to/install/context_compass \
+    --new     path/to/new/context_compass \
+    --check
+```
 
-## References
-- `context_compass/system_docs/readable_src_graph.json`
-- `context_compass/system_docs/graph_details_document.md`
-- `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
-- `context_compass/system_docs/src_architecture.md`
-- `context_compass/system_docs/src_components.md`
+The decision is made from three hashes, not one:
+
+| current vs shipped | new vs shipped | verdict |
+| --- | --- | --- |
+| same | changed | replace |
+| same | same | skip |
+| changed | same | keep the local edit |
+| changed | changed | **conflict** - reported, not touched |
+
+One hash tells you a file changed. It cannot tell you who changed it, and that is
+the only thing that decides whether overwriting is safe. Without the shipped hash
+from the install's own manifest, rows three and four are indistinguishable from
+row one, so you either clobber local edits or never update anything.
+
+Conflicts are never merged automatically. A merge is a guess, and a wrong guess
+destroys work quietly. Resolve them by hand, or pass `--force-conflicts` to take
+the new version and lose the local edit knowingly.
+
+### Upgrading an install that predates the manifest
+
+An older install has no `MANIFEST.md`, so there are no shipped hashes and a local
+edit is indistinguishable from an upstream change. The tool does not guess. It
+reports **every** differing file as a conflict, still skips files that match, and
+still adds new ones:
+
+```
+NOTE: <install> has no MANIFEST.md, so this is its first manifest-aware upgrade.
+  replace   0
+  skip    331   already current
+  conflict  3   BOTH changed - not touched
+```
+
+Review the conflicts, then re-run with `--force-conflicts` to take the package
+version wholesale. Either way the upgrade writes the new manifest, so the next
+upgrade is a normal three-hash comparison and this only happens once.
+
+Project-owned lanes are untouched throughout: `system_docs/`, `tickets/`,
+`artifacts/` and `user_defined/` survive a forced upgrade intact.
+
+## Live files and managed blocks
+
+The boards carry a package-owned directive above project-owned rows. The package
+region is delimited:
+
+```markdown
+<!-- BEGIN MANAGED: ReminderDirective -->
+...package text, replaced wholesale on upgrade...
+<!-- END MANAGED: ReminderDirective -->
+```
+
+Only that region is swapped. Routing rows survive an upgrade. This is the same
+marker convention as patch document `ENTRY` markers, deliberately - one dialect,
+one parser. Malformed or unterminated markers refuse the operation rather than
+guessing where the boundary was.
+
+## Config
+
+Merged key by key, never swapped wholesale. New top-level keys arrive with their
+package defaults and their explanatory comments; a value already set is never
+overwritten; keys dropped upstream are reported rather than deleted.
+
+The merge is deliberately not a YAML round-trip. Parsing and re-emitting would
+reformat the file and drop the user's comments, which is a worse outcome than
+leaving a key unmerged and saying so.
+
+## Anti-patterns
+
+- Running `--mode reset` on a live repository without `--check` first.
+- Comparing paths instead of content. A path-only diff reports a tree as correct
+  while another project's boards and system documents sit at package paths.
+- Hand-editing `MANIFEST.md`.
+- Treating a conflict as something to resolve by picking the newer file.
+- Upgrading without regenerating the manifest afterwards, which leaves the
+  install claiming a version it is not.
+
+References
+- `agent_onboarding/default/general/workflows/cleanup_context_compass.md` (ticket
+  cleanup, a different operation with a similar name)
+- `agent_onboarding/default/engineer/skills/staleness_protocol.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\patch_artifact_consumption.md ---
 
@@ -6516,7 +6823,7 @@ When this gate applies
 - The task changes code that requires updates to `system_docs/src_architecture.md`
   or `system_docs/src_components.md`.
 - The task changes source wiring/ownership enough that
-  `system_docs/readable_src_graph.json` must be refreshed.
+  `system_docs/src_graph.md` must be refreshed.
 - The user explicitly requests patch-based planning/governance.
 
 Non-negotiable entry gate
@@ -6573,6 +6880,329 @@ References
 - `agent_onboarding/default/general/skills/ticket_closure_attention_sync.md`
 - `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md`
 
+--- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\src_graph_generation.md ---
+
+
+# src_graph_generation
+
+Purpose
+- Define how to BUILD and MAINTAIN the assembled source graph.
+
+## The pipeline
+
+Two stages, two scripts, both stdlib-only:
+
+```
+tools/system_documents/python/extract_graph.py     source tree -> per-file descriptors
+tools/system_documents/python/assemble_graph.py    descriptors -> src_graph.md + index
+```
+
+```bash
+python context_compass/tools/system_documents/python/extract_graph.py \
+    --src src --out context_compass/system_docs/graph
+
+python context_compass/tools/system_documents/python/assemble_graph.py \
+    --descriptors context_compass/system_docs/graph \
+    --out context_compass/system_docs
+```
+
+`--check` on either script reports without writing. Run it before assuming the
+graph is current.
+
+The layout is `tools/system_documents/<language>/`. The descriptor contract is
+language-neutral; only the extractor is Python-specific. A sibling directory can
+implement the same contract for another language.
+
+## Why per-file descriptors
+
+The unit is the source file, because that is the unit that changes.
+
+Earlier drafts sharded a single generated blob by namespace and bin-packed it to
+a line budget. That produced unstable boundaries - adding one node reflowed the
+packer and silently moved unrelated nodes between shards - and meaningless
+names. Anchoring to the source path fixes both: a file is a file, its descriptor
+mirrors its path, and touching one file dirties exactly one descriptor.
+
+It also makes the size problem disappear. Source files are already
+human-sized, so descriptors are too: median 43 lines, p90 83, none over 400,
+with no budget parameter anywhere.
+
+## The three tiers, and who owns them
+
+This is the contract that makes regeneration safe.
+
+| tier | owner | fields |
+|---|---|---|
+| mechanical | the script | `id`, `label`, `kind`, `file`, `lineno`, `bases`, `markers`, `public_methods`, `shape`, `source_sha256`, `specializes`/`implements` edges |
+| curation | authored | `include` |
+| semantics | authored | `role`, `responsibilities`, `owns_state`, `phases`, `edges_authored` |
+
+**On re-run the script refreshes tier 1 and never touches tiers 2 and 3.** That
+is verified behaviour, not an intention - inject an authored field, re-run, and
+it survives.
+
+## The authored schema
+
+These are the fields you may populate. Nothing generates them and nothing
+validates them, so this list is the contract.
+
+### Node fields
+
+| field | shape | meaning |
+|---|---|---|
+| `include` | bool | belongs in the composed graph. Absent means "not triaged", which is not the same as `false`. |
+| `role` | prose, one line | what this object is for. |
+| `responsibilities` | list of short phrases | what it is on the hook for. |
+| `owns_state` | list of attribute names | fields whose lifecycle it controls. |
+| `phases` | list | when in its life it matters: `init`, `validation`, `runtime`, `refresh`, `cleanup`. Open set - add one if your system needs it, but reuse these first. |
+
+### Edge fields, under `edges_authored`
+
+| field | shape | rendered |
+|---|---|---|
+| `from` | node id | yes, table |
+| `to` | node id | yes, table |
+| `relation` | `owns_lifecycle_of`, `uses`, `borrows`, `holds`, `owns`, `used_by` | yes, table |
+| `cardinality` | `one_to_one`, `one_to_many`, `many_to_one` | yes, table |
+| `phase` | list, same vocabulary as node `phases` | yes, table |
+| `why` | prose, one or two sentences | yes, beneath the table |
+| `strength` | `hard`, `borrowed`, `soft` | **no - see below** |
+
+**`strength` is stored and deliberately not rendered.** Measured against a
+hand-authored graph of 997 edges it is ~97% recoverable from `relation`:
+`hard` is the ownership relations, `borrowed` is the reference relations. A
+column that restates the column beside it costs space and adds nothing. Keep
+populating it if your tooling consumes it; the document will not show it.
+
+**`why` is rendered because it is the justification for a claim the extractor
+says it cannot make.** An authored `owns_lifecycle_of` asserts ownership where
+the syntax tree shows only a reference. Recording why, and showing it, is the
+difference between evidence and assertion. It sits beneath the table so the
+table stays scannable.
+
+The prose does not cost you a whole-document read, because there is no such
+thing here: you read the index and slice one section. A few extra lines inside
+the one section you asked for is not a cost worth optimising against.
+
+## What the script cannot do, and why
+
+Do not expect the extractor to produce a finished graph. Measured against a
+hand-authored graph of 535 nodes and 997 edges:
+
+- node identity: **94%** recovered (matching on file + label)
+- `specializes` edges: **94%** recovered with fully-qualified ids on both ends
+- edge target resolution via imports: **99%**
+- **68% of all edges are not derivable at all**
+
+`owns_lifecycle_of` (205 edges), `uses` (323), and `borrows` (119) are
+syntactically identical. Every one is "A holds a reference to B". Whether A owns
+B's lifecycle, merely uses it, or borrows it without owning is a design fact
+that does not appear anywhere in the source text. The same is true of every
+`role`, `why`, `cardinality`, and `strength`.
+
+Curation is equally underivable. The best syntactic significance rule tested
+would have suppressed 419 nodes while wrongly dropping 63 that the reference
+graph deliberately includes. So the script emits inventory and records `shape`
+signals; the `include` field is authored. Emitting a node the author can reject
+is recoverable. Silently withholding one they wanted is not.
+
+## Maintenance loop
+
+When you change a source file:
+
+1. Re-run `extract_graph.py`. Only that file's descriptor changes.
+2. Read the drift report. It names nodes that are `NEW`, `ORPHANED` (gone from
+   source but still carrying authored semantics), or `UNSEMANTIC`.
+3. Author the semantics for anything new. Resolve orphans by hand - the script
+   will not delete authored prose on your behalf.
+4. Re-run `assemble_graph.py` to rebuild the document and index together.
+
+Never regenerate one without the other. They are only guaranteed consistent
+because a single pass emits both.
+
+## The index is a byproduct
+
+`assemble_graph.py` knows each section's line range because it emitted those
+lines. It does not re-parse the document to find headings.
+
+That removes a whole class of drift. An index generated by re-walking a
+document can disagree with the document, and the only defence is a hash. Here
+they cannot disagree. The hash is still recorded, but it guards a different
+failure: someone hand-editing the assembled file.
+
+Every range is verified against its own header on every run. An off-by-one here
+silently corrupts every downstream read, so it is checked rather than trusted.
+
+## What this replaced
+
+The two generated JSON graph files - a readable graph of 776 KB and a raw graph
+of 768 KB - are retired. Together they were 1,544 KB that had to be read whole
+or not at all, because a JSON object has no addressable interior.
+
+The replacement is 972 KB of Markdown plus a 62 KB index, and a typical query
+reads a 20-40 line slice.
+
+**If you arrive holding a graph in the retired format, do not run the two-command
+sequence and hope.** Only `specializes` and `implements` are mechanical, so a
+naive re-extraction marks every node `UNSEMANTIC` and drops every authored edge.
+Measured on a mature graph that was 84% of its edges. The rule generalises: the
+better your existing graph, the more the naive path destroys, because a mature
+graph is edge-richer than a young one. Carry the authored tier across by node id
+first, then by `(file, label)`, before you assemble anything.
+
+## Anti-patterns
+
+- Hand-editing `src_graph.md` or `src_graph_index.md`. Edit descriptors, reassemble.
+- Regenerating the document without the index, or the reverse.
+- Deleting a descriptor whose node still carries authored semantics.
+- Filtering descriptor files by filename prefix. An earlier version of the
+  assembler skipped anything starting with `_` to avoid manifests, and silently
+  swallowed 14 real files including `__init__.py` and every dunder module. A
+  prefix is a naming convention, not a type.
+- Promoting an edge candidate to an edge without reading the code.
+
+References
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `agent_onboarding/default/engineer/skills/staleness_protocol.md`
+- `agent_onboarding/default/engineer/skills/context_protocol.md`
+
+--- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\src_graph_usage.md ---
+
+
+# src_graph_usage
+
+Purpose
+- Define how to READ the assembled source graph without loading all of it.
+
+## What the graph is
+
+Two files under `system_docs/`:
+
+- `src_graph.md` - one section per source file, each delimited by an HTML
+  comment naming that file.
+- `src_graph_index.md` - the exact line range of every section, plus a
+  staleness proof.
+
+Both are generated. Never hand-edit either one; see
+`agent_onboarding/default/engineer/skills/src_graph_generation.md`.
+
+## The read order (non-negotiable)
+
+1. Read `src_graph_index.md`. It is small - about 3% of the document's lines,
+   6% of its bytes.
+2. **Verify it is current** (next section).
+3. Find the row for the source file you care about.
+4. Read only that line range out of `src_graph.md`.
+
+Do not read `src_graph.md` in full. On the reference codebase it is 20,261
+lines against a 602-line index; a single file's section is typically 20-40
+lines. Reading the whole document to answer a question about one file costs
+roughly 500x what the answer needs.
+
+Do not scan the document for `BEGIN FILE` markers instead of using the index.
+The index is authoritative, it was emitted by the same pass that wrote the
+document, and scanning defeats the entire point of having ranges.
+
+## Verify before you slice
+
+The index records what the document was when it was generated:
+
+| field | how to verify |
+|---|---|
+| `line_count` | recount the document's lines |
+| `content_sha256` | rehash the document's exact bytes |
+| `line_ending` | split on THAT terminator, always `lf` here |
+
+On any mismatch the document was hand-edited or the pipeline was interrupted.
+**STOP. Do not slice.** Regenerate, or read the file directly and say which you
+did. A range from an unverified index is a guess wearing a line number.
+
+```python
+import hashlib, pathlib, re
+
+doc = pathlib.Path("context_compass/system_docs/src_graph.md")
+idx = pathlib.Path("context_compass/system_docs/src_graph_index.md").read_text(encoding="utf-8")
+
+raw = doc.read_bytes()
+claimed_lines = int(re.search(r"line_count \| (\d+)", idx).group(1))
+claimed_hash = re.search(r"content_sha256 \| `([0-9a-f]{64})`", idx).group(1)
+
+lines = raw.decode("utf-8").split("\n")
+if lines and lines[-1] == "":
+    lines.pop()
+
+if len(lines) != claimed_lines or hashlib.sha256(raw).hexdigest() != claimed_hash:
+    raise SystemExit("INDEX STALE - refusing to slice; regenerate the graph")
+```
+
+## Selecting what to read
+
+Each index row is `| lines | source | nodes | edges |`. The `edges` count covers
+both derived and authored edges, matching what that section's `Edges out` table
+renders. Edge candidates are not counted - they are guesses, not edges.
+
+- **Working one file**: match `source` against its path, read that range.
+- **Working a subsystem**: match `source` against the directory prefix and read
+  each matching range. Rows are ordered by source path, so a subsystem's files
+  are contiguous.
+- **Following a relationship**: a section's `Edges out` table gives fully
+  qualified target ids. Map the id back to a path and look that row up.
+- **Finding what points AT something**: the per-file sections carry outbound
+  edges only. Inbound edges are not answerable from one section - you must
+  either scan the index-selected sections you care about, or accept that
+  reverse lookup is the one query this layout does not make cheap.
+
+## What each section contains
+
+- `source_sha256` of the source file at generation time. If you are reasoning
+  about current code, check it against the file on disk.
+- **Nodes**: id, kind (`module`, `class`, `interface`, `abstract`, `enum`,
+  `record`), definition line, bases, markers, public methods, and the authored
+  fields (`role`, `responsibilities`, `owns_state`, `phases`) when present.
+- **Edges out**: one table, six columns - `from`, `relation`, `to`,
+  `cardinality`, `phase`, `origin`. Derived edges (`specializes`, `implements`)
+  carry `-` in the two authored columns, because those are design facts the
+  extractor cannot produce. A row of dashes is not missing data; it is the graph
+  telling you nobody has authored that relationship's semantics yet.
+- **Why lines**: beneath the table, one per authored edge that carries a `why`.
+  This is the justification for a claim the syntax tree cannot support - an
+  authored `owns_lifecycle_of` asserts ownership where the AST shows only a
+  reference. Read it before relying on the edge.
+- **Edge candidates**: AST instantiation guesses. **Unconfirmed.** These
+  over-generate roughly 8x against a hand-authored graph. Treat them as leads,
+  never as evidence.
+- **Published aliases**: module-level `Alias = Class` bindings, which are the
+  names consumers actually import.
+
+## Trust boundaries
+
+Read every section with this in mind:
+
+- Node identity, `bases`, and `specializes` are **mechanical** - derived from
+  the syntax tree, measured at 94-98% agreement with a hand-authored graph.
+- `role`, `responsibilities`, `owns_state`, `phases`, and any edge marked
+  `authored` are **authored** by an agent or human who read the code.
+- A node marked **UNSEMANTIC** has scaffold only. Its structure is trustworthy;
+  its meaning has not been established. Do not infer purpose from a name.
+- Edge candidates are **guesses**.
+
+Cite what you read with `path:start_line-end_line` against `src_graph.md`, the
+same evidence convention used everywhere else in this repository.
+
+## Anti-patterns
+
+- Reading `src_graph.md` in full when the index would answer the question.
+- Slicing without verifying `line_count` and `content_sha256` first.
+- Treating an edge candidate as a real relationship.
+- Treating an UNSEMANTIC node's name as a description of its purpose.
+- Quoting a `source_sha256` as proof the code is current without comparing it
+  to the file on disk.
+
+References
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md`
+- `agent_onboarding/default/engineer/skills/context_protocol.md`
+- `agent_onboarding/default/general/skills/configuration_standards.md`
+
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\staleness_protocol.md ---
 
 
@@ -6599,7 +7229,7 @@ Noise control
 Enforcement rule
 - Do not handwave around stale docs; update canonical `system_docs/` files
   (`src_architecture.md`, `src_components.md`, `tests_architecture.md`,
-  `tests_components.md`, `readable_src_graph.json`) when boundaries,
+  `tests_components.md`, `src_graph.md`) when boundaries,
   invariants, or documented source wiring change.
 
 Example transitions
@@ -6610,11 +7240,299 @@ Example transitions
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.md`
 - `system_docs/tests_architecture.md`
 - `system_docs/tests_components.md`
 
 
+
+--- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\system_document_build.md ---
+
+
+# system_document_build
+
+Purpose
+- Define the authoring format for `src_components.md` and `src_architecture.md`.
+- Define how their indexes are built and kept current.
+
+## These documents are AUTHORED, not generated
+
+There is no build step and no codegen. `src_components.md` is the file you edit
+directly. Nothing assembles it from pieces, and no script writes its prose.
+
+That is not a convenience choice, it is a limit. A component's responsibilities,
+its ownership boundaries, and why it exists cannot be derived from source. The
+same wall that makes `owns_lifecycle_of` and `borrows` indistinguishable to a
+parser makes "this component admits transactions into scope" underivable. If a
+tool could write it, it would not be worth reading.
+
+The only generated artifact is the **index**: a table of line ranges that lets a
+reader slice the document instead of loading all of it.
+
+| document | authored | generated |
+|---|---|---|
+| `src_components.md` | the document | `src_components_index.md` |
+| `src_architecture.md` | the document | `src_architecture_index.md` |
+| `src_graph.md` | nothing | the whole thing - see `src_graph_generation.md` |
+
+## Why format matters
+
+The index is only as useful as the document's heading structure, because
+headings are the only thing it can cut on. This is about **addressability**, not
+size: a section that cannot be named cannot be requested, however short it is.
+
+**Every navigable unit needs its own heading at a predictable level.** If four
+components share one heading, the index cannot offer them separately and a
+reader wanting one must read all four.
+
+**Names are the query.** `--slice` matches on the section name, so a section
+called `Overview` in a document holding six overviews is unaddressable even
+though it is indexed. Name sections after the thing they describe.
+
+**Avoid container headings that hold nothing but other headings.** Indexing a
+production `src_components.md` produces a `C3 Components Catalog` section of
+**1,945 lines**: it wraps 24 components, so
+its range spans all of them. An entry like that defeats the index while
+appearing to use it, because a reader who selects it loads 37% of the document
+believing they sliced it. Containers are fine as organisation; just never select
+one when a child would do.
+
+The same trap one level up is the document title, which is why the indexer omits
+a lone `#` heading entirely.
+
+## Heading shape: `src_components.md` and `tests_components.md`
+
+**This skill does not declare which sections a document contains, or which
+fields a component entry carries.** Those are the Required Section Contract and
+the Component Entry Contract, and they live in the four `*_instructions.md`
+skills. This skill covers only the heading structure the indexer depends on -
+restating the section list here would create a second authority, and two lists
+drift the moment one is edited.
+
+```markdown
+# <document title>                   <- exactly one H1
+
+## <front matter sections>           <- H2, per the Required Section Contract
+
+## C3 Components Catalog             <- H2: container. Never the read target.
+
+### Component: <Name>                <- H3: THE navigable unit. One per component.
+- <fields, per the Component Entry Contract>
+
+## C2 Subcomponents Catalog
+
+### Subcomponent: <Name>             <- H3, same shape
+```
+
+Rules that the index depends on:
+
+- **Exactly one H1.** More than one and the indexer cannot identify the title,
+  so it stops omitting it and you get a section spanning the whole file.
+- **Every component is an H3**, never H2 and never H4. Mixed depth means mixed
+  granularity in the index.
+- **`Component: ` / `Subcomponent: ` prefixes are load-bearing.** They are how a
+  reader greps the index for units rather than front matter.
+- **Names are unique and stable.** The index is selected on name; two components
+  with the same name are indistinguishable to a consumer.
+- **`Key Files (C1)` lists real `src/...` paths.** This is the join to
+  `src_graph.md`, and it measured 98% resolvable on the reference project. Break
+  it and component-to-graph navigation stops working.
+
+## Heading shape: `src_architecture.md` and `tests_architecture.md`
+
+Same rules, one difference: the navigable unit is an **H2 concern**, not an H3
+component, because architecture sections cut across components rather than
+describing one each. These documents have no container heading at all - every H2
+is selectable.
+
+```markdown
+# <document title>                   <- exactly one H1
+
+## <Concern>                          <- H2: the navigable unit
+### <Sub-topic>                       <- H3: optional, indexed too
+```
+
+The source-side and test-side documents at each level are mirrors: same section
+contract, same heading shape, same index shape. If a test document's structure
+diverges from its source counterpart, the divergence is the defect.
+
+Every system document gets an index. There is no size below which one is
+skipped: the index is not a size optimisation, it is how a document becomes
+addressable. A small document with an index can be sliced by name; a small
+document without one can only be read whole.
+
+Section lists and entry fields:
+- `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
+- `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
+- `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
+- `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
+
+## Patch documents: explicit ENTRY markers
+
+Patch documents under `system_docs/patches/` do not section cleanly by heading.
+Each entry is a distinct revision of a named thing, and heading depth carries no
+meaning there - two revisions of the same component are peers regardless of how
+deep their headings happen to sit.
+
+So patches declare their boundaries instead of implying them:
+
+```markdown
+<!-- BEGIN ENTRY: "PipelineScope: stage admission" -->
+## Revision 1
+
+Introduces `PipelineScope` as the single admission point for stage
+registration. Callers stop constructing `Stage` directly.
+
+- affects: `src/example/pipeline/`
+- risk: high, changes an admission gate
+<!-- END ENTRY: "PipelineScope: stage admission" -->
+```
+
+**The name in the marker is the point.** It moves verbatim into the index, so a
+row identifies the object it covers:
+
+```
+| lines | lvl | name |
+| 6-14  | 1   | PipelineScope: stage admission |
+| 16-23 | 1   | StoreHandle: contract delegation |
+```
+
+A row keyed by a number tells a reader nothing about whether to read it. Every
+index this system produces is keyed by a name - breadcrumb path for authored
+documents, source path for the graph, entry name for patches. There are no
+anonymous rows anywhere, and there must not be.
+
+Rules:
+
+- `BEGIN ENTRY` and `END ENTRY` are HTML comments, so they do not render.
+- Quotes around the name are optional; the name is trimmed either way.
+- `END ENTRY` may repeat the name or omit it. If it repeats it, it must match.
+- Entries do not nest. Opening one while another is open is an error.
+- **Malformed markers refuse to index.** Unbalanced or mismatched markers are
+  reported and nothing is written. A silently repaired boundary produces a range
+  that looks correct and covers the wrong text.
+
+Markers work in any document. `--mode auto` (the default) uses them when
+present and falls back to headings when not, so a document that adopts markers
+gets entry-based sectioning with no flag change.
+
+## Building the index
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_components.md
+
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_architecture.md
+
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/patches/active/<patch_id>/architecture_patch.md
+```
+
+`--max-level` sets the deepest heading indexed (default 3). `--mode` forces
+`heading` or `entry` sectioning. `--check` verifies the existing index is
+current and writes nothing - run it before trusting any range.
+
+The tool **never modifies the document**. It reads, validates, and writes
+`<stem>_index.md` beside it.
+
+It refuses two targets outright, because it writes and a wrong target does not
+produce a confusing message you shrug off - it produces a plausible file that
+replaces a correct one:
+
+- **an `*_index.md` file.** Indexing an index yields `<stem>_index_index.md`,
+  which addresses nothing.
+- **an assembled graph** (any document containing `<!-- BEGIN FILE:`). Its index
+  is a byproduct of assembly and cannot disagree with it. Re-indexing here would
+  re-parse headings and overwrite that with a weaker index keyed by heading
+  breadcrumb rather than source path. Run `assemble_graph.py`.
+
+Both refusals came from doing it: a convenience glob over `examples/example_*/*.md`
+swept in the generated graph and every existing index, overwrote the graph's
+byproduct index, and left ten junk files behind. The counts caught it, not the
+output - which is the argument for the refusal being in the tool rather than in a
+sentence someone is supposed to remember.
+
+Every range is validated against its own heading before anything is written. An
+off-by-one silently corrupts every downstream read, so it is checked rather than
+trusted, and a failed validation writes nothing.
+
+## Slicing: how the index is consumed
+
+An index exists to be sliced. The workflow is three steps, and step two is not
+optional:
+
+1. Find the section by NAME in the index.
+2. Verify the index is current.
+3. Read only those lines.
+
+The tool does all three:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/system_docs/src_components.md \
+    --slice "Router and Role Resolution"
+```
+
+It verifies `line_count` and `content_sha256` against the index ON DISK before
+returning anything, and prints the range as a header so the output carries its
+own citation:
+
+```
+<!-- src_components.md:74-94  C3 Components Catalog > Component: Router and Role Resolution Engine -->
+### Component: Router and Role Resolution Engine
+- Purpose: resolve the selected role chain deterministically.
+...
+```
+
+That is real output from the document shipped in this package - run the command
+and you get it back.
+
+Behaviour that matters:
+
+- **A stale index refuses to slice.** Edit the document without regenerating and
+  you get `INDEX STALE - refusing to slice`, not wrong content.
+- **An ambiguous name lists the candidates rather than guessing.** Asking for
+  `Catalog` against the shipped `src_components.md` matches 7 sections; it prints them
+  with their ranges so you can narrow.
+- **A missing index refuses too.** Generate before you slice.
+
+This is why section names must be unique and descriptive. `--slice` matches on
+the name, so the name is the query - a section called `Overview` in a document
+with six overviews is unaddressable.
+
+## Regenerate whenever the document changes
+
+The index records `line_count`, `content_sha256`, and `line_ending`. Insert one
+line near the top and every range below it is wrong - while the index still
+parses, still looks plausible, and still returns content. It returns the WRONG
+content, confidently.
+
+So: edit the document, regenerate the index, in the same pass. A consumer that
+finds a mismatch must refuse to slice; see
+`agent_onboarding/default/engineer/skills/src_graph_usage.md` for the
+verification procedure, which is identical.
+
+## Anti-patterns
+
+- Generating any part of these documents. They are authored.
+- Hand-editing an index. Regenerate it.
+- Editing the document and leaving the index stale.
+- Selecting a container section (`C3 Components Catalog`) when a component
+  section would answer the question.
+- Adding a second H1, or nesting components at inconsistent depths.
+- Renaming a component without checking who cited it.
+- Omitting `Key Files (C1):`, which silently severs the join to `src_graph.md`.
+- Restating a section list or entry contract here. This skill owns heading shape
+  and index mechanics; the `*_instructions.md` skills own what goes in them.
+
+References
+- `system_docs/system_docs_read_first.md` (what a fresh install is allowed to be
+  missing, and which example docs set the bar before you author anything)
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md`
+- `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
+- `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\engineer\skills\system_orientation.md ---
 
@@ -6635,20 +7553,22 @@ Required behavior
 - Read the required docs before explaining how the system works:
   - `AGENTS.MD`
   - `config/context_compass_config.yaml`
-  - `SKILLS.md`
+  - `SKILLS.MD`
   - `agent_onboarding/default/general/SKILLS.MD`
   - `agent_onboarding/default/engineer/SKILLS.MD`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 
 Core references
+- Fresh-install posture for `system_docs/`: `system_docs/system_docs_read_first.md`
+  (read this before asserting that a context map is missing or wrong)
 - Agent stories: `agent_onboarding/default/general/behavioral_guidelines/README.md`
 - Ticketing: `agent_onboarding/default/general/skills/workflow.md` and
   `templates/`
 - Architecture context: `system_docs/src_architecture.md`
 - Components context: `system_docs/src_components.md`
-- Graph context: `system_docs/readable_src_graph.json`
-- Graph workflow context: `system_docs/graph_details_document.md`
+- Graph context: `system_docs/src_graph.md`
+- Graph workflow context: `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
 - Active patch docs (when patch lane is active):
@@ -6756,7 +7676,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -6866,7 +7786,7 @@ As a ritual, after implementing a change:
 * If investigation must expand beyond the current subsystem or exceed
   `workflow.ticket_microcycle.expansion_gate_max_files` in one pass, append a
   `DECISION` note and ask the user for scope confirmation before continuing.
-* Follow `SKILLS.md` and
+* Follow `SKILLS.MD` and
   `agent_onboarding/default/general/skills/workflow.md` for the deep
   descriptive format and tracking model.
 * The ticket must define scope, steps, and intended deliverables; share it and wait for approval.
@@ -6915,8 +7835,8 @@ Ask for explicit confirmation if any of these are true:
 ## General Directory Coverage Contract
 
 This section defines why the general layer matters.
-It does not define read order or routing; that belongs to `SKILLS.md` and
-resolved role `SKILLS.md` files.
+It does not define read order or routing; that belongs to `SKILLS.MD` and
+resolved role `SKILLS.MD` files.
 
 ### 8) Importance Of General Layer Policies
 
@@ -7039,7 +7959,7 @@ Unknowns Gate
 
 
 
-# SKILLS.md - general
+# SKILLS.MD - general
 
 Purpose
 - Define active baseline skills for the `general` role.
@@ -7053,6 +7973,7 @@ Activation rule
 
 Active skills
 - `agent_onboarding/default/general/AGENTS.MD`
+- `agent_onboarding/default/general/skills/general.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/policies/policy_skills.md`
@@ -7062,6 +7983,7 @@ Active skills
 - `agent_onboarding/default/general/skills/career_selection.md`
 - `agent_onboarding/default/general/skills/mrp_policy.md`
 - `agent_onboarding/default/general/skills/configuration_standards.md`
+- `agent_onboarding/default/general/skills/package_upgrade.md`
 - `agent_onboarding/default/general/skills/context_gold.md`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 - `agent_onboarding/default/general/skills/repo_topology.md`
@@ -7179,17 +8101,15 @@ Checklist (short form)
    - Read `AGENTS.MD` and any directory-local `AGENTS.MD` in scope.
 2) Read onboarding entrypoints
    - `config/context_compass_config.yaml`
-   - `context_compass/SKILLS.md`
+   - `context_compass/SKILLS.MD`
 3) First-time user path only (`new` profile)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
 4) Select working role
+   - Read the registry table in `context_compass/SKILLS.MD` for the current
+     role list. Do not rely on a role list copied into any other document.
    - Read `agent_onboarding/default/general/SKILLS.MD` first.
-   - Read the selected role `SKILLS.md` after baseline (for example:
-     `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
-     `security_engineer`, `story_designer`, `story_novel_artist`,
-     `researcher`, `draft_writer`, `developmental_editor`,
-     `line_copy_editor`, `continuity_fact_checker`, `proofreader`).
+   - Read the selected role `SKILLS.MD` chain after baseline, parent-first.
 5) Certification gate
    - Request approval before any tool usage or edits.
    - Approval must include the exact token `CERTIFY: APPROVED`.
@@ -7204,7 +8124,7 @@ Checklist (short form)
 References
 - `AGENTS.MD`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 
 
 
@@ -7221,7 +8141,7 @@ Primary guides
 - `agent_lifecycle_and_heartbeat.md`
 
 Use these as behavior deltas.
-Policy and routing authority remain in entrypoint, config, and `SKILLS.md` chain.
+Policy and routing authority remain in entrypoint, config, and `SKILLS.MD` chain.
 
 --- START OF FILE: context_compass\agent_onboarding\default\general\behavioral_guidelines\work_intake_and_execution.md ---
 
@@ -7262,150 +8182,12 @@ Artifacts touched
 - `tickets/tasks/completed/`
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/general/skills/workflow.md`
 
 
 
 
-
-
---- START OF FILE: context_compass\agent_onboarding\default\general\policies\policy_router.md ---
-
-
-
-# policy_router
-
-Purpose
-- Enforce the policy chain so edits stay deterministic and reviewable.
-
-When to use
-- At the start of every session and before editing in a new directory.
-
-Canonical Contract (from AGENTS.MD)
-This repository is a **public library**. Code quality and documentation are first-class deliverables.
-
-Placement
-- Keep `AGENTS.MD` at the repository root.
-- Per-directory variants are allowed when explicitly needed.
-
-Certification gate (mandatory)
-- Complete onboarding skills and request approval.
-- Require the approval message to include the exact token `CERTIFY: APPROVED` and the execution environment (`active` or `inactive`).
-- Do not use tools or edit files until the user provides both the approval token and the environment.
-- Git commands are active-only; skip git workflows when the environment is `inactive`.
-
-Required flow
-- Read `AGENTS.MD` and directory-local `AGENTS.MD` (if present).
-- Read
-  `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
-  in full immediately after `AGENTS.MD`.
-- Follow role `SKILLS.md` routing from:
-  - `context_compass/SKILLS.md`
-  - `router.roles.<selected_role>` in `context_compass/config/context_compass_config.yaml`
-  - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
-- For first-time `new` profile setup, follow
-  `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
-- Apply README policy from config:
-  - `router.profile_readme_policy.new: true`
-  - non-new profiles do not require README reads.
-- For onboarding/re-onboarding, complete role-driven onboarding reads from:
-  - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
-- Use manual source-document reads for onboarding; do not use onboarding dump artifacts as policy input.
-- After any compaction/handoff/fresh-session re-entry, complete the same full readset before any non-onboarding action.
-- Read `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
-  and apply its active-partner + performance-engineering rules.
-- Route active work from
-  `context_compass/attention_board.md`
-  and keep detailed state in ticket `## Notes`.
-- Use the Ticket Microcycle with meaningful-finding note gates during execution.
-- Use `tickets/epics/`, `tickets/stories/`, and `tickets/tasks/` tickets for all planned work.
-- For code-engineering tasks, hand off to engineer profile docs after general
-  onboarding:
-  - `agent_onboarding/default/engineer/skills/context_protocol.md`
-  - `agent_onboarding/default/engineer/skills/staleness_protocol.md`
-  - `agent_onboarding/default/engineer/skills/technical_expertise.md`
-
-Truthfulness rule
-- Never claim tests or checks ran unless they actually ran.
-
-Secrets policy (non-negotiable)
-- Never place secrets in the repo or in tickets/docs.
-- If a user requests storing secrets in-repo, refuse and request a safe alternative.
-
-Documentation and Convention Precedence
-- Before making edits, read and follow existing repository conventions:
-  `README`, `CONTRIBUTING`, `docs/`, and any architecture/design notes.
-- Do not invent new conventions if the repo already has a pattern.
-- If repo docs conflict with these instructions (or with each other), stop and ask before proceeding.
-
-Unknowns Gate
-- Apply the canonical policy in
-  `agent_onboarding/default/general/skills/unknowns_gate_reference.md`.
-- UNKNOWN remains the default for unevidenced claims in this policy.
-- Routing decisions (scope, onboarding completeness, stale-doc status) must be
-  evidence-backed; if verification is incomplete, route as UNKNOWN and block
-  downstream synthesis until verified.
-- Policy conflicts must include explicit evidence and impact statements before
-  requesting user resolution.
-
-Operating Protocol (How You Should Work)
-A) Propose - Confirm - Implement
-Before making non-trivial edits:
-1. Restate the goal in 3-5 bullets.
-2. List the constraints you will obey (scope, policy, and workflow gates).
-3. List the exact files / symbols you will modify.
-   If any of the above is uncertain, stop and ask before editing.
-
-B) Scope Control
-- Stay within the declared files/symbols.
-- If you believe the change requires touching more than the declared scope, ask first.
-
-C) Documentation Ritual
-As a ritual, after implementing a change:
-- Re-read touched policy docs, ticket notes, and board rows.
-- Ensure state, evidence, and next actions are accurate and current.
-
-Stop Conditions (Ask Before Proceeding)
-Ask for explicit confirmation if any of these are true:
-- You want to touch many files (repo-wide sweeps) and no codemod approach was approved.
-- You want to rename/move files or symbols.
-- You want to change public API shape or semantics.
-- You want to introduce new dependencies or tooling.
-- You want to change formatting across files.
-
-Summary
-* This is a public library.
-* Documentation is part of the API.
-* Do precise, scoped edits.
-* Keep onboarding, certification, and ticket routing deterministic.
-
-Order of authority (highest to lowest)
-1) AGENTS.MD and any other known AGENTS.MD read by you.
-2) SKILLS.md and any other SKILLS.md read by you
-3) EXAMPLE DOCUMENTATION
-4) Repo documentation (README, docs/)
-5) Code (last resort)
-
-Operational guidance (enriched)
-- Do not improvise conventions; mirror the skills and examples.
-- Treat skills as the executable version of policy.
-- Use examples as canonical style references, not suggestions.
-- Keep scope minimal and reviewable; do not widen without approval.
-- If a change implies touching many files or renames, ask first.
-
-Workflow
-1) Check for AGENTS.override.md in the target directory.
-2) Read AGENTS.MD to confirm non-negotiables.
-3) Read the specific skills for the change type.
-4) Review relevant examples and mirror the pattern.
-5) If work is code-engineering, continue with engineer profile docs before
-   implementation.
 
 
 --- START OF FILE: context_compass\agent_onboarding\default\general\policies\policy_skills.md ---
@@ -7439,23 +8221,23 @@ Required flow
 - Read
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
   in full immediately after `AGENTS.MD`.
-- Follow role `SKILLS.md` routing from:
-  - `context_compass/SKILLS.md`
-  - roles map in
-    `context_compass/config/context_compass_config.yaml`
-  - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
+- Follow role `SKILLS.MD` routing from:
+  - `context_compass/SKILLS.MD` - the single role registry; the registry table
+    is the only place roles are declared
+  - selected role `SKILLS.MD` and inherited parent `SKILLS.MD` files
+- Do NOT look for a roles map in `context_compass/config/context_compass_config.yaml`.
+  That file holds behaviour settings only and does not enumerate roles.
 - For first-time `new` profile setup, follow
   `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
-- Apply README policy from config:
-  - `profile_readme_policy.new: true`
-  - non-new profiles do not require README reads.
+- Apply README policy from the `reads README` column of the registry table:
+  - `new` reads role README files.
+  - No other role requires README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
+  - `context_compass/SKILLS.MD`
+  - resolved role `SKILLS.MD` chain in parent-first order, walked via each
+    file's `INHERITS_SKILLS_FROM` header starting from the registry row for
+    the selected role.
 - Use manual source-document reads for onboarding; do not use onboarding dump
   artifacts as policy input.
 - Treat **Active skills** / **Required baseline skills** as mandatory reads.
@@ -7537,7 +8319,7 @@ Summary
 
 Order of authority (highest to lowest)
 1) AGENTS.MD and any other known AGENTS.MD read by you.
-2) SKILLS.md and any other SKILLS.md read by you.
+2) SKILLS.MD and any other SKILLS.MD read by you.
 3) Example documentation.
 4) Repo documentation (`README`, `docs/`).
 5) Code (last resort).
@@ -7563,7 +8345,7 @@ Workflow
 
 --- START OF FILE: context_compass\agent_onboarding\default\general\skills\active_documentation.md ---
 
-﻿
+
 
 # active_documentation
 
@@ -7614,7 +8396,7 @@ Example
 - `TYPE`: FACT
 - `CLAIM`: Role routing currently depends on explicit top-level map + config alignment.
 - `EVIDENCE`:
-  - `SKILLS.md:27-42`
+  - `SKILLS.MD:27-42`
   - `config/context_compass_config.yaml:68-83`
   - `attention_board.md:1-20`
 - `IMPACT`: Incorrect map/config alignment can route the agent to the wrong role chain.
@@ -7675,7 +8457,7 @@ Required columns
 - `work_item`: short active event label.
 - `status`: `ready` | `in_progress` | `blocked` | `review`.
 - `mode`: `discovery` | `implementation` | `validation` | `handoff`.
-- `owner`: current executor (for now usually `codex`).
+- `owner`: current executor (for now usually `reading`).
 - `agent_name`: one or more assigned agent names, comma-separated.
 - `blocker`: concrete blocker or `none`.
 - `next`: one concrete next action.
@@ -7723,7 +8505,7 @@ Anti-patterns
 
 References
 - `context_compass/agent_onboarding/default/general/skills/workflow.md`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/agent_onboarding/default/general/skills/memory_management.md`
 - `context_compass/agent_onboarding/default/general/skills/reactive_documentation.md`
 - `context_compass/agent_onboarding/default/general/skills/active_documentation.md`
@@ -7860,14 +8642,14 @@ Required behavior
 1) Always read the shared baseline first:
    - `agent_onboarding/default/general/SKILLS.MD`
 2) Determine the available roles from the canonical role map:
-   - `SKILLS.md` (and config roles map if present)
+   - `SKILLS.MD` registry table
 3) If the user already selected a role earlier in this session:
    - Restate the selected role explicitly.
-   - Continue onboarding using the already-resolved `SKILLS.md` chain.
+   - Continue onboarding using the already-resolved `SKILLS.MD` chain.
 4) If the user has NOT selected a role yet:
-   - List available roles from `SKILLS.md`.
+   - List available roles from `SKILLS.MD`.
    - Ask the user which role to take on.
-   - Resolve the selected role to its `SKILLS.md` path and continue.
+   - Resolve the selected role to its `SKILLS.MD` path and continue.
 
 Role guidance (default roles)
 - `general`
@@ -7921,7 +8703,7 @@ Why skills are treated as capabilities
 - Progressive disclosure prevents bloating context with unused documentation.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 
@@ -7974,13 +8756,13 @@ External-memory-first rule
 Required post-compaction sequence (REONBOARD)
 Run this sequence exactly once per trigger event.
 
-1) Read `context_compass/AGENTS.md`.
+1) Read `context_compass/AGENTS.MD`.
 2) Read `agent_onboarding/default/general/skills/execution_contract.md` in full.
-3) Resolve the active profile via `context_compass/SKILLS.md` (and config roles map).
+3) Resolve the selected role via the registry table in `context_compass/SKILLS.MD`.
    - If the active role cannot be determined: **STOP and ask the user**.
-4) Read the resolved role `SKILLS.md` chain in parent-first order.
+4) Read the resolved role `SKILLS.MD` chain in parent-first order.
 5) Read every path listed under **Active skills** / **Required baseline skills**
-   in each resolved `SKILLS.md`.
+   in each resolved `SKILLS.MD`.
    - On-demand skills are NOT required unless triggered by the active task.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
 6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
@@ -7991,7 +8773,7 @@ Run this sequence exactly once per trigger event.
 
 README policy
 - README reads are allowed only for `new` first-time onboarding.
-- Non-`new` profile re-entry MUST use `SKILLS.md` + skill/policy docs (not README).
+- Non-`new` profile re-entry MUST use `SKILLS.MD` + skill/policy docs (not README).
 
 Mandatory REONBOARD attestation format
 ```text
@@ -8011,7 +8793,7 @@ NO_ACTION_TAKEN_YET: true
 
 READ_INTEGRITY_PROOF (requirements)
 - `READ_INTEGRITY_PROOF` is a comprehension proof, NOT tool logs.
-- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.md` chain.
+- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.MD` chain.
   - Each line MUST include (a) a specific, checkable rule/constraint from that doc and
     (b) what it changes in your behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
@@ -8041,7 +8823,7 @@ Outcome contract
 
 References
 - `AGENTS.MD`
-- `context_compaction.md`
+- `agent_onboarding/default/general/skills/context_compaction.md`
 - `agent_onboarding/default/general/skills/self_certification.md`
 - `agent_onboarding/default/general/skills/user_approved_certification.md`
 
@@ -8060,13 +8842,13 @@ Purpose
 Canonical config source
 - `context_compass/config/context_compass_config.yaml`
 - Settings path: `documentation_format`
-- Tool read-limit path: `codex.viewer_tool_read_limit`
-- Manual chunking path: `codex.read_loc_max`
+- Tool read-limit path: `reading.viewer_tool_read_limit`
+- Manual chunking path: `reading.read_loc_max`
 
 Tool read-limit semantics
-- `codex.viewer_tool_read_limit` is measured in lines.
+- `reading.viewer_tool_read_limit` is measured in lines.
 - It is not a token limit and not a character-count limit.
-- `codex.read_loc_max` is measured in lines-of-code (LOC) per manual read chunk.
+- `reading.read_loc_max` is measured in lines-of-code (LOC) per manual read chunk.
 - Default values are both `500`.
 - Use this as the upper bound for one read operation when chunking large docs.
 
@@ -8108,7 +8890,7 @@ Enforcement surfaces
   - `context_compass/templates/task_template.md`
 - Process policy:
   - `context_compass/agent_onboarding/default/general/skills/workflow.md`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `context_compass/agent_onboarding/default/general/skills/ticketing.md`
 
 Adoption policy
@@ -8148,8 +8930,8 @@ Core review set (ALWAYS required) - review these files in order:
 - `AGENTS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
-- resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `context_compass/SKILLS.MD`
+- resolved role `SKILLS.MD` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
@@ -8171,8 +8953,8 @@ Conditional review set (ONLY when triggered):
   - `system_docs/tests_architecture.md`
   - `system_docs/src_components.md`
   - `system_docs/tests_components.md`
-  - `system_docs/graph_details_document.md`
-  - `system_docs/readable_src_graph.json`
+  - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+  - `system_docs/src_graph.md`
 
 Read discipline (non-negotiable)
 - Review-set document reads must be manual per file path.
@@ -8764,7 +9546,7 @@ Safety rules
 - Prefer concise, evidence-based notes over speculative memory.
 
 References
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `agent_onboarding/default/general/skills/active_documentation.md`
 
@@ -8814,6 +9596,144 @@ Decision heuristic
 - If success depends on love/retention/referrals, apply MLP after MRP.
 - Default to MRP when in doubt.
 
+
+--- START OF FILE: context_compass\agent_onboarding\default\general\skills\package_upgrade.md ---
+
+# package_upgrade
+
+Purpose
+- Take an existing `context_compass/` folder and bring it up to a newer version
+  of the package without destroying the project's work.
+- Give you enough of the algorithm to reimplement it if Python is unavailable.
+
+This is the general-audience skill. `engineer/skills/package_maintenance.md`
+covers cleanup, release preparation, and the manifest generator in more depth.
+
+## The shape of the operation
+
+```bash
+python context_compass/tools/update_context_compass.py \
+    --install path/to/your-repo/context_compass \
+    --new     path/to/new/context_compass \
+    --check
+```
+
+- `--install` is **yours**. It is modified in place.
+- `--new` is **read-only**. Nothing is ever written to it, so ten repositories
+  can point at the same downloaded copy.
+- `--check` prints the plan and writes nothing. Run it first, every time.
+- `--apply` performs it.
+
+The direction is one-way. It never pushes your changes back upstream. If you
+improved a default role locally and want it in the package, that is a manual
+copy.
+
+## What decides each file
+
+`MANIFEST.md` in your install records the sha256 of every file **as it shipped**.
+Three hashes, four outcomes:
+
+| current vs shipped | new vs shipped | verdict |
+| --- | --- | --- |
+| same | changed | replace - the package moved, you did not |
+| same | same | skip - already current |
+| changed | same | **keep yours** - you moved, the package did not |
+| changed | changed | **conflict** - reported, not touched |
+
+One hash tells you a file changed. It cannot tell you WHO changed it, and that
+is the only question that decides whether overwriting is safe. Conflicts are
+never merged automatically; a merge is a guess and a wrong guess destroys work
+silently. Resolve by hand, or pass `--force-conflicts` to take the package
+version and lose the local edit knowingly.
+
+## What is never touched
+
+| lane | why |
+| --- | --- |
+| `system_docs/` | your architecture, component and test maps |
+| `tickets/` | your work |
+| `artifacts/` | your findings |
+| `context_management/` | your context board |
+| `special_instructions/` | your project rules |
+| `agent_onboarding/user_defined/` | your role overlays |
+
+An upgrade that rewrites someone's architecture map is not an upgrade.
+
+Two lanes get partial handling:
+
+- **the boards** carry a package-owned block between `<!-- BEGIN MANAGED: ... -->`
+  and `<!-- END MANAGED: ... -->`. Only that block is swapped; your routing rows
+  below it survive.
+- **`config/context_compass_config.yaml`** is merged key by key. New top-level
+  keys arrive with package defaults and their comments; a value you already set
+  is never overwritten; keys dropped upstream are reported, not deleted.
+
+## First upgrade of an older install
+
+An install predating the manifest has no shipped hashes, so a local edit and an
+upstream change are indistinguishable. The tool does not guess: it reports
+**every** differing file as a conflict, still skips identical files, and still
+adds new ones. Review, then `--force-conflicts` if you want the package version.
+Either way it writes the manifest, so this happens exactly once.
+
+## If Python is not available
+
+The tools are stdlib-only Python, but nothing about the algorithm requires
+Python. Reimplement it in PowerShell, bash, or whatever the environment has.
+**Do not skip the three-hash rule to make the port easier** - a port that
+compares only current-vs-new will silently overwrite local edits, which is worse
+than no tool.
+
+What a port must do:
+
+1. **Parse `MANIFEST.md`.** Rows under `## Files` are
+   `| path | class | sha256 |`. Read both manifests: the install's (shipped) and
+   the new version's (incoming).
+2. **Skip by class.** `RESET` and `INSTANCE` are never touched. `CONFIG` is
+   merged, never replaced. `LIVE` gets only its `MANAGED` block swapped.
+3. **For every `PACKAGE` file**, hash the install's copy and apply the table
+   above. Report conflicts; do not resolve them.
+4. **Copy new files** the install does not have.
+5. **Report files dropped upstream** that are still present locally. Do not
+   delete them - the package no longer ships it, which is not the same as the
+   project not wanting it.
+6. **Write the new manifest** into the install, last.
+
+Minimum viable shell version, in outline:
+
+```bash
+# sha256 of a file, portable enough
+sha() { sha256sum "$1" 2>/dev/null | cut -d' ' -f1 || shasum -a 256 "$1" | cut -d' ' -f1; }
+
+# read "path class sha" triples out of a manifest
+rows() { grep '^| `' "$1" | tr -d '`' | awk -F'|' '{print $2, $3, $4}'; }
+```
+
+```powershell
+function Get-Sha { param($p) (Get-FileHash -Algorithm SHA256 $p).Hash.ToLower() }
+```
+
+Then implement the table. It is a dozen lines of branching, not a project.
+
+**Verify the port before trusting it** by constructing the four cases
+deliberately: a file only the package changed, a file only you changed, a file
+both changed, and an identical file. If your port does not keep the second and
+refuse the third, it is not finished.
+
+## Anti-patterns
+
+- Running `--apply` without reading a `--check` plan first.
+- Comparing current against new only, with no shipped hash. That is the
+  single-hash trap: it cannot see the difference between your edit and an
+  upstream change, so it either clobbers you or never updates.
+- Auto-resolving conflicts by taking the newer file.
+- Upgrading `--new` by accident. It is the source, not the target.
+- Forgetting the release step: a package published without running
+  `tools/package_manifest.py` has no manifest, and nothing can upgrade from it.
+
+References
+- `agent_onboarding/default/engineer/skills/package_maintenance.md`
+- `agent_onboarding/default/general/skills/configuration_standards.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\general\skills\reactive_documentation.md ---
 
@@ -8915,7 +9835,7 @@ References
 - `agent_onboarding/default/general/skills/active_documentation.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 
 
 
@@ -8944,41 +9864,6 @@ Collaboration note
 - Certification in this repo is token-based (`CERTIFY: APPROVED`).
 - Code-management workflows are user-directed and out of onboarding policy
   scope.
-
-References
-- `README.md`
-- `AGENTS.MD`
-
-
-
---- START OF FILE: context_compass\agent_onboarding\default\general\skills\repo_topology_and_git.md ---
-
-
-
-# repo_topology_and_git
-
-Purpose
-- Define the standard repo layout for this project.
-- Set expectations for git handling (read-only unless explicitly requested).
-
-Repository layout
-- Repo root is the project root (this checkout).
-- Primary code lives under `src/` and tests under `tests/`.
-- Planning and onboarding live under `agent_onboarding/`, `tickets/epics/`, `tickets/stories/`,
-  `tickets/tasks/`, `templates/`, plus per-type archives in `tickets/epics/completed/`,
-  `tickets/stories/completed/`, and `tickets/tasks/completed/` (legacy `completed/` remains).
-
-Git handling (non-negotiable)
-- Git commands are allowed **only** when the user declares the session is `active` during certification.
-- If the user declares `inactive`, do not run git commands and ignore git workflow requirements (user handles git).
-- Certification must include the exact token `CERTIFY: APPROVED` and an explicit environment label (`active` or `inactive`).
-- Do not edit `.git/config`, hooks, or `.gitattributes` unless explicitly requested.
-- Do not assume git is available; if missing, report it and proceed without git metadata.
-
-Branching workflow (active-only)
-- Start work on `codex_features`.
-- After acceptance of a completed ticket: switch to `dev`, merge `codex_features` into `dev`, then switch back to `codex_features`.
-- Stay on `codex_features` between work units.
 
 References
 - `README.md`
@@ -9089,13 +9974,13 @@ Purpose
 Required flow
 - Read routing authority from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - selected role `SKILLS.MD` path from `context_compass/SKILLS.MD`
 - Complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain for the active profile.
+  - `context_compass/SKILLS.MD`
+  - the resolved role `SKILLS.MD` chain.
 - For a given trigger event, complete the readset once; do not duplicate-read
   the same onboarding set before certification unless a new
   compaction/handoff/session-reset event occurs.
@@ -9540,13 +10425,13 @@ Approval script
 Rules
 - Only request approval after listing the skills read from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `context_compass/agent_onboarding/default/general/SKILLS.MD`
-  - selected role `SKILLS.md` path from `context_compass/SKILLS.md`
+  - selected role `SKILLS.MD` path from `context_compass/SKILLS.MD`
 - Before requesting approval, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain for the active profile
+  - `context_compass/SKILLS.MD`
+  - the resolved role `SKILLS.MD` chain
   - include read-integrity proof in the ONBOARD/REONBOARD attestation
   - include `AGENT_NAME` in the ONBOARD/REONBOARD attestation
   (concrete rule callouts -> behavior implications; not tool logs).
@@ -9584,8 +10469,8 @@ Provide a consistent planning and tracking workflow that uses structured tickets
 - `templates/` - templates for all ticket types
 - `system_docs/` - canonical system docs:
   `src_architecture.md`, `src_components.md`, `tests_architecture.md`,
-  `tests_components.md`, `graph_details_document.md`,
-  `readable_src_graph.json`, and instruction docs
+  `tests_components.md`,
+  `src_graph.md`, and instruction docs
 - `artifact_board.md` - artifact association index (ticket-linked artifacts only)
 - `artifacts/` - supporting artifact storage root
 - `context_management/context_board.md` - optional context-pack association
@@ -9711,8 +10596,8 @@ When unsure:
   - Require note updates before implementation and validation transitions.
   - Keep UNKNOWN->FACT promotion evidence requirements unchanged.
 - Read-window settings:
-  - `codex.viewer_tool_read_limit` = max lines per view/read operation.
-  - `codex.read_loc_max` = max LOC per manual chunked read.
+  - `reading.viewer_tool_read_limit` = max lines per view/read operation.
+  - `reading.read_loc_max` = max LOC per manual chunked read.
   - Default for both is `500`.
 
 ## Per-Ticket Noting Behavior
@@ -9783,7 +10668,7 @@ At the top of the completed ticket, add:
 
 ## Context Compaction Rule
 Before context compaction or major handoff:
-- Follow `context_compaction.md`.
+- Follow `agent_onboarding/default/general/skills/context_compaction.md`.
 - Ensure the active tickets contain accurate handoff summaries.
 
 
@@ -9809,7 +10694,7 @@ Before moving a ticket to a completed folder:
 If a ticket modifies system behavior, make a small doc update as part of the same change:
 - Update `system_docs/src_architecture.md` when system boundaries/boot/ownership/invariants change.
 - Update `system_docs/src_components.md` when ownership, wiring, registries, or call flows change.
-- Update `system_docs/readable_src_graph.json` when documented source wiring or
+- Update `system_docs/src_graph.md` when documented source wiring or
   ownership coverage changes.
 - Keep diagrams in sync with the change.
 
@@ -9866,6 +10751,18 @@ Even inside tickets:
   - user explicitly asks to clean up Context Compass work state
 - Created: 2026-04-26T11:45:35Z
 - Updated: 2026-04-26T11:45:35Z
+
+## Not the same thing as the cleanup tool
+This workflow cleans up **work state**: it closes tickets and syncs the boards.
+
+`tools/cleanup_context_compass.py` cleans up **the package**: it returns files to
+the state the manifest describes. Same words, different operation, and running
+the wrong one is not a small mistake - this workflow closes tickets, that tool
+deletes files.
+
+If you want to turn in tickets, you are in the right document. If you want to
+strip one project's content out of an install, see
+`agent_onboarding/default/engineer/skills/package_maintenance.md`.
 
 ## Purpose
 Provide one explicit cleanup workflow for Context Compass work state:
@@ -10439,7 +11336,7 @@ asks to create a workflow.
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -10452,7 +11349,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -10475,14 +11372,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_line_v1.md
 
 ## 6) References
-- agent_onboarding/default/line_copy_editor/SKILLS.MD
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
-- agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md
+- `agent_onboarding/default/line_copy_editor/SKILLS.MD`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md`
+- `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\README.md ---
 
-﻿# Line Copy Editor Career
+# Line Copy Editor Career
 
 Purpose
 - Polish prose at sentence and paragraph level while preserving voice and approved structure.
@@ -10527,14 +11424,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\SKILLS.MD ---
 
-# SKILLS.md - line_copy_editor
+# SKILLS.MD - line_copy_editor
 
 Purpose
 - Define required baseline skills for the line_copy_editor role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -10547,15 +11444,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/line_copy_editor/AGENTS.MD
-- agent_onboarding/default/line_copy_editor/WORKFLOWS.MD
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md
-- agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md
-- agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md
-- agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md
-- agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md
+- `agent_onboarding/default/line_copy_editor/AGENTS.MD`
+- `agent_onboarding/default/line_copy_editor/WORKFLOWS.MD`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md`
+- `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md`
+- `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md`
+- `agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md`
+- `agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -10564,7 +11461,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires compressed copy edit under strict turnaround.
 
 If triggered:
-- Read: agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\WORKFLOWS.MD ---
@@ -10587,7 +11484,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\behavioral_guidelines\line_copy_editor_workflow.md ---
 
-﻿# line_copy_editor_workflow
+# line_copy_editor_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing line_copy_editor tasks.
@@ -10613,7 +11510,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\examples\line_copy_editor_task_flow.md ---
 
-﻿# line_copy_editor_task_flow
+# line_copy_editor_task_flow
 
 Scenario
 - Demonstrate a complete line_copy_editor pass with artifacts and gate decisions.
@@ -10639,7 +11536,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\policies\line_copy_editor_handoff_policy.md ---
 
-﻿# line_copy_editor_handoff_policy
+# line_copy_editor_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for line_copy_editor.
@@ -10662,7 +11559,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\policies\line_copy_editor_quality_policy.md ---
 
-﻿# line_copy_editor_quality_policy
+# line_copy_editor_quality_policy
 
 Purpose
 - Establish the quality bar for line_copy_editor outputs.
@@ -10687,7 +11584,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\skills\line_copy_editor.md ---
 
-﻿# line_copy_editor
+# line_copy_editor
 
 Purpose
 - Define role identity, responsibilities, and gate model for line_copy_editor.
@@ -10726,7 +11623,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\skills\line_copy_editor_advanced_context.md ---
 
-﻿# line_copy_editor_advanced_context
+# line_copy_editor_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for line_copy_editor.
@@ -10746,7 +11643,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\skills\line_copy_editor_deliverables.md ---
 
-﻿# line_copy_editor_deliverables
+# line_copy_editor_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for line_copy_editor.
@@ -10774,7 +11671,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\line_copy_editor\skills\line_copy_editor_execution.md ---
 
-﻿# line_copy_editor_execution
+# line_copy_editor_execution
 
 Purpose
 - Define deterministic execution phases for line_copy_editor.
@@ -10818,7 +11715,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -10837,7 +11734,7 @@ This file is onboarding behavior only and does not replace root execution gates.
 
 ## 3) Scope Boundaries
 
-While active profile is `new`:
+While the selected role is `new`:
 - Explain system purpose, profile model, and configuration mechanics.
 - Do not run deep engineering execution flows as the onboarding default.
 - Do not treat `new` as persistent runtime profile after onboarding is complete.
@@ -10846,34 +11743,22 @@ While active profile is `new`:
 
 1) Explain system purpose and boundaries.
 2) Explain profile classes and inheritance:
-   - `new`
-   - `general`
-   - `engineer`
-   - `design_engineer`
-   - `platform_engineer`
-   - `qa_engineer`
-   - `security_engineer`
-   - `story_designer`
-   - `story_novel_artist`
-   - `researcher`
-   - `draft_writer`
-   - `developmental_editor`
-   - `line_copy_editor`
-   - `continuity_fact_checker`
-   - `proofreader`
-   - `user_defined/*`
-3) Explain config authority and exact file path:
-   `context_compass/config/context_compass_config.yaml`.
-4) Ask user to choose steady-state profile:
+   - Read the registry table in `context_compass/SKILLS.MD` and present the
+     roles from it. Do NOT recite a role list from memory or from this file:
+     the registry is the only current source, and any list copied elsewhere
+     goes stale the moment a role is added.
+   - Use the `extends` column to explain inheritance, and the `user-defined`
+     column to distinguish shipped roles from project overlays.
+3) Explain authority split:
+   - `context_compass/SKILLS.MD` declares which roles exist.
+   - `context_compass/config/context_compass_config.yaml` holds behaviour
+     settings only and does not enumerate roles.
+4) Ask user to choose a steady-state role:
+   - Offer only roles whose `selectable after onboarding` column is `yes`.
    - Recommend `engineer` for general code development.
-   - Offer specialized defaults when needed:
-     `design_engineer`, `platform_engineer`, `qa_engineer`, `security_engineer`,
-     `story_designer`, `story_novel_artist`, `researcher`, `draft_writer`,
-     `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`,
-     `proofreader`.
 5) Apply onboarding completion config writes:
    - set `profiles.onboarding.first_time_enabled: false`.
-6) Confirm next read path from selected role `SKILLS.md` via `SKILLS.md`.
+6) Confirm next read path from the selected role `SKILLS.MD` via `SKILLS.MD`.
 7) State onboarding completion explicitly.
 
 ## 5) Required Config Keys at Completion
@@ -10887,10 +11772,10 @@ Expected completion state:
 ## 6) Notes
 
 - `new` is intentionally lightweight: it is not an excuse to skip policy.
-- After `new` completion, all work must route through the selected steady-state role and its `SKILLS.md` chain.
+- After `new` completion, all work must route through the selected steady-state role and its `SKILLS.MD` chain.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/SKILLS.MD`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
@@ -10920,7 +11805,10 @@ Folder structure
 - `examples/`: reserved for first-time onboarding examples.
 
 First-time setup focus
-- Use this profile to select a steady-state default profile.
+- Use this profile to select a steady-state role.
+- The registry table in `context_compass/SKILLS.MD` is the authoritative role
+  list. The summary below is orientation material and may lag the registry; if
+  the two disagree, the registry wins.
 - `general`: shared system/policy/ticketing baseline.
 - `engineer`: programming/testing specialization layered on `general`.
 - Fiction-authoring specializations layered on `general`:
@@ -10938,8 +11826,8 @@ Agent-read policy
 - README reads are allowed for `new` first-time onboarding.
 - Non-new profile execution should use map/policy docs, not README files.
 
-SKILLS.md top-level sources
-- `context_compass/SKILLS.md`
+SKILLS.MD top-level sources
+- `context_compass/SKILLS.MD`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
 
 Primary onboarding docs
@@ -10955,7 +11843,7 @@ Primary onboarding docs
 
 
 
-# SKILLS.md - new
+# SKILLS.MD - new
 
 Purpose
 - Define active onboarding skills for the `new` role.
@@ -10969,9 +11857,10 @@ Activation rule
 
 Active skills
 - `agent_onboarding/default/new/AGENTS.MD`
+- `agent_onboarding/default/new/skills/new.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
 - `agent_onboarding/default/new/behavioral_guidelines/user_onboarding_flow.md`
 - `agent_onboarding/default/new/skills/system_overview_for_user.md`
@@ -11022,20 +11911,24 @@ Flow
    - Tickets are durable planning memory.
    - Attention board is active routing state.
    - Artifacts support tickets when needed.
-   - Config + maps control onboarding/read paths.
+   - `SKILLS.MD` declares the roles; config controls behaviour.
 3) Explain classes/profiles.
-   - `new` for first-time onboarding.
-   - `general` for system behavior baseline.
-   - `engineer` for code-development specialization.
-   - `user_defined/*` for personal/team overlays.
-4) Explain configuration.
-   - Show where `context_compass_config.yaml` lives.
-   - Show which keys change active/default classes.
-5) Ask for default class selection.
+   - Read the registry table in `context_compass/SKILLS.MD` and present the
+     roles from it; do not recite a list from this file.
+   - `new` is the first-time onboarding entry role and is never steady-state.
+   - Use the `extends` column to explain inheritance.
+4) Explain the authority split.
+   - `context_compass/SKILLS.MD` is the single role registry: which roles
+     exist, where each resolves, and which are selectable.
+   - `context_compass/config/context_compass_config.yaml` holds behaviour
+     settings only. No key in it selects or changes a role.
+5) Ask for role selection.
+   - Offer only roles whose `selectable after onboarding` column is `yes`.
    - Recommend `engineer`.
-6) Confirm selected class and next step.
-   - Update config guidance.
-   - Tell user what happens after leaving `new`.
+6) Confirm the selected role and next step.
+   - Explain that the choice is per session and is not stored anywhere; each
+     new session or re-onboarding selects a role again.
+   - Tell the user what happens after leaving `new`.
 
 Communication style
 - Be concise, explicit, and technical.
@@ -11046,8 +11939,8 @@ Output checklist
 - [ ] System purpose explained.
 - [ ] AI usage recommendation stated (Extra High reasoning).
 - [ ] Profile model and inheritance explained.
-- [ ] Configuration path and key fields explained.
-- [ ] Default class selection completed (or pending explicit user choice).
+- [ ] Registry vs config authority split explained.
+- [ ] Role selection completed (or pending explicit user choice).
 
 References
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
@@ -11075,12 +11968,14 @@ Policy
 - Describe the system goal accurately:
   - context_compass is a policy-driven workflow system for code and fiction,
   - it supports any programming language,
-  - it improves consistency when using Codex and other AI agents.
+  - it improves consistency across AI coding agents generally.
 - State current execution recommendation explicitly:
-  - use Codex with Extra High reasoning,
-  - other reasoning modes are not yet validated in this repository.
+  - use the strongest reasoning setting your runtime offers,
+  - this system trades tokens for reliability, so weak reasoning modes tend to
+    produce onboarding claims the agent cannot actually back.
 - Explain profile classes and inheritance before asking for selection.
-- Present the full set of default roles from `SKILLS.md`.
+- Present the full set of roles by reading the registry table in `SKILLS.MD`.
+  Do not present a role list from any other document; only the registry is current.
 - Make `engineer` the recommended default class for general code development.
 - If the user needs a specialized posture, route them to the matching role:
   - software lane: `design_engineer`, `platform_engineer`, `qa_engineer`,
@@ -11091,10 +11986,15 @@ Policy
 - Keep `new` profile content minimal; do not load deep engineering policy here.
 
 Configuration authority
+- `SKILLS.MD` is the source of truth for:
+  - which roles exist,
+  - the role -> `SKILLS.MD` path map,
+  - which roles are selectable after onboarding,
+  - which roles read README files.
 - `config/context_compass_config.yaml` is the source of truth for:
-  - active profile selection,
-  - available profile classes,
-  - onboarding defaults and transitions.
+  - onboarding defaults and transitions (`profiles.onboarding.*`),
+  - workflow, artifact, formatting, and read-limit behaviour.
+  - It does NOT enumerate roles.
 - `agent_onboarding/*/SKILLS.MD` headers are the source of truth for:
   - inheritance chain,
   - resolved parent-first read order.
@@ -11108,7 +12008,7 @@ Completion criteria
 
 References
 - `AGENTS.MD`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`
 
@@ -11118,91 +12018,85 @@ References
 # configuration_map_guide
 
 Purpose
-- Explain where configuration lives and how class/profile routing is controlled.
+- Explain where configuration lives, and why role routing is not controlled
+  from it.
 
-Configuration file
-- `config/context_compass_config.yaml`
+## Two files, two jobs
 
-Key sections
-- `profiles`
-  - active class, available classes, onboarding transitions.
-- `roles_map` / `roles`
-  - role-to-`SKILLS.md` mappings for default and user-defined classes.
-  - `SKILLS.md` headers define inheritance order.
+Role identity and routing
+- `SKILLS.MD` - the **single role registry**.
+- The registry table is the only place a role is declared. It carries the role
+  name, its `SKILLS.MD` path, its parent role, whether it is user-defined,
+  whether it is selectable after onboarding, and whether it reads READMEs.
+- A role exists if and only if it has a row in that table.
+
+Behaviour settings
+- `config/context_compass_config.yaml` - **behaviour only**.
+- It does not enumerate roles and is never consulted to discover or resolve a
+  role. Do not look for a roles map, an available-profiles list, or a readme
+  policy here; none of them exist.
+
+## Config sections
+
+- `profiles.onboarding`
+  - first-time onboarding state and transition defaults.
+- `system_of_record`
+  - whether Context Compass is the only permitted place to track work.
 - `workflow`
-  - ticket microcycle and note behavior controls.
+  - ticket microcycle and note behaviour controls.
 - `artifacts`
   - artifact board and lifecycle controls.
+- `documentation_format`
+  - line length and evidence formatting rules.
+- `reading`
+  - per-read line limits for chunked reading.
 
-Most important keys for onboarding
+## Keys that matter for onboarding
+
+- `profiles.onboarding.first_time_enabled`
+  - Whether first-time onboarding still needs to run.
 - `profiles.onboarding.first_time_default_profile`
-  - First-time entry class (typically `new`).
-- `profiles.onboarding.allowed_post_onboarding_profiles`
-  - Which classes user can choose immediately after onboarding.
+  - Entry role for first-time onboarding (typically `new`).
+- `profiles.onboarding.post_onboarding_profile_mode`
+  - `choose` = ask the user which role to take once onboarding completes.
 - `profiles.onboarding.fallback_post_onboarding_profile`
   - Safe fallback if no explicit choice is made.
-- `roles.new`
-  - New-role `SKILLS.md` file path.
-- Default role entries (examples):
-  - `roles.engineer`
-  - `roles.design_engineer`
-  - `roles.platform_engineer`
-  - `roles.qa_engineer`
-  - `roles.security_engineer`
-  - `roles.story_designer`
-  - `roles.story_novel_artist`
-  - `roles.researcher`
-  - `roles.draft_writer`
-  - `roles.developmental_editor`
-  - `roles.line_copy_editor`
-  - `roles.continuity_fact_checker`
-  - `roles.proofreader`
 
-Class assignment basics
-1) Confirm class exists in `profiles.available_profiles`.
-2) Ensure its `SKILLS.md` path exists in the `roles` mapping.
-3) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
+Which roles may be chosen after onboarding is **not** a config key. It is the
+`selectable after onboarding` column in the `SKILLS.MD` registry.
 
-Recommended defaults after onboarding
-- For general code-development work: `engineer` (inherits `general`).
-- For specialized posture, default to the closest matching role:
-  - `design_engineer` for architecture/design/handoff,
-  - `platform_engineer` for CI/CD/deploy/observability/ops,
-  - `qa_engineer` for testing and quality gates,
-  - `security_engineer` for security review and hardening,
-  - `story_designer` for fiction narrative architecture,
-  - `story_novel_artist` for visual art direction and consistency,
-  - `researcher` for evidence-backed plausibility,
-  - `draft_writer` for manuscript drafting and rewrites,
-  - `developmental_editor` for structural editing,
-  - `line_copy_editor` for line/copy polish,
-  - `continuity_fact_checker` for canon/timeline/fact integrity,
-  - `proofreader` for final publication lock.
+## Role assignment basics
 
-Validation checks
-- `rg -n "available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
-- `Get-Content context_compass/SKILLS.md`
-- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
+1. Confirm the role has a row in the `SKILLS.MD` registry table.
+2. Confirm the `skills path` in that row points at a file that exists.
+3. Confirm the row's `extends` value matches the `INHERITS_SKILLS_FROM` header
+   inside the role's own `SKILLS.MD`.
+
+If a directory exists under `agent_onboarding/user_defined/` but has no
+registry row, it is not a role and is not selectable.
+
+## Recommended defaults after onboarding
+
+- For general code-development work: `engineer`.
+- For specialized posture, choose the closest matching role from the registry
+  table. The table's `extends` column shows what each role builds on, so a role
+  extending `engineer` carries all engineering baseline behaviour plus its own
+  delta.
+
+## Validation checks
+
+- Read `context_compass/SKILLS.MD` and confirm the registry table parses and
+  every `skills path` resolves.
+- For the selected role, read its `SKILLS.MD` and walk `INHERITS_SKILLS_FROM`
+  to the root, confirming each parent file exists.
+- Confirm `context_compass/config/context_compass_config.yaml` contains no role
+  lists. If it does, the registry has been duplicated and must be collapsed
+  back to `SKILLS.MD`.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `PROFILE_CLASS_CREATION_GUIDE.md`
-
 
 --- START OF FILE: context_compass\agent_onboarding\default\new\skills\first_time_profile_setup.md ---
 
@@ -11215,93 +12109,57 @@ Purpose
 
 First-time setup sequence
 1) Start from `AGENTS.MD` bootstrap rules.
-2) Read `SKILLS.md` and configuration authority in `config/context_compass_config.yaml`.
+2) Read `SKILLS.MD` - the single role registry - and the behaviour settings in
+   `config/context_compass_config.yaml`.
 3) Explain the system purpose and onboarding model using:
    - `system_overview_for_user.md`
    - `profile_model_explained.md`
    - `configuration_map_guide.md`
-4) Offer default class selection for post-onboarding:
-   - `general` for system/process execution baseline (shared).
-   - `engineer` for most code-development execution (inherits `general`, recommended default).
-   - Specialized software roles (inherit `engineer`) when the work requires deeper posture:
-     - `design_engineer` (architecture/design/handoff)
-     - `platform_engineer` (CI/CD/deploy/observability/ops)
-     - `qa_engineer` (test strategy/quality gates/release signoff)
-     - `security_engineer` (threat modeling/security review/hardening)
-   - Specialized fiction-authoring roles (inherit `general`):
-     - `story_designer` (narrative architecture and chapter planning)
-     - `story_novel_artist` (visual language, scene art briefs, cover direction)
-     - `researcher` (source-backed plausibility constraints)
-     - `draft_writer` (manuscript drafting and rewrites)
-     - `developmental_editor` (structural diagnosis and rewrite plans)
-     - `line_copy_editor` (line-level prose polish)
-     - `continuity_fact_checker` (canon/timeline/fact checks)
-     - `proofreader` (final typo/punctuation/format lock)
+4) Offer role selection for post-onboarding:
+   - Read the registry table in `context_compass/SKILLS.MD`.
+   - Offer only roles whose `selectable after onboarding` column is `yes`.
+   - Use the `extends` column to explain what each role builds on.
+   - Recommend `engineer` for most code-development execution.
+   - Describe an unfamiliar role from the Purpose section of its own
+     `SKILLS.MD` rather than from a list held in this document.
 5) Confirm first-time completion and switch to selected default profile path map.
 
-Profile intent summary
-- `general`:
-  shared system behavior, ticketing, policy, and execution workflow baseline.
-- `engineer`:
-  programming/testing/architecture/code-construction specialization layered on top of `general`.
-- `design_engineer`:
-  system/software design and architecture planning specialization layered on top of `engineer`.
-- `platform_engineer`:
-  CI/CD, deployment, observability, incident workflow specialization layered on top of `engineer`.
-- `qa_engineer`:
-  test planning, test design, and release quality specialization layered on top of `engineer`.
-- `security_engineer`:
-  security review, threat modeling, and vulnerability posture specialization layered on top of `engineer`.
-- `story_designer`:
-  fiction narrative architecture specialization layered on top of `general`.
-- `story_novel_artist`:
-  fiction visual-language and art-direction specialization layered on top of `general`.
-- `researcher`:
-  evidence and plausibility research specialization layered on top of `general`.
-- `draft_writer`:
-  full-manuscript drafting and rewrite execution specialization layered on top of `general`.
-- `developmental_editor`:
-  structural editing specialization layered on top of `general`.
-- `line_copy_editor`:
-  prose polish and consistency specialization layered on top of `general`.
-- `continuity_fact_checker`:
-  canon/timeline/fact integrity specialization layered on top of `general`.
-- `proofreader`:
-  final surface-quality lock specialization layered on top of `general`.
+Describing roles to the user
+- The registry table is the list; each role's own `SKILLS.MD` is the
+  description. Read the role's Purpose section when the user asks what a role
+  does.
+- Do not maintain a role-description list in this file. Earlier versions did,
+  and it silently went stale every time a role was added.
+- Shape of the model, which is stable even as roles change:
+  - `general` is the shared system, ticketing, policy, and workflow baseline.
+  - `engineer` layers implementation practice on top of `general`.
+  - The specialized software roles layer deeper posture on top of `engineer`.
+  - The fiction-authoring roles layer on top of `general`.
+  - User-defined roles are project or team overlays, usually on `engineer`.
 
 User-facing recommendation
 - This system is designed for code development and supports any language.
-- It enhances Codex and other AI workflows by enforcing durable context.
-- Recommended mode in this repo is Codex with Extra High reasoning.
+- It enhances AI-assisted workflows by enforcing durable context.
+- Use the strongest reasoning setting your runtime offers.
 - Other reasoning modes are currently untested in this repo.
 
 Rules
 - Keep README reads scoped to first-time setup (`new` profile).
 - Do not require README reads for non-new profile onboarding paths.
-- Treat config YAML as authoritative for profile selection/onboarding.
-- Treat skill-map headers as authoritative for inheritance order.
+- Treat the `SKILLS.MD` registry table as authoritative for which roles exist
+  and which are selectable.
+- Treat config YAML as authoritative for onboarding and workflow behaviour only;
+  it does not enumerate roles.
+- Treat skill-map `INHERITS_SKILLS_FROM` headers as authoritative for
+  inheritance order.
 
 References
 - `context_compass/AGENTS.MD`
-- `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD` (role registry - the current role list)
+- `context_compass/config/context_compass_config.yaml` (behaviour settings)
 - `agent_onboarding/default/general/SKILLS.MD`
-- `agent_onboarding/default/engineer/SKILLS.MD`
-- `agent_onboarding/default/design_engineer/SKILLS.MD`
-- `agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `agent_onboarding/default/security_engineer/SKILLS.MD`
-- `agent_onboarding/default/story_designer/SKILLS.MD`
-- `agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `agent_onboarding/default/researcher/SKILLS.MD`
-- `agent_onboarding/default/draft_writer/SKILLS.MD`
-- `agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `agent_onboarding/default/proofreader/SKILLS.MD`
 - `agent_onboarding/default/new/SKILLS.MD`
 - `agent_onboarding/default/new/policies/new_onboarding_policy.md`
-
 
 --- START OF FILE: context_compass\agent_onboarding\default\new\skills\new.md ---
 
@@ -11311,7 +12169,7 @@ References
 ## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
 
 - Baseline certification is denied unless every path listed under **Active skills** / **Required baseline skills**
-  in the resolved `SKILLS.md` chain is read (parent-first).
+  in the resolved `SKILLS.MD` chain is read (parent-first).
 - On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
 - After any compaction/handoff, assume chat memory is unreliable:
   - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
@@ -11324,7 +12182,11 @@ References
 
 ## 2) Role Map Summary
 
-Default roles (from `SKILLS.md`):
+The authoritative role list is the registry table in `context_compass/SKILLS.MD`.
+Read it rather than relying on the summary below, which is illustrative only and
+does not include user-defined roles.
+
+Commonly used default roles:
 - `new` (first-time onboarding)
 - `general` (shared baseline)
 - `engineer` (general-purpose implementation; recommended default)
@@ -11347,7 +12209,7 @@ Default roles (from `SKILLS.md`):
 - `new` must end with an explicit steady-state role selection and a clear next read path.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/AGENTS.MD`
 
 
@@ -11364,7 +12226,10 @@ Completion sequence
    - system purpose,
    - profile class model,
    - configuration authority.
-2) Present default class options:
+2) Present role options by reading the registry table in
+   `context_compass/SKILLS.MD` and offering every role whose
+   `selectable after onboarding` column is `yes`. The descriptions below are
+   a convenience gloss for the shipped default roles, not the list itself:
    - `general` (shared baseline)
    - `engineer` (recommended default)
    - `design_engineer` (design/architecture/handoff)
@@ -11386,23 +12251,23 @@ Completion sequence
    - continue onboarding via selected class path map.
 
 Recommended wording
-- "Onboarding is complete. Default class options are `general`, `engineer`,
+- "Onboarding is complete. Role options are `general`, `engineer`,
   `design_engineer`, `platform_engineer`, `qa_engineer`, `security_engineer`,
   `story_designer`, `story_novel_artist`, `researcher`, `draft_writer`,
   `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`,
   or `proofreader`.
   For general code development, `engineer` is recommended. Which do you want to
-  use as the default active profile?"
+  use for this session?"
 
 Exit criteria
-- Selected default class is explicit.
-- User is informed how to change class later in config.
+- Selected role is explicit.
+- User is informed a role is selected at each onboarding, not stored in config.
 - Next read path is clear and deterministic.
 
 References
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
+- `SKILLS.MD`
 
 
 --- START OF FILE: context_compass\agent_onboarding\default\new\skills\profile_model_explained.md ---
@@ -11417,6 +12282,12 @@ Profile classes
 - `new`
   - First-time onboarding path.
   - Focuses on user orientation and setup.
+
+> The registry table in `context_compass/SKILLS.MD` is the authoritative
+> role list. The descriptions below are teaching material for first-time
+> onboarding and do not include user-defined roles. If the two disagree,
+> the registry wins.
+
 - `general`
   - Shared system mechanics and workflow behavior.
   - Baseline class for all work.
@@ -11486,22 +12357,29 @@ Inheritance model
 
 Class selection model
 - First-time entry uses `new`.
-- After onboarding, user chooses steady-state default class.
+- After onboarding, the user chooses a steady-state role.
 - Recommended default for general development workflows: `engineer`.
 - Choose specialized roles when the task requires deeper domain posture.
+- Selection is per agent, per session. It is not written anywhere and not
+  shared between agents. Two agents in the same repository may hold different
+  roles at the same time, so there is no single stored "current" role.
 
-Where this is configured
-- `config/context_compass_config.yaml`
-  - `profiles.available_profiles`
-  - `profiles.user_defined_profiles`
-  - `profiles.onboarding.*`
-- `roles.*`
+Where roles are declared
+- `SKILLS.MD` - the single role registry.
+  - One row per role: name, `SKILLS.MD` path, parent, user-defined flag,
+    selectable-after-onboarding flag, README flag.
+  - A role exists if and only if it has a row there.
+- `config/context_compass_config.yaml` holds behaviour settings only. It does
+  not enumerate roles. The only onboarding keys it carries are
+  `profiles.onboarding.*`.
 
 Where inheritance is defined
-- Inheritance is declared in `SKILLS.md` headers, not in YAML inheritance blocks.
-- Header format:
-  - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- Parent `SKILLS.md` paths are loaded before child `SKILLS.md` paths.
+- The registry `extends` column names the parent role.
+- The authoritative declaration lives in the role's own `SKILLS.MD` header:
+  - `` - `INHERITS_SKILLS_FROM: <skills_path|none>` ``
+- The two must agree. The header is what an agent walks; the column is what a
+  human reads.
+- Parent `SKILLS.MD` paths are loaded before child `SKILLS.MD` paths.
 
 Rules for custom classes
 - Keep shared process in `general`.
@@ -11542,16 +12420,16 @@ Language support
   core process.
 
 AI usage model
-- Primary target: Codex-assisted development workflows.
+- Primary target: AI-assisted development workflows, any runtime.
 - Compatible with other AI agents when they follow the same policy contracts.
 - Recommended execution mode in this repo:
-  - Codex with Extra High reasoning.
+  - the strongest reasoning setting your runtime offers.
   - Other reasoning modes are currently untested in this repo context.
 
 Core system anchors
 - `AGENTS.MD`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `tickets/`
 - `attention_board.md`
 - `artifact_board.md`
@@ -11589,7 +12467,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -11687,7 +12565,7 @@ Unknowns Gate
 --- START OF FILE: context_compass\agent_onboarding\default\platform_engineer\SKILLS.MD ---
 
 
-# SKILLS.md - platform_engineer
+# SKILLS.MD - platform_engineer
 
 Purpose
 - Define required baseline platform skills for the `platform_engineer` role.
@@ -11735,8 +12613,10 @@ Trigger conditions (any one makes these mandatory):
 - The task introduces new operational risk or production behavior changes.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 - Do not proceed with production-impact changes until relevant sources are read.
 
 
@@ -12162,7 +13042,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -12175,7 +13055,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -12198,14 +13078,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - manuscript_final.md
 
 ## 6) References
-- agent_onboarding/default/proofreader/SKILLS.MD
-- agent_onboarding/default/proofreader/skills/proofreader.md
-- agent_onboarding/default/proofreader/skills/proofreader_execution.md
-- agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
+- `agent_onboarding/default/proofreader/SKILLS.MD`
+- `agent_onboarding/default/proofreader/skills/proofreader.md`
+- `agent_onboarding/default/proofreader/skills/proofreader_execution.md`
+- `agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\README.md ---
 
-﻿# Proofreader Career
+# Proofreader Career
 
 Purpose
 - Run final surface-quality and formatting lock before publication artifacts are declared complete.
@@ -12250,14 +13130,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\SKILLS.MD ---
 
-# SKILLS.md - proofreader
+# SKILLS.MD - proofreader
 
 Purpose
 - Define required baseline skills for the proofreader role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -12270,15 +13150,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/proofreader/AGENTS.MD
-- agent_onboarding/default/proofreader/WORKFLOWS.MD
-- agent_onboarding/default/proofreader/skills/proofreader.md
-- agent_onboarding/default/proofreader/skills/proofreader_execution.md
-- agent_onboarding/default/proofreader/skills/proofreader_deliverables.md
-- agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
-- agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md
-- agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md
-- agent_onboarding/default/proofreader/examples/proofreader_task_flow.md
+- `agent_onboarding/default/proofreader/AGENTS.MD`
+- `agent_onboarding/default/proofreader/WORKFLOWS.MD`
+- `agent_onboarding/default/proofreader/skills/proofreader.md`
+- `agent_onboarding/default/proofreader/skills/proofreader_execution.md`
+- `agent_onboarding/default/proofreader/skills/proofreader_deliverables.md`
+- `agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md`
+- `agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md`
+- `agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md`
+- `agent_onboarding/default/proofreader/examples/proofreader_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -12287,7 +13167,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires emergency release lock under strict deadline.
 
 If triggered:
-- Read: agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md
+- `agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\WORKFLOWS.MD ---
@@ -12310,7 +13190,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\behavioral_guidelines\proofreader_workflow.md ---
 
-﻿# proofreader_workflow
+# proofreader_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing proofreader tasks.
@@ -12336,7 +13216,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\examples\proofreader_task_flow.md ---
 
-﻿# proofreader_task_flow
+# proofreader_task_flow
 
 Scenario
 - Demonstrate a complete proofreader pass with artifacts and gate decisions.
@@ -12362,7 +13242,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\policies\proofreader_handoff_policy.md ---
 
-﻿# proofreader_handoff_policy
+# proofreader_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for proofreader.
@@ -12385,7 +13265,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\policies\proofreader_quality_policy.md ---
 
-﻿# proofreader_quality_policy
+# proofreader_quality_policy
 
 Purpose
 - Establish the quality bar for proofreader outputs.
@@ -12410,7 +13290,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\skills\proofreader.md ---
 
-﻿# proofreader
+# proofreader
 
 Purpose
 - Define role identity, responsibilities, and gate model for proofreader.
@@ -12449,7 +13329,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\skills\proofreader_advanced_context.md ---
 
-﻿# proofreader_advanced_context
+# proofreader_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for proofreader.
@@ -12469,7 +13349,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\skills\proofreader_deliverables.md ---
 
-﻿# proofreader_deliverables
+# proofreader_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for proofreader.
@@ -12497,7 +13377,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\proofreader\skills\proofreader_execution.md ---
 
-﻿# proofreader_execution
+# proofreader_execution
 
 Purpose
 - Define deterministic execution phases for proofreader.
@@ -12541,7 +13421,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -12634,7 +13514,7 @@ Unknowns Gate
 --- START OF FILE: context_compass\agent_onboarding\default\qa_engineer\SKILLS.MD ---
 
 
-# SKILLS.md - qa_engineer
+# SKILLS.MD - qa_engineer
 
 Purpose
 - Define required baseline QA skills for the `qa_engineer` role.
@@ -12682,8 +13562,10 @@ Trigger conditions (any one makes these mandatory):
 - The task requires deep analysis of regression risk.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 
 
 
@@ -13096,7 +13978,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -13109,7 +13991,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -13134,14 +14016,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - research_open_risks.md
 
 ## 6) References
-- agent_onboarding/default/researcher/SKILLS.MD
-- agent_onboarding/default/researcher/skills/researcher.md
-- agent_onboarding/default/researcher/skills/researcher_execution.md
-- agent_onboarding/default/researcher/policies/researcher_quality_policy.md
+- `agent_onboarding/default/researcher/SKILLS.MD`
+- `agent_onboarding/default/researcher/skills/researcher.md`
+- `agent_onboarding/default/researcher/skills/researcher_execution.md`
+- `agent_onboarding/default/researcher/policies/researcher_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\README.md ---
 
-﻿# Researcher Career
+# Researcher Career
 
 Purpose
 - Convert unknowns into evidence-backed constraints that keep story and world choices plausible.
@@ -13188,14 +14070,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\SKILLS.MD ---
 
-# SKILLS.md - researcher
+# SKILLS.MD - researcher
 
 Purpose
 - Define required baseline skills for the researcher role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -13208,15 +14090,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/researcher/AGENTS.MD
-- agent_onboarding/default/researcher/WORKFLOWS.MD
-- agent_onboarding/default/researcher/skills/researcher.md
-- agent_onboarding/default/researcher/skills/researcher_execution.md
-- agent_onboarding/default/researcher/skills/researcher_deliverables.md
-- agent_onboarding/default/researcher/policies/researcher_quality_policy.md
-- agent_onboarding/default/researcher/policies/researcher_handoff_policy.md
-- agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md
-- agent_onboarding/default/researcher/examples/researcher_task_flow.md
+- `agent_onboarding/default/researcher/AGENTS.MD`
+- `agent_onboarding/default/researcher/WORKFLOWS.MD`
+- `agent_onboarding/default/researcher/skills/researcher.md`
+- `agent_onboarding/default/researcher/skills/researcher_execution.md`
+- `agent_onboarding/default/researcher/skills/researcher_deliverables.md`
+- `agent_onboarding/default/researcher/policies/researcher_quality_policy.md`
+- `agent_onboarding/default/researcher/policies/researcher_handoff_policy.md`
+- `agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md`
+- `agent_onboarding/default/researcher/examples/researcher_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -13225,7 +14107,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires fast-turnaround research under strict evidence budget.
 
 If triggered:
-- Read: agent_onboarding/default/researcher/skills/researcher_advanced_context.md
+- `agent_onboarding/default/researcher/skills/researcher_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\WORKFLOWS.MD ---
@@ -13248,7 +14130,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\behavioral_guidelines\researcher_workflow.md ---
 
-﻿# researcher_workflow
+# researcher_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing researcher tasks.
@@ -13274,7 +14156,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\examples\researcher_task_flow.md ---
 
-﻿# researcher_task_flow
+# researcher_task_flow
 
 Scenario
 - Demonstrate a complete researcher pass with artifacts and gate decisions.
@@ -13302,7 +14184,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\policies\researcher_handoff_policy.md ---
 
-﻿# researcher_handoff_policy
+# researcher_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for researcher.
@@ -13325,7 +14207,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\policies\researcher_quality_policy.md ---
 
-﻿# researcher_quality_policy
+# researcher_quality_policy
 
 Purpose
 - Establish the quality bar for researcher outputs.
@@ -13350,7 +14232,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\skills\researcher.md ---
 
-﻿# researcher
+# researcher
 
 Purpose
 - Define role identity, responsibilities, and gate model for researcher.
@@ -13391,7 +14273,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\skills\researcher_advanced_context.md ---
 
-﻿# researcher_advanced_context
+# researcher_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for researcher.
@@ -13411,7 +14293,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\skills\researcher_deliverables.md ---
 
-﻿# researcher_deliverables
+# researcher_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for researcher.
@@ -13441,7 +14323,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\researcher\skills\researcher_execution.md ---
 
-﻿# researcher_execution
+# researcher_execution
 
 Purpose
 - Define deterministic execution phases for researcher.
@@ -13485,7 +14367,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -13577,7 +14459,7 @@ Unknowns Gate
 --- START OF FILE: context_compass\agent_onboarding\default\security_engineer\SKILLS.MD ---
 
 
-# SKILLS.md - security_engineer
+# SKILLS.MD - security_engineer
 
 Purpose
 - Define required baseline security skills for the `security_engineer` role.
@@ -13626,8 +14508,10 @@ Trigger conditions (any one makes these mandatory):
 - The user asks for threat modeling or security review as a primary deliverable.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 
 
 
@@ -14031,7 +14915,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -14044,7 +14928,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -14070,14 +14954,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - design_risk_register.md
 
 ## 6) References
-- agent_onboarding/default/story_designer/SKILLS.MD
-- agent_onboarding/default/story_designer/skills/story_designer.md
-- agent_onboarding/default/story_designer/skills/story_designer_execution.md
-- agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md
+- `agent_onboarding/default/story_designer/SKILLS.MD`
+- `agent_onboarding/default/story_designer/skills/story_designer.md`
+- `agent_onboarding/default/story_designer/skills/story_designer_execution.md`
+- `agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\README.md ---
 
-﻿# Story Designer Career
+# Story Designer Career
 
 Purpose
 - Own narrative architecture, premise clarity, and story-system design before drafting starts.
@@ -14125,14 +15009,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\SKILLS.MD ---
 
-# SKILLS.md - story_designer
+# SKILLS.MD - story_designer
 
 Purpose
 - Define required baseline skills for the story_designer role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -14145,15 +15029,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/story_designer/AGENTS.MD
-- agent_onboarding/default/story_designer/WORKFLOWS.MD
-- agent_onboarding/default/story_designer/skills/story_designer.md
-- agent_onboarding/default/story_designer/skills/story_designer_execution.md
-- agent_onboarding/default/story_designer/skills/story_designer_deliverables.md
-- agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md
-- agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md
-- agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md
-- agent_onboarding/default/story_designer/examples/story_designer_task_flow.md
+- `agent_onboarding/default/story_designer/AGENTS.MD`
+- `agent_onboarding/default/story_designer/WORKFLOWS.MD`
+- `agent_onboarding/default/story_designer/skills/story_designer.md`
+- `agent_onboarding/default/story_designer/skills/story_designer_execution.md`
+- `agent_onboarding/default/story_designer/skills/story_designer_deliverables.md`
+- `agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md`
+- `agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md`
+- `agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md`
+- `agent_onboarding/default/story_designer/examples/story_designer_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -14162,7 +15046,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires retrospective architecture salvage of an existing manuscript.
 
 If triggered:
-- Read: agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md
+- `agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\WORKFLOWS.MD ---
@@ -14185,7 +15069,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\behavioral_guidelines\story_designer_workflow.md ---
 
-﻿# story_designer_workflow
+# story_designer_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing story_designer tasks.
@@ -14211,7 +15095,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\examples\story_designer_task_flow.md ---
 
-﻿# story_designer_task_flow
+# story_designer_task_flow
 
 Scenario
 - Demonstrate a complete story_designer pass with artifacts and gate decisions.
@@ -14240,7 +15124,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\policies\story_designer_handoff_policy.md ---
 
-﻿# story_designer_handoff_policy
+# story_designer_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for story_designer.
@@ -14263,7 +15147,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\policies\story_designer_quality_policy.md ---
 
-﻿# story_designer_quality_policy
+# story_designer_quality_policy
 
 Purpose
 - Establish the quality bar for story_designer outputs.
@@ -14288,7 +15172,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\skills\story_designer.md ---
 
-﻿# story_designer
+# story_designer
 
 Purpose
 - Define role identity, responsibilities, and gate model for story_designer.
@@ -14330,7 +15214,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\skills\story_designer_advanced_context.md ---
 
-﻿# story_designer_advanced_context
+# story_designer_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for story_designer.
@@ -14350,7 +15234,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\skills\story_designer_deliverables.md ---
 
-﻿# story_designer_deliverables
+# story_designer_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for story_designer.
@@ -14381,7 +15265,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_designer\skills\story_designer_execution.md ---
 
-﻿# story_designer_execution
+# story_designer_execution
 
 Purpose
 - Define deterministic execution phases for story_designer.
@@ -14423,7 +15307,7 @@ Rules
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -14436,7 +15320,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -14462,14 +15346,14 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - visual_canon_risk_log.md
 
 ## 6) References
-- agent_onboarding/default/story_novel_artist/SKILLS.MD
-- agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
-- agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
-- agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md
+- `agent_onboarding/default/story_novel_artist/SKILLS.MD`
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md`
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md`
+- `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md`
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\README.md ---
 
-﻿# Story Novel Artist Career
+# Story Novel Artist Career
 
 Purpose
 - Own unified visual language for story-level illustration direction and novel-level art identity.
@@ -14517,14 +15401,14 @@ Unknowns Gate
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\SKILLS.MD ---
 
-# SKILLS.md - story_novel_artist
+# SKILLS.MD - story_novel_artist
 
 Purpose
 - Define required baseline skills for the story_novel_artist role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -14537,15 +15421,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/story_novel_artist/AGENTS.MD
-- agent_onboarding/default/story_novel_artist/WORKFLOWS.MD
-- agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md
-- agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md
-- agent_onboarding/default/story_novel_artist/skills/story_novel_artist_deliverables.md
-- agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md
-- agent_onboarding/default/story_novel_artist/policies/story_novel_artist_handoff_policy.md
-- agent_onboarding/default/story_novel_artist/behavioral_guidelines/story_novel_artist_workflow.md
-- agent_onboarding/default/story_novel_artist/examples/story_novel_artist_task_flow.md
+- `agent_onboarding/default/story_novel_artist/AGENTS.MD`
+- `agent_onboarding/default/story_novel_artist/WORKFLOWS.MD`
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md`
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md`
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_deliverables.md`
+- `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md`
+- `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_handoff_policy.md`
+- `agent_onboarding/default/story_novel_artist/behavioral_guidelines/story_novel_artist_workflow.md`
+- `agent_onboarding/default/story_novel_artist/examples/story_novel_artist_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -14554,7 +15438,7 @@ Trigger conditions (any one makes these mandatory):
 - Task requires model/provider migration without losing visual canon.
 
 If triggered:
-- Read: agent_onboarding/default/story_novel_artist/skills/story_novel_artist_advanced_context.md
+- `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\WORKFLOWS.MD ---
@@ -14577,7 +15461,7 @@ Active workflows
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\behavioral_guidelines\story_novel_artist_workflow.md ---
 
-﻿# story_novel_artist_workflow
+# story_novel_artist_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing story_novel_artist tasks.
@@ -14603,7 +15487,7 @@ Guardrails
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\examples\story_novel_artist_task_flow.md ---
 
-﻿# story_novel_artist_task_flow
+# story_novel_artist_task_flow
 
 Scenario
 - Demonstrate a complete story_novel_artist pass with artifacts and gate decisions.
@@ -14632,7 +15516,7 @@ Expected pass conditions
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\policies\story_novel_artist_handoff_policy.md ---
 
-﻿# story_novel_artist_handoff_policy
+# story_novel_artist_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for story_novel_artist.
@@ -14655,7 +15539,7 @@ Handoff packet checklist
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\policies\story_novel_artist_quality_policy.md ---
 
-﻿# story_novel_artist_quality_policy
+# story_novel_artist_quality_policy
 
 Purpose
 - Establish the quality bar for story_novel_artist outputs.
@@ -14680,7 +15564,7 @@ Metrics to monitor
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\skills\story_novel_artist.md ---
 
-﻿# story_novel_artist
+# story_novel_artist
 
 Purpose
 - Define role identity, responsibilities, and gate model for story_novel_artist.
@@ -14722,7 +15606,7 @@ Primary metrics
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\skills\story_novel_artist_advanced_context.md ---
 
-﻿# story_novel_artist_advanced_context
+# story_novel_artist_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for story_novel_artist.
@@ -14742,7 +15626,7 @@ Completion requirement
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\skills\story_novel_artist_deliverables.md ---
 
-﻿# story_novel_artist_deliverables
+# story_novel_artist_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for story_novel_artist.
@@ -14773,7 +15657,7 @@ Failure handling
 
 --- START OF FILE: context_compass\agent_onboarding\default\story_novel_artist\skills\story_novel_artist_execution.md ---
 
-﻿# story_novel_artist_execution
+# story_novel_artist_execution
 
 Purpose
 - Define deterministic execution phases for story_novel_artist.
@@ -14808,6 +15692,69 @@ Rules
 - Actual workflow definitions in this folder are user-generated and
   user-approved only.
 
+--- START OF FILE: context_compass\agent_onboarding\user_defined\data_engineer\AGENTS.MD ---
+
+# AGENTS.MD - Data Engineer Overlay
+
+## PRIME DIRECTIVE
+Certification is denied unless the resolved SKILLS chain is satisfied exactly.
+
+- You MUST read every path listed under **Active skills** / **Required baseline
+  skills** in each resolved `SKILLS.MD` file (parent-first).
+- **On-demand** skills are NOT part of baseline certification, but become
+  mandatory when triggered.
+- You MUST NOT claim a skill was read unless it was actually read.
+
+## 1) Document Intent
+
+This overlay is a **worked example of a user-defined role**. It is deliberately
+small: five active skills against `engineer`'s twenty, because the point is to
+show the minimum a working overlay needs, not to ship a complete data-engineering
+practice.
+
+Copy this folder as the starting shape for a real overlay. Replace the content.
+Do not treat its claims as a data-engineering standard - they are placeholders.
+
+## 2) Inheritance Directive
+
+This profile inherits and must comply with:
+- `context_compass/AGENTS.MD`
+- `context_compass/agent_onboarding/default/general/AGENTS.MD`
+- `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
+
+Nothing here weakens a parent rule. An overlay adds posture; it does not reduce
+a gate, shorten a readset, or relax certification.
+
+## 3) Role Boundary
+
+In scope:
+- data movement, schema shape, and pipeline structure
+- the correctness and provenance of data a pipeline produces
+
+Out of scope:
+- redefining engineering execution discipline, which `engineer` owns
+- redefining ticket, board, or certification mechanics, which `general` owns
+
+## 4) What a Real Overlay Adds Here
+
+If you build on this example, the useful additions are the ones a parent role
+cannot know:
+- the systems this project actually reads from and writes to
+- which datasets are authoritative and which are derived
+- the freshness and correctness guarantees you are held to
+- how a pipeline failure is escalated in this project
+
+## 5) Registration
+
+This role exists because it has a row in `context_compass/SKILLS.MD`. A folder
+under `agent_onboarding/user_defined/` with no registry row is not a role and is
+not selectable. Adding a role is one registry row plus the `SKILLS.MD` it names.
+
+References
+- `SKILLS.MD`
+- `agent_onboarding/user_defined/data_engineer/SKILLS.MD`
+- `PROFILE_CLASS_CREATION_GUIDE.md`
+
 --- START OF FILE: context_compass\agent_onboarding\user_defined\data_engineer\profile_overrides.md ---
 
 # data_engineer profile_overrides
@@ -14822,7 +15769,7 @@ Focus areas
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\data_engineer\SKILLS.MD ---
 
-# SKILLS.md - data_engineer
+# SKILLS.MD - data_engineer
 
 Purpose
 - Define a sample user-defined profile for data engineering work.
@@ -14831,6 +15778,7 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
 Active skills
+- `agent_onboarding/user_defined/data_engineer/AGENTS.MD`
 - `agent_onboarding/user_defined/data_engineer/WORKFLOWS.MD`
 - `agent_onboarding/user_defined/data_engineer/profile_overrides.md`
 - `agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md`
@@ -14901,7 +15849,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline
-  skills** in each resolved `SKILLS.md` file (parent-first).
+  skills** in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become
   mandatory when triggered.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -14918,7 +15866,7 @@ It is an additive overlay on top of `engineer`.
 ## 2) Inheritance Directive
 
 This profile inherits and must comply with:
-- `context_compass/AGENTS.md`
+- `context_compass/AGENTS.MD`
 - `context_compass/agent_onboarding/default/general/AGENTS.MD`
 - `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
 
@@ -14943,8 +15891,8 @@ Before writing or rewriting substantial public-library docstrings or test
 contracts, use the mandatory baseline readset:
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 
 The rationale is simple: rich docstrings and rich tests are only trustworthy if
 they describe real system boundaries, ownership, cleanup, and collaborator
@@ -15048,7 +15996,7 @@ Boundary rule
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_finishing_developer\SKILLS.MD ---
 
-# SKILLS.md - synaptic_finishing_developer
+# SKILLS.MD - synaptic_finishing_developer
 
 Purpose
 - Define active user-defined overlay skills for the
@@ -15069,10 +16017,6 @@ Active skills
 - `agent_onboarding/user_defined/synaptic_finishing_developer/policies/synaptic_finishing_developer_policy_overrides.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/synaptic_finishing_developer_skill_overrides.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/behavioral_guidelines/synaptic_finishing_developer_behavior_overrides.md`
-- `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/system_aware_docstrings.md`
@@ -15589,7 +16533,7 @@ Finishing check
 
 References
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/skills/python/comments.md`
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_finishing_developer\skills\documentation\docstring_craft.md ---
@@ -15678,7 +16622,7 @@ Review questions
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/skills/python/docstrings.md`
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_finishing_developer\skills\documentation\docstring_test_alignment.md ---
@@ -15746,8 +16690,8 @@ Purpose
 Required read surfaces
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 
 Use each surface for a different question
 - `src_architecture.md`
@@ -15758,7 +16702,7 @@ Use each surface for a different question
   - What owns this object?
   - What does it create, validate, publish, or bind?
   - What are the method-level call flows?
-- `readable_src_graph.json`
+- `src_graph.md`
   - What does this object own?
   - What does it borrow?
   - What does it create?
@@ -15794,8 +16738,8 @@ Unknowns rule
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_finishing_developer\skills\testing\component_tests.md ---
 
@@ -16164,8 +17108,8 @@ Turn repo pytest improvement into a slow, recursive, system-aware macro:
 ## Required Reads
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/testing_overview.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/pytest_unit.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/testing/component_tests.md`
@@ -16435,8 +17379,8 @@ Turn repo documentation finishing into a slow, recursive, system-aware macro:
 ## Required Reads
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/system_aware_docstrings.md`
@@ -16635,7 +17579,7 @@ Rules
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -16657,12 +17601,12 @@ This profile inherits and must comply with:
 - `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
 
 Inherited root policy remains in force through the default inheritance chain.
-This overlay applies only when the active profile resolves to
+This overlay applies only when the selected role resolves to
 `synaptic_python_developer`.
 
 ## 3) Prime Bootstrap Policies (Root-Migrated)
 
-These directives are migrated from repository-root `agents.md` and are treated
+These directives are migrated from repository-root `AGENTS.MD` and are treated
 as top-priority bootstrap enforcement rules.
 
 ## 4) Prime Directive: Documentation-First Edits
@@ -17065,8 +18009,8 @@ Overlay docs
 - `skills/testing/`: user-preference test authoring/validation guidance.
 - `examples/python/`: user-preference Python/testing examples.
 
-SKILLS.md top-level sources
-- `context_compass/SKILLS.md`
+SKILLS.MD top-level sources
+- `context_compass/SKILLS.MD`
 - `context_compass/agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
 
 
@@ -17076,7 +18020,7 @@ SKILLS.md top-level sources
 
 
 
-# SKILLS.md - synaptic_python_developer
+# SKILLS.MD - synaptic_python_developer
 
 Purpose
 - Define active user-defined overlay skills for the
@@ -17338,377 +18282,6 @@ Boundary rule
 
 
 
---- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_python_developer\skills\synaptic_python_developer.md ---
-
-
-
-# synaptic_python_developer skill - User-Defined Overlay
-
-## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
-
-- Certification is denied unless the resolved `SKILLS.md` chain is satisfied exactly.
-  - You MUST read every path listed under **Active skills** / **Required baseline skills**
-    in each resolved `SKILLS.md` file (parent-first).
-  - **On-demand** skills are NOT part of baseline certification, but become mandatory when
-    triggered by the active task. If triggered, you MUST read them before proceeding.
-- After any compaction/handoff, assume chat memory is unreliable.
-  - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
-  - You MUST NOT claim you "retained" this document (or any other doc) across compaction.
-    Only claim what you re-read and can prove via read-integrity/comprehension proof.
-- No policy negotiation:
-  - Do NOT propose reducing the readset or rewriting policy as a workaround unless the user explicitly asks.
-
-
-## 1) Document Intent
-
-This document defines user-specific behavior and policy overrides for the
-`synaptic_python_developer` profile.
-It is an additive overlay and does not replace baseline policy.
-
-## 2) Scope Directive
-
-This profile must comply with:
-- `context_compass/agent_onboarding/default/general/skills/general.md`
-- `context_compass/agent_onboarding/default/engineer/skills/engineer.md`
-
-Root and baseline policy remain in force through explicit role skill paths.
-This overlay applies only when the active profile resolves to
-`synaptic_python_developer`.
-
-## 3) Prime Bootstrap Policies (Root-Migrated)
-
-These directives are migrated from repository-root `agents.md` and are treated
-as top-priority bootstrap enforcement rules.
-
-## 4) Prime Directive: Documentation-First Edits
-
-Whenever you add or modify code:
-
-- Every class must have a rich docstring.
-- Every method/function must have a rich docstring.
-- Comments must be preserved and improved when they are unclear or
-  insufficient.
-- Treat docstrings and comments as part of the API; they must remain accurate.
-
-## 5) Non-Negotiables
-
-### 5.1) Preserve Documentation and Comments
-
-- Never delete or strip docstrings.
-- Never delete comments. If a comment is wrong, stale, or misleading, update it
-  rather than removing it.
-- Only rewrite docstrings/comments for code you touched unless an untouched
-  doc/comment is provably wrong or dangerously misleading.
-
-### 5.2) `__init__.py` Policy (No Export Wiring)
-
-- Do not add or modify package `__init__.py` files to re-export symbols.
-- Do not add `__all__` export lists in `__init__.py` files.
-- Import from concrete module paths directly.
-- Keep `__init__.py` files empty unless package discovery requires the file to
-  exist.
-
-### 5.3) Rich Docstrings Required (No Fluff)
-
-This is not optional. For all public classes and public methods, write
-docstrings that include real contracts, not vibes.
-
-Docstring style: follow the repo's existing style (Google / NumPy / reST). If
-the repo has a pattern, match it exactly.
-
-Minimum content for public API:
-
-- Purpose: what it does and why it exists.
-- Contract: invariants / guarantees / side effects.
-- Parameters: meaning and constraints.
-- Returns: what is returned (or `None`).
-- Raises: what can be raised, and under what conditions.
-- Threading / Concurrency: locks, thread-safety, reentrancy, ordering (when
-  relevant).
-- Lifecycle / Cleanup: ownership, idempotence, teardown ordering (when
-  relevant).
-- Examples: only when it materially clarifies usage; keep short.
-- Typing: always add type hints to signatures, and document complex types in
-  the docstring when needed for clarity.
-
-No fluff rule: do not write marketing copy or filler sentences. If a docstring
-is "rich," it contains precise guarantees.
-
-### 5.4) Documentation and Convention Precedence
-
-- Before making edits, read and follow existing repository conventions:
-  `README`, `CONTRIBUTING`, `docs/`, and any architecture/design notes.
-- Do not invent new conventions if the repo already has a pattern.
-- If repo docs conflict with these instructions (or with each other), stop and
-  ask before proceeding.
-
-### 5.5) Reviewability and Change Hygiene
-
-- Keep changes reviewable.
-- Avoid touching large numbers of files in one change unless explicitly
-  requested.
-- When a large change is required, group it by a clear boundary (module/dir)
-  and apply a consistent rule.
-
-### 5.6) Module Scope: Constants and Pure Helpers Only
-
-- Avoid module-level mutable state (globals, caches, singletons, registries,
-  shared clients).
-- Prefer instance-bound methods/classes for anything with ownership/lifecycle
-  (dependencies, logging, concurrency, cleanup, configuration).
-- Allowed at module scope:
-  - small immutable lookup tables
-  - pure functions (no side effects, no hidden state, deterministic)
-- If a helper is not obviously pure/stateless or would introduce shared state,
-  ask first.
-- If an existing module already uses module-level helpers, you may follow the
-  pattern, but do not add new module globals without asking.
-
-### 5.7) No `print()` - Use the Library's Logging Pattern
-
-- Do not add `print()` unless it is for pytest.
-- Exception: `print()` is allowed in pytest tests for diagnostic output; it is
-  still disallowed in library/runtime code.
-- Use the library's logging abstraction/pattern.
-- If you cannot identify the correct logger usage, ask rather than inventing a
-  new logging style.
-
-### 5.8) Attribute Access Rule (No Defensive Introspection in Owned Code)
-
-If we own the file/module and the attribute names are visible in the code, do
-not use `getattr()` / `hasattr()` as a defensive pattern.
-
-- Use direct access (`obj.attr`).
-- Handle `None` explicitly where appropriate.
-- If you genuinely need to handle a missing attribute on an external/optional
-  dependency, call it directly and catch `AttributeError` instead of probing
-  with `hasattr`. This keeps owned-code contracts strict while still being safe
-  when the contract is ambiguous or external.
-
-`getattr()` / `hasattr()` are allowed only in ambiguous situations, meaning at
-least one is true:
-
-- The object is polymorphic/external and its attribute contract is not visible
-  in our code.
-- The attribute/method is optional by design (capability checks).
-- The attribute name is truly dynamic.
-
-Polymorphic lock cleanup exception (allowed):
-
-- For lock-like objects that may be different implementations, capability checks
-  are allowed:
-  `if hasattr(lock, "cleanup"): lock.cleanup()`
-
-Disallowed example (we own it / visible contract):
-
-- `getattr(self, "_foo", None)` when `_foo` is clearly part of our class/object
-  contract in this file.
-
-### 5.9) Technical Expertise Rule (Root-Cause First)
-
-- Do not apply defensive `None` guards by default.
-- Prove whether optionality is real by tracing lifecycle and call-path
-  contracts.
-- Choose one of three outcomes:
-  - fail-fast for invalid state
-  - explicit optional handling where optionality is contractual
-  - test/setup correction when tests drift from runtime contract
-- Avoid guard clutter on hot paths when contract evidence does not justify it.
-
-### 5.10) Constructor / Initialization Requirements
-
-When adding or modifying `__init__` / initialization flows:
-
-- Maintain explicit ownership: it must be clear what this object owns and what
-  it only references.
-- Initialize fields deterministically and explicitly.
-- If an attribute is optional, initialize it to `None` (or a clear sentinel)
-  and document that contract.
-
-### 5.11) Cleanup / Teardown Discipline (Immediately After Initialization)
-
-Cleanup is a core part of this library's correctness contract.
-
-- Cleanup must be deterministic and idempotent.
-- Prefer object teardown: call `cleanup()` on child objects, then delete owned
-  references to remove the live surface and prevent use-after-clean.
-- Look at existing implementations of the class for patterns to better
-  understand requirements. We cleanup everything; do not leave it to the GC.
-- Logger teardown last.
-- Do not use placeholder comments like "already deleted above." Write the
-  actual teardown actions.
-
-Cleanup teardown contract:
-
-- Default posture: after cleaning children, delete owned field references with
-  `del`.
-- Allowed exception: use `None` only when the post-cleanup contract explicitly
-  needs a retained tombstone field for callers, tests, or diagnostics.
-- If a field is kept as `None` instead of deleted, that must be intentional
-  and documented.
-
-### 5.12) Method Size Discipline
-
-- Prefer methods/functions around 50-60 LOC max (counting code only; exclude
-  docstrings, signatures, and blank lines).
-- Split long methods into smaller, testable helpers with clear contracts.
-- Do not fragment code if it reduces clarity; prioritize readable, cohesive
-  units.
-
-### 5.13) Public API Guardrail
-
-- Do not change public API shape or semantics unless explicitly requested.
-- If a public change is unavoidable, prefer:
-  - backwards-compatible adapters/shims, and/or
-  - explicit deprecation paths with documentation.
-- Interfaces may be exposed in public APIs when they mirror the concrete
-  runtime classes. If an interface is exposed, the runtime object must be the
-  concrete implementation and the interface must stay in lockstep with it.
-
-### 5.13.1) TYPE_CHECKING and Python 3.14 annotations
-
-- Python 3.14 deferred annotations are the baseline for this repo.
-- When a dependency is typing-only, use `typing.TYPE_CHECKING` plus the real
-  concrete type name directly in annotations.
-- Do not quote that type name just to avoid runtime import pressure.
-- Do not add `else: TypeName = Any` fallback aliases to fake runtime binding.
-- Do not add `from __future__ import annotations` for this purpose; it is
-  already unnecessary in Python 3.14.
-- Because this repo is typed with mypy, widening a truthful concrete
-  collaborator type to `Any` is wrong unless it is genuinely unavoidable and
-  raised explicitly to the user first.
-
-### 5.14) Banned / Disallowed Patterns
-
-- Never use `type: ignore`.
-- Never use `# noqa`.
-- `eval()` / `exec()` / `compile()` are allowed for agent work when codegen is
-  required.
-- Never use wildcard imports (for example, `from module import *`).
-- Excessive defensive programming is forbidden; use logic and common sense.
-- Do not use broad `try/except Exception` in owned runtime code unless it is
-  explicitly documented best-effort cleanup/logging behavior.
-- Do not swallow errors with `except ...: pass` in owned runtime code.
-- Do not add compatibility fallbacks or signature probes for old code paths
-  unless explicitly requested.
-- Prefer fail-fast contracts over silent fallback behavior.
-- Dataclasses are value-only: allowed fields are `None`, `bool`, `int`,
-  `float`, and `str`. Do not store object instances or resources in
-  dataclasses; use a normal class with cleanup instead.
-- Use `typing.TYPE_CHECKING` for guarded imports when the dependency is
-  typing-only and a runtime import would create unnecessary dependency
-  pressure.
-
-### 5.15) MRP-Only Product Strategy (MRP-first, MLP for UI only)
-
-- Never use an MVP approach. MVP is disallowed here.
-- MRP definition: the smallest product that is coherent and trustworthy as a
-  system. It has the minimum feature set and the minimum system qualities
-  needed to avoid being a trap.
-- MRP emphasis: correctness of the core experience and durability (clear
-  boundaries, predictable behavior, basic operability).
-- MRP ship rule: it works reliably for its intended use, and adding more later
-  will not require rewriting the core.
-- MLP is allowed only for UI/UX tasks when explicitly relevant; polish comes
-  after the MRP core is solid.
-- If there is doubt, default to MRP over speed-to-market.
-
-## 6) Synaptic Profile Scope (User-Defined Override Only)
-
-- This document is a user-defined overlay for `synaptic_python_developer`.
-- Role order for this overlay is:
-  `general`, `engineer`, `synaptic_python_developer`.
-- Keep default `general` and `engineer` baselines reusable; do not promote
-  these profile-specific constraints to default baselines unless explicitly
-  approved.
-- These are additive overrides, not replacements for baseline policy layers.
-
-### 6.1) Synaptic Collaboration Overrides
-
-- Use stronger challenge posture when technical direction appears incorrect:
-  require explicit evidence and tradeoff framing before acceptance.
-- Keep approval-loop discipline strict:
-  no file edits or scope expansion without explicit user confirmation.
-- Keep high engagement expectations:
-  treat sustained project outcomes as a first-class responsibility.
-- Use high-initiative partner mode by default:
-  drive recommendations with evidence and concrete next actions.
-- Use higher clarification cadence:
-  ask clarification questions early when ambiguity remains after brief
-  investigation.
-- Use stronger contradiction handling:
-  surface low-quality proposals directly with specific technical rationale and
-  alternatives.
-- Maintain direct, blunt, professional communication with explicit ownership and
-  continuous in-loop status updates.
-- Keep onboarding/read-discipline rigor non-negotiable and maintain explicit
-  execution momentum.
-
-### 6.2) Synaptic Python Overlay Deltas
-
-- Module scope is restricted to types/generics and pure helpers.
-- Do not add module-level constants or hidden sentinels; prefer class-level or
-  config-owned constants.
-- Type hints are mandatory for all functions/methods (public and internal).
-- Do not add `from __future__ import annotations` in new files.
-- Python 3.14 already defers annotations by default, so this import is not a
-  valid workaround for typing-only import pressure here.
-- Do not use PEP 604 union syntax (`A | B`, `T | None`); use
-  `Optional`/`Union`.
-- Use `typing.TYPE_CHECKING` as the primary typing-only import path.
-- For typing-only concrete imports in Python 3.14, use the real type name
-  directly in annotations with no quotes and no runtime fallback alias.
-- Use `Protocol` for structural contracts only when multiple implementations or
-  a real shared behavioral surface must be enforced.
-- Use `ABC` for explicit runtime inheritance contracts, and keep those
-  contracts in lockstep with the concrete runtime behavior when they are
-  public.
-- Logging discipline for this profile:
-  prefer the hosted provider path via `InitHelpers.resolve_channel_logger(...)`
-  for project channel logging, use `InitHelpers.resolve_safe_logger(...)` for
-  explicit logger objects, and treat the provider-level registered stdlib logger
-  as the basic fallback only.
-- Do not add `else: TypeName = Any` fallback aliases under a `TYPE_CHECKING`
-  block just to make annotations compile.
-- Do not widen a truthful concrete collaborator type to `Any` unless the need
-  is explicit, unavoidable, and raised to the user first.
-- Hot-path attribute aliasing should follow measured rules and benchmark-backed
-  evidence, not intuition.
-- Do not create defensive local aliases or snapshots of owned fields/registries
-  unless correctness requires it and the reason is explicitly documented.
-
-### 6.3) Synaptic Testing Overlay Deltas
-
-- `pytest` is the default test framework for this profile.
-- Unit tests are default; integration tests are required when unit tests cannot
-  safely prove correctness.
-- Component tests are first-class when a small slice of real wiring is needed
-  without external I/O.
-- Keep test placement explicit:
-  component tests in `tests/component/`, integration tests in
-  `tests/integration/`.
-- Keep tests deterministic and contract-driven.
-- Avoid low-value attribute/existence checks unless explicitly contract-backed.
-- Regression tests should be symptom-named with minimal reproductions and
-  corrected-behavior assertions.
-- Truthful validation reporting is mandatory:
-  if validation/coverage is not executed, report exactly `"Not run."`
-
-### 6.4) Synaptic Evidence and Reporting Discipline
-
-- Never imply `pytest`/coverage execution unless it actually ran.
-- When coverage was not measured, say so explicitly and do not estimate.
-- Recommended command references for this profile:
-  `pytest`, `pytest -q`, `pytest -m integration`, `pytest --cov`.
-- Coverage guidance for user-run verification:
-  prefer >=95% with density heuristics (>=10 tests per 100 LOC baseline;
-  >=20 tests per 100 LOC for dense/high-complexity logic), without filler
-  assertions.
-
-
-
-
-
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_python_developer\skills\synaptic_skill_overrides.md ---
 
 
@@ -17927,7 +18500,8 @@ Post-cleanup usage rule
 
 Rules
 - Cleanup implemented immediately after __init__.
-- If using Cleanable, prefer deleting owned fields after cleanup. Use `None`
+- If your base class defines a cleanup contract, prefer deleting owned fields
+  after cleanup. Use `None`
   only when the class contract explicitly requires a retained post-cleanup
   field surface.
 - Cleanup must be idempotent and safe to call multiple times.
@@ -18012,7 +18586,7 @@ Examples
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_python_developer\skills\python\docstrings.md ---
 
-﻿
+
 
 # docstrings
 
@@ -18105,7 +18679,7 @@ Examples
 
 --- START OF FILE: context_compass\agent_onboarding\user_defined\synaptic_python_developer\skills\python\error_model.md ---
 
-﻿
+
 
 # error_model
 
@@ -18493,7 +19067,7 @@ Example commands
 - pytest --cov
 
 References
-- agent_onboarding/default/general/README.md
+- `agent_onboarding/default/general/README.md`
 
 
 
@@ -18885,7 +19459,7 @@ Provide one explicit synaptic-role onboarding macro that:
 - avoids agents
 - allows up to 30 parallel read threads/tool reads when safe
 - reads `src_architecture.md`, `src_components.md`, and
-  `readable_src_graph.json`
+  `src_graph.md`
 
 ## Use When
 - The user explicitly names `synaptic_python_developer_onboarding`.
@@ -18902,7 +19476,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - explicit workflow selection or explicit synaptic onboarding request
 - Optional:
   - certification message if the user includes it during the same turn
-  - explicit request to also read `src_graph.json`
+  - explicit request to also read `src_graph_index.md`
 
 ## Outputs
 - Expected artifacts:
@@ -18917,20 +19491,20 @@ Provide one explicit synaptic-role onboarding macro that:
 - `context_compass/AGENTS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - all Markdown documents in `context_compass/special_instructions/`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/engineer/SKILLS.MD`
 - `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/src_graph.md`
 
 ## Required Skills
 - `agent_onboarding/default/general/skills/self_certification.md`
 - `agent_onboarding/default/general/skills/user_approved_certification.md`
 - `agent_onboarding/default/engineer/skills/context_protocol.md`
-- `agent_onboarding/default/engineer/skills/graph_details_usage.md`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - `agent_onboarding/default/general/skills/agent_identity.md`
 
 ## Preconditions / Gates
@@ -18939,13 +19513,13 @@ Provide one explicit synaptic-role onboarding macro that:
 - Do not use agents.
 - Up to 30 parallel read threads/tool reads are allowed only when the reads are
   real reads and the file chunking rules are still respected.
-- Respect `codex.read_loc_max` and `codex.viewer_tool_read_limit`.
+- Respect `reading.read_loc_max` and `reading.viewer_tool_read_limit`.
 - If certification is not already present, request:
   - `AGENT_NAME: <name>`
   - `CERTIFY: APPROVED`
   before any non-onboarding action.
-- Treat `readable_src_graph.json` as the primary graph consumption surface.
-- Do not substitute `src_graph.json` unless the user explicitly asks for the
+- Treat `src_graph.md` as the primary graph consumption surface.
+- Do not substitute `src_graph_index.md` unless the user explicitly asks for the
   raw storage graph.
 
 ## Phase Sequence
@@ -18988,7 +19562,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - the source-doc bundle is implicit in this workflow and does not require the
     user to restate it
   - read `src_architecture.md`, `src_components.md`, and
-    `readable_src_graph.json`
+    `src_graph.md`
   - use `Get-Content`
   - chunk large files sequentially
   - parallelize only when safe and within the no-agent constraint
@@ -19000,7 +19574,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - `AGENTS.MD` was read first
   - the resolved role chain was read
   - `src_architecture.md`, `src_components.md`, and
-    `readable_src_graph.json` were read
+    `src_graph.md` were read
   - no agent workflow was used
 
 6. Handoff / Closure
@@ -19045,11 +19619,11 @@ Provide one explicit synaptic-role onboarding macro that:
 - The workflow uses `Get-Content` and no agents.
 - The synaptic role chain is onboarded.
 - `src_architecture.md`, `src_components.md`, and
-  `readable_src_graph.json` are read as requested.
+  `src_graph.md` are read as requested.
 
 ## Anti-Patterns
 - Skipping `AGENTS.MD` and jumping directly to source docs.
-- Replacing `readable_src_graph.json` with `src_graph.json` without an
+- Replacing `src_graph.md` with `src_graph_index.md` without an
   explicit user request.
 - Using agents even though the workflow explicitly forbids them.
 
@@ -19152,93 +19726,54 @@ Historical note
 
 --- START OF FILE: context_compass\config\context_compass_config.yaml ---
 
-version: 1
+version: 2
+
+# ---------------------------------------------------------------------------
+# This file holds BEHAVIOUR SETTINGS ONLY.
+#
+# It does not enumerate roles and is never consulted to discover or resolve a
+# role. The single registry of roles is `context_compass/SKILLS.MD`. A role
+# exists if and only if it has a row in that table.
+#
+# Role identity used to be duplicated across five lists in this file plus two
+# in SKILLS.MD. Adding a role meant editing seven places by hand, so roles were
+# routinely half-registered or missed entirely. Role data now lives in exactly
+# one place.
+#
+# There is also no `active_profile`. Role selection is per agent, per session:
+# several agents can work this repository concurrently holding different roles,
+# so no single stored value can represent "the" role.
+# ---------------------------------------------------------------------------
 
 profiles:
-  available_profiles:
-    - new
-    - general
-    - engineer
-    - design_engineer
-    - platform_engineer
-    - qa_engineer
-    - security_engineer
-    - story_designer
-    - story_novel_artist
-    - researcher
-    - draft_writer
-    - developmental_editor
-    - line_copy_editor
-    - continuity_fact_checker
-    - proofreader
-    - synaptic_finishing_developer
-    - synaptic_python_developer
-  user_defined_profiles:
-    - synaptic_finishing_developer
-    - synaptic_python_developer
   onboarding:
     first_time_enabled: false
+    # Entry role for first-time onboarding. Must be a role in SKILLS.MD.
     first_time_default_profile: new
+    # choose = ask the user which role to take after onboarding completes.
     post_onboarding_profile_mode: choose
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - design_engineer
-      - platform_engineer
-      - qa_engineer
-      - security_engineer
-      - story_designer
-      - story_novel_artist
-      - researcher
-      - draft_writer
-      - developmental_editor
-      - line_copy_editor
-      - continuity_fact_checker
-      - proofreader
-      - synaptic_finishing_developer
-      - synaptic_python_developer
+    # Which roles may be chosen is defined by the `selectable after onboarding`
+    # column in the SKILLS.MD registry, not here.
     fallback_post_onboarding_profile: engineer
 
-router:
-  path: context_compass/SKILLS.md
-  agent_reads_readmes: false
-  readme_role: user_facing_only
-  profile_readme_policy:
-    new: true
-    general: false
-    engineer: false
-    design_engineer: false
-    platform_engineer: false
-    qa_engineer: false
-    security_engineer: false
-    story_designer: false
-    story_novel_artist: false
-    researcher: false
-    draft_writer: false
-    developmental_editor: false
-    line_copy_editor: false
-    continuity_fact_checker: false
-    proofreader: false
-    synaptic_finishing_developer: false
-    synaptic_python_developer: false
-  roles:
-    new: agent_onboarding/default/new/SKILLS.MD
-    general: agent_onboarding/default/general/SKILLS.MD
-    engineer: agent_onboarding/default/engineer/SKILLS.MD
-    design_engineer: agent_onboarding/default/design_engineer/SKILLS.MD
-    platform_engineer: agent_onboarding/default/platform_engineer/SKILLS.MD
-    qa_engineer: agent_onboarding/default/qa_engineer/SKILLS.MD
-    security_engineer: agent_onboarding/default/security_engineer/SKILLS.MD
-    story_designer: agent_onboarding/default/story_designer/SKILLS.MD
-    story_novel_artist: agent_onboarding/default/story_novel_artist/SKILLS.MD
-    researcher: agent_onboarding/default/researcher/SKILLS.MD
-    draft_writer: agent_onboarding/default/draft_writer/SKILLS.MD
-    developmental_editor: agent_onboarding/default/developmental_editor/SKILLS.MD
-    line_copy_editor: agent_onboarding/default/line_copy_editor/SKILLS.MD
-    continuity_fact_checker: agent_onboarding/default/continuity_fact_checker/SKILLS.MD
-    proofreader: agent_onboarding/default/proofreader/SKILLS.MD
-    synaptic_finishing_developer: agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD
-    synaptic_python_developer: agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD
+# There is no `router:` section. It held three keys, all dead: a `path:` pointer
+# at SKILLS.MD, which contradicted the rule above that this file is never
+# consulted to resolve a role, and a global `agent_reads_readmes: false`, which
+# contradicted the registry's `reads README` column for `new` - the one role
+# that does read them. Nothing consumed any of the three. README behaviour is
+# per role, and the registry column is the only place it is declared.
+
+system_of_record:
+  # Whether `context_compass` is the ONLY permitted place to plan, track, route
+  # and record work. See the Tooling Mandate in `context_compass/AGENTS.MD`.
+  #
+  # true  - agents must not use harness-native task lists, plans, status widgets
+  #         or session memory. All work state lives in this package.
+  # false - harness-native tracking is permitted and the mandate does not bind.
+  #
+  # This is the only switch that lifts the mandate. An agent may not decide on
+  # its own that a task is too small to record.
+  enforce: true
 
 workflow:
   ticket_microcycle:
@@ -19288,7 +19823,7 @@ documentation_format:
     one_path_per_line_when_exceeds_hard_cap: true
     allow_inline_single_path_under_hard_cap: true
 
-codex:
+reading:
   viewer_tool_read_limit: 500 # Maximum lines per view/read operation
   read_loc_max: 500 # Maximum LOC per manual chunked read operation
 
@@ -19398,7 +19933,7 @@ Rules
 
 --- START OF FILE: context_compass\examples\adr_example.md ---
 
-﻿# Example: ADR - Repository-Local Example Strategy
+# Example: ADR - Repository-Local Example Strategy
 
 Status
 - Accepted
@@ -19411,7 +19946,7 @@ Decision
 - Use this repository as the canonical public example.
 - Require full epic/story/task/artifact examples under `examples/example_*`.
 - Keep copy-safe entrypoint references to
-  `context_compass/AGENTS.md`.
+  `context_compass/AGENTS.MD`.
 
 Consequences
 - Users can copy `context_compass/` and follow a complete workflow immediately.
@@ -19430,7 +19965,7 @@ Implementation links
 
 --- START OF FILE: context_compass\examples\artifact_workflow.md ---
 
-﻿# Example: artifact workflow (repo-based)
+# Example: artifact workflow (repo-based)
 
 Scenario
 - A docs release-readiness pass requires a retained rationale artifact.
@@ -19478,7 +20013,7 @@ Expected outputs
 - `resolution_recommendations.md`
 --- START OF FILE: context_compass\examples\design_task_flow.md ---
 
-﻿# Example: design_engineer task flow (repo-based)
+# Example: design_engineer task flow (repo-based)
 
 Scenario
 - Story: raise release-readiness doc quality so users can execute this workflow
@@ -19565,7 +20100,7 @@ Expected outputs
 - `rewrite_resolution_log.md`
 --- START OF FILE: context_compass\examples\eng_task_flow.md ---
 
-﻿# Example: engineer task flow (repo-based)
+# Example: engineer task flow (repo-based)
 
 Scenario
 - Active ticket: `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md`
@@ -19705,7 +20240,7 @@ Expected outputs
 - defect list or explicit no-findings statement
 --- START OF FILE: context_compass\examples\repo_overview.md ---
 
-﻿# Rich Repository Overview (Context Compass)
+# Rich Repository Overview (Context Compass)
 
 ## What This Package Is
 `context_compass/` is a docs-first operating model for long-running AI work. It
@@ -19713,9 +20248,9 @@ provides deterministic onboarding, role routing, ticket memory, and compaction
 recovery so execution can continue reliably across sessions.
 
 ## Core Entry Points
-- `context_compass/AGENTS.md`: Codex startup contract.
+- `context_compass/AGENTS.MD`: agent startup contract.
 
-- `context_compass/SKILLS.md`: top-level role map.
+- `context_compass/SKILLS.MD`: top-level role map.
 
 ## Folder Map
 - `config/context_compass_config.yaml`: profile + role routing config.
@@ -19738,8 +20273,8 @@ recovery so execution can continue reliably across sessions.
   `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
 
 ## How To Read This Repo Fast
-1. Start with `AGENTS.md`.
-2. Read `SKILLS.md` and resolve the role chain.
+1. Start with `AGENTS.MD`.
+2. Read `SKILLS.MD` and resolve the role chain.
 3. Read `config/context_compass_config.yaml`.
 4. Read `system_docs/src_architecture.md` and `system_docs/src_components.md`.
 5. Follow the example epic/story/task chain above.
@@ -19758,8 +20293,8 @@ recovery so execution can continue reliably across sessions.
 
 ## Adoption Steps
 1. Copy `context_compass/` to repo root.
-2. Enter through `AGENTS.md`.
-3. Select role from `SKILLS.md`.
+2. Enter through `AGENTS.MD`.
+3. Select role from `SKILLS.MD`.
 4. Create tickets from templates.
 5. Use this example chain as the baseline quality model.
 
@@ -19874,18 +20409,42 @@ Expected outputs
 
 --- START OF FILE: context_compass\examples\example_architecture\src_architecture.md ---
 
-﻿# Example src_architecture (repo-grounded)
+# Example src_architecture (repo-grounded)
 
 ## Metadata
 - Example type: high-fidelity architecture example
 - Objective: show what a strong architecture document looks like when based on
   real repository files
-- Last verified at: 2026-02-19T03:15:00Z
+- Last verified at: 2026-08-01T16:16:14Z
 
 ## Scope and Intent
 This example demonstrates a credible C4 architecture narrative for Context
 Compass using this repo's actual entrypoints, routing files, ticket lanes, and
 board state files.
+
+## Indexing
+
+This document is authored. Its only generated companion is `src_architecture_index.md`,
+rebuilt in the same pass as any edit:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/examples/example_architecture/src_architecture.md
+```
+
+That command indexes THIS example, and it works - run it and compare the
+output to the `src_architecture_index.md` beside it. When you write your own, the
+target becomes `context_compass/system_docs/src_architecture.md`, which does not exist
+until you create it: the package ships `system_docs/` empty.
+
+Format rules the index depends on, demonstrated throughout this example:
+- exactly one H1 (the document title)
+- the navigable unit is H2 `## <Concern>`, at consistent depth
+- section names unique and stable - index rows are selected by name
+- container headings organise, but are never the read target: a heading wrapping
+  only other headings indexes as a range covering all of them
+
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## DO NOT ASSUME / Unknowns Gate
 - Keep unresolved claims marked UNKNOWN.
@@ -19901,8 +20460,8 @@ Context Compass turns volatile chat context into durable, file-backed execution
 state through policy bootstrap, role routing, and ticket-first notes.
 
 ## System Boundary and External Interfaces
-- Entrypoints: `AGENTS.md`
-- Router/config: `SKILLS.md`, `config/context_compass_config.yaml`
+- Entrypoints: `AGENTS.MD`
+- Router/config: `SKILLS.MD`, `config/context_compass_config.yaml`
 - Work memory: `attention_board.md`, `tickets/`
 - Artifact memory: `artifact_board.md`, `artifacts/`
 
@@ -19940,26 +20499,26 @@ state through policy bootstrap, role routing, and ticket-first notes.
 - missing artifact disposition
 
 ## C1 Code Map (Core Only)
-- path: `SKILLS.md`
+- path: `SKILLS.MD`
   start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 108
+  loc: 108
+  verified_at: 2026-08-01T16:16:14Z
 - path: `config/context_compass_config.yaml`
   start_line: 1
-  end_line: 136
-  loc: 136
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 101
+  loc: 101
+  verified_at: 2026-08-01T16:16:14Z
 - path: `attention_board.md`
   start_line: 1
-  end_line: 33
-  loc: 33
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 57
+  loc: 57
+  verified_at: 2026-08-01T16:16:14Z
 - path: `artifact_board.md`
   start_line: 1
-  end_line: 31
-  loc: 31
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 54
+  loc: 54
+  verified_at: 2026-08-01T16:16:14Z
 
 ## Diagrams
 ```text
@@ -19975,9 +20534,9 @@ flowchart LR
 ```
 
 ## Information Sources
-- `AGENTS.md`
+- `AGENTS.MD`
 
-- `SKILLS.md`
+- `SKILLS.MD`
 - `config/context_compass_config.yaml`
 - `agent_onboarding/default/general/skills/workflow.md`
 
@@ -19987,12 +20546,261 @@ invariants, and repo-backed references.
 
 
 
+--- START OF FILE: context_compass\examples\example_architecture\src_architecture_index.md ---
+
+# src_architecture_index
+
+Line ranges into `src_architecture.md`. Derived: regenerated by re-walking the
+document, never hand-edited. Hand-editing a range is how an index starts
+lying.
+
+Line numbers are 1-based and inclusive on both ends.
+
+## Staleness proof
+
+| field | value |
+| --- | --- |
+| document | `src_architecture.md` |
+| index_version | 1.1.0 |
+| generated_at | 2026-08-01T23:32:34Z |
+| line_count | 136 |
+| line_ending | lf |
+| content_sha256 | `8f426d7c9265847850d4bc3f0650617a387469165ebd9c47465615c21a288deb` |
+| sections | 17 |
+
+Recompute all three of `line_count`, `line_ending`, and `content_sha256`
+before slicing. On any mismatch: STOP, do not slice, do not eyeball an
+offset. Regenerate this index or read the document directly, and say
+which you did.
+
+## Sections
+
+| lines | lvl | name |
+| --- | --- | --- |
+| 3-8 | 2 | Metadata |
+| 9-13 | 2 | Scope and Intent |
+| 14-37 | 2 | Indexing |
+| 38-41 | 2 | DO NOT ASSUME / Unknowns Gate |
+| 42-46 | 2 | Unknowns |
+| 47-50 | 2 | System Context (C4) |
+| 51-56 | 2 | System Boundary and External Interfaces |
+| 57-62 | 2 | Architecture Summary (C4) |
+| 63-67 | 2 | Entrypoints and Runtime Guardrails |
+| 68-75 | 2 | Boot and Configuration Sequence |
+| 76-79 | 2 | Data Flows and Sequences |
+| 80-84 | 2 | Operational Invariants |
+| 85-89 | 2 | Failure Modes and Error Paths |
+| 90-111 | 2 | C1 Code Map (Core Only) |
+| 112-124 | 2 | Diagrams |
+| 125-131 | 2 | Information Sources |
+| 132-136 | 2 | Context / Handoff Summary |
+
+--- START OF FILE: context_compass\examples\example_architecture\tests_architecture.md ---
+
+# Example tests_architecture (repo-grounded)
+
+## Metadata
+- Example type: high-fidelity tests architecture example
+- Objective: show what a strong tests architecture document looks like when
+  based on real repository files
+- Last verified at: 2026-08-01T16:16:14Z
+
+## Scope and Intent
+This example demonstrates the test-side mirror of `src_architecture.md`. It uses
+this repository's actual testing skills, QA role docs, and ticket lanes rather
+than invented surfaces.
+
+The two documents are a matched pair. `src_architecture.md` describes how the
+runtime is structured; this one describes how that structure is verified. They
+share a section contract so a reader who knows one can navigate the other
+without relearning anything.
+
+## Indexing
+
+This document is authored. Its only generated companion is `tests_architecture_index.md`,
+rebuilt in the same pass as any edit:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/examples/example_architecture/tests_architecture.md
+```
+
+That command indexes THIS example, and it works - run it and compare the
+output to the `tests_architecture_index.md` beside it. When you write your own, the
+target becomes `context_compass/system_docs/tests_architecture.md`, which does not exist
+until you create it: the package ships `system_docs/` empty.
+
+Format rules the index depends on, demonstrated throughout this example:
+- exactly one H1 (the document title)
+- the navigable unit is H2 `## <Concern>`, at consistent depth
+- section names unique and stable - index rows are selected by name
+- container headings organise, but are never the read target: a heading wrapping
+  only other headings indexes as a range covering all of them
+
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
+
+## DO NOT ASSUME / Unknowns Gate
+- Keep unresolved test claims marked UNKNOWN.
+- A test that has never run is not evidence. Promote to FACT only when the run
+  produced output you read.
+
+## Unknowns
+- UNKNOWN: whether contract checks over policy documents should run in CI or
+  stay a release-hardening step.
+- UNKNOWN: the boundary between component and integration suites for
+  documentation-shaped systems.
+
+## System Context (C4)
+Testing here validates a document-backed system, so most surfaces are
+structural rather than behavioural: references resolve, section contracts hold,
+role chains are reachable, and evidence ranges match the files they cite.
+
+## System Boundary and External Interfaces
+- Test posture and strategy: `agent_onboarding/default/qa_engineer/skills/`
+- Document contracts under test: `agent_onboarding/default/design_engineer/skills/`
+- Evidence lanes: `tickets/`, active ticket `## Notes`
+- Index tooling: `tools/system_documents/index_document.py`
+
+## Architecture Summary (C4)
+- reference-integrity checks over the routing graph
+- section-contract checks over system documents
+- index staleness checks against the documents they describe
+- evidence-quality checks on cited line ranges
+
+## Entrypoints and Runtime Guardrails
+- a check that cannot fail is not a check
+- findings carry `path:start_line-end_line`, never a bare assertion
+- a stale index is a hard stop, not a rounding error
+
+## Boot and Configuration Sequence
+1. Resolve the role chain to know which documents are in scope.
+2. Recompute each index's staleness proof before slicing anything.
+3. Run reference resolution over the resolved readset.
+4. Compare section contracts against the spec.
+5. Record findings in the active ticket with file evidence.
+
+## Data Flows and Sequences
+- authoring change -> index rebuild -> checks -> evidence in ticket notes
+- compaction -> re-onboard -> re-verify stale assumptions -> resume
+
+## Operational Invariants
+- every readset path resolves, or onboarding is blocked
+- every index matches `line_count`, `line_ending`, and `content_sha256`
+- every cited range is measured, never estimated
+
+## Failure Modes and Error Paths
+- a checker whose pattern is too narrow reports a clean sweep over a subset
+- an index regenerated before the document is edited, so the proof passes and
+  the ranges lie
+- ranges copied forward from an earlier revision without remeasuring
+
+## C1 Code Map (Core Only)
+- path: `agent_onboarding/default/qa_engineer/skills/test_case_design.md`
+  start_line: 1
+  end_line: 27
+  loc: 27
+  verified_at: 2026-08-01T16:16:14Z
+- path: `agent_onboarding/default/qa_engineer/skills/test_automation_practices.md`
+  start_line: 1
+  end_line: 30
+  loc: 30
+  verified_at: 2026-08-01T16:16:14Z
+- path: `agent_onboarding/default/qa_engineer/skills/test_strategy_and_planning.md`
+  start_line: 1
+  end_line: 31
+  loc: 31
+  verified_at: 2026-08-01T16:16:14Z
+- path: `agent_onboarding/default/qa_engineer/skills/regression_and_release_quality.md`
+  start_line: 1
+  end_line: 28
+  loc: 28
+  verified_at: 2026-08-01T16:16:14Z
+- path: `tickets/tasks/README.md`
+  start_line: 1
+  end_line: 67
+  loc: 67
+  verified_at: 2026-08-01T16:16:14Z
+
+## Diagrams
+```text
+Docs Change -> Index Rebuild -> Checks -> Evidence -> Ticket Notes
+```
+
+```mermaid
+flowchart LR
+  D[Docs Change] --> I[Index Rebuild]
+  I --> C[Reference + Contract Checks]
+  C --> E[Evidence with Line Ranges]
+  E --> N[Ticket Notes]
+```
+
+## Information Sources
+- `agent_onboarding/default/qa_engineer/skills/test_case_design.md`
+- `agent_onboarding/default/qa_engineer/skills/test_strategy_and_planning.md`
+- `tickets/tasks/README.md`
+- `agent_onboarding/default/engineer/skills/system_document_build.md`
+
+## Context / Handoff Summary
+This example shows the expected depth standard for the test-side map: concrete
+surfaces, explicit unknowns, and measured line ranges. It pairs with
+`examples/example_architecture/src_architecture.md`; read them together to see how the
+runtime map and its verification map stay structurally aligned.
+
+--- START OF FILE: context_compass\examples\example_architecture\tests_architecture_index.md ---
+
+# tests_architecture_index
+
+Line ranges into `tests_architecture.md`. Derived: regenerated by re-walking the
+document, never hand-edited. Hand-editing a range is how an index starts
+lying.
+
+Line numbers are 1-based and inclusive on both ends.
+
+## Staleness proof
+
+| field | value |
+| --- | --- |
+| document | `tests_architecture.md` |
+| index_version | 1.1.0 |
+| generated_at | 2026-08-02T09:36:24Z |
+| line_count | 148 |
+| line_ending | lf |
+| content_sha256 | `a7bf8047ab6894b1d9a509f15b0ea4b42fbaa02f73789f72c0c3459051d9c9cf` |
+| sections | 17 |
+
+Recompute all three of `line_count`, `line_ending`, and `content_sha256`
+before slicing. On any mismatch: STOP, do not slice, do not eyeball an
+offset. Regenerate this index or read the document directly, and say
+which you did.
+
+## Sections
+
+| lines | lvl | name |
+| --- | --- | --- |
+| 3-8 | 2 | Metadata |
+| 9-18 | 2 | Scope and Intent |
+| 19-42 | 2 | Indexing |
+| 43-47 | 2 | DO NOT ASSUME / Unknowns Gate |
+| 48-53 | 2 | Unknowns |
+| 54-58 | 2 | System Context (C4) |
+| 59-64 | 2 | System Boundary and External Interfaces |
+| 65-70 | 2 | Architecture Summary (C4) |
+| 71-75 | 2 | Entrypoints and Runtime Guardrails |
+| 76-82 | 2 | Boot and Configuration Sequence |
+| 83-86 | 2 | Data Flows and Sequences |
+| 87-91 | 2 | Operational Invariants |
+| 92-97 | 2 | Failure Modes and Error Paths |
+| 98-124 | 2 | C1 Code Map (Core Only) |
+| 125-137 | 2 | Diagrams |
+| 138-143 | 2 | Information Sources |
+| 144-148 | 2 | Context / Handoff Summary |
+
 --- START OF FILE: context_compass\examples\example_completed\.gitkeep ---
 
 
 --- START OF FILE: context_compass\examples\example_completed\2026-02-19_context_compass_release_overview_artifact.md ---
 
-﻿# Context Compass Release Readiness Overview Artifact
+# Context Compass Release Readiness Overview Artifact
 
 ## Purpose
 Provide durable rationale for making this repository itself the primary example
@@ -20006,7 +20814,7 @@ scenario in public-facing workflow documentation.
 
 ## Decisions
 - Keep examples isolated in `examples/` lanes.
-- Keep references copy-safe for `context_compass/AGENTS.md`.
+- Keep references copy-safe for `context_compass/AGENTS.MD`.
 - Retain this artifact for future release-hardening checks.
 
 ## Evidence
@@ -20031,16 +20839,40 @@ scenario in public-facing workflow documentation.
 
 --- START OF FILE: context_compass\examples\example_components\src_components.md ---
 
-﻿# Example src_components (repo-grounded)
+# Example src_components (repo-grounded)
 
 ## Metadata
 - Example type: high-fidelity C3/C2/C1 map
 - Objective: demonstrate complete component entries based on this repository
-- Last verified at: 2026-02-19T03:15:00Z
+- Last verified at: 2026-08-01T16:16:14Z
 
 ## Scope
 Provide a concrete component-map example for ticket-first execution using real
 files from this package.
+
+## Indexing
+
+This document is authored. Its only generated companion is `src_components_index.md`,
+rebuilt in the same pass as any edit:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/examples/example_components/src_components.md
+```
+
+That command indexes THIS example, and it works - run it and compare the
+output to the `src_components_index.md` beside it. When you write your own, the
+target becomes `context_compass/system_docs/src_components.md`, which does not exist
+until you create it: the package ships `system_docs/` empty.
+
+Format rules the index depends on, demonstrated throughout this example:
+- exactly one H1 (the document title)
+- the navigable unit is H3 `### Component: <Name>`, at consistent depth
+- section names unique and stable - index rows are selected by name
+- container headings organise, but are never the read target: a heading wrapping
+  only other headings indexes as a range covering all of them
+
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## DO NOT ASSUME / Unknowns Gate
 - unresolved behavior stays UNKNOWN
@@ -20052,15 +20884,24 @@ files from this package.
 
 ## C3 Components Catalog
 ### Component: Router/Role Resolver
-- Purpose: map active profile to deterministic role-chain readset.
-- Responsibilities: read `SKILLS.md`, resolve role path, enforce parent-first
+- Purpose: map the selected role to a deterministic role-chain readset.
+- Responsibilities: read `SKILLS.MD`, resolve role path, enforce parent-first
   chain.
-- Inputs: `config/context_compass_config.yaml`, role map in `SKILLS.md`.
+- Inputs: the registry table in `SKILLS.MD`.
 - Outputs: ordered `SKILLS.MD` read chain.
-- Owned State: profile + role map definitions.
+- Owned State: none. The registry table in `SKILLS.MD` is the state;
+  `config/context_compass_config.yaml` enumerates no roles.
+- Lifecycle/Cleanup: resolved once per agent per session; nothing persists
+  between sessions, so there is no state to clean up.
+- Concurrency/Threading: read-only resolution, safe under concurrent agents.
+  Role selection is per agent, so two agents resolving different roles in the
+  same repository do not contend.
 - Invariants/Guarantees: deterministic chain order and explicit path mapping.
 - Failure Modes: bad mapping path, stale references.
-- Key Files (C1): `SKILLS.md`, `config/context_compass_config.yaml`.
+- Observability: the resolved chain is stated in the onboarding attestation.
+- Extension Points: add a role by adding one registry row and the `SKILLS.MD`
+  it names; no resolver change is required.
+- Key Files (C1): `SKILLS.MD`, `config/context_compass_config.yaml`.
 
 ### Component: Ticket Microcycle Coordinator
 - Purpose: enforce evidence-backed delivery cadence.
@@ -20069,8 +20910,15 @@ files from this package.
 - Inputs: active ticket content + findings.
 - Outputs: append-only notes and status transitions.
 - Owned State: ticket `## Notes` and transition records.
+- Lifecycle/Cleanup: spans one ticket, from route to closure; on closure the
+  ticket moves to its `completed/` lane rather than being deleted.
+- Concurrency/Threading: single-writer per ticket. Two agents on one ticket is
+  a coordination failure, not a supported mode.
 - Invariants/Guarantees: meaningful findings are captured before deeper actions.
 - Failure Modes: undocumented decisions and speculative transitions.
+- Observability: note timestamps and transition records in the ticket itself.
+- Extension Points: the microcycle phases are named in `workflow.md`; a lane
+  with extra phases extends that list rather than forking the coordinator.
 - Key Files (C1): `tickets/*`, `templates/task_template.md`, `agent_onboarding/default/general/skills/workflow.md`.
 
 ### Component: Artifact Link Coordinator
@@ -20079,9 +20927,16 @@ files from this package.
 - Inputs: story/task artifact links and closure decisions.
 - Outputs: active/cleared rows in artifact board.
 - Owned State: `artifact_board.md` rows.
+- Lifecycle/Cleanup: a row lives from artifact creation to disposition at
+  ticket closure; cleared rows stay as history.
+- Concurrency/Threading: append-oriented board writes; concurrent edits to the
+  same row require ticket-level coordination.
 - Invariants/Guarantees: active artifact always has ticket ownership and
   disposition.
 - Failure Modes: orphaned artifact rows, missing disposition.
+- Observability: the active/cleared split on the board is the status surface.
+- Extension Points: new artifact classes add a disposition rule; the row shape
+  stays fixed.
 - Key Files (C1): `artifact_board.md`, `examples/example_completed/*`.
 
 ## C2 Subcomponents Catalog
@@ -20105,26 +20960,26 @@ files from this package.
 - `link_artifact() -> record_disposition() -> verify_link_on_close()`
 
 ## C1 Code Map (Core)
-- path: `SKILLS.md`
+- path: `SKILLS.MD`
   start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 108
+  loc: 108
+  verified_at: 2026-08-01T16:16:14Z
 - path: `templates/task_template.md`
   start_line: 1
-  end_line: 103
-  loc: 103
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 111
+  loc: 111
+  verified_at: 2026-08-01T16:16:14Z
 - path: `tickets/tasks/README.md`
   start_line: 1
   end_line: 67
   loc: 67
-  verified_at: 2026-02-19T03:15:00Z
+  verified_at: 2026-08-01T16:16:14Z
 - path: `examples/eng_task_flow.md`
   start_line: 1
   end_line: 31
   loc: 31
-  verified_at: 2026-02-19T03:15:00Z
+  verified_at: 2026-08-01T16:16:14Z
 
 ## Diagrams
 ```text
@@ -20140,7 +20995,7 @@ flowchart LR
 ```
 
 ## Information Sources
-- `SKILLS.md`
+- `SKILLS.MD`
 - `config/context_compass_config.yaml`
 - `templates/task_template.md`
 - `tickets/tasks/README.md`
@@ -20154,6 +21009,53 @@ invariants, and file-backed call flow claims.
 
 
 
+--- START OF FILE: context_compass\examples\example_components\src_components_index.md ---
+
+# src_components_index
+
+Line ranges into `src_components.md`. Derived: regenerated by re-walking the
+document, never hand-edited. Hand-editing a range is how an index starts
+lying.
+
+Line numbers are 1-based and inclusive on both ends.
+
+## Staleness proof
+
+| field | value |
+| --- | --- |
+| document | `src_components.md` |
+| index_version | 1.1.0 |
+| generated_at | 2026-08-01T23:32:17Z |
+| line_count | 169 |
+| line_ending | lf |
+| content_sha256 | `518dd137c426620f9244c8ada040f4adf4bbf5092276ba840af872b517d448ec` |
+| sections | 15 |
+
+Recompute all three of `line_count`, `line_ending`, and `content_sha256`
+before slicing. On any mismatch: STOP, do not slice, do not eyeball an
+offset. Regenerate this index or read the document directly, and say
+which you did.
+
+## Sections
+
+| lines | lvl | name |
+| --- | --- | --- |
+| 3-7 | 2 | Metadata |
+| 8-11 | 2 | Scope |
+| 12-35 | 2 | Indexing |
+| 36-39 | 2 | DO NOT ASSUME / Unknowns Gate |
+| 40-43 | 2 | Unknowns |
+| 44-100 | 2 | C3 Components Catalog |
+| 45-64 | 3 | C3 Components Catalog > Component: Router/Role Resolver |
+| 65-82 | 3 | C3 Components Catalog > Component: Ticket Microcycle Coordinator |
+| 83-100 | 3 | C3 Components Catalog > Component: Artifact Link Coordinator |
+| 101-115 | 2 | C2 Subcomponents Catalog |
+| 116-120 | 2 | Method-Level Call Flows (C1) |
+| 121-142 | 2 | C1 Code Map (Core) |
+| 143-155 | 2 | Diagrams |
+| 156-163 | 2 | Information Sources |
+| 164-169 | 2 | Context / Handoff Summary |
+
 --- START OF FILE: context_compass\examples\example_components\tests_components.md ---
 
 # Example tests_components
@@ -20164,6 +21066,30 @@ invariants, and file-backed call flow claims.
 ## Scope
 Map key test-validation components for workflow integrity.
 
+## Indexing
+
+This document is authored. Its only generated companion is `tests_components_index.md`,
+rebuilt in the same pass as any edit:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/examples/example_components/tests_components.md
+```
+
+That command indexes THIS example, and it works - run it and compare the
+output to the `tests_components_index.md` beside it. When you write your own, the
+target becomes `context_compass/system_docs/tests_components.md`, which does not exist
+until you create it: the package ships `system_docs/` empty.
+
+Format rules the index depends on, demonstrated throughout this example:
+- exactly one H1 (the document title)
+- the navigable unit is H3 `### Component: <Name>`, at consistent depth
+- section names unique and stable - index rows are selected by name
+- container headings organise, but are never the read target: a heading wrapping
+  only other headings indexes as a range covering all of them
+
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
+
 ## DO NOT ASSUME / Unknowns Gate
 Keep unresolved test assumptions as UNKNOWN.
 
@@ -20171,7 +21097,7 @@ Keep unresolved test assumptions as UNKNOWN.
 - UNKNOWN: final CI matrix for multi-runtime validation.
 
 ## C3 Components Catalog
-### Reference integrity scanner
+### Component: Reference Integrity Scanner
 - Purpose: detect broken internal references.
 - Responsibilities: scan docs and resolve paths.
 - Inputs: markdown/yaml files.
@@ -20180,8 +21106,12 @@ Keep unresolved test assumptions as UNKNOWN.
 - Lifecycle/Cleanup: run on release hardening.
 - Concurrency/Threading: serial scan pass.
 - Invariants/Guarantees: findings include file references.
-- Failure Modes: false negatives from incomplete patterns.
+- Failure Modes: false negatives from incomplete patterns. A pattern narrower
+  than the file set it claims to cover reports a clean sweep over a subset,
+  which is worse than reporting nothing.
 - Observability: ticket validation notes.
+- Extension Points: new reference shapes extend the resolver's match set; the
+  finding format stays fixed so downstream triage does not change.
 - Key Files (C1): `tickets/*/README.md`, `templates/*.md`.
 
 ## C2 Subcomponents Catalog
@@ -20194,16 +21124,16 @@ Keep unresolved test assumptions as UNKNOWN.
 - `triage_findings -> gate_release`
 
 ## C1 Code Map (Key Paths)
-- path: `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_unit_examples.py`
+- path: `examples/example_graph_details/src/example/core/resource.py`
   start_line: 1
-  end_line: 40
-  loc: 40
-  verified_at: 2026-02-19T00:00:00Z
-- path: `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_integration_examples.py`
+  end_line: 15
+  loc: 15
+  verified_at: 2026-08-01T16:16:14Z
+- path: `examples/example_graph_details/src/example/storage/store.py`
   start_line: 1
-  end_line: 40
-  loc: 40
-  verified_at: 2026-02-19T00:00:00Z
+  end_line: 20
+  loc: 20
+  verified_at: 2026-08-01T16:16:14Z
 
 ## Diagrams
 ```text
@@ -20220,16 +21150,61 @@ flowchart LR
 ## Information Sources
 - `templates/*.md`
 - `tickets/*/README.md`
-- `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/*`
+- `agent_onboarding/default/qa_engineer/skills/*`
 
 ## Context / Handoff Summary
 Use this structure when mapping real test components.
+--- START OF FILE: context_compass\examples\example_components\tests_components_index.md ---
+
+# tests_components_index
+
+Line ranges into `tests_components.md`. Derived: regenerated by re-walking the
+document, never hand-edited. Hand-editing a range is how an index starts
+lying.
+
+Line numbers are 1-based and inclusive on both ends.
+
+## Staleness proof
+
+| field | value |
+| --- | --- |
+| document | `tests_components.md` |
+| index_version | 1.1.0 |
+| generated_at | 2026-08-01T23:32:17Z |
+| line_count | 96 |
+| line_ending | lf |
+| content_sha256 | `f9fa3dc2950790e22c61abba92928b2f5a933b5ac3552daf1cc84ea69ff9d6fa` |
+| sections | 13 |
+
+Recompute all three of `line_count`, `line_ending`, and `content_sha256`
+before slicing. On any mismatch: STOP, do not slice, do not eyeball an
+offset. Regenerate this index or read the document directly, and say
+which you did.
+
+## Sections
+
+| lines | lvl | name |
+| --- | --- | --- |
+| 3-5 | 2 | Metadata |
+| 6-8 | 2 | Scope |
+| 9-32 | 2 | Indexing |
+| 33-35 | 2 | DO NOT ASSUME / Unknowns Gate |
+| 36-38 | 2 | Unknowns |
+| 39-56 | 2 | C3 Components Catalog |
+| 40-56 | 3 | C3 Components Catalog > Component: Reference Integrity Scanner |
+| 57-61 | 2 | C2 Subcomponents Catalog |
+| 62-65 | 2 | Method-Level Call Flows (C1) |
+| 66-77 | 2 | C1 Code Map (Key Paths) |
+| 78-89 | 2 | Diagrams |
+| 90-94 | 2 | Information Sources |
+| 95-96 | 2 | Context / Handoff Summary |
+
 --- START OF FILE: context_compass\examples\example_epics\.gitkeep ---
 
 
 --- START OF FILE: context_compass\examples\example_epics\2026-02-19_context_compass_release_readiness_example_pack_epic.md ---
 
-﻿# Epic: Context Compass Release Readiness Example Pack
+# Epic: Context Compass Release Readiness Example Pack
 
 ## Metadata
 - Epic ID: EPIC-2026-02-19-context-compass-release-readiness-example-pack
@@ -20252,7 +21227,7 @@ entrypoints and routing, template-complete tickets, artifact lifecycle, and
 compaction-safe handoff notes.
 
 ## Ticket Contract
-- ENTRY_GATE: `SKILLS.md` and `AGENTS.md` are present and readable.
+- ENTRY_GATE: `SKILLS.MD` and `AGENTS.MD` are present and readable.
 - EXECUTION_BOUNDARY: docs/examples only.
 - DEPENDENCIES: `templates/*_template.md`, `tickets/*/README.md`, `agent_onboarding/default/general/skills/workflow.md`.
 - EXIT_GATE: complete example epic/story/task exists under `examples/example_*`; flow docs and system docs are aligned.
@@ -20315,7 +21290,7 @@ compaction-safe handoff notes.
 
 ## Validation / Test Approach
 - `rg -n "context_compass_release_readiness|repo_overview" examples`
-- `rg -n "context_compass/AGENTS.md" examples`
+- `rg -n "context_compass/AGENTS.MD" examples`
 - `rg -n "\x07|\x08|\x09|\x0d" system_docs examples/example_architecture examples/example_components`
 
 ## Artifact Links (Optional)
@@ -20360,118 +21335,474 @@ Story and task are complete; only user acceptance remains for closure.
 
 
 
---- START OF FILE: context_compass\examples\example_graph_details\graph_details_document.md ---
+--- START OF FILE: context_compass\examples\example_graph_details\README.md ---
 
-# Example Graph Details Workflow
+# example_graph_details
 
-Purpose:
-- demonstrate the canonical graph-details workflow in a small self-contained
-  example
+Shape reference for the generated source graph.
 
-Files:
-- `src_graph.expanded.json`
-  - expanded whole-document working copy for patch editing
-- `src_graph.json`
-  - compressed canonical storage form
-- `readable_src_graph.json`
-  - line-broken readable JSON view generated from the compressed storage form
+The graph is **derived from source code**, not authored. Two files are produced
+by `tools/system_documents/python/`, and neither ships in `system_docs/` - a
+fresh install has neither, and that is expected:
 
-Scope:
-- this graph targets source/runtime objects only
-- test objects do not belong in this file
+- `system_docs/src_graph.md` - one section per source file
+- `system_docs/src_graph_index.md` - line ranges into it, plus staleness proof
 
-Workflow:
-1. read the compressed file
-2. expand it into the patch/editing copy
-3. edit the whole expanded document
-   - keep it scoped to `src/` only
-   - keep `__init__.py` files excluded from graph nodes
-4. validate it as JSON
-5. recompress it back into storage
-6. regenerate `readable_src_graph.json` from the compressed storage file using
-   raw-text reflow at `220` characters
+## This example is reproducible
 
-The example data is intentionally small. It demonstrates structure and workflow,
-not full repo coverage.
+`src/example/` here is a real six-file Python package, and `src_graph.md` /
+`src_graph_index.md` are the unmodified output of running the real pipeline over
+it. Nothing was hand-written, trimmed, or annotated afterwards.
 
---- START OF FILE: context_compass\examples\example_graph_details\readable_src_graph.json ---
+```bash
+cd context_compass/examples/example_graph_details
+python ../../tools/system_documents/python/extract_graph.py --src src --out /tmp/desc
+python ../../tools/system_documents/python/assemble_graph.py --descriptors /tmp/desc --out /tmp/out
+```
 
-﻿{"schema_version":1,"nodes":{"example.Root":{"id":"example.Root","label":"Root","kind":"class","file":"src/example/root.py","role":"Example root object.","responsibilities":["creates child objects","owns one workspace"],
-"owns_state":["_workspace"],"phases":["init","runtime","cleanup"]},"example.Workspace":{"id":"example.Workspace","label":"Workspace","kind":"class","file":"src/example/workspace.py","role":"Example workspace object.",
-"responsibilities":["stores bound objects","exposes room-local state"],"owns_state":["_objects"],"phases":["runtime","cleanup"]}},"edges":[{"from":"example.Root","to":"example.Workspace","relation":"owns_lifecycle_of",
-"why":"Root is responsible for constructing and cleaning the workspace.","cardinality":"one_to_one","phase":["init","cleanup"],"strength":"hard"}]}
+The result matches what ships here, except for the authored fields - those are
+tier 3 and were added to the descriptors by hand, which is exactly the documented
+workflow. That is the point of the example: it shows both what the extractor
+recovers and what a human has to supply.
+
+Because the output is unmodified, **the index actually proves the document**.
+Recompute `line_count` and `content_sha256` over `src_graph.md` and they match
+the staleness proof, and every range lands on its own `BEGIN FILE` / `END FILE`
+delimiter. An example you can verify is worth more than one you have to trust.
+
+## What a section looks like
+
+Each source file gets one section, delimited by HTML comments naming the file.
+Line ranges for every section live in the index; read the index and slice, never
+scan the document for delimiters.
+
+The `BEGIN FILE` / `END FILE` comments are the section boundaries. They do not
+render, and the index's ranges are measured against them - a section written
+without them is not addressable.
+
+See `src_graph.md` lines 80-124 for the richest section: a class with derived
+and authored edges, authored semantics, and unconfirmed candidates side by side.
+
+## What is derived and what is authored
+
+This distinction is the whole contract. Measured against a hand-authored graph
+of 535 nodes and 997 edges:
+
+| field | origin | recovery |
+|---|---|---|
+| `id`, `label`, `kind`, `file`, `lineno`, `bases`, `public_methods` | derived | 94% |
+| `specializes`, `implements` | derived | 94%, targets resolved 99% |
+| `creates` | **candidate only** | 57%, over-generated ~8x |
+| `role`, `responsibilities`, `owns_state`, `phases` | authored | not derivable |
+| `owns_lifecycle_of`, `uses`, `borrows` | authored | **not derivable** |
+
+`owns_lifecycle_of`, `uses`, and `borrows` are syntactically identical - each is
+"A holds a reference to B". Which one it is, is a design fact that appears
+nowhere in the source text. That is 68% of all edges, and it is why the graph has
+an authored layer at all.
+
+You can see it in this example. `Pipeline` holds a `Stage` list and a `Store`
+reference. The AST shows both as attributes; only a human knows the pipeline owns
+its stages and borrows the store. The extractor emitted neither edge.
+
+And because the claim is authored, the reason is shown next to it:
+
+```
+| `..Pipeline` | owns_lifecycle_of | `..Stage` | one_to_many | init,runtime,cleanup | authored |
+| `..Pipeline` | borrows           | `..Store` | many_to_one | runtime             | authored |
+
+- `..Pipeline` -> `..Stage`: Pipeline constructs its stages in __init__ and is the
+  only object that can release them, so the stage list dies with the run.
+- `..Pipeline` -> `..Store`: The store is passed in and outlives the pipeline.
+  Releasing the pipeline must not close it - several pipelines share one store.
+```
+
+Derived rows carry `-` in the authored columns. That is not missing data: it is
+the graph saying nobody has authored that relationship's semantics yet.
+
+`why` sits beneath the table rather than in it, so the table stays scannable. On
+this example the whole authored layer costs 3 lines out of 192, and you never pay
+it on a read you did not ask for - you slice one section, not the document.
+
+A node marked **UNSEMANTIC** carries mechanical scaffold and no meaning yet. Its
+structure is trustworthy; do not infer its purpose from its name.
+
+## Two index shapes, do not confuse them
+
+`src_graph.md` is GENERATED, so its index is emitted by `assemble_graph.py` in
+the same pass - keyed by **source path**. Authored documents get their index from
+`index_document.py` by walking headings - keyed by **heading breadcrumb**.
+
+Running `index_document.py` against `src_graph.md` produces a heading-shaped
+index of `## src/...` and `### Nodes` sections. It parses, but it is the wrong
+artifact: it indexes the rendering rather than the files, and every section named
+`Nodes` collides. The tool will warn about the collision.
+
+## Index shape
+
+```markdown
+| lines | source | nodes | edges |
+| --- | --- | --- | --- |
+| 11-26 | `src/example/__init__.py` | 1 | 0 |
+| 80-124 | `src/example/pipeline/pipeline.py` | 2 | 3 |
+```
+
+The `edges` count covers derived and authored edges together, matching what that
+section's `Edges out` table renders. Candidates are not counted - they are
+guesses, not edges.
+
+Every row is keyed by a name - here the source path. No index in this system uses
+a bare number as identity: a row keyed by a number tells a reader nothing about
+whether to read it.
+
+## Files here
+
+- `src/example/` - a six-file Python package, the input
+- `src_graph.md` - unmodified assembler output over that package
+- `src_graph_index.md` - unmodified index from the same pass
+- this README
+
+## References
+
+- `agent_onboarding/default/engineer/skills/src_graph_generation.md` - building
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md` - reading
+- `agent_onboarding/default/engineer/skills/system_document_build.md` -
+  the authored documents and their indexes
+
+--- START OF FILE: context_compass\examples\example_graph_details\src_graph.md ---
+
+# src_graph
+
+Assembled system graph. One section per source file. Each section opens
+with an HTML comment reading BEGIN FILE followed by the source path, and
+closes with the matching END FILE comment. Exact line ranges are in
+`src_graph_index.md`; prefer the index over scanning for delimiters.
+
+Generated by `tools/system_documents/python/assemble_graph.py`.
+Do not hand-edit: edit the per-file descriptors and reassemble.
+
+<!-- BEGIN FILE: src/example/__init__.py -->
+
+## src/example/__init__.py
+
+- source_sha256: `932911b90c4ce4e130ec615078a8e4b6c41ffffc3cbe6aadd068e3d4a079feb1`
+- nodes: 1
+
+### Nodes
+
+#### `example` (module)
+
+- id: `example`
+- defined at: `src/example/__init__.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+<!-- END FILE: src/example/__init__.py -->
+
+<!-- BEGIN FILE: src/example/core/interfaces.py -->
+
+## src/example/core/interfaces.py
+
+- source_sha256: `5120f2b7d872f45c099574c2917dfba83742e06f0e83f1743180bc027ff95051`
+- nodes: 2
+
+### Nodes
+
+#### `interfaces` (module)
+
+- id: `example.core.interfaces`
+- defined at: `src/example/core/interfaces.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+#### `IResource` (interface)
+
+- id: `example.core.interfaces.IResource`
+- defined at: `src/example/core/interfaces.py:5`
+- markers: `Protocol`
+- role: Structural mirror of the Resource ABC's public surface.
+- public methods: `acquire`, `is_open`, `release`
+
+<!-- END FILE: src/example/core/interfaces.py -->
+
+<!-- BEGIN FILE: src/example/core/resource.py -->
+
+## src/example/core/resource.py
+
+- source_sha256: `7973dcbcd22a09b055173bbaa14895072d4ee0ecc7027b66f0db01e9c5a89e21`
+- nodes: 2
+
+### Nodes
+
+#### `resource` (module)
+
+- id: `example.core.resource`
+- defined at: `src/example/core/resource.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+#### `Resource` (abstract)
+
+- id: `example.core.resource.Resource`
+- defined at: `src/example/core/resource.py:5`
+- markers: `ABC`
+- role: Acquire/release contract every owned resource inherits.
+- responsibilities: `defines the lifecycle surface`
+- phases: `runtime`
+- public methods: `acquire`, `is_open`, `release`
+
+<!-- END FILE: src/example/core/resource.py -->
+
+<!-- BEGIN FILE: src/example/pipeline/pipeline.py -->
+
+## src/example/pipeline/pipeline.py
+
+- source_sha256: `fe7cb898b9e4e3b9f0916449f7bdbbdb9facad1de1f9162f4f5f4b8d27c13fe9`
+- nodes: 2
+
+### Nodes
+
+#### `pipeline` (module)
+
+- id: `example.pipeline.pipeline`
+- defined at: `src/example/pipeline/pipeline.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+#### `Pipeline` (class)
+
+- id: `example.pipeline.pipeline.Pipeline`
+- defined at: `src/example/pipeline/pipeline.py:8`
+- extends: `Resource`
+- role: Execution scope for a run: owns its stages, borrows the store.
+- responsibilities: `owns the stage list for one run`, `sequences stage execution`, `releases stages on close`
+- owns_state: `_stages`, `_lock`
+- phases: `init`, `runtime`, `cleanup`
+- public methods: `acquire`, `add_stage`, `release`, `run`, `stage_names`
+
+### Edges out
+
+| from | relation | to | cardinality | phase | origin |
+| --- | --- | --- | --- | --- | --- |
+| `example.pipeline.pipeline.Pipeline` | specializes | `example.core.resource.Resource` | - | - | derived |
+| `example.pipeline.pipeline.Pipeline` | owns_lifecycle_of | `example.pipeline.stage.Stage` | one_to_many | init,runtime,cleanup | authored |
+| `example.pipeline.pipeline.Pipeline` | borrows | `example.storage.store.Store` | many_to_one | runtime | authored |
+
+- `example.pipeline.pipeline.Pipeline` -> `example.pipeline.stage.Stage`: Pipeline constructs its stages in __init__ and is the only object that can release them, so the stage list dies with the run.
+- `example.pipeline.pipeline.Pipeline` -> `example.storage.store.Store`: The store is passed in and outlives the pipeline. Releasing the pipeline must not close it - several pipelines share one store.
+
+### Edge candidates (2, unconfirmed)
+
+Instantiation guesses from the AST. Over-generated roughly 8x against the reference graph; confirm or drop before relying on them.
+
+- `example.pipeline.pipeline.Pipeline` creates `RLock`
+- `example.pipeline.pipeline.Pipeline` creates `Stage`
+
+<!-- END FILE: src/example/pipeline/pipeline.py -->
+
+<!-- BEGIN FILE: src/example/pipeline/stage.py -->
+
+## src/example/pipeline/stage.py
+
+- source_sha256: `ee53cbf3da28df104f91d4f62798046acbeb85dfe33678ae03d97dfc837b48df`
+- nodes: 2
+
+### Nodes
+
+#### `stage` (module)
+
+- id: `example.pipeline.stage`
+- defined at: `src/example/pipeline/stage.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+#### `Stage` (class)
+
+- id: `example.pipeline.stage.Stage`
+- defined at: `src/example/pipeline/stage.py:4`
+- public methods: `describe`, `run`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+<!-- END FILE: src/example/pipeline/stage.py -->
+
+<!-- BEGIN FILE: src/example/storage/store.py -->
+
+## src/example/storage/store.py
+
+- source_sha256: `33f8c86c22704cf1aba64ca8fbddae2c9e8dddc3541b4ad296da55ea53040049`
+- nodes: 2
+
+### Nodes
+
+#### `store` (module)
+
+- id: `example.storage.store`
+- defined at: `src/example/storage/store.py:1`
+- **UNSEMANTIC** - mechanical scaffold only, not yet authored
+
+#### `Store` (class)
+
+- id: `example.storage.store.Store`
+- defined at: `src/example/storage/store.py:6`
+- extends: `Resource`
+- role: Record storage held for the duration of a run.
+- owns_state: `_records`, `_lock`
+- phases: `runtime`
+- public methods: `acquire`, `get`, `keys`, `put`, `release`
+
+### Edges out
+
+| from | relation | to | cardinality | phase | origin |
+| --- | --- | --- | --- | --- | --- |
+| `example.storage.store.Store` | specializes | `example.core.resource.Resource` | - | - | derived |
+
+### Edge candidates (1, unconfirmed)
+
+Instantiation guesses from the AST. Over-generated roughly 8x against the reference graph; confirm or drop before relying on them.
+
+- `example.storage.store.Store` creates `RLock`
+
+### Published aliases
+
+- `Storage` = `Store` (line 20)
+
+<!-- END FILE: src/example/storage/store.py -->
 
 
+--- START OF FILE: context_compass\examples\example_graph_details\src_graph_index.md ---
 
---- START OF FILE: context_compass\examples\example_graph_details\src_graph.expanded.json ---
+# src_graph_index
 
-{
-  "schema_version": 1,
-  "nodes": {
-    "example.Root": {
-      "id": "example.Root",
-      "label": "Root",
-      "kind": "class",
-      "file": "src/example/root.py",
-      "role": "Example root object.",
-      "responsibilities": [
-        "creates child objects",
-        "owns one workspace"
-      ],
-      "owns_state": [
-        "_workspace"
-      ],
-      "phases": [
-        "init",
-        "runtime",
-        "cleanup"
-      ]
-    },
-    "example.Workspace": {
-      "id": "example.Workspace",
-      "label": "Workspace",
-      "kind": "class",
-      "file": "src/example/workspace.py",
-      "role": "Example workspace object.",
-      "responsibilities": [
-        "stores bound objects",
-        "exposes room-local state"
-      ],
-      "owns_state": [
-        "_objects"
-      ],
-      "phases": [
-        "runtime",
-        "cleanup"
-      ]
-    }
-  },
-  "edges": [
-    {
-      "from": "example.Root",
-      "to": "example.Workspace",
-      "relation": "owns_lifecycle_of",
-      "why": "Root is responsible for constructing and cleaning the workspace.",
-      "cardinality": "one_to_one",
-      "phase": [
-        "init",
-        "cleanup"
-      ],
-      "strength": "hard"
-    }
-  ]
-}
+Line ranges into `src_graph.md`. Emitted by the same pass that wrote the
+document, so the ranges cannot have drifted from it.
 
---- START OF FILE: context_compass\examples\example_graph_details\src_graph.json ---
+Line numbers are 1-based and inclusive on both ends.
 
-{"schema_version":1,"nodes":{"example.Root":{"id":"example.Root","label":"Root","kind":"class","file":"src/example/root.py","role":"Example root object.","responsibilities":["creates child objects","owns one workspace"],"owns_state":["_workspace"],"phases":["init","runtime","cleanup"]},"example.Workspace":{"id":"example.Workspace","label":"Workspace","kind":"class","file":"src/example/workspace.py","role":"Example workspace object.","responsibilities":["stores bound objects","exposes room-local state"],"owns_state":["_objects"],"phases":["runtime","cleanup"]}},"edges":[{"from":"example.Root","to":"example.Workspace","relation":"owns_lifecycle_of","why":"Root is responsible for constructing and cleaning the workspace.","cardinality":"one_to_one","phase":["init","cleanup"],"strength":"hard"}]}
+## Staleness proof
+
+| field | value |
+| --- | --- |
+| document | `src_graph.md` |
+| index_version | 1.0.0 |
+| generated_at | 2026-08-02T09:31:52Z |
+| line_count | 192 |
+| line_ending | lf |
+| content_sha256 | `a655ccfaee86bb59aa26613ab714da5ea770572e5b098a85f296e84d9e9a6366` |
+| sections | 6 |
+
+Recompute `line_count` and `content_sha256` before slicing. On any
+mismatch the document was hand-edited: STOP, do not slice, reassemble.
+
+## Sections
+
+| lines | source | nodes | edges |
+| --- | --- | --- | --- |
+| 11-26 | `src/example/__init__.py` | 1 | 0 |
+| 28-51 | `src/example/core/interfaces.py` | 2 | 0 |
+| 53-78 | `src/example/core/resource.py` | 2 | 0 |
+| 80-124 | `src/example/pipeline/pipeline.py` | 2 | 3 |
+| 126-148 | `src/example/pipeline/stage.py` | 2 | 0 |
+| 150-191 | `src/example/storage/store.py` | 2 | 1 |
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\__init__.py ---
+
+"""Example package root."""
+from example.pipeline.pipeline import Pipeline
+
+__all__ = ["Pipeline"]
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\core\interfaces.py ---
+
+"""Structural mirrors of the core contracts."""
+from typing import Protocol
+
+
+class IResource(Protocol):
+    """Structural mirror of Resource's public surface."""
+
+    def acquire(self) -> None: ...
+    def release(self) -> None: ...
+    def is_open(self) -> bool: ...
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\core\resource.py ---
+
+"""Base resource contract."""
+from abc import ABC, abstractmethod
+
+
+class Resource(ABC):
+    """Anything with an acquire/release lifecycle."""
+
+    @abstractmethod
+    def acquire(self) -> None: ...
+
+    @abstractmethod
+    def release(self) -> None: ...
+
+    def is_open(self) -> bool:
+        return False
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\pipeline\pipeline.py ---
+
+"""Pipeline execution scope."""
+from threading import RLock
+from example.core.resource import Resource
+from example.pipeline.stage import Stage
+from example.storage.store import Store
+
+
+class Pipeline(Resource):
+    """Execution scope that owns its stages and borrows a store."""
+
+    def __init__(self, store: Store) -> None:
+        self._lock = RLock()
+        self._stages: list[Stage] = [Stage("load"), Stage("validate")]
+        self._store = store
+
+    def acquire(self) -> None: ...
+    def release(self) -> None: ...
+    def add_stage(self, stage: Stage) -> None: ...
+    def run(self, payload: bytes) -> bytes: ...
+    def stage_names(self) -> list[str]: ...
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\pipeline\stage.py ---
+
+"""A single unit of work in a pipeline."""
+
+
+class Stage:
+    """One transformation step."""
+
+    def __init__(self, name: str) -> None:
+        self.name = name
+
+    def run(self, payload: bytes) -> bytes: ...
+    def describe(self) -> str: ...
+
+--- START OF FILE: context_compass\examples\example_graph_details\src\example\storage\store.py ---
+
+"""Record storage."""
+from threading import RLock
+from example.core.resource import Resource
+
+
+class Store(Resource):
+    """Holds records for the duration of a run."""
+
+    def __init__(self) -> None:
+        self._lock = RLock()
+        self._records: dict[str, bytes] = {}
+
+    def acquire(self) -> None: ...
+    def release(self) -> None: ...
+    def put(self, key: str, value: bytes) -> None: ...
+    def get(self, key: str) -> bytes: ...
+    def keys(self) -> list[str]: ...
+
+
+Storage = Store
 
 --- START OF FILE: context_compass\examples\example_stories\.gitkeep ---
 
 
 --- START OF FILE: context_compass\examples\example_stories\2026-02-19_context_compass_release_readiness_examples_story.md ---
 
-﻿# Story: Build Repo-Based Release Readiness Workflow Examples
+# Story: Build Repo-Based Release Readiness Workflow Examples
 
 ## Metadata
 - Story ID: STORY-2026-02-19-context-compass-release-readiness-examples
@@ -20597,7 +21928,7 @@ Pending final user acceptance for closure.
 
 --- START OF FILE: context_compass\examples\example_tasks\2026-02-19_context_compass_release_readiness_pack_task.md ---
 
-﻿# Task: Build Repo-Based Release Readiness Example Pack
+# Task: Build Repo-Based Release Readiness Example Pack
 
 ## Metadata
 - Task ID: TASK-2026-02-19-context-compass-release-readiness-pack
@@ -20674,7 +22005,7 @@ and upgraded architecture/component docs.
 - Completed.
 - Commands used:
   - `rg -n "context_compass_release_readiness|repo_overview" examples`
-  - `rg -n "context_compass/AGENTS.md" examples`
+  - `rg -n "context_compass/AGENTS.MD" examples`
   - `rg -n "\x07|\x08|\x09|\x0d" system_docs examples/example_architecture examples/example_components`
 
 ## Risks / Rollback Notes
@@ -20757,10 +22088,17 @@ Rules
 - Use relative repo paths only.
 - Keep project-specific instructions here instead of embedding them directly in `AGENTS.MD` when possible.
 
+Registration
+- Documents here are picked up by a directory sweep, not by a named entry in a
+  `SKILLS.MD` readset. Adding a file here is enough; nothing needs to be
+  registered, and an unreferenced file in this folder is not an orphan.
+- That is deliberate: project instructions are the user's to add, and requiring
+  a registry edit would make the package own something it should not.
+
 --- START OF FILE: context_compass\system_docs\.gitkeep ---
 
 
---- START OF FILE: context_compass\system_docs\ar_onboarding_read_first.md ---
+--- START OF FILE: context_compass\system_docs\system_docs_read_first.md ---
 
 # System Docs Read First
 
@@ -20774,32 +22112,43 @@ map, test map, or graph-details map.
 
 ## Default Truth
 - `examples/` contains reference examples that show the expected shape and
-  depth of documentation.
-- `system_docs/` is allowed to start nearly empty.
-- `system_docs/` may also contain starter mock docs that are meant to be
-  rewritten, not blindly trusted.
+  depth of documentation. That is where the quality bar lives.
+- **`system_docs/` ships EMPTY.** No architecture, component, test or graph
+  document is seeded. A placeholder sitting in a live lane gets read as
+  repository truth no matter what banner is on it, so the package does not put
+  one there.
+- Everything in this directory is yours. Nothing here is replaced on upgrade.
 - Missing repo-specific context maps are not a defect in a fresh install.
 - Users should be encouraged to build context maps for their own repository as
   real structure emerges.
 
 ## Read Order
+The four context maps are two mirrored pairs: a source map and its test map at
+each of the architecture and component levels. Read each pair together - the
+test map uses the same section contract as its source map, so reading them apart
+hides the thing that makes them useful.
+
 1. `examples/example_architecture/src_architecture.md`
    Read this to see what a strong repo-specific architecture map should look
    like.
-2. `examples/example_components/src_components.md`
+2. `examples/example_architecture/tests_architecture.md`
+   Read this to see the test-side mirror of the architecture map.
+3. `examples/example_components/src_components.md`
    Read this to see what a strong repo-specific component map should look like.
-3. `examples/example_graph_details/graph_details_document.md`
+4. `examples/example_components/tests_components.md`
+   Read this to see the test-side mirror of the component map.
+5. `agent_onboarding/default/engineer/skills/src_graph_usage.md`
    Read this if graph-details workflow is needed.
-4. `examples/example_graph_details/readable_src_graph.json`
+6. `examples/example_graph_details/src_graph.md`
    Read this to see the readable graph format.
-5. `examples/example_epics/2026-02-19_context_compass_release_readiness_example_pack_epic.md`
+7. `examples/example_epics/2026-02-19_context_compass_release_readiness_example_pack_epic.md`
    Read this for example ticket structure.
-6. `examples/example_stories/2026-02-19_context_compass_release_readiness_examples_story.md`
+8. `examples/example_stories/2026-02-19_context_compass_release_readiness_examples_story.md`
    Read this for example story structure.
-7. `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md`
+9. `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md`
    Read this for example task structure.
-8. `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
-   Read this for example completed-output structure.
+10. `examples/example_completed/2026-02-19_context_compass_release_overview_artifact.md`
+    Read this for example completed-output structure.
 
 ## What To Do In A New Library
 If the library is new and there is little or no repo-specific context yet:
@@ -20824,7 +22173,7 @@ When the repository is ready, build these in order:
 4. `system_docs/tests_components.md`
    Create this when test surfaces, helpers, and fixtures need explicit
    ownership mapping.
-5. `system_docs/src_graph.json` and `system_docs/readable_src_graph.json`
+5. `system_docs/src_graph_index.md` and `system_docs/src_graph.md`
    Create these only if graph-details workflow is actually needed for the repo.
 
 ## Live Execution Note
@@ -20838,1082 +22187,6 @@ When the repository is ready, build these in order:
 - Treat `examples/` as the model pack.
 - Encourage the user to build real context maps rather than relying on empty
   placeholders.
-
---- START OF FILE: context_compass\system_docs\graph_details_document.md ---
-
-# Graph Details Document
-
-## Metadata
-- Doc ID: DOC-GRAPH-2026-04-19
-- Status: in_progress
-- Owner: codex
-- Created: 2026-04-19
-- Updated: 2026-06-13
-
-## Purpose
-Define the canonical graph-details contract for one chosen repo-local
-source/runtime surface so agents can load a concise relationship map for
-eligible source objects without replacing the existing long-form architecture
-and component docs.
-
-This document is the canonical workflow and schema reference for:
-- `system_docs/src_graph.json`
-- `system_docs/readable_src_graph.json`
-
-## Canonical Artifacts
-- Canonical storage file:
-  - `context_compass/system_docs/src_graph.json`
-- Required readable consumption file:
-  - `context_compass/system_docs/readable_src_graph.json`
-- Canonical workflow/spec doc:
-  - `context_compass/system_docs/graph_details_document.md`
-- Active editing pattern:
-  - `context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json`
-- Example workflow files:
-  - `context_compass/examples/example_graph_details/graph_details_document.md`
-  - `context_compass/examples/example_graph_details/src_graph.expanded.json`
-  - `context_compass/examples/example_graph_details/src_graph.json`
-  - `context_compass/examples/example_graph_details/readable_src_graph.json`
-- Generation recipe skill:
-  - `agent_onboarding/default/engineer/skills/graph_details_readable_generation.md`
-
-## Artifact Roles
-- `src_graph.json`
-  - compressed canonical storage artifact
-- `readable_src_graph.json`
-  - required readable JSON consumption artifact
-  - derived from the compressed canonical file by raw-text reflow
-  - used for line-based reading through viewer-style tools
-- `src_graph.expanded.json`
-  - whole-document editing artifact under the active patch lane
-  - used for patching and line-based edit review only while a graph lane is active
-
-## Relationship To Architecture And Components Docs
-`src_architecture.md` and `src_components.md` remain the canonical long-form
-explanation surfaces.
-
-`src_graph.json` is not a third prose architecture document. Its role is:
-- capture eligible source coverage for the chosen source/runtime surface
-- state what each covered object/module is
-- show how those covered objects/modules are wired together
-- distinguish hard ownership from borrowing, creation, validation, and other
-  semantic relationships
-
-Use the graph for fast structural traversal.
-Use architecture/components docs for full narrative and deeper lifecycle detail.
-
-## Scope Boundary
-The canonical graph targets one chosen source/runtime surface at a time.
-
-In scope:
-- the repo-local source/runtime surface selected for graph coverage
-- example source roots may look like `src/**` or another runtime subtree
-  chosen by the user
-
-Out of scope:
-- `tests/**`
-- examples
-- tickets
-- onboarding docs
-- patch docs
-
-If test relationships matter later, they belong in a separate test-side graph
-surface, not in `src_graph.json`.
-
-## Canonical Schema
-The graph uses one canonical schema only:
-
-```json
-{
-  "schema_version": 1,
-  "nodes": {},
-  "edges": []
-}
-```
-
-### Node Contract
-Each node must include exactly these fields:
-
-```json
-{
-  "id": "",
-  "label": "",
-  "kind": "",
-  "file": "",
-  "role": "",
-  "responsibilities": [],
-  "owns_state": [],
-  "phases": []
-}
-```
-
-Field meanings:
-- `id`
-  - stable canonical unique object id
-  - use fully qualified code identity
-  - example: `package.runtime.component.ComponentRoot`
-- `label`
-  - short display label
-  - example: `ComponentRoot`
-- `kind`
-  - one of:
-    - `class`
-    - `component`
-    - `interface`
-    - `module`
-- `file`
-  - repo-relative file path
-  - never use absolute paths
-- `role`
-  - one-sentence statement of what the object is
-- `responsibilities`
-  - short list of what it does
-- `owns_state`
-  - important fields/resources it owns
-- `phases`
-  - relevant lifecycle phases:
-    - `init`
-    - `validation`
-    - `runtime`
-    - `refresh`
-    - `cleanup`
-
-### Edge Contract
-Each edge must include exactly these fields:
-
-```json
-{
-  "from": "",
-  "to": "",
-  "relation": "",
-  "why": "",
-  "cardinality": "",
-  "phase": [],
-  "strength": ""
-}
-```
-
-Field meanings:
-- `from`
-  - source node id
-- `to`
-  - target node id
-- `relation`
-  - plain-language UML-shaped relationship
-- `why`
-  - one sentence explaining what the relationship actually means
-- `cardinality`
-  - one of:
-    - `one_to_one`
-    - `one_to_many`
-    - `many_to_one`
-    - `many_to_many`
-- `phase`
-  - relevant lifecycle phases for the relationship
-- `strength`
-  - one of:
-    - `hard`
-    - `borrowed`
-    - `soft`
-
-### Allowed Relation Values
-Use these values only:
-- `contains`
-- `specializes`
-- `implements`
-- `owns_lifecycle_of`
-- `holds`
-- `borrows`
-- `creates`
-- `uses`
-- `used_by`
-- `calls`
-- `validates`
-- `publishes`
-- `binds`
-- `binds_into`
-- `queries`
-
-Additional live relation meanings:
-- `holds`
-  - source keeps identity, metadata, or attached runtime state for the target
-    without necessarily owning the full lifecycle
-- `used_by`
-  - inverse helper-facing dependency wording used when the graph wants the
-    helper surface as the source node and the consuming runtime surface as the
-    target node
-- `binds_into`
-  - source publishes or merges its local truth into the target system/state
-    registry as part of aggregation or later-phase reuse
-
-Do not invent ad hoc edge labels unless the schema is intentionally revised.
-
-## Inclusion Rules
-The graph is exhaustive for eligible files inside the chosen repo-local
-about how those files are wired.
-
-Include:
-- every non-`__init__.py` file under the chosen source/runtime surface
-- richer node semantics where the file exposes important classes/components
-- relationships that materially improve ownership, creation, borrowing,
-  validation, publication, binding, and runtime wiring comprehension
-- when a file is currently scaffold-only or has no meaningful concrete class
-  surface yet, represent it as a `module` node rather than omitting it from
-  coverage
-
-Do not include:
-- anything under `tests/`
-- `__init__.py` files as graph nodes
-- import-graph noise
-- long narrative prose from architecture/components docs
-
-The graph should stay useful while still preserving exhaustive eligible-file
-coverage.
-
-## Authoring Workflow (Non-Negotiable)
-The canonical storage file stays compressed.
-Agents must not hand-edit the compressed storage file directly.
-
-Required workflow:
-1. Read the current compressed canonical file:
-   - `context_compass/system_docs/src_graph.json`
-   - treat it as a storage blob, not a line-oriented review surface
-2. Expand the whole file into an active patch-lane working copy:
-   - `context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json`
-3. Edit the expanded whole-document patch copy only.
-   - keep the graph scoped to `src/` only
-   - keep `__init__.py` files excluded from graph nodes when updating the graph
-4. Validate the expanded JSON and the schema discipline.
-5. Recompress the full document back into canonical storage.
-6. Regenerate `readable_src_graph.json` from the compressed canonical file.
-7. Validate the readable JSON view and line-width contract.
-8. Keep the expanded patch copy as temporary patch-lane state only.
-
-### Consumption Contract
-The compressed canonical file is intentionally not line-readable.
-
-Implications:
-- The compressed file may be one physical line.
-- The `viewer_tool_read_limit` / line-count rules are not a meaningful way to
-  inspect compressed canonical JSON.
-- Do not try to review or reason about the compressed canonical file by line
-  number.
-
-Required read rule:
-- Use `readable_src_graph.json` as the primary line-based reading surface.
-- Use `src_graph.json` as storage only.
-- Use `src_graph.expanded.json` only when editing the graph.
-
-Use the compressed file for:
-- storage
-- canonical overwrite target after recompression
-- regeneration source for `readable_src_graph.json`
-
-Use the readable file for:
-- line-based reading
-- chunked viewer consumption
-- quick structural rereads without opening the expanded edit copy
-
-Do not use the compressed file for:
-- line-based review
-- evidence citation by line
-- direct manual patching
-- partial in-place edits
-
-### Readable JSON Generation Contract
-`readable_src_graph.json` is produced by opening the compressed canonical file
-as raw text and reflowing that raw JSON into `220`-character lines.
-
-Generation rules:
-- do not pretty-print by reparsing into a verbose multi-thousand-line layout
-- do not change keys, values, ordering, or JSON structure
-- only insert newlines
-- only break at safe non-string delimiters
-- keep each output line at or below `220` characters
-- keep the output valid JSON
-
-This is a text-reflow artifact, not a semantic transform.
-
-### Required PowerShell Workflow
-Expand the canonical graph into a patch-lane working copy:
-
-```powershell
-$source = 'codex/context_compass/system_docs/src_graph.json'
-$working = 'codex/context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json'
-$data = Get-Content $source -Raw | ConvertFrom-Json
-$data | ConvertTo-Json -Depth 100 | Set-Content $working
-```
-
-Validate the expanded working copy:
-
-```powershell
-$working = 'codex/context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json'
-Get-Content $working -Raw | ConvertFrom-Json | Out-Null
-```
-
-Recompress the expanded working copy back into canonical storage:
-
-```powershell
-$source = 'codex/context_compass/system_docs/src_graph.json'
-$working = 'codex/context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json'
-$data = Get-Content $working -Raw | ConvertFrom-Json
-$data | ConvertTo-Json -Depth 100 -Compress | Set-Content $source
-```
-
-Regenerate the readable JSON consumption view from the compressed canonical
-graph:
-
-```powershell
-$source = 'codex/context_compass/system_docs/src_graph.json'
-$output = 'codex/context_compass/system_docs/readable_src_graph.json'
-$width = 220
-$raw = Get-Content $source -Raw
-$sb = New-Object System.Text.StringBuilder
-$current = New-Object System.Text.StringBuilder
-$inString = $false
-$escaped = $false
-$lastSafeBreak = -1
-
-function Flush-Line {
-    param([string]$Text)
-    $null = $sb.Append($Text)
-    $null = $sb.Append("`r`n")
-}
-
-for ($i = 0; $i -lt $raw.Length; $i++) {
-    $ch = $raw[$i]
-    $null = $current.Append($ch)
-
-    if ($inString) {
-        if ($escaped) {
-            $escaped = $false
-        } elseif ($ch -eq '\') {
-            $escaped = $true
-        } elseif ($ch -eq '"') {
-            $inString = $false
-        }
-    } else {
-        if ($ch -eq '"') {
-            $inString = $true
-        }
-        if ($ch -eq ',' -or $ch -eq '{' -or $ch -eq '}' -or $ch -eq '[' -or $ch -eq ']') {
-            $lastSafeBreak = $current.Length - 1
-        }
-    }
-
-    if ($current.Length -ge $width -and $lastSafeBreak -ge 0) {
-        $line = $current.ToString().Substring(0, $lastSafeBreak + 1)
-        Flush-Line $line
-        $remainder = $current.ToString().Substring($lastSafeBreak + 1)
-        $current.Clear() | Out-Null
-        $current.Append($remainder) | Out-Null
-        $lastSafeBreak = -1
-    }
-}
-
-if ($current.Length -gt 0) {
-    Flush-Line $current.ToString()
-}
-
-Set-Content -Path $output -Value $sb.ToString() -Encoding utf8
-```
-
-Validate the readable JSON view:
-
-```powershell
-Get-Content codex/context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
-$max = (Get-Content codex/context_compass/system_docs/readable_src_graph.json | ForEach-Object { $_.Length } | Measure-Object -Maximum).Maximum
-$max
-```
-
-This is a whole-document edit workflow. Do not patch a subset of the compressed
-canonical file in place.
-
-## Maintenance Rules
-Update `src_graph.json` when any of these change:
-- a new important system object becomes part of the canonical mental model
-- object ownership changes
-- creation responsibility changes
-- borrowing vs hard lifecycle responsibility changes
-- validation/publication/binding relationships change
-- architecture/components docs are updated with new canonical wiring
-
-When graph changes are made:
-- update the expanded patch copy
-- recompress to canonical storage
-- regenerate `readable_src_graph.json`
-- keep architecture/components docs aligned if the graph reflects a real
-  architectural delta
-
-## Validation Expectations
-At minimum, validate:
-- compressed canonical graph parses as JSON
-- expanded working graph parses as JSON
-- readable consumption graph parses as JSON
-- readable consumption graph stays at `220` characters or less per line
-- node ids are unique
-- every edge target/source exists as a node
-- relation values stay inside the allowed vocabulary
-
-Recommended commands:
-
-```powershell
-Get-Content codex/context_compass/system_docs/src_graph.json -Raw | ConvertFrom-Json | Out-Null
-Get-Content codex/context_compass/system_docs/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
-Get-Content codex/context_compass/system_docs/patches/active/<patch_id>/src_graph.expanded.json -Raw | ConvertFrom-Json | Out-Null
-Get-Content codex/context_compass/examples/example_graph_details/src_graph.json -Raw | ConvertFrom-Json | Out-Null
-Get-Content codex/context_compass/examples/example_graph_details/readable_src_graph.json -Raw | ConvertFrom-Json | Out-Null
-Get-Content codex/context_compass/examples/example_graph_details/src_graph.expanded.json -Raw | ConvertFrom-Json | Out-Null
-```
-
-## Anti-Patterns (Reject)
-- editing the compressed canonical file directly
-- treating the compressed canonical file as the primary line-based read surface
-- regenerating the readable view by semantic reshaping instead of raw-text
-  reflow
-- splitting graph details and graph network into separate competing canonical files
-- using absolute paths
-- adding `tests/` objects into `src_graph.json`
-- adding `__init__.py` files as graph nodes
-- using non-unique object names as ids
-- duplicating long-form architecture/components prose into the graph
-- treating the graph as a whole-repo file inventory outside the agreed
-  chosen source/runtime scope
-- adding relation labels that are not in the controlled vocabulary without
-  intentionally revising the schema
-
-## Context / Handoff Summary
-This document defines the canonical graph-details schema and the required
-expand-edit-compress workflow for maintaining `src_graph.json`. The graph is
-exhaustive over eligible files in the chosen source/runtime surface, relationship-focused, and
-complementary to
-`src_architecture.md` and `src_components.md`, not a replacement for them.
-
---- START OF FILE: context_compass\system_docs\src_architecture.md ---
-
-﻿# src_architecture
-
-> Starter mock document. This file ships as a template-quality baseline for
-> agents and users. It is not authoritative repo-specific truth until it has
-> been validated and rewritten against the current repository.
-
-## Metadata
-- Document type: system architecture
-- Distribution baseline: codex
-- Status: starter mock
-- Last verified at: 2026-02-19T03:15:00Z
-- Evidence policy: UNKNOWN-first with explicit source pointers
-
-## Scope and Intent
-This document demonstrates the expected shape of an architecture map for
-Context Compass-style usage. It focuses on deterministic onboarding, role
-routing, ticket-first execution memory, and continuity after
-compaction/handoff.
-
-In a fresh install, treat this as starter material. Replace or validate claims
-before treating it as current repository truth.
-
-## DO NOT ASSUME / Unknowns Gate
-- File names are not proof of behavior.
-- Claims are UNKNOWN until backed by direct file evidence.
-- Cross-runtime assumptions must be validated in both adapter trees.
-
-## Unknowns
-- U-001 UNKNOWN: whether future adapters need new top-level entrypoint aliases.
-  - Investigation target: `AGENTS.MD` and release packaging notes.
-- U-002 UNKNOWN: whether reference scanning should be committed as automation.
-  - Investigation target: release-hardening process docs.
-- U-003 UNKNOWN: whether artifact retention defaults should vary by lane/profile.
-  - Investigation target: `artifact_board.md` policy evolution.
-
-## System Context (C4)
-Context Compass sits between a runtime agent session and repository-backed state.
-It converts volatile interaction into durable execution memory through explicit
-contracts.
-
-Primary actors and boundaries:
-- user/operator requesting work
-- runtime adapter entrypoint (`AGENTS.MD` for Codex sessions)
-- role/router contract (`SKILLS.md`, `config/context_compass_config.yaml`)
-- durable state (`attention_board.md`, `tickets/`, `artifact_board.md`)
-
-## System Boundary and External Interfaces
-- Entrypoint interface:
-  - `AGENTS.MD`
-- Routing/config interface:
-  - `SKILLS.md`
-  - `config/context_compass_config.yaml`
-- Execution-memory interface:
-  - `attention_board.md`
-  - `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`
-- Artifact-lifecycle interface:
-  - `artifact_board.md`
-  - `artifacts/`
-
-## Architecture Summary (C4)
-Layer 1: Bootstrap and guardrails
-- Entry documents enforce mandatory onboarding and certification gates.
-
-Layer 2: Router and role-chain resolution
-- Profile + role map resolve the active `SKILLS.md` chain in parent-first order.
-
-Layer 3: Ticket microcycle execution
-- Work runs through investigate -> document -> plan -> implement -> validate
-  with append-only notes.
-
-Layer 4: Closure and continuity
-- Board sync and artifact disposition preserve deterministic re-entry.
-
-## Entrypoints and Runtime Guardrails
-- No action before required onboarding reads.
-- Certification gate is explicit and required before execution.
-- Re-onboarding is required after compaction/handoff.
-- Unknown-first evidence discipline is mandatory.
-
-## Boot and Configuration Sequence
-1. Read `AGENTS.MD`.
-2. Read execution contract and compaction requirements.
-3. Read `config/context_compass_config.yaml`.
-4. Read top-level `SKILLS.md` and resolve role.
-5. Read resolved role-chain `SKILLS.md` files in parent-first order.
-6. Confirm certification approval.
-7. Route to active ticket via `attention_board.md`.
-8. Execute ticket microcycle with evidence-backed notes.
-9. On closure, sync board state and apply artifact disposition.
-
-## Data Flows and Sequences
-Flow A: Fresh session
-- request -> entrypoint -> router/config -> role-chain readset -> certification -> ticket execution.
-
-Flow B: Active execution
-- active ticket -> investigate -> note -> plan -> implement -> validate -> note.
-
-Flow C: Compaction recovery
-- compaction event -> re-open entrypoint/contract -> re-read active state -> recertify -> resume.
-
-Flow D: Ticket closure
-- acceptance confirmation -> closure sync -> artifact disposition -> handoff summary.
-
-## Operational Invariants
-- I-001: Ticket notes are canonical in-flight memory.
-- I-002: UNKNOWN is never promoted without evidence.
-- I-003: Role-chain reads are explicit and parent-first.
-- I-004: Certification precedes execution.
-- I-005: Example lanes remain separate from operational lanes.
-
-## Failure Modes and Error Paths
-- F-001 Broken references
-  - Signal: unresolved path/link checks.
-  - Mitigation: normalize paths and rerun scans.
-
-- F-002 Onboarding claims without proof
-  - Signal: attestation without referenced readset.
-  - Mitigation: require explicit evidence pointers.
-
-- F-003 Ticket routing drift
-  - Signal: stale or ambiguous `attention_board.md` pointers.
-  - Mitigation: closure sync and board hygiene rules.
-
-- F-004 Example pollution in real lanes
-  - Signal: sample files placed under operational `tickets/` or `artifacts/`.
-  - Mitigation: keep samples inside `examples/example_*` only.
-
-## C1 Code Map (Core Only)
-- path: `AGENTS.MD`
-  start_line: 1
-  end_line: 176
-  loc: 176
-  verified_at: 2026-02-19T03:15:00Z
-- path: `SKILLS.md`
-  start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
-- path: `config/context_compass_config.yaml`
-  start_line: 1
-  end_line: 136
-  loc: 136
-  verified_at: 2026-02-19T03:15:00Z
-- path: `attention_board.md`
-  start_line: 1
-  end_line: 33
-  loc: 33
-  verified_at: 2026-02-19T03:15:00Z
-- path: `artifact_board.md`
-  start_line: 1
-  end_line: 31
-  loc: 31
-  verified_at: 2026-02-19T03:15:00Z
-- path: `agent_onboarding/default/general/skills/execution_contract.md`
-  start_line: 1
-  end_line: 234
-  loc: 234
-  verified_at: 2026-02-19T03:15:00Z
-- path: `agent_onboarding/default/general/skills/workflow.md`
-  start_line: 1
-  end_line: 245
-  loc: 245
-  verified_at: 2026-02-19T03:15:00Z
-
-## Diagrams
-```text
-User Request
-  -> Entrypoint Policy
-    -> Config + SKILLS Router
-      -> Role Chain Readset
-        -> Ticket Microcycle
-          -> Attention Board + Artifact Board
-            -> Closure / Compaction Re-entry
-```
-
-```mermaid
-flowchart LR
-  U[User Request] --> E[Entrypoint Policy]
-  E --> R[Config + SKILLS Router]
-  R --> C[Role Chain Readset]
-  C --> T[Ticket Microcycle]
-  T --> B[attention_board + tickets]
-  T --> A[artifact_board + artifacts]
-  B --> H[Closure/Compaction Re-entry]
-  A --> H
-  H --> E
-```
-
-## Information Sources
-- `AGENTS.MD`
-- `SKILLS.md`
-- `config/context_compass_config.yaml`
-- `agent_onboarding/default/general/skills/execution_contract.md`
-- `agent_onboarding/default/general/skills/workflow.md`
-- `attention_board.md`
-- `artifact_board.md`
-
-## Context / Handoff Summary
-Architecture is now explicitly tied to this repository's real lifecycle and
-paths. Revalidate route/entrypoint references before future release updates.
-
---- START OF FILE: context_compass\system_docs\src_components.md ---
-
-﻿# src_components
-
-> Starter mock document. This file ships as a template-quality baseline for
-> agents and users. It is not authoritative repo-specific truth until it has
-> been validated and rewritten against the current repository.
-
-## Metadata
-- Document type: source components map
-- Distribution baseline: codex
-- Status: starter mock
-- Last verified at: 2026-02-19T03:15:00Z
-
-## Scope
-This map demonstrates the expected shape of a component map for Context
-Compass-style usage.
-
-In a fresh install, treat this as starter material. Replace or validate claims
-before treating it as current repository truth.
-
-## DO NOT ASSUME / Unknowns Gate
-- Component ownership is UNKNOWN until source-backed.
-- Never infer behavior from naming alone.
-
-## Unknowns
-- U-101 UNKNOWN: should reference scanning become a committed script layer?
-  - Investigation target: release-hardening process docs.
-- U-102 UNKNOWN: should artifact disposition defaults vary by role lane?
-  - Investigation target: `artifact_board.md` history and policy updates.
-
-## C3 Components Catalog
-### Component: Entrypoint Policy Engine
-- Purpose: enforce startup and gating rules before execution.
-- Responsibilities: onboarding order, certification gate, compaction re-entry requirements.
-- Inputs: user request + runtime entrypoint document.
-- Outputs: allowed action boundary.
-- Owned State: none (policy-as-document contract).
-- Lifecycle/Cleanup: re-read at session start and after compaction.
-- Invariants/Guarantees: no work before mandatory reads/certification.
-- Failure Modes: skipped gate, stale entrypoint references.
-- Observability: attestation evidence in notes.
-- Key Files (C1): `AGENTS.MD`.
-
-### Component: Router and Role Resolution Engine
-- Purpose: resolve active role chain deterministically.
-- Responsibilities: map active profile -> role path -> inherited `SKILLS.md` chain.
-- Inputs: `config/context_compass_config.yaml`, `SKILLS.md`.
-- Outputs: ordered readset and role boundaries.
-- Owned State: role map and active profile config.
-- Lifecycle/Cleanup: update when profiles/roles change.
-- Invariants/Guarantees: parent-first role-chain resolution.
-- Failure Modes: broken role map path, casing mismatch.
-- Observability: resolved-chain notes during onboarding.
-- Key Files (C1): `config/context_compass_config.yaml`, `SKILLS.md`.
-
-### Component: Ticket Microcycle Execution Engine
-- Purpose: run work as evidence-backed iteration.
-- Responsibilities: enforce investigate/document/plan/implement/validate cadence.
-- Inputs: active ticket + findings from source reads.
-- Outputs: append-only notes, state transitions, validation records.
-- Owned State: ticket `## Notes` and state sections.
-- Lifecycle/Cleanup: per ticket until closure/completed move.
-- Invariants/Guarantees: meaningful findings are documented before deeper expansion.
-- Failure Modes: undocumented decisions, speculative transitions.
-- Observability: task/story/epic notes and transition events.
-- Key Files (C1): `tickets/*`, `templates/*`, `agent_onboarding/default/general/skills/workflow.md`.
-
-### Component: Attention Board Routing Engine
-- Purpose: keep active-work pointers deterministic.
-- Responsibilities: active route pointer, closure anchors, re-entry hints.
-- Inputs: ticket lifecycle updates.
-- Outputs: current active pointer and recent closure anchors.
-- Owned State: `attention_board.md` table rows.
-- Lifecycle/Cleanup: updated on route change and closure.
-- Invariants/Guarantees: active pointer maps to executable ticket context.
-- Failure Modes: stale pointers, ambiguous active row.
-- Observability: board row timestamps and linked tickets.
-- Key Files (C1): `attention_board.md`.
-
-### Component: Artifact Lifecycle Engine
-- Purpose: track artifacts linked to ticket execution.
-- Responsibilities: maintain ticket-artifact associations and disposition decisions.
-- Inputs: ticket artifact links and close-state decisions.
-- Outputs: active/cleared artifact index.
-- Owned State: `artifact_board.md` entries.
-- Lifecycle/Cleanup: updated through ticket execution and closure.
-- Invariants/Guarantees: every active artifact has a ticket owner and disposition.
-- Failure Modes: orphaned artifacts, unresolved disposition.
-- Observability: active artifact table + cleared history.
-- Key Files (C1): `artifact_board.md`, `artifacts/`.
-
-## C2 Subcomponents Catalog
-- Entrypoint Policy Engine
-  - bootstrap sequence checker
-  - certification gate checker
-  - compaction re-entry checker
-
-- Router and Role Resolution Engine
-  - active profile reader
-  - role map resolver
-  - parent-first chain reader
-
-- Ticket Microcycle Execution Engine
-  - note appender
-  - transition recorder
-  - validation reporter
-
-- Attention Board Routing Engine
-  - active pointer updater
-  - closure anchor updater
-
-- Artifact Lifecycle Engine
-  - artifact linker
-  - disposition recorder
-  - cleared-history logger
-
-## Method-Level Call Flows (C1)
-- `bootstrap_session() -> read_entrypoint() -> read_config() -> read_top_level_skills() -> resolve_role_chain()`
-- `open_active_ticket() -> investigate() -> append_note() -> plan() -> implement() -> validate() -> append_note()`
-- `close_ticket() -> confirm_acceptance() -> sync_attention_board() -> apply_artifact_disposition() -> append_handoff_summary()`
-- `recover_from_compaction() -> reread_entrypoint() -> reread_active_ticket() -> recertify() -> resume()`
-
-## C1 Code Map (Core)
-- path: `templates/epic_template.md`
-  start_line: 1
-  end_line: 129
-  loc: 129
-  verified_at: 2026-02-19T03:15:00Z
-- path: `templates/story_template.md`
-  start_line: 1
-  end_line: 111
-  loc: 111
-  verified_at: 2026-02-19T03:15:00Z
-- path: `templates/task_template.md`
-  start_line: 1
-  end_line: 103
-  loc: 103
-  verified_at: 2026-02-19T03:15:00Z
-- path: `tickets/epics/README.md`
-  start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
-- path: `tickets/stories/README.md`
-  start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
-- path: `tickets/tasks/README.md`
-  start_line: 1
-  end_line: 67
-  loc: 67
-  verified_at: 2026-02-19T03:15:00Z
-- path: `examples/eng_task_flow.md`
-  start_line: 1
-  end_line: 31
-  loc: 31
-  verified_at: 2026-02-19T03:15:00Z
-- path: `examples/artifact_workflow.md`
-  start_line: 1
-  end_line: 20
-  loc: 20
-  verified_at: 2026-02-19T03:15:00Z
-
-## Diagrams
-```text
-Entrypoint Policy
-  -> Router/Role Resolution
-    -> Ticket Microcycle
-      -> Attention Board Routing
-      -> Artifact Lifecycle
-```
-
-```mermaid
-flowchart LR
-  E[Entrypoint Policy Engine] --> R[Router + Role Resolution]
-  R --> M[Ticket Microcycle Engine]
-  M --> B[Attention Board Routing]
-  M --> A[Artifact Lifecycle]
-  B --> H[Compaction/Handoff Re-entry]
-  A --> H
-```
-
-## Information Sources
-- `AGENTS.MD`
-
-- `SKILLS.md`
-- `config/context_compass_config.yaml`
-- `templates/epic_template.md`
-- `templates/story_template.md`
-- `templates/task_template.md`
-- `tickets/epics/README.md`
-- `tickets/stories/README.md`
-- `tickets/tasks/README.md`
-- `examples/eng_task_flow.md`
-- `examples/artifact_workflow.md`
-
-## Context / Handoff Summary
-Component map now reflects actual ownership, call flows, and failure paths for
-this repository's workflow system.
-
-
---- START OF FILE: context_compass\system_docs\src_graph_details.md ---
-
-# Src Graph Details
-
-Status:
-- superseded as a canonical storage surface
-
-Canonical graph surfaces:
-- `context_compass/system_docs/src_graph.json`
-- `context_compass/system_docs/graph_details_document.md`
-
-Why this file remains:
-- preserve the older graph-details entrypoint name
-- redirect readers to the one canonical graph schema and workflow
-
---- START OF FILE: context_compass\system_docs\src_graph_network.md ---
-
-# Src Graph Network
-
-Status:
-- superseded as a canonical storage surface
-
-Canonical graph surfaces:
-- `context_compass/system_docs/src_graph.json`
-- `context_compass/system_docs/graph_details_document.md`
-
-Why this file remains:
-- preserve the older graph-network entrypoint name
-- avoid maintaining a second competing graph file
-
---- START OF FILE: context_compass\system_docs\tests_architecture.md ---
-
-# tests_architecture
-
-> Starter mock document. This file ships as a template-quality baseline for
-> agents and users. It is not authoritative repo-specific truth until it has
-> been validated and rewritten against the current repository.
-
-## Metadata
-- Document type: tests architecture
-- Status: starter mock
-- Last verified at: 2026-02-19T00:00:00Z
-
-## Scope and Intent
-Capture how test surfaces could be structured and validated for Context Compass.
-
-In a fresh install, treat this as starter material. Replace or validate claims
-before treating it as current repository truth.
-
-## DO NOT ASSUME / Unknowns Gate
-- Treat unverified test behavior as UNKNOWN.
-- Promote to FACT only with direct test-file evidence.
-
-## Unknowns
-- UNKNOWN: final CI profile matrix for runtime-specific docs.
-- UNKNOWN: long-term test marker taxonomy for integration vs component tests.
-
-## System Context (C4)
-Testing validates policy integrity, routing correctness, and durable ticket flow.
-
-## External Interfaces and Entry Points
-- Test framework: pytest guidance in user-defined testing docs.
-- Validation commands: rg/yaml checks and ticket-based evidence checks.
-
-## Core Responsibilities
-- Ensure onboarding/routing references resolve.
-- Ensure required section contracts remain present in system docs.
-- Ensure examples remain consistent with policy documents.
-
-## Data Flows and Lifecycle
-- Authoring change -> update docs/examples -> run checks -> attach evidence.
-- Compaction/handoff -> re-open active ticket -> validate stale assumptions.
-
-## Invariants and Guarantees
-- Validation status must be reported truthfully.
-- Unknowns are explicit before any promotion to FACT.
-
-## C1 Code Map (Key Paths)
-- path: `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/testing_overview.md`
-  start_line: 1
-  end_line: 220
-  loc: 220
-  verified_at: 2026-02-19T00:00:00Z
-- path: `templates/task_template.md`
-  start_line: 1
-  end_line: 120
-  loc: 120
-  verified_at: 2026-02-19T00:00:00Z
-- path: `tickets/tasks/README.md`
-  start_line: 1
-  end_line: 180
-  loc: 180
-  verified_at: 2026-02-19T00:00:00Z
-
-## Diagrams
-```text
-Change -> Ticket Note -> Validation -> Evidence -> Handoff
-```
-
-```mermaid
-flowchart LR
-  C[Change] --> N[Ticket Notes]
-  N --> V[Validation]
-  V --> E[Evidence]
-  E --> H[Handoff]
-```
-
-## Information Sources
-- `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/*`
-- `templates/*`
-- `tickets/*/README.md`
-
-## Context / Handoff Summary
-Starter tests architecture created to replace placeholder state.
-Next step is to bind key paths to exact package test commands.
-
---- START OF FILE: context_compass\system_docs\tests_components.md ---
-
-# tests_components
-
-> Starter mock document. This file ships as a template-quality baseline for
-> agents and users. It is not authoritative repo-specific truth until it has
-> been validated and rewritten against the current repository.
-
-## Metadata
-- Document type: tests components map
-- Status: starter mock
-- Last verified at: 2026-02-19T00:00:00Z
-
-## Scope
-Map test-oriented components and flows that could be used to verify Context
-Compass behavior.
-
-In a fresh install, treat this as starter material. Replace or validate claims
-before treating it as current repository truth.
-
-## DO NOT ASSUME / Unknowns Gate
-- New test component claims default to UNKNOWN.
-- Only direct evidence can promote claims to FACT.
-
-## Unknowns
-- UNKNOWN: definitive boundary between component and integration suites.
-- UNKNOWN: required fixture catalog for all role overlays.
-
-## C3 Components Catalog
-### Component: Contract Validation Layer
-- Purpose: assert policy and routing contract integrity.
-- Responsibilities: detect broken refs, missing sections, stale docs.
-- Inputs: markdown/yaml policy files.
-- Outputs: pass/fail findings.
-- Owned State: validation artifacts and note evidence.
-- Lifecycle/Cleanup: regenerated per review cycle.
-- Concurrency/Threading: sequential in docs-first workflow.
-- Invariants/Guarantees: findings must include file references.
-- Failure Modes: false confidence from partial checks.
-- Observability: ticket validation notes.
-- Key Files (C1): `templates/*.md`, `tickets/*/README.md`.
-
-### Component: Example Consistency Layer
-- Purpose: ensure examples align with active policies.
-- Responsibilities: keep starter docs and flow examples coherent.
-- Inputs: role-level examples and system docs.
-- Outputs: synchronized example set.
-- Owned State: example markdown and python snippets.
-- Lifecycle/Cleanup: refresh on policy/model changes.
-- Concurrency/Threading: single-writer docs updates.
-- Invariants/Guarantees: examples must not contradict gating policy.
-- Failure Modes: stale examples that route users incorrectly.
-- Observability: docs diff and review findings.
-- Key Files (C1): `examples/*`, `agent_onboarding/*/examples/*`.
-
-## C2 Subcomponents Catalog
-- Reference integrity checks.
-- Section-contract checks.
-- Example-flow checks.
-- Test-snippet checks for user-defined python overlay.
-
-## Method-Level Call Flows (C1)
-- `scan_refs -> resolve_paths -> report_missing`
-- `validate_sections -> compare_required_headers -> report_gaps`
-- `review_examples -> compare_with_policy -> update_docs`
-
-## C1 Code Map (Key Paths)
-- path: `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_unit_examples.py`
-  start_line: 1
-  end_line: 120
-  loc: 120
-  verified_at: 2026-02-19T00:00:00Z
-- path: `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_integration_examples.py`
-  start_line: 1
-  end_line: 120
-  loc: 120
-  verified_at: 2026-02-19T00:00:00Z
-- path: `agent_onboarding/user_defined/synaptic_python_developer/examples/python/pytest_component_examples.py`
-  start_line: 1
-  end_line: 120
-  loc: 120
-  verified_at: 2026-02-19T00:00:00Z
-
-## Diagrams
-```text
-Policy/Docs -> Reference Checks -> Example Sync -> Validation Report
-```
-
-```mermaid
-flowchart LR
-  P[Policy Docs] --> R[Reference Checks]
-  R --> X[Example Sync]
-  X --> V[Validation Report]
-```
-
-## Information Sources
-- `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/*`
-- `agent_onboarding/user_defined/synaptic_python_developer/examples/python/*`
-- `examples/*`
-
-## Context / Handoff Summary
-Starter tests component mapping added with explicit contracts and UNKNOWNs.
-Next reader should replace estimated ranges with exact measured ranges.
 
 --- START OF FILE: context_compass\system_docs\patches\active\README.md ---
 
@@ -22712,7 +22985,7 @@ When completed, move to `context_compass/tickets/epics/completed/` and rename to
 - Move the file to `context_compass/tickets/epics/completed/` with the `_completed` suffix.
 
 ## References
-- `context_compass/SKILLS.md` (deep descriptive model and naming rules)
+- `context_compass/SKILLS.MD` (deep descriptive model and naming rules)
 - `context_compass/agent_onboarding/default/general/skills/workflow.md` (ticket lifecycle and completion format)
 - `context_compass/templates/epic_template.md`
 
@@ -22792,7 +23065,7 @@ When completed, move to `context_compass/tickets/stories/completed/` and rename 
 - Move the file to `context_compass/tickets/stories/completed/` with the `_completed` suffix.
 
 ## References
-- `context_compass/SKILLS.md` (deep descriptive model and naming rules)
+- `context_compass/SKILLS.MD` (deep descriptive model and naming rules)
 - `context_compass/agent_onboarding/default/general/skills/workflow.md` (ticket lifecycle and completion format)
 - `context_compass/templates/story_template.md`
 
@@ -22872,7 +23145,7 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
 - Move the file to `context_compass/tickets/tasks/completed/` with the `_completed` suffix.
 
 ## References
-- `context_compass/SKILLS.md` (deep descriptive model and naming rules)
+- `context_compass/SKILLS.MD` (deep descriptive model and naming rules)
 - `context_compass/agent_onboarding/default/general/skills/workflow.md` (ticket lifecycle and completion format)
 - `context_compass/templates/task_template.md`
 
@@ -22886,4 +23159,2446 @@ When completed, move to `context_compass/tickets/tasks/completed/` and rename to
 
 
 --- START OF FILE: context_compass\tickets\tasks\completed\.gitkeep ---
+
+
+--- START OF FILE: context_compass\tools\cleanup_context_compass.py ---
+
+#!/usr/bin/env python3
+"""Return a Context Compass install to the state its manifest describes.
+
+Use this when an instance has accumulated content that does not belong to it, or
+when you are preparing the package for distribution and need the working lanes
+emptied of one project's work.
+
+TWO MODES, BECAUSE "CLEAN" MEANS TWO DIFFERENT THINGS
+
+    --mode reset   (default) return to shipping state. The instance's work in
+                   the RESET lanes is removed and the seeded documents go back
+                   to what the package ships. Use when preparing a release or
+                   clearing one project's content out of the package.
+
+    --mode repair  fix a broken install without touching the project's work.
+                   RESET lanes are left completely alone. Use on a live repo.
+
+WHAT EACH MODE DOES, BY OWNERSHIP CLASS
+
+    PACKAGE   both modes: restore if missing, restore if the hash differs.
+    RESET     reset:  unlisted files removed; listed files restored to shipped.
+              repair: untouched entirely.
+    INSTANCE  never touched, in either mode. `agent_onboarding/user_defined/`
+              is the project's own work and the package has no claim on it.
+              `--purge-user-defined` is the single exception, and it exists only
+              because a release should not ship another project's role overlays.
+              It is never implied by `--mode reset`: deleting someone's role
+              because they asked to tidy a lane would be a betrayal of the
+              invariant, so it has to be asked for by name.
+    LIVE      reset:  the whole file is restored. A release must not ship one
+                      project's routing rows.
+              repair: only the managed block is swapped. Rows are never touched.
+    CONFIG    never rewritten in either mode - the updater owns key merges. But
+              the manifest hash is used: when it does not match, the tool reports
+              WHICH top-level keys you added, removed or retuned relative to the
+              shipped defaults. A hash nothing checks is the same dead weight as
+              a version stamp nothing bumps, so this one earns its place.
+
+A file in a PACKAGE lane that is not in the manifest is reported as UNKNOWN in
+both modes, and removed only in reset mode. It is usually foreign content, but
+it can be a script someone added on purpose, so it is never deleted silently.
+
+WHY RESET DOES NOT RUN BY ACCIDENT ON A LIVE REPO
+
+Reset empties the working lanes. `system_docs/`, `tickets/` and `artifacts/` hold
+whatever the project wrote there - architecture maps, live tickets, findings -
+and reset deletes all of it. That is correct when preparing a release and
+catastrophic on a working repository. Two explicit modes beat one clever
+heuristic, because a heuristic that guesses wrong here destroys work.
+
+The package ships `system_docs/` EMPTY: no architecture, component, test or
+graph document is seeded. A placeholder in a live lane gets read as repository
+truth no matter what banner sits on it, so there is nothing there to restore -
+reset only removes.
+
+Then: prune directories left empty, and re-materialise every manifest path so
+`.gitkeep` markers come back. Order matters. Prune before restore and you delete
+lanes that should exist; restore before prune and stale empty directories
+survive.
+
+WHY IT COMPARES CONTENT, NOT JUST PATHS
+
+The cleanup this tool was written for found 1,217 foreign files by path. It also
+found 11 files sitting at package paths carrying another project's content - the
+three boards, four system documents, four patch templates. A path-only diff
+reports those as present and correct, because the path exists in both trees.
+Only the hash finds them. A cleanup that skips the hash comparison will report
+success over a tree that is still wrong in the places that matter most.
+
+BLAST RADIUS
+
+This deletes files. It refuses to run without `--apply`, and `--check` prints
+exactly what it would do. Removal is limited to RESET lanes: it will never
+delete something outside a lane the manifest marks as the instance's to fill.
+"""
+
+from __future__ import annotations
+
+import argparse
+import pathlib
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from package_manifest import MANIFEST_NAME, SKIP_DIRS, parse  # noqa: E402
+
+MANAGED_BEGIN = "<!-- BEGIN MANAGED: {name} -->"
+MANAGED_END = "<!-- END MANAGED: {name} -->"
+
+
+def sha_of(path: pathlib.Path) -> str:
+    import hashlib
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def managed_blocks(text: str) -> list[tuple[str, int, int]]:
+    """Every managed region as (name, start_index, end_index_exclusive)."""
+    import re
+    out = []
+    for m in re.finditer(r"<!-- BEGIN MANAGED: (.+?) -->", text):
+        name = m.group(1)
+        end_marker = MANAGED_END.format(name=name)
+        e = text.find(end_marker, m.end())
+        if e == -1:
+            raise ValueError(f"unterminated managed block {name!r}")
+        out.append((name, m.start(), e + len(end_marker)))
+    return out
+
+
+def swap_managed(current: str, reference: str) -> tuple[str, list[str]]:
+    """Replace each managed block in `current` with the one from `reference`.
+
+    A block present in the reference but absent from the file is inserted at the
+    top, after the H1 if there is one. A block in the file but not the reference
+    is left alone - the package no longer manages it, and deleting text the
+    package does not own is not this tool's business.
+    """
+    ref = {name: reference[s:e] for name, s, e in managed_blocks(reference)}
+    changed: list[str] = []
+    for name, s, e in sorted(managed_blocks(current), key=lambda b: -b[1]):
+        if name in ref and current[s:e] != ref[name]:
+            current = current[:s] + ref[name] + current[e:]
+            changed.append(name)
+    have = {n for n, _, _ in managed_blocks(current)}
+    for name, block in ref.items():
+        if name not in have:
+            lines = current.split("\n")
+            at = 1 if lines and lines[0].startswith("# ") else 0
+            lines.insert(at, "\n" + block if at else block)
+            current = "\n".join(lines)
+            changed.append(f"{name} (inserted)")
+    return current, changed
+
+
+def diff_config_keys(current: str, shipped: str) -> tuple[list[str], list[str], list[str]]:
+    """Which top-level config keys were added, removed, or given a new value.
+
+    Reports only. Config is the install's to set, so this exists to answer "how
+    does mine differ from stock" rather than to drive any change.
+    """
+    import re
+
+    def blocks(text: str) -> dict[str, str]:
+        lines = text.split("\n")
+        starts = [(i, m.group(1)) for i, ln in enumerate(lines)
+                  if (m := re.match(r"^([A-Za-z_][A-Za-z0-9_]*):", ln))]
+        out = {}
+        for idx, (i, key) in enumerate(starts):
+            end = starts[idx + 1][0] if idx + 1 < len(starts) else len(lines)
+            body = [l for l in lines[i:end]
+                    if l.strip() and not l.lstrip().startswith("#")]
+            out[key] = "\n".join(body)
+        return out
+
+    cur, ship = blocks(current), blocks(shipped)
+    added = sorted(set(cur) - set(ship))
+    removed = sorted(set(ship) - set(cur))
+    retuned = sorted(k for k in set(cur) & set(ship) if cur[k] != ship[k])
+    return added, removed, retuned
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--target", required=True, type=pathlib.Path,
+                    help="the install to clean, the directory holding AGENTS.MD")
+    ap.add_argument("--reference", type=pathlib.Path,
+                    help="clean package to restore from; defaults to --target itself, "
+                         "which repairs structure but cannot repair overwritten content")
+    ap.add_argument("--mode", choices=("reset", "repair"), default="reset",
+                    help="reset: return RESET lanes to shipping state (default). "
+                         "repair: fix PACKAGE files only, leave the project's work alone")
+    ap.add_argument("--purge-user-defined", action="store_true",
+                    help="ALSO delete role overlays under agent_onboarding/user_defined/ "
+                         "that the manifest does not list. For cutting a release: a "
+                         "release should not ship another project's roles. Never implied "
+                         "by --mode reset, because those overlays are someone's work")
+    ap.add_argument("--check", action="store_true", help="report only, change nothing")
+    ap.add_argument("--apply", action="store_true", help="perform the cleanup")
+    args = ap.parse_args()
+
+    target: pathlib.Path = args.target
+    reference: pathlib.Path = args.reference or target
+
+    if not (target / "AGENTS.MD").is_file():
+        print(f"ERROR: {target} is not a package root (no AGENTS.MD)")
+        return 2
+    man_path = reference / MANIFEST_NAME
+    if not man_path.is_file():
+        print(f"ERROR: no {MANIFEST_NAME} in {reference} - run package_manifest.py first")
+        return 2
+    if not args.check and not args.apply:
+        print("Refusing to act without --apply. Use --check to see the plan.")
+        return 2
+
+    manifest = parse(man_path.read_text(encoding="utf-8"))
+    reset_roots = sorted({p.split("/")[0] + "/" for p, (c, _) in manifest.items()
+                          if c == "RESET" and "/" in p})
+
+    on_disk = {p.relative_to(target).as_posix()
+               for p in target.rglob("*")
+               if p.is_file() and not any(part in SKIP_DIRS for part in p.parts)}
+    on_disk.discard(MANIFEST_NAME)
+
+    reset_mode = args.mode == "reset"
+    remove, restore, repair, blocks, unknown, kept = [], [], [], [], [], []
+    config_drift = None
+
+    instance_roots = sorted({p.rsplit('/', 1)[0] + '/' if '/' in p else p
+                             for p, (c, _) in manifest.items() if c == 'INSTANCE'} |
+                            {'agent_onboarding/user_defined/', 'user_defined/'})
+
+    foreign_roles: list[str] = []
+    for rel in sorted(on_disk - set(manifest)):
+        if any(rel.startswith(r) for r in instance_roots):
+            foreign_roles.append(rel)
+            continue          # never removed unless --purge-user-defined says so
+        in_reset_lane = any(rel.startswith(r) for r in reset_roots)
+        if in_reset_lane:
+            (remove if reset_mode else kept).append(rel)
+        else:
+            unknown.append(rel)          # foreign file in a PACKAGE lane
+
+    for rel, (cls, digest) in sorted(manifest.items()):
+        p = target / rel
+        if cls == "INSTANCE":
+            continue          # the project's own work, in every mode
+        if cls == "RESET" and not reset_mode:
+            if not p.exists():
+                restore.append(rel)      # reseed a lane file that went missing
+            continue
+        if not p.exists():
+            restore.append(rel)
+        elif cls in ("PACKAGE", "RESET") and sha_of(p) != digest:
+            repair.append(rel)
+        elif cls == "LIVE" and reset_mode and sha_of(p) != digest:
+            # Preparing a release: ship the board as the package ships it. Keeping
+            # someone's routing rows would publish one project's work state.
+            repair.append(rel)
+        elif cls == "LIVE" and (reference / rel).is_file():
+            _, ch = swap_managed(p.read_text(encoding="utf-8"),
+                                 (reference / rel).read_text(encoding="utf-8"))
+            if ch:
+                blocks.append((rel, ch))
+        elif cls == "CONFIG" and sha_of(p) != digest and (reference / rel).is_file():
+            # Never changed - the updater owns config merges. But the manifest
+            # hash would otherwise be dead weight, and a hash nothing checks is
+            # the same pattern as a version stamp nothing bumps. Use it to say
+            # HOW the install diverged from the shipped defaults.
+            config_drift = diff_config_keys(
+                p.read_text(encoding="utf-8"),
+                (reference / rel).read_text(encoding="utf-8"))
+
+    print(f"target    {target}")
+    print(f"reference {reference}")
+    print(f"mode      {args.mode}")
+    print(f"manifest  {len(manifest)} files, RESET lanes: {', '.join(reset_roots) or 'none'}")
+    print()
+    print(f"  remove  {len(remove):>5}  instance files in RESET lanes")
+    print(f"  restore {len(restore):>5}  manifest files missing from the target")
+    print(f"  repair  {len(repair):>5}  manifest files whose content differs")
+    print(f"  blocks  {len(blocks):>5}  live files whose managed block is stale")
+    print(f"  unknown {len(unknown):>5}  files in PACKAGE lanes not in the manifest"
+          f"{' (will be removed)' if reset_mode else ' (reported only)'}")
+    if kept:
+        print(f"  kept    {len(kept):>5}  instance files left alone by repair mode")
+    for rel in remove[:10]:
+        print(f"    remove  {rel}")
+    if len(remove) > 10:
+        print(f"    ... +{len(remove) - 10} more")
+    for rel in restore[:10]:
+        print(f"    restore {rel}")
+    for rel in repair[:10]:
+        print(f"    repair  {rel}")
+    for rel, ch in blocks[:10]:
+        print(f"    block   {rel}: {', '.join(ch)}")
+    for rel in unknown[:10]:
+        print(f"    unknown {rel}")
+
+    if config_drift and any(config_drift):
+        a, r, v = config_drift
+        print(f"  config          your `config/context_compass_config.yaml` differs from stock:")
+        if a: print(f"                    keys you added:      {', '.join(a)}")
+        if r: print(f"                    keys you removed:    {', '.join(r)}")
+        if v: print(f"                    values you changed:  {', '.join(v)}")
+        print("                  reported only - config is yours and is never rewritten here.")
+
+    if foreign_roles:
+        roles = sorted({r.split("/")[2] for r in foreign_roles if r.count("/") >= 2})
+        verb = "WILL BE DELETED" if args.purge_user_defined else "kept"
+        print(f"  overlays{len(foreign_roles):>5}  files under user_defined not in the "
+              f"manifest, in {len(roles)} role(s): {', '.join(roles)} - {verb}")
+        if not args.purge_user_defined:
+            print("            these belong to whoever wrote them. Cutting a release?"
+                  " Pass --purge-user-defined.")
+
+    if reset_mode:
+        remove = remove + unknown
+    if args.purge_user_defined:
+        remove = remove + foreign_roles
+
+    if args.check:
+        clean = not (remove or restore or repair or blocks)
+        print()
+        if clean and unknown and not reset_mode:
+            print("OK: at manifest state, but see the unknown files above")
+        else:
+            print("OK: already at manifest state" if clean else "DIRTY: run with --apply")
+        return 0 if clean else 1
+
+    if reference == target and (restore or repair):
+        print()
+        print("REFUSED: files are missing or altered and --reference is the target itself.")
+        print("         There is nothing to restore them from. Pass a clean package.")
+        return 2
+
+    for rel in remove:
+        (target / rel).unlink()
+
+    for rel in sorted(set(restore) | set(repair)):
+        src, dst = reference / rel, target / rel
+        if not src.is_file():
+            print(f"    SKIP (not in reference): {rel}")
+            continue
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(src.read_bytes())
+
+    for rel, _ in blocks:
+        p = target / rel
+        new, _ = swap_managed(p.read_text(encoding="utf-8"),
+                              (reference / rel).read_text(encoding="utf-8"))
+        p.write_bytes(new.encode("utf-8"))
+
+    # Prune only where this run actually removed something, and never fail the
+    # whole operation on one undeletable directory.
+    #
+    # Two faults found by running it on a real install. The walk covered the
+    # entire tree including lanes the tool has no business touching, and a single
+    # PermissionError killed the process mid-repair - three of six files restored,
+    # no summary, no indication of what had happened. A tool that deletes must
+    # not partially complete on an exception.
+    prune_roots = set()
+    if reset_mode:
+        prune_roots |= {r.rstrip("/") for r in reset_roots}
+    for rel in remove:
+        prune_roots.add(rel.split("/")[0])
+
+    pruned, unpruned = 0, []
+    candidates = [p for root in sorted(prune_roots) if (target / root).is_dir()
+                  for p in (target / root).rglob("*") if p.is_dir()]
+    for d in sorted(candidates, key=lambda x: len(x.parts), reverse=True):
+        try:
+            if not any(d.iterdir()):
+                d.rmdir()
+                pruned += 1
+        except OSError as exc:
+            unpruned.append(f"{d.relative_to(target)}: {exc.strerror or exc}")
+
+    recreated = 0
+    for rel in manifest:
+        p = target / rel
+        if not p.exists() and (reference / rel).is_file():
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_bytes((reference / rel).read_bytes())
+            recreated += 1
+
+    print()
+    print(f"APPLIED: removed {len(remove)}, restored {len(restore)}, repaired {len(repair)},"
+          f" blocks reset {len(blocks)}, pruned {pruned} empty dirs, recreated {recreated}")
+    if unpruned:
+        print(f"         {len(unpruned)} empty directories could not be removed and were"
+              f" left in place:")
+        for u in unpruned[:5]:
+            print(f"           {u}")
+        print("         Nothing else was affected - the file work above completed.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\tools\package_manifest.py ---
+
+#!/usr/bin/env python3
+"""Emit the package manifest: what ships, who owns it, and its hash.
+
+The manifest is the contract both `cleanup_context_compass.py` and
+`update_context_compass.py` read. It answers three questions per path:
+
+    does this file belong to the package?   -> presence in the manifest
+    who is allowed to change it?            -> the ownership class
+    has it changed since it shipped?        -> the sha256
+
+WHY A GENERATED MANIFEST RATHER THAN PER-FILE VERSION STAMPS
+
+A version header inside each document has to be bumped by hand, and nothing
+enforces the bump. Miss one and the stamp lies while looking authoritative -
+the same failure mode as a stale index. A manifest rebuilt from the files
+themselves cannot drift, because it is derived rather than declared.
+
+OWNERSHIP CLASSES
+
+    PACKAGE   ships with the library and is not edited downstream.
+              Cleanup restores it. Update replaces it.
+
+    RESET     a lane the package seeds and the consuming project then fills:
+              tickets, artifacts, system docs, project instructions.
+              Cleanup removes files NOT in the manifest and keeps the ones that
+              are. Update never touches the contents.
+
+    INSTANCE  the project's own work, listed so both tools know to leave it
+              alone. Two directories: `agent_onboarding/user_defined/` for role
+              overlays, and top-level `user_defined/` for anything else. Neither
+              tool restores, replaces or removes anything in either, in any mode.
+              Listing them explicitly is safer than relying on absence, because a
+              file missing from the manifest is indistinguishable from one that
+              was never meant to be there.
+
+              These exist so an upgrade never has to choose between the user's
+              work and the new version. Package files are conformed; if you need
+              something different, it lives here instead.
+
+    LIVE      one file holding a package-owned block plus instance-owned body.
+              The boards. Update swaps only the block between MANAGED markers.
+
+    CONFIG    key-level merge, never a whole-file swap. Adding a key must not
+              silently reset a value the user set.
+
+Classes are assigned by path prefix, longest match wins, so a PACKAGE directory
+can still contain a RESET subtree. That distinction is not theoretical: during
+the cleanup that motivated this tool, `tools/` was package-owned and still had
+five foreign files sitting in it.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import pathlib
+import sys
+
+MANIFEST_NAME = "MANIFEST.md"
+MANIFEST_VERSION = "1.0.0"
+
+# Longest matching prefix wins. Order here is for reading, not for matching.
+CLASS_RULES: tuple[tuple[str, str], ...] = (
+    ("", "PACKAGE"),                        # default
+    ("tickets/", "RESET"),
+    ("artifacts/", "RESET"),
+    ("system_docs/", "RESET"),
+    ("context_management/", "RESET"),
+    ("special_instructions/", "RESET"),
+    ("agent_onboarding/user_defined/", "INSTANCE"),
+    ("user_defined/", "INSTANCE"),
+    ("attention_board.md", "LIVE"),
+    ("artifact_board.md", "LIVE"),
+    ("mailbox_board.md", "LIVE"),
+    ("config/context_compass_config.yaml", "CONFIG"),
+)
+
+SKIP_DIRS = {"__pycache__", ".git"}
+
+# Lanes where the install may hold files the package does not ship. Everything
+# outside them is STRICT: an upgrade sweeps whatever is not in the manifest.
+#
+# The asymmetry is the point. A ticket the package never heard of is the whole
+# purpose of `tickets/`; a skill the package never heard of sitting in
+# `agent_onboarding/default/` is a document retired versions ago that agents are
+# still reading. Reporting it is not enough - it was reported for two upgrades
+# and stayed, because nobody hand-deletes from a list.
+#
+# Observed on a real install: a `scripts/` directory left over from before the
+# rename to `tools/`, a root `router.md` from the retired dual-router era, and a
+# lowercase `SKILLS.md` beside the real one. All silently readable, all wrong.
+PERMISSIVE_LANES: tuple[str, ...] = (
+    "tickets/",
+    "artifacts/",
+    "system_docs/",
+    "context_management/",
+    "special_instructions/",
+    "user_defined/",
+    "agent_onboarding/user_defined/",
+)
+
+
+def is_permissive(rel: str) -> bool:
+    """True if the install may keep unmanifested files at this path."""
+    return rel.startswith(PERMISSIVE_LANES)
+
+
+def classify(rel: str) -> str:
+    """Ownership class for a package-relative path. Longest prefix wins."""
+    best, best_len = "PACKAGE", -1
+    for prefix, cls in CLASS_RULES:
+        if rel == prefix or (prefix.endswith("/") and rel.startswith(prefix)):
+            if len(prefix) > best_len:
+                best, best_len = cls, len(prefix)
+    return best
+
+
+def walk(root: pathlib.Path) -> list[pathlib.Path]:
+    out = []
+    for p in sorted(root.rglob("*"), key=lambda x: str(x).upper()):
+        if not p.is_file():
+            continue
+        if any(part in SKIP_DIRS for part in p.parts):
+            continue
+        if p.name == MANIFEST_NAME and p.parent == root:
+            continue                      # never hash the manifest into itself
+        out.append(p)
+    return out
+
+
+def sha(path: pathlib.Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def build(root: pathlib.Path, version: str) -> str:
+    rows = []
+    for p in walk(root):
+        rel = p.relative_to(root).as_posix()
+        rows.append((rel, classify(rel), sha(p)))
+
+    counts: dict[str, int] = {}
+    for _, cls, _ in rows:
+        counts[cls] = counts.get(cls, 0) + 1
+
+    out = [
+        "# MANIFEST",
+        "",
+        "Generated by `tools/package_manifest.py`. Do not hand-edit: it is derived",
+        "from the files themselves, which is the only reason it can be trusted.",
+        "",
+        "| field | value |",
+        "| --- | --- |",
+        f"| manifest_version | {MANIFEST_VERSION} |",
+        f"| package_version | {version} |",
+        f"| files | {len(rows)} |",
+        "",
+        "## Lane policy",
+        "",
+        "Lanes where the install may keep files the package does not ship.",
+        "Everything outside them is STRICT: an upgrade sweeps what is not listed here.",
+        "",
+        "| lane | policy |",
+        "| --- | --- |",
+        *[f"| `{L}` | permissive |" for L in PERMISSIVE_LANES],
+        "| everything else | strict - swept on upgrade |",
+        "",
+        "## Ownership classes",
+        "",
+        "| class | files | cleanup | update |",
+        "| --- | --- | --- | --- |",
+        f"| PACKAGE | {counts.get('PACKAGE', 0)} | restore | replace |",
+        f"| RESET | {counts.get('RESET', 0)} | keep listed, remove unlisted | leave alone |",
+        f"| INSTANCE | {counts.get('INSTANCE', 0)} | never touched | never touched |",
+        f"| LIVE | {counts.get('LIVE', 0)} | reset managed block | swap managed block |",
+        f"| CONFIG | {counts.get('CONFIG', 0)} | restore missing keys | merge keys |",
+        "",
+        "## Files",
+        "",
+        "| path | class | sha256 |",
+        "| --- | --- | --- |",
+    ]
+    for rel, cls, digest in rows:
+        out.append(f"| `{rel}` | {cls} | `{digest}` |")
+    out.append("")
+    return "\n".join(out)
+
+
+def parse(text: str) -> dict[str, tuple[str, str]]:
+    """Read a manifest back. Returns {path: (class, sha256)}."""
+    entries: dict[str, tuple[str, str]] = {}
+    in_files = False
+    for line in text.splitlines():
+        if line.startswith("## Files"):
+            in_files = True
+            continue
+        if not in_files or not line.startswith("| `"):
+            continue
+        cells = [c.strip().strip("`") for c in line.strip().strip("|").split("|")]
+        if len(cells) == 3 and len(cells[2]) == 64:
+            entries[cells[0]] = (cells[1], cells[2])
+    return entries
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--root", required=True, type=pathlib.Path,
+                    help="package root, the directory holding AGENTS.MD")
+    ap.add_argument("--version", default="0.0.0", help="package version to record")
+    ap.add_argument("--check", action="store_true",
+                    help="compare against the manifest on disk, write nothing")
+    args = ap.parse_args()
+
+    root: pathlib.Path = args.root
+    if not (root / "AGENTS.MD").is_file():
+        print(f"ERROR: {root} does not look like a package root (no AGENTS.MD)")
+        return 2
+
+    target = root / MANIFEST_NAME
+    version = args.version
+    if version == "0.0.0" and target.is_file():
+        for line in target.read_text(encoding="utf-8").splitlines():
+            if line.startswith("| package_version |"):
+                version = line.split("|")[2].strip()
+                break
+
+    text = build(root, version)
+
+    if args.check:
+        if not target.is_file():
+            print("MISSING: no manifest on disk")
+            return 1
+        current = target.read_text(encoding="utf-8")
+        if current == text:
+            print(f"OK: manifest is current ({len(parse(text))} files)")
+            return 0
+        old, new = parse(current), parse(text)
+        added = sorted(set(new) - set(old))
+        removed = sorted(set(old) - set(new))
+        changed = sorted(p for p in set(old) & set(new) if old[p][1] != new[p][1])
+        print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}")
+        for p in added[:20]:
+            print(f"  added    {p}")
+        for p in removed[:20]:
+            print(f"  removed  {p}")
+        for p in changed[:20]:
+            print(f"  changed  {p}")
+        return 1
+
+    target.write_bytes(text.encode("utf-8"))
+    entries = parse(text)
+    counts: dict[str, int] = {}
+    for cls, _ in entries.values():
+        counts[cls] = counts.get(cls, 0) + 1
+    print(f"WROTE: {MANIFEST_NAME}")
+    print(f"  package_version {version}")
+    print(f"  {len(entries)} files: " +
+          ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\tools\update_context_compass.py ---
+
+#!/usr/bin/env python3
+"""Upgrade an installed Context Compass to a newer version of the package.
+
+Point it at a new package and an existing install. It decides, per file, whether
+replacing is safe - and refuses rather than guessing when it is not.
+
+THE THREE-HASH RULE
+
+One hash tells you a file changed. It cannot tell you WHO changed it, and that is
+the only question that matters when deciding whether to overwrite.
+
+    shipped   what the installed version's manifest recorded
+    current   what is on disk in the install right now
+    new       what the incoming version ships
+
+    current == shipped, new != shipped   -> clean update, replace
+    current == shipped, new == shipped   -> already current, skip
+    current != shipped, new == shipped   -> the user edited it, package did not:
+                                            KEEP their version
+    current != shipped, new != shipped   -> both moved: CONFORM to the new
+                                            version, and say so.
+
+Without `shipped` you cannot separate rows three and four from row one, so you
+either overwrite the user's edits or never update anything. There is no version
+of this that works with a single hash.
+
+WHY ROW FOUR CONFORMS RATHER THAN REFUSING
+
+Package files belong to the package. An edit to one is a divergence that has to
+be re-resolved on every future upgrade, forever - so preserving it is not a
+kindness, it is a debt. The install gets two directories where local work is
+untouchable (`user_defined/` and `agent_onboarding/user_defined/`), plus the
+RESET lanes, and that is where customisation belongs.
+
+So the default is to conform, and to name every file it conformed. Row three
+still keeps your edit when the package did not move, because there is nothing to
+conform to. `--preserve-local` restores the old refusal if you are mid-migration
+and not ready yet.
+
+WHAT IS NEVER TOUCHED
+
+    RESET lanes   tickets, artifacts, system docs, project instructions.
+                  The install owns these outright. An upgrade that rewrites
+                  someone's architecture map is not an upgrade.
+    INSTANCE      `user_defined/` and `agent_onboarding/user_defined/`. The
+                  first is a free space for anything; the second holds role
+                  overlays. Never replaced, never restored, never removed - not
+                  even a role the package originally shipped as a sample, because
+                  by the time it is in someone's repo it is theirs to edit.
+
+WHAT GETS SPECIAL HANDLING
+
+    LIVE files    the boards. Only the text between MANAGED markers is swapped.
+                  Routing rows are the install's, and survive.
+    CONFIG        merged key by key: new keys are added with package defaults, a
+                  value the user already set is never overwritten, and keys the
+                  new version dropped are reported rather than deleted.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import pathlib
+import re
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from package_manifest import MANIFEST_NAME, parse, is_permissive  # noqa: E402
+from cleanup_context_compass import swap_managed   # noqa: E402
+
+
+def sha_bytes(b: bytes) -> str:
+    return hashlib.sha256(b).hexdigest()
+
+
+def top_level_keys(yaml_text: str) -> dict[str, tuple[int, int]]:
+    """Map each top-level YAML key to its (start_line, end_line_exclusive).
+
+    Deliberately not a YAML parser. This tool only needs to know where a
+    top-level block begins and ends so it can append a missing one verbatim,
+    comments and all. Parsing and re-emitting would reformat the user's file and
+    drop their comments, which is a worse outcome than not merging at all.
+    """
+    lines = yaml_text.split("\n")
+    starts = [(i, m.group(1)) for i, ln in enumerate(lines)
+              if (m := re.match(r"^([A-Za-z_][A-Za-z0-9_]*):", ln))]
+    out: dict[str, tuple[int, int]] = {}
+    for idx, (i, key) in enumerate(starts):
+        end = starts[idx + 1][0] if idx + 1 < len(starts) else len(lines)
+        while end > i + 1 and lines[end - 1].strip() == "":
+            end -= 1
+        out[key] = (i, end)
+    return out
+
+
+def merge_config(current: str, new: str) -> tuple[str, list[str], list[str]]:
+    """Add top-level keys the install lacks. Never overwrite one it has."""
+    cur_keys = top_level_keys(current)
+    new_keys = top_level_keys(new)
+    new_lines = new.split("\n")
+
+    added, dropped = [], []
+    additions: list[str] = []
+    for key, (s, e) in new_keys.items():
+        if key not in cur_keys:
+            block = "\n".join(new_lines[s:e])
+            # carry the comment block immediately above the key
+            lead = s
+            while lead > 0 and (new_lines[lead - 1].startswith("#")
+                                or new_lines[lead - 1].strip() == ""):
+                lead -= 1
+                if new_lines[lead].strip() == "" and lead < s - 1:
+                    break
+            comment = "\n".join(new_lines[lead:s]).strip("\n")
+            additions.append((comment + "\n" + block) if comment else block)
+            added.append(key)
+    for key in cur_keys:
+        if key not in new_keys:
+            dropped.append(key)
+
+    if additions:
+        current = current.rstrip("\n") + "\n\n" + "\n\n".join(additions) + "\n"
+    return current, added, dropped
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--install", required=True, type=pathlib.Path,
+                    help="the existing install to upgrade")
+    ap.add_argument("--new", required=True, type=pathlib.Path,
+                    help="the new package version")
+    ap.add_argument("--check", action="store_true", help="report only, change nothing")
+    ap.add_argument("--apply", action="store_true", help="perform the upgrade")
+    ap.add_argument("--keep-retired", action="store_true",
+                    help="do NOT sweep files in strict lanes that the new version does "
+                         "not ship. They are reported either way")
+    ap.add_argument("--preserve-local", action="store_true",
+                    help="do NOT conform package files you have edited; report them as "
+                         "conflicts and leave them alone. Use when you deliberately "
+                         "customised a package file and are not ready to move it into "
+                         "user_defined/")
+    ap.add_argument("--force-conflicts", action="store_true",
+                    help=argparse.SUPPRESS)   # retained: conform is now the default
+    args = ap.parse_args()
+
+    install, new = args.install, args.new
+    for label, root in (("install", install), ("new", new)):
+        if not (root / "AGENTS.MD").is_file():
+            print(f"ERROR: --{label} {root} is not a package root")
+            return 2
+    if not (new / MANIFEST_NAME).is_file():
+        print(f"ERROR: --new {new} has no {MANIFEST_NAME} - run package_manifest.py on it")
+        return 2
+    if not args.check and not args.apply:
+        print("Refusing to act without --apply. Use --check to see the plan.")
+        return 2
+
+    incoming = parse((new / MANIFEST_NAME).read_text(encoding="utf-8"))
+
+    # An install predating the manifest has no shipped hashes, so for every file
+    # that differs we cannot tell a local edit from an upstream change. Every
+    # difference lands in the conform bucket and is named, so the user sees
+    # exactly what the upgrade brought into line. `--preserve-local` stops it.
+    first_adoption = not (install / MANIFEST_NAME).is_file()
+    shipped = {} if first_adoption else parse(
+        (install / MANIFEST_NAME).read_text(encoding="utf-8"))
+    if first_adoption:
+        print(f"NOTE: {install} has no {MANIFEST_NAME}, so this is its first")
+        print("      manifest-aware upgrade. Without shipped hashes a local edit and an")
+        print("      upstream change are indistinguishable, so every differing package")
+        print("      file is conformed to the new version and named below. Your lanes -")
+        print("      system_docs, tickets, artifacts, special_instructions, and both")
+        print("      user_defined directories - are untouched. Use --preserve-local to")
+        print("      review instead of conforming.")
+        print()
+
+    def version_of(root: pathlib.Path) -> str:
+        man = root / MANIFEST_NAME
+        if not man.is_file():
+            return "unknown (no manifest)"
+        for line in man.read_text(encoding="utf-8").splitlines():
+            if line.startswith("| package_version |"):
+                return line.split("|")[2].strip()
+        return "?"
+
+    replace, skip, keep, conflict, added, gone = [], [], [], [], [], []
+    blocks, cfg = [], None
+
+    for rel, (cls, new_sha) in sorted(incoming.items()):
+        p = install / rel
+        old_sha = shipped.get(rel, (None, None))[1]
+
+        if cls in ("RESET", "INSTANCE"):
+            continue                                   # the install owns these
+        if cls == "CONFIG":
+            if p.is_file():
+                merged, a, d = merge_config(p.read_text(encoding="utf-8"),
+                                            (new / rel).read_text(encoding="utf-8"))
+                cfg = (rel, merged, a, d)
+            else:
+                added.append(rel)
+            continue
+        if not p.is_file():
+            added.append(rel)
+            continue
+
+        cur_sha = sha_bytes(p.read_bytes())
+        if cls == "LIVE":
+            _, ch = swap_managed(p.read_text(encoding="utf-8"),
+                                 (new / rel).read_text(encoding="utf-8"))
+            if ch:
+                blocks.append((rel, ch))
+            continue
+        if cur_sha == new_sha:
+            skip.append(rel)
+        elif old_sha is None:
+            conflict.append(rel)                       # not in the old manifest
+        elif cur_sha == old_sha:
+            replace.append(rel)
+        elif new_sha == old_sha:
+            keep.append(rel)
+        else:
+            conflict.append(rel)
+
+    # Retired files: present in the install's package lanes, absent from the new
+    # version. Never deleted - the package no longer shipping something is not
+    # the same as the project not wanting it - but always named, because a
+    # retired document left in place still gets read.
+    #
+    # Derived by walking the install rather than by reading the shipped manifest.
+    # The manifest looks like the obvious source and is wrong twice: it is empty
+    # on first adoption, and after any upgrade it lists only what the CURRENT
+    # version ships - so a file retired two versions ago appears in neither
+    # manifest and stays invisible forever. Walking the tree finds it either way.
+    # Found by upgrading a real install that still carried `policy_router.md`
+    # from the retired dual-router era.
+    # A case-insensitive filesystem makes `SKILLS.md` and `SKILLS.MD` one file.
+    # The manifest lists the uppercase name, so a lowercase copy looks retired -
+    # and unlinking it destroys the file the manifest name also resolves to.
+    # This is not hypothetical: it deleted a real install's role registry, and
+    # the upgrade had just written the correct content into that same inode.
+    #
+    # So a path whose case-insensitive twin is in the manifest is never swept. On
+    # a case-sensitive filesystem this skips a genuinely stale duplicate, which
+    # costs one leftover file. The other way costs the registry.
+    incoming_ci = {k.lower() for k in incoming}
+    case_twins: list[str] = []
+    for p in sorted(install.rglob("*")):
+        if not p.is_file() or any(x in {"__pycache__", ".git"} for x in p.parts):
+            continue
+        rel = p.relative_to(install).as_posix()
+        if rel in incoming or is_permissive(rel) or rel == MANIFEST_NAME:
+            continue
+        if rel.lower() in incoming_ci:
+            case_twins.append(rel)
+            continue
+        gone.append(rel)
+
+    print(f"install {install}  (version {version_of(install)})")
+    print(f"new     {new}  (version {version_of(new)})")
+    print()
+    print(f"  replace  {len(replace):>5}  package changed, install untouched")
+    print(f"  skip     {len(skip):>5}  already current")
+    print(f"  keep     {len(keep):>5}  locally edited, package unchanged")
+    print(f"  conform  {len(conflict):>5}  package file you edited - will be conformed"
+          f"{' (SKIPPED: --preserve-local)' if args.preserve_local else ''}")
+    print(f"  added    {len(added):>5}  new files in this version")
+    print(f"  sweep    {len(gone):>5}  in a strict lane, not in the new version"
+          f"{' (KEPT: --keep-retired)' if args.keep_retired else ' - will be REMOVED'}")
+    print(f"  blocks   {len(blocks):>5}  managed blocks to swap in live files")
+    if case_twins:
+        print(f"  CASE     {len(case_twins):>5}  differ from a manifest path only by case - NOT swept")
+        for rel in case_twins[:5]:
+            match = next(k for k in incoming if k.lower() == rel.lower())
+            print(f"    {rel}  vs manifest `{match}`")
+        print("           On a case-insensitive filesystem these are ONE file and sweeping")
+        print("           it would delete the real one. Rename by hand, then re-run.")
+    if cfg:
+        print(f"  config   {len(cfg[2])} keys to add, {len(cfg[3])} dropped upstream")
+    for rel in conflict[:15]:
+        print(f"    conform  {rel}")
+    for rel in keep[:10]:
+        print(f"    keep     {rel}")
+    for rel in added[:10]:
+        print(f"    added    {rel}")
+    for rel in gone[:12]:
+        print(f"    sweep    {rel}")
+    if len(gone) > 12:
+        print(f"    ... +{len(gone) - 12} more")
+    for rel, ch in blocks[:10]:
+        print(f"    block    {rel}: {', '.join(ch)}")
+    if cfg and cfg[2]:
+        print(f"    config   add keys: {', '.join(cfg[2])}")
+    if cfg and cfg[3]:
+        print(f"    config   dropped upstream (kept): {', '.join(cfg[3])}")
+
+    if args.check:
+        print()
+        if conflict and args.preserve_local:
+            print("CONFLICTS - --preserve-local will leave them untouched")
+            return 1
+        if conflict:
+            print(f"READY - {len(conflict)} edited package files will be CONFORMED to the")
+            print("        new version. Anything you need to keep belongs in user_defined/.")
+        else:
+            print("READY")
+        return 0
+
+    conform = not args.preserve_local
+    for rel in replace + added + (conflict if conform else []):
+        src, dst = new / rel, install / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        dst.write_bytes(src.read_bytes())
+
+    for rel, _ in blocks:
+        p = install / rel
+        merged, _ = swap_managed(p.read_text(encoding="utf-8"),
+                                 (new / rel).read_text(encoding="utf-8"))
+        p.write_bytes(merged.encode("utf-8"))
+
+    swept = 0
+    if not args.keep_retired:
+        for rel in gone:
+            try:
+                (install / rel).unlink()
+                swept += 1
+            except OSError as exc:
+                print(f"    could not remove {rel}: {exc.strerror or exc}")
+        for d in sorted((p for p in install.rglob('*') if p.is_dir()),
+                        key=lambda x: len(x.parts), reverse=True):
+            rel = d.relative_to(install).as_posix() + '/'
+            if is_permissive(rel):
+                continue
+            try:
+                if not any(d.iterdir()):
+                    d.rmdir()
+            except OSError:
+                pass
+
+    if cfg:
+        rel, merged, a, _ = cfg
+        if a:
+            (install / rel).write_bytes(merged.encode("utf-8"))
+
+    (install / MANIFEST_NAME).write_bytes((new / MANIFEST_NAME).read_bytes())
+
+    print()
+    print(f"APPLIED: replaced {len(replace)}, added {len(added)}, "
+          f"blocks {len(blocks)}, config keys {len(cfg[2]) if cfg else 0}, "
+          f"kept {len(keep)} local edits, "
+          f"{'conformed' if conform else 'left'} {len(conflict)} edited package files, "
+          f"swept {swept} retired")
+    if conflict and not conform:
+        print("         Edited package files were NOT changed (--preserve-local).")
+        print("         Each one is a divergence you will re-resolve on every future")
+        print("         upgrade. Move what you need into user_defined/ instead.")
+    if gone and args.keep_retired:
+        print(f"         {len(gone)} retired files kept (--keep-retired). They are still"
+              f" readable by agents.")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\tools\system_documents\index_document.py ---
+
+#!/usr/bin/env python3
+"""Build a line-range index over an authored Markdown document.
+
+For `src_components.md`, `src_architecture.md`, and any other large authored
+system document. It reads the document and writes `<stem>_index.md` beside it.
+
+**It never modifies the document.** The document is authored prose and stays
+that way - there is no build step, no shards, and nothing is generated except
+the index. That is the whole point: a component's responsibilities cannot be
+derived from anything, so the document must remain the thing a human or agent
+writes directly. This tool only makes it sliceable.
+
+Contrast with the source graph, which IS derived from code and therefore does
+have a generation pipeline under `tools/system_documents/python/`.
+
+THE STALENESS CONTRACT
+A line-offset index is more fragile than the prose it indexes. Insert one line
+near the top and every range below it is wrong - while the index still parses,
+still looks plausible, and still returns content. It returns the WRONG content,
+confidently.
+
+So an index is only trustworthy if it can be PROVEN current, and it carries the
+proof itself: `line_count`, `content_sha256`, and `line_ending`. A consumer
+recomputes all three and refuses to slice on any mismatch. An index without them
+is not a weaker index, it is an unusable one.
+
+Line numbers are 1-based and inclusive on both ends, matching `sed -n 'S,Ep'`,
+the Read tool's offset/limit, and this repository's `path:start_line-end_line`
+evidence convention.
+
+Usage:
+    # build or rebuild the index beside the document
+    python index_document.py --doc system_docs/src_components.md
+    python index_document.py --doc system_docs/src_architecture.md --max-level 3
+
+    # verify the existing index is current; writes nothing
+    python index_document.py --doc ... --check
+
+    # read one section by NAME - verifies the index first, refuses if stale
+    python index_document.py --doc ... --slice "Router and Role Resolution"
+
+    # force sectioning strategy (default `auto`: ENTRY markers if present,
+    # otherwise headings)
+    python index_document.py --doc ... --mode entry
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime
+import hashlib
+import pathlib
+import re
+import sys
+
+INDEX_VERSION = "1.1.0"
+HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*$")
+FENCE = re.compile(r"^\s*(?:`{3}|~{3})")
+
+# Explicit entry delimiters. Headings are inferred structure and depend on the
+# author keeping levels consistent; these are declared structure and do not.
+# Used by patch documents, where each entry is a distinct revision of a named
+# thing and heading depth carries no meaning.
+#
+# The NAME lives in the marker, which is the point: it moves verbatim into the
+# index, so an index row identifies the object it covers rather than a position
+# in a file. A row keyed by a number is useless to anyone deciding what to read.
+ENTRY_BEGIN = re.compile(r'^<!--\s*BEGIN ENTRY:\s*"?(.+?)"?\s*-->\s*$')
+ENTRY_END = re.compile(r'^<!--\s*END ENTRY(?::\s*"?(.+?)"?)?\s*-->\s*$')
+
+
+def write_if_changed(path: pathlib.Path, text: str, volatile: str = "generated_at") -> bool:
+    """Write only when content differs ignoring the timestamp line. Returns wrote?
+
+    Regeneration must be idempotent. If the source did not change, the index
+    should not change either - otherwise every CI run or verification pass
+    rewrites the file with a fresh `generated_at` and produces a diff that says
+    nothing happened. A tool that churns its own output trains people to ignore
+    its diffs, which is precisely when a real change slips past.
+    """
+    if path.exists():
+        old = path.read_text(encoding="utf-8")
+        strip = lambda s: "\n".join(l for l in s.split("\n") if volatile not in l)
+        if strip(old) == strip(text):
+            return False
+    path.write_text(text, encoding="utf-8", newline="\n")
+    return True
+
+
+def read_lines(doc: pathlib.Path) -> tuple[bytes, str, list[str]]:
+    """Return (raw_bytes, line_ending, lines). Trailing terminator is not a line."""
+    raw = doc.read_bytes()
+    nl = "\r\n" if b"\r\n" in raw else "\n"
+    lines = raw.decode("utf-8").split(nl)
+    if lines and lines[-1] == "":
+        lines.pop()
+    return raw, ("crlf" if nl == "\r\n" else "lf"), lines
+
+
+def find_headings(lines: list[str], max_level: int) -> list[tuple[int, int, str]]:
+    """Fence-aware heading scan. Returns (1-based line, level, title).
+
+    A `#` inside a fenced code block is not a heading. Treating it as one
+    produces ranges that split a code example in half.
+    """
+    out: list[tuple[int, int, str]] = []
+    in_fence = False
+    for i, line in enumerate(lines, start=1):
+        if FENCE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        m = HEADING.match(line)
+        if m and len(m.group(1)) <= max_level:
+            out.append((i, len(m.group(1)), m.group(2)))
+    return out
+
+
+def find_entries(lines: list[str]) -> tuple[list[dict], list[str]]:
+    """Scan explicit BEGIN/END ENTRY markers. Returns (entries, problems).
+
+    Unbalanced or mismatched markers are reported rather than guessed at. A
+    silently repaired entry boundary produces a range that looks fine and covers
+    the wrong text.
+    """
+    entries: list[dict] = []
+    problems: list[str] = []
+    open_at: int | None = None
+    open_name: str | None = None
+    in_fence = False
+    for i, line in enumerate(lines, start=1):
+        if FENCE.match(line):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        b = ENTRY_BEGIN.match(line)
+        if b:
+            if open_at is not None:
+                problems.append(f"line {i}: BEGIN ENTRY {b.group(1)!r} while "
+                                f"{open_name!r} still open at line {open_at}")
+            open_at, open_name = i, b.group(1).strip()
+            continue
+        e = ENTRY_END.match(line)
+        if e:
+            if open_at is None:
+                problems.append(f"line {i}: END ENTRY with nothing open")
+                continue
+            closing = (e.group(1) or "").strip()
+            if closing and closing != open_name:
+                problems.append(f"line {i}: END ENTRY {closing!r} closes "
+                                f"{open_name!r} opened at line {open_at}")
+            entries.append({"level": 1, "path": open_name, "title": open_name,
+                            "start": open_at, "end": i})
+            open_at, open_name = None, None
+    if open_at is not None:
+        problems.append(f"BEGIN ENTRY {open_name!r} at line {open_at} never closed")
+    return entries, problems
+
+
+def build_sections(lines: list[str], found: list[tuple[int, int, str]]) -> list[dict]:
+    """Heading list -> sections with ranges and breadcrumb paths.
+
+    A section runs from its own heading line to the line before the next heading
+    of the SAME OR SHALLOWER depth, or to end of file for the last one.
+
+    The document TITLE is omitted. A lone `#` heading is the document's name, not
+    a navigable section, and its range necessarily spans nearly the whole file -
+    an entry whose only possible use is to defeat the index while appearing to
+    use it.
+
+    The title is also stripped from every breadcrumb. Repeating the document name
+    on every row is pure redundancy: on a 156-row index it measured ~1,100 tokens
+    of a value that is identical on every line.
+    """
+    if not found:
+        return []
+    levels = [lv for _, lv, _ in found]
+    min_level = min(levels)
+    lone_title = levels.count(min_level) == 1
+    root_title = found[0][2] if lone_title else None
+
+    sections: list[dict] = []
+    stack: list[tuple[int, str]] = []
+    for idx, (start, level, title) in enumerate(found):
+        end = len(lines)
+        for nxt_start, nxt_level, _ in found[idx + 1:]:
+            if nxt_level <= level:
+                end = nxt_start - 1
+                break
+        while stack and stack[-1][0] >= level:
+            stack.pop()
+        crumbs = [t for _, t in stack] + [title]
+        stack.append((level, title))
+        if lone_title and level == min_level:
+            continue                                    # the document title
+        if root_title and crumbs and crumbs[0] == root_title:
+            crumbs = crumbs[1:]                         # drop the repeated root
+        sections.append({"level": level, "path": " > ".join(crumbs),
+                         "title": title, "start": start, "end": end})
+    return sections
+
+
+def render(doc: pathlib.Path, raw: bytes, line_ending: str,
+           lines: list[str], sections: list[dict]) -> str:
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    out = [
+        f"# {doc.stem}_index",
+        "",
+        f"Line ranges into `{doc.name}`. Derived: regenerated by re-walking the",
+        "document, never hand-edited. Hand-editing a range is how an index starts",
+        "lying.",
+        "",
+        "Line numbers are 1-based and inclusive on both ends.",
+        "",
+        "## Staleness proof",
+        "",
+        "| field | value |",
+        "| --- | --- |",
+        f"| document | `{doc.name}` |",
+        f"| index_version | {INDEX_VERSION} |",
+        f"| generated_at | {stamp} |",
+        f"| line_count | {len(lines)} |",
+        f"| line_ending | {line_ending} |",
+        f"| content_sha256 | `{hashlib.sha256(raw).hexdigest()}` |",
+        f"| sections | {len(sections)} |",
+        "",
+        "Recompute all three of `line_count`, `line_ending`, and `content_sha256`",
+        "before slicing. On any mismatch: STOP, do not slice, do not eyeball an",
+        "offset. Regenerate this index or read the document directly, and say",
+        "which you did.",
+        "",
+        "## Sections",
+        "",
+        "| lines | lvl | name |",
+        "| --- | --- | --- |",
+    ]
+    for s in sections:
+        out.append(f"| {s['start']}-{s['end']} | {s['level']} | {s['path']} |")
+    out.append("")
+    return "\n".join(out)
+
+
+def format_warnings(lines: list[str], found: list[tuple[int, int, str]],
+                    sections: list[dict]) -> list[str]:
+    """Format violations the index cannot repair, reported not silently accepted.
+
+    These are documented rules in `system_document_build.md`. A tool that states
+    a rule and then quietly produces a degraded index when the rule is broken is
+    worse than one with no rule: the index still looks usable.
+
+    Both conditions here were found by testing rather than assumed:
+
+    - MULTIPLE H1: the title-omission logic needs a lone top-level heading to
+      identify the title. With two, neither is omitted and one section spans
+      most of the file - the exact "defeats the index while appearing to use it"
+      failure the omission exists to prevent.
+    - DUPLICATE NAMES: `--slice` matches on name, so two sections sharing one
+      are unaddressable. The slice refuses at read time, but the author who
+      created the collision is the person who can fix it, and they are here.
+    - WRAPPED HEADING: a heading whose text was reflowed across physical lines
+      parses as several headings. The first indexes as a one-line fragment and
+      wins "narrowest match", so `--slice` hands back a stub. Observed in the
+      wild spanning five physical lines. Unbalanced brackets are the reliable
+      tell: prose wraps mid-parenthesis far more often than a real heading ends
+      with one open.
+    """
+    warnings: list[str] = []
+    for i, lv, title in found:
+        for opener, closer in (("(", ")"), ("[", "]")):
+            if title.count(opener) > title.count(closer):
+                warnings.append(
+                    f"line {i}: heading has an unclosed '{opener}' - "
+                    f"'{title[:60]}{'...' if len(title) > 60 else ''}'. A heading "
+                    f"reflowed across lines indexes as several sections and "
+                    f"--slice returns a fragment. Put it on one line.")
+                break
+    if found:
+        top = min(lv for _, lv, _ in found)
+        h1s = [(i, t) for i, lv, t in found if lv == top]
+        if len(h1s) > 1:
+            warnings.append(
+                f"{len(h1s)} level-{top} headings; expected exactly one document "
+                f"title. No title will be omitted and a section will span most of "
+                f"the file. Lines: " + ", ".join(str(i) for i, _ in h1s[:6]))
+    seen: dict[str, list[str]] = {}
+    for s in sections:
+        seen.setdefault(s["title"], []).append(f"{s['start']}-{s['end']}")
+    for title, ranges in seen.items():
+        if len(ranges) > 1:
+            warnings.append(f"duplicate section name {title!r} at {', '.join(ranges)} - "
+                            f"`--slice` cannot address either")
+    return warnings
+
+
+def validate(lines: list[str], sections: list[dict]) -> list[str]:
+    """Round-trip, monotonicity, and bounds. Checked, never assumed.
+
+    An off-by-one is the failure mode that silently corrupts every downstream
+    read, so the first sliced line of each section is compared against the title
+    the index claims lives there.
+    """
+    problems: list[str] = []
+    for s in sections:
+        head = lines[s["start"] - 1]
+        if s.get("kind") == "entry":
+            m = ENTRY_BEGIN.match(head)
+            if not m or m.group(1).strip() != s["title"]:
+                problems.append(f"line {s['start']} is {head!r}, expected "
+                                f"BEGIN ENTRY {s['title']!r}")
+        else:
+            m = HEADING.match(head)
+            if not m or m.group(2) != s["title"]:
+                problems.append(f"line {s['start']} is {head!r}, expected heading "
+                                f"{s['title']!r}")
+        if not (1 <= s["start"] <= s["end"] <= len(lines)):
+            problems.append(f"{s['title']}: range {s['start']}-{s['end']} out of bounds")
+    for a, b in zip(sections, sections[1:]):
+        if b["start"] <= a["start"]:
+            problems.append(f"non-monotonic: {a['title']} then {b['title']}")
+    return problems
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--doc", required=True, type=pathlib.Path)
+    ap.add_argument("--max-level", type=int, default=3,
+                    help="deepest heading level to index (default 3)")
+    ap.add_argument("--mode", choices=("auto", "heading", "entry"), default="auto",
+                    help="auto uses ENTRY markers when present, else headings")
+    ap.add_argument("--check", action="store_true",
+                    help="verify the existing index is current; write nothing")
+    ap.add_argument("--slice", metavar="NAME",
+                    help="print the lines of the section whose name contains NAME "
+                         "(verifies the index first; refuses on any mismatch)")
+    args = ap.parse_args()
+
+    doc: pathlib.Path = args.doc
+    if not doc.is_file():
+        print(f"document not found: {doc}", file=sys.stderr)
+        return 2
+
+    # Two refusals. Both exist because this tool WRITES, and a wrong target does
+    # not produce a confusing message you shrug off - it produces a plausible
+    # file that replaces a correct one. Reading the wrong document costs seconds;
+    # writing over the right one costs the artifact.
+    if doc.stem.endswith("_index"):
+        print(f"refusing: {doc.name} is already an index.", file=sys.stderr)
+        print("  Indexing an index produces <stem>_index_index.md, which addresses "
+              "nothing. Point --doc at the document instead.", file=sys.stderr)
+        return 2
+
+    if "<!-- BEGIN FILE:" in doc.read_text(encoding="utf-8", errors="ignore"):
+        companion = doc.with_name(f"{doc.stem}_index.md")
+        print(f"refusing: {doc.name} is an ASSEMBLED graph, not an authored document.",
+              file=sys.stderr)
+        print(f"  Its index is a byproduct of assembly - `assemble_graph.py` knows each",
+              file=sys.stderr)
+        print(f"  range because it emitted those lines, so index and document cannot",
+              file=sys.stderr)
+        print(f"  disagree. Re-indexing it here would re-parse headings instead, and",
+              file=sys.stderr)
+        print(f"  overwrite {companion.name} with a weaker index keyed by heading",
+              file=sys.stderr)
+        print(f"  breadcrumb rather than source path. Run assemble_graph.py.",
+              file=sys.stderr)
+        return 2
+
+    raw, line_ending, lines = read_lines(doc)
+    entries, entry_problems = find_entries(lines)
+    if args.mode == "entry" or (args.mode == "auto" and entries):
+        if entry_problems:
+            print(f"ENTRY MARKERS MALFORMED: {len(entry_problems)} problem(s). "
+                  f"Nothing written.", file=sys.stderr)
+            for p in entry_problems[:15]:
+                print(f"  {p}", file=sys.stderr)
+            return 1
+        sections = [dict(e, kind="entry") for e in entries]
+        mode_used = "entry markers"
+    else:
+        found = find_headings(lines, args.max_level)
+        sections = [dict(s, kind="heading") for s in build_sections(lines, found)]
+        mode_used = f"headings (level <= {args.max_level})"
+    if not sections:
+        print(f"no sections found in {doc.name} using {mode_used}", file=sys.stderr)
+        return 2
+
+    for w in format_warnings(lines, find_headings(lines, args.max_level), sections):
+        print(f"  FORMAT WARNING: {w}", file=sys.stderr)
+
+    problems = validate(lines, sections)
+    if problems:
+        print(f"VALIDATION FAILED: {len(problems)} problem(s). Nothing written.",
+              file=sys.stderr)
+        for p in problems[:15]:
+            print(f"  {p}", file=sys.stderr)
+        return 1
+
+    index_path = doc.with_name(f"{doc.stem}_index.md")
+    text = render(doc, raw, line_ending, lines, sections)
+
+    if args.slice:
+        # Verify against the index ON DISK, not against what we just computed.
+        # Slicing off a freshly derived section table would prove nothing: the
+        # whole point is to catch a document that moved since the index was
+        # written.
+        if not index_path.exists():
+            print(f"NO INDEX: {index_path.name}. Generate it before slicing.",
+                  file=sys.stderr)
+            return 1
+        on_disk = index_path.read_text(encoding="utf-8")
+        want_hash = re.search(r"content_sha256 \| `([0-9a-f]{64})`", on_disk)
+        want_count = re.search(r"line_count \| (\d+)", on_disk)
+        live = hashlib.sha256(raw).hexdigest()
+        if (not want_hash or want_hash.group(1) != live
+                or not want_count or int(want_count.group(1)) != len(lines)):
+            print(f"INDEX STALE - refusing to slice. Regenerate {index_path.name}.",
+                  file=sys.stderr)
+            return 1
+        needle = args.slice.lower()
+        hits = [s for s in sections if needle in s["path"].lower()]
+        if not hits:
+            print(f"no section matching {args.slice!r}. Read {index_path.name} "
+                  f"for the available names.", file=sys.stderr)
+            return 1
+        if len(hits) > 1:
+            print(f"{len(hits)} sections match {args.slice!r} - narrow it:",
+                  file=sys.stderr)
+            for h in hits:
+                print(f"  {h['start']}-{h['end']}  {h['path']}", file=sys.stderr)
+            return 1
+        s = hits[0]
+        print(f"<!-- {doc.name}:{s['start']}-{s['end']}  {s['path']} -->")
+        print("\n".join(lines[s["start"] - 1:s["end"]]))
+        return 0
+
+    if args.check:
+        if not index_path.exists():
+            print(f"MISSING: {index_path.name}", file=sys.stderr)
+            return 1
+        current = index_path.read_text(encoding="utf-8")
+        cur_hash = re.search(r"content_sha256 \| `([0-9a-f]{64})`", current)
+        cur_count = re.search(r"line_count \| (\d+)", current)
+        live = hashlib.sha256(raw).hexdigest()
+        stale = []
+        if not cur_hash or cur_hash.group(1) != live:
+            stale.append("content_sha256 mismatch")
+        if not cur_count or int(cur_count.group(1)) != len(lines):
+            stale.append(f"line_count {cur_count.group(1) if cur_count else '?'} "
+                         f"-> {len(lines)}")
+        if stale:
+            print(f"STALE: {index_path.name} - " + "; ".join(stale), file=sys.stderr)
+            return 1
+        print(f"OK: {index_path.name} is current "
+              f"({len(sections)} sections over {len(lines)} lines)")
+        return 0
+
+    wrote = write_if_changed(index_path, text)
+    biggest = max(sections, key=lambda s: s["end"] - s["start"])
+    idx_lines = len(text.split("\n"))
+    print(f"{'WROTE' if wrote else 'UNCHANGED'}: {index_path.name}")
+    print(f"  {len(sections)} sections over {len(lines)} document lines")
+    print(f"  index {idx_lines} lines ({100 * idx_lines // len(lines)}% of document)")
+    print(f"  sectioned by: {mode_used}")
+    print(f"  deepest level indexed: {max(s['level'] for s in sections)}")
+    print(f"  largest section: {biggest['end'] - biggest['start'] + 1} lines "
+          f"({biggest['title'][:48]})")
+    print(f"  all {len(sections)} ranges validated against their own headings")
+    print(f"  the document was NOT modified: {doc}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\tools\system_documents\python\assemble_graph.py ---
+
+#!/usr/bin/env python3
+"""Assemble per-file graph descriptors into one Markdown document plus an index.
+
+Stage 2 of the system-documents pipeline. Stage 1 (`extract_graph.py`) crawls a
+source tree and writes one descriptor per source file. This script reads that
+tree and emits:
+
+    src_graph.md          one document, one section per source file
+    src_graph_index.md    the line range of every section, plus staleness proof
+
+Why Markdown rather than the previous `readable_src_graph.json` +
+`src_graph.json` pair: the JSON was 768 KB on a 574-file codebase and had to be
+read whole or not at all, because a JSON object has no addressable interior. A
+Markdown document with recorded line ranges is sliceable - an agent reads the
+index, finds the range for the file it cares about, and reads only those lines.
+Same content, and the index costs about 5% of the document.
+
+THE INDEX IS A BYPRODUCT, NOT A SECOND PASS
+This script knows every section's exact start and end line because it emitted
+them. It does not re-parse the document to find headings. That removes an entire
+class of drift: an index generated by re-walking a document can disagree with
+the document, and the only defence is a hash. Here they are produced together
+and cannot disagree. The hash is still recorded, but it guards against something
+else - a human editing the assembled file by hand, which they should not do.
+
+Line numbers are 1-based and inclusive on both ends, matching `sed -n 'S,Ep'`,
+the Read tool's offset/limit, and the `path:start_line-end_line` evidence
+convention used throughout this repository.
+
+Usage:
+    python assemble_graph.py --descriptors system_docs/graph --out system_docs
+    python assemble_graph.py --descriptors ... --out ... --check
+"""
+
+from __future__ import annotations
+
+import argparse
+import datetime
+import hashlib
+import json
+import pathlib
+import sys
+from typing import Any
+
+SCHEMA_VERSION = 1
+DOC_NAME = "src_graph.md"
+INDEX_NAME = "src_graph_index.md"
+
+# Section delimiters. Chosen to be greppable and unambiguous: a reader scanning
+# the assembled document can find any file's boundaries without the index, and a
+# validator can confirm the index agrees with the text.
+def fmt_cell(value: object) -> str:
+    """Render an authored edge attribute for a table cell.
+
+    A list becomes comma-joined; absent or empty becomes `-`. Derived edges
+    always render `-`, because these attributes are design facts and the
+    extractor is explicit that it cannot produce them.
+    """
+    if value is None or value == "" or value == []:
+        return "-"
+    if isinstance(value, (list, tuple)):
+        return ",".join(str(v) for v in value) or "-"
+    return str(value)
+
+
+HEADER = "<!-- BEGIN FILE: {source} -->"
+FOOTER = "<!-- END FILE: {source} -->"
+
+
+# Pipeline manifests that live beside descriptors but are not descriptors.
+# Named explicitly: an earlier version skipped anything starting with `_`, which
+# silently swallowed 14 real descriptors - `__init__.py`, every dunder metadata
+# module (`__version__.py`, `__architecture__.py`), and the `_builder.py` files.
+# A prefix is a naming convention, not a type. Identify by shape instead.
+MANIFEST_NAMES = frozenset({"_package_candidates.json"})
+
+
+def write_if_changed(path: pathlib.Path, text: str, volatile: str = "generated_at") -> bool:
+    """Write only when content differs ignoring the timestamp line. Returns wrote?
+
+    Regeneration must be idempotent. If the source did not change, the index
+    should not change either - otherwise every CI run or verification pass
+    rewrites the file with a fresh `generated_at` and produces a diff that says
+    nothing happened. A tool that churns its own output trains people to ignore
+    its diffs, which is precisely when a real change slips past.
+    """
+    if path.exists():
+        old = path.read_text(encoding="utf-8")
+        strip = lambda s: "\n".join(l for l in s.split("\n") if volatile not in l)
+        if strip(old) == strip(text):
+            return False
+    path.write_text(text, encoding="utf-8", newline="\n")
+    return True
+
+
+def load_descriptors(root: pathlib.Path) -> list[dict[str, Any]]:
+    """Read every descriptor under root, sorted by source path."""
+    out: list[dict[str, Any]] = []
+    for path in sorted(root.rglob("*.json")):
+        if path.name in MANIFEST_NAMES:
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            print(f"  SKIP (bad json) {path}: {exc}", file=sys.stderr)
+            continue
+        if "source" not in data or "nodes" not in data:
+            print(f"  SKIP (not a descriptor) {path}", file=sys.stderr)
+            continue
+        out.append(data)
+    return sorted(out, key=lambda d: d["source"])
+
+
+def render_node(node: dict[str, Any]) -> list[str]:
+    """One node as Markdown. Authored fields render only when present."""
+    lines = [f"#### `{node['label']}` ({node['kind']})", ""]
+    lines.append(f"- id: `{node['id']}`")
+    if node.get("lineno"):
+        lines.append(f"- defined at: `{node['file']}:{node['lineno']}`")
+    if node.get("bases"):
+        lines.append(f"- extends: {', '.join(f'`{b}`' for b in node['bases'])}")
+    if node.get("markers"):
+        lines.append(f"- markers: {', '.join(f'`{m}`' for m in node['markers'])}")
+    if node.get("role"):
+        lines.append(f"- role: {node['role']}")
+    for field in ("responsibilities", "owns_state", "phases"):
+        if node.get(field):
+            lines.append(f"- {field}: {', '.join(f'`{v}`' for v in node[field])}")
+    if node.get("public_methods"):
+        methods = node["public_methods"]
+        shown = ", ".join(f"`{m}`" for m in methods[:12])
+        more = f" (+{len(methods) - 12} more)" if len(methods) > 12 else ""
+        lines.append(f"- public methods: {shown}{more}")
+    if not any(node.get(f) for f in ("role", "responsibilities", "owns_state")):
+        lines.append("- **UNSEMANTIC** - mechanical scaffold only, not yet authored")
+    lines.append("")
+    return lines
+
+
+def render_descriptor(desc: dict[str, Any]) -> list[str]:
+    """One source file's whole section, between its header and footer."""
+    src = desc["source"]
+    lines = [HEADER.format(source=src), "", f"## {src}", ""]
+    lines.append(f"- source_sha256: `{desc.get('source_sha256', 'UNKNOWN')}`")
+    nodes = desc.get("nodes", {})
+    lines.append(f"- nodes: {len(nodes)}")
+    lines.append("")
+
+    if nodes:
+        lines.append("### Nodes")
+        lines.append("")
+        for node in nodes.values():
+            lines.extend(render_node(node))
+
+    edges = desc.get("edges_out", [])
+    authored = desc.get("edges_authored", [])
+    if edges or authored:
+        lines.append("### Edges out")
+        lines.append("")
+        lines.append("| from | relation | to | cardinality | phase | origin |")
+        lines.append("| --- | --- | --- | --- | --- | --- |")
+        for e in edges:
+            target = e.get("to") or f"{e.get('to_label', '?')} (unresolved)"
+            lines.append(f"| `{e['from']}` | {e['relation']} | `{target}` | - | - | derived |")
+        for e in authored:
+            lines.append(f"| `{e.get('from', '?')}` | {e.get('relation', '?')} | "
+                         f"`{e.get('to', '?')}` | {fmt_cell(e.get('cardinality'))} | "
+                         f"{fmt_cell(e.get('phase'))} | authored |")
+        lines.append("")
+
+        # `why` is the justification for a claim the extractor states it cannot
+        # derive. It goes beneath the table, not in it: the table stays scannable
+        # and the prose stays readable. Only authored edges carry one.
+        # Do not name these `src` - that is the source path this section is for,
+        # and the footer still needs it. Shadowing it emits a footer carrying a
+        # node id, which the range check catches but which should never be
+        # written in the first place.
+        whys = [(e.get("from", "?"), e.get("to", "?"), e["why"])
+                for e in authored if e.get("why")]
+        if whys:
+            for edge_from, edge_to, why in whys:
+                lines.append(f"- `{edge_from}` -> `{edge_to}`: {why}")
+            lines.append("")
+
+    candidates = desc.get("edge_candidates", [])
+    if candidates:
+        lines.append(f"### Edge candidates ({len(candidates)}, unconfirmed)")
+        lines.append("")
+        lines.append("Instantiation guesses from the AST. Over-generated roughly 8x "
+                     "against the reference graph; confirm or drop before relying on them.")
+        lines.append("")
+        for c in candidates[:20]:
+            lines.append(f"- `{c['from']}` creates `{c['to_label']}`")
+        if len(candidates) > 20:
+            lines.append(f"- ... {len(candidates) - 20} more")
+        lines.append("")
+
+    if desc.get("published_aliases"):
+        lines.append("### Published aliases")
+        lines.append("")
+        for a in desc["published_aliases"]:
+            lines.append(f"- `{a['alias']}` = `{a['target']}` (line {a['lineno']})")
+        lines.append("")
+
+    lines.append(FOOTER.format(source=src))
+    return lines
+
+
+def assemble(descriptors: list[dict[str, Any]]) -> tuple[str, list[dict[str, Any]]]:
+    """Build the document and the section table in one pass.
+
+    Returns (document_text, sections). Each section records the 1-based inclusive
+    line range of its file's block, including the header and footer comments.
+    """
+    # The preamble deliberately does NOT spell the delimiter literally. An
+    # earlier version documented the format inline, and the description of the
+    # marker was then indistinguishable from an instance of it - a validator
+    # grepping the document counted 576 sections where 575 exist. A file's own
+    # documentation must not be parseable as its own data.
+    lines: list[str] = [
+        "# src_graph",
+        "",
+        "Assembled system graph. One section per source file. Each section opens",
+        "with an HTML comment reading BEGIN FILE followed by the source path, and",
+        "closes with the matching END FILE comment. Exact line ranges are in",
+        f"`{INDEX_NAME}`; prefer the index over scanning for delimiters.",
+        "",
+        "Generated by `tools/system_documents/python/assemble_graph.py`.",
+        "Do not hand-edit: edit the per-file descriptors and reassemble.",
+        "",
+    ]
+    sections: list[dict[str, Any]] = []
+    for desc in descriptors:
+        start = len(lines) + 1                      # 1-based, header line
+        block = render_descriptor(desc)
+        lines.extend(block)
+        end = len(lines)                            # 1-based, footer line
+        sections.append({
+            "source": desc["source"],
+            "start": start,
+            "end": end,
+            "lines": end - start + 1,
+            "nodes": len(desc.get("nodes", {})),
+            # Must match what "### Edges out" actually renders, which is derived
+            # plus authored. Counting only edges_out undercounts exactly the
+            # edges that carry design meaning: 68% of relationships are not
+            # derivable, so the authored ones are the point of the layer. An
+            # index column that disagrees with the section it indexes is the
+            # failure this whole system exists to prevent.
+            "edges": len(desc.get("edges_out", [])) + len(desc.get("edges_authored", [])),
+            "source_sha256": desc.get("source_sha256", ""),
+        })
+        lines.append("")
+    return "\n".join(lines) + "\n", sections
+
+
+def render_index(doc_text: str, sections: list[dict[str, Any]]) -> str:
+    """The index. Ranges come from the assembly, never from re-parsing."""
+    line_count = len(doc_text.split("\n"))
+    if doc_text.endswith("\n"):
+        line_count -= 1
+    digest = hashlib.sha256(doc_text.encode("utf-8")).hexdigest()
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    out = [
+        "# src_graph_index",
+        "",
+        f"Line ranges into `{DOC_NAME}`. Emitted by the same pass that wrote the",
+        "document, so the ranges cannot have drifted from it.",
+        "",
+        "Line numbers are 1-based and inclusive on both ends.",
+        "",
+        "## Staleness proof",
+        "",
+        "| field | value |",
+        "| --- | --- |",
+        f"| document | `{DOC_NAME}` |",
+        f"| index_version | {SCHEMA_VERSION}.0.0 |",
+        f"| generated_at | {stamp} |",
+        f"| line_count | {line_count} |",
+        "| line_ending | lf |",
+        f"| content_sha256 | `{digest}` |",
+        f"| sections | {len(sections)} |",
+        "",
+        "Recompute `line_count` and `content_sha256` before slicing. On any",
+        "mismatch the document was hand-edited: STOP, do not slice, reassemble.",
+        "",
+        "## Sections",
+        "",
+        "| lines | source | nodes | edges |",
+        "| --- | --- | --- | --- |",
+    ]
+    for s in sections:
+        out.append(f"| {s['start']}-{s['end']} | `{s['source']}` | {s['nodes']} | {s['edges']} |")
+    out.append("")
+    return "\n".join(out)
+
+
+def verify(doc_text: str, sections: list[dict[str, Any]]) -> list[str]:
+    """Prove every recorded range actually brackets its own file's block.
+
+    An off-by-one here silently corrupts every downstream read, and it is the
+    one failure this whole design exists to prevent - so it is checked on every
+    run rather than trusted.
+    """
+    lines = doc_text.split("\n")
+    problems: list[str] = []
+    for s in sections:
+        head = lines[s["start"] - 1]
+        foot = lines[s["end"] - 1]
+        if head != HEADER.format(source=s["source"]):
+            problems.append(f"{s['source']}: start {s['start']} is {head!r}")
+        if foot != FOOTER.format(source=s["source"]):
+            problems.append(f"{s['source']}: end {s['end']} is {foot!r}")
+    for a, b in zip(sections, sections[1:]):
+        if a["end"] >= b["start"]:
+            problems.append(f"overlap: {a['source']} ends {a['end']}, "
+                            f"{b['source']} starts {b['start']}")
+    return problems
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--descriptors", required=True, type=pathlib.Path,
+                    help="descriptor tree written by extract_graph.py")
+    ap.add_argument("--out", required=True, type=pathlib.Path,
+                    help="directory to write src_graph.md and src_graph_index.md")
+    ap.add_argument("--check", action="store_true", help="verify only, write nothing")
+    args = ap.parse_args()
+
+    root: pathlib.Path = args.descriptors.resolve()
+    out_root: pathlib.Path = args.out.resolve()
+    if not root.is_dir():
+        print(f"descriptor root not found: {root}", file=sys.stderr)
+        return 2
+
+    descriptors = load_descriptors(root)
+    if not descriptors:
+        print(f"no descriptors under {root}", file=sys.stderr)
+        return 2
+
+    doc_text, sections = assemble(descriptors)
+    problems = verify(doc_text, sections)
+    index_text = render_index(doc_text, sections)
+
+    total_nodes = sum(s["nodes"] for s in sections)
+    total_edges = sum(s["edges"] for s in sections)
+    doc_lines = len(doc_text.split("\n")) - 1
+    idx_lines = len(index_text.split("\n"))
+
+    if problems:
+        print(f"VERIFY FAILED: {len(problems)} problem(s)", file=sys.stderr)
+        for p in problems[:20]:
+            print(f"  {p}", file=sys.stderr)
+        return 1
+
+    if not args.check:
+        out_root.mkdir(parents=True, exist_ok=True)
+        wrote_doc = write_if_changed(out_root / DOC_NAME, doc_text)
+        wrote_idx = write_if_changed(out_root / INDEX_NAME, index_text)
+    else:
+        wrote_doc = wrote_idx = False
+
+    if args.check:
+        mode = "CHECK (no writes)"
+    elif wrote_doc or wrote_idx:
+        mode = "WROTE"
+    else:
+        mode = "UNCHANGED"
+    print(f"{mode}: {DOC_NAME} + {INDEX_NAME} in {out_root}")
+    print(f"  sections={len(sections)}  nodes={total_nodes}  edges={total_edges}")
+    print(f"  document={doc_lines} lines  index={idx_lines} lines "
+          f"({100 * idx_lines // max(doc_lines, 1)}% of document)")
+    print(f"  all {len(sections)} ranges verified against their own headers")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\tools\system_documents\python\extract_graph.py ---
+
+#!/usr/bin/env python3
+"""Scaffold per-source-file graph descriptors for a Python codebase.
+
+This is the MECHANICAL half of the system-documents graph. It walks a source
+tree, parses each file with the stdlib `ast` module, and emits one descriptor
+per source file mirroring the source path.
+
+What this script produces is a SKELETON, not the graph. Measured against a
+hand-authored graph of 535 nodes / 997 edges:
+
+    node identity        98% recovered   (529 / 535)
+    `specializes` edges  98% recovered   (155 / 158)  - inheritance is syntax
+    `creates` edges      57% recovered, 8x over-generated - flagged as candidates
+    everything else       0% recoverable - 68% of all edges
+
+`owns_lifecycle_of`, `uses`, and `borrows` are syntactically IDENTICAL - each is
+"A holds a reference to B". Which one it is, is a design fact that does not
+exist in the source text. Likewise every `role`, `responsibility`, `why`,
+`cardinality`, and `strength`. Those are authored, and this script must never
+overwrite them.
+
+Hence the merge contract: on re-run, mechanical fields are refreshed and
+authored fields are preserved untouched. The script reports drift (nodes that
+appeared, disappeared, or still lack semantics) rather than silently resolving
+it.
+
+Language-agnostic by layout: this lives under `tools/system_documents/python/`
+so a sibling `tools/system_documents/<language>/` can implement the same
+descriptor contract for another language.
+
+Usage:
+    python extract_graph.py --src src --out context_compass/system_docs/graph
+
+    # report drift without writing
+    python extract_graph.py --src src --out ... --check
+
+    # skip __init__.py (included by default - it usually carries a package's
+    # public surface, so dropping it would lose what a package exposes)
+    python extract_graph.py --src src --out ... --exclude-init
+"""
+
+from __future__ import annotations
+
+import argparse
+import ast
+import hashlib
+import json
+import collections
+import pathlib
+import re
+import sys
+from typing import Any
+
+SCHEMA_VERSION = 1
+
+# Directories that never contain first-party source. Matched against path parts,
+# so a nested `build/` anywhere in the tree is excluded too.
+EXCLUDED_DIRS = frozenset({
+    "__pycache__", ".venv", "venv", ".env", "env", "site-packages",
+    "build", "dist", ".eggs", ".tox", ".nox",
+    ".pytest_cache", ".mypy_cache", ".ruff_cache", ".hypothesis",
+    "node_modules", ".git", ".hg", ".svn", ".idea", ".vscode",
+})
+
+# Compiled/derived artifacts. Listed for documentation and for --report; the
+# walk itself only ever collects `*.py`, so these cannot leak in via extension.
+ARTIFACT_SUFFIXES = frozenset({".pyc", ".pyo", ".pyd", ".so", ".dylib", ".melc", ".c"})
+
+# Fields the AST owns. Everything else in a descriptor is authored and preserved.
+MECHANICAL_NODE_FIELDS = ("id", "label", "kind", "file", "lineno", "bases",
+                          "markers", "public_methods", "shape")
+# `include` is authored curation: whether this node belongs in the composed
+# graph at all. Absent means "not yet triaged", which is distinct from false.
+AUTHORED_NODE_FIELDS = ("include", "role", "responsibilities", "owns_state", "phases")
+
+
+def is_excluded(path: pathlib.Path) -> bool:
+    """True if any path component is an excluded directory."""
+    return any(part in EXCLUDED_DIRS for part in path.parts)
+
+
+def iter_source_files(src_root: pathlib.Path, include_init: bool = True):
+    """Yield first-party .py files under src_root, filtered and sorted.
+
+    `__init__.py` is INCLUDED by default. The reference codebase has almost
+    none - it binds through a scanner rather than re-exports - but that is
+    unusual. In most Python projects `__init__.py` carries the public surface of
+    a package, so excluding it by default would silently drop the very file that
+    defines what a package exposes. Opt out with --exclude-init.
+    """
+    for path in sorted(src_root.rglob("*.py")):
+        if is_excluded(path.relative_to(src_root)):
+            continue
+        if not include_init and path.name == "__init__.py":
+            continue
+        yield path
+
+
+def module_id(rel_posix: str) -> str:
+    """src-relative posix path -> dotted module id."""
+    return rel_posix[:-3].replace("/", ".").removesuffix(".__init__")
+
+
+def base_name(node: ast.expr) -> str | None:
+    """Best-effort name for a base class expression."""
+    if isinstance(node, ast.Name):
+        return node.id
+    if isinstance(node, ast.Attribute):
+        return node.attr
+    if isinstance(node, ast.Subscript):  # Generic[T] -> Generic
+        return base_name(node.value)
+    return None
+
+
+def snake(name: str) -> str:
+    """CamelCase -> snake_case, for filename/classname comparison."""
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+
+
+# Bases that DECLARE what a class is rather than name a supertype in the graph.
+# `class IResource(Protocol)` does not specialize anything - `Protocol` is a
+# marker that makes the class an interface. Emitting an edge to it produces a
+# dangling reference to a node that will never exist. Measured on the reference
+# codebase: 70 of 515 extracted edges (13%) pointed at markers like these.
+TYPE_MARKERS: dict[str, str] = {
+    "Protocol": "interface",
+    "ABC": "abstract", "ABCMeta": "abstract",
+    "Enum": "enum", "IntEnum": "enum", "StrEnum": "enum", "Flag": "enum",
+    "NamedTuple": "record", "TypedDict": "record", "dataclass": "record",
+    "Generic": "", "object": "",  # pure noise, carry no kind
+}
+# stdlib supertypes that are real classes but not part of a first-party graph.
+STDLIB_BASES = frozenset({"Exception", "BaseException", "RuntimeError", "ValueError",
+                          "TypeError", "KeyError", "Thread", "dict", "list", "tuple",
+                          "set", "str", "int", "float", "type"})
+
+
+def split_bases(raw: list[str]) -> tuple[list[str], list[str]]:
+    """Separate real supertypes from declaration markers and stdlib bases.
+
+    Returns (graph_bases, markers). Only graph_bases may become edges.
+    """
+    graph, markers = [], []
+    for b in raw:
+        if b in TYPE_MARKERS or b in STDLIB_BASES:
+            markers.append(b)
+        else:
+            graph.append(b)
+    return graph, markers
+
+
+def class_kind(markers: list[str]) -> str:
+    """Kind implied by declaration markers, else `class`.
+
+    This one IS syntactic, unlike curation and edge semantics. In the reference
+    codebase both curated `interface` nodes are `Protocol` subclasses, and the
+    extractor previously stamped them `class` because it never looked.
+
+    ABCs are deliberately NOT interfaces here. A codebase commonly has both: an
+    abstract base that subclasses actually inherit, and a Protocol mirroring the
+    same public surface for structural typing. They play different roles in a
+    graph - one is a supertype, the other is a contract - so only the Protocol
+    is marked `interface`. See `examples/example_graph_details/src/example/core/`
+    for the pair.
+    """
+    for m in markers:
+        kind = TYPE_MARKERS.get(m)
+        if kind:
+            return kind
+    return "class"
+
+
+def import_map(tree: ast.Module, mod: str) -> dict[str, str]:
+    """local name -> fully qualified id, for resolving edge targets.
+
+    Without this an edge carries a bare `to_label` lifted from a base-class
+    list, which is a name, not an address. Twenty class names are defined more
+    than once in the reference codebase (`precision`, `safe_profile` and friends
+    each appear three times under view/, command/ and codegen/), so a bare name
+    genuinely cannot identify a node. Measured resolution rate: 99%.
+    """
+    out: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom):
+            continue
+        if node.level:                                  # relative import
+            base = ".".join(mod.split(".")[:-node.level])
+            prefix = f"{base}.{node.module}." if node.module else f"{base}."
+        elif node.module:
+            prefix = f"{node.module}."
+        else:
+            continue
+        for alias in node.names:
+            out[alias.asname or alias.name] = f"{prefix}{alias.name}"
+    return out
+
+
+def published_aliases(tree: ast.Module, classes: set[str]) -> list[dict[str, str]]:
+    """Module-level `Alias = SomeClass` bindings.
+
+    These are invisible to a ClassDef-only walk, and they are exactly how this
+    codebase publishes interface names: `ISync = Sync`, `Pack = Package`. The
+    alias is the name consumers import, so dropping it loses the public
+    identity while keeping the private one.
+    """
+    out: list[dict[str, str]] = []
+    for node in tree.body:
+        if (isinstance(node, ast.Assign) and len(node.targets) == 1
+                and isinstance(node.targets[0], ast.Name)
+                and isinstance(node.value, ast.Name)
+                and node.value.id in classes):
+            out.append({"alias": node.targets[0].id, "target": node.value.id,
+                        "lineno": node.lineno})
+    return out
+
+
+def shape_signals(cls: ast.ClassDef) -> dict[str, Any]:
+    """Record what the class looks like. Does NOT decide whether it matters.
+
+    Curation is authored, not inferred. This was measured, not assumed: against
+    a curated graph of 535 nodes, the best syntactic significance rule tried
+    here ("drop the module node when the file holds exactly one class") would
+    have suppressed 419 nodes but WRONGLY dropped 63 that the curated graph
+    deliberately includes. Significance is a judgment about what a reader needs,
+    and it is no more derivable from syntax than `owns_lifecycle_of` is.
+
+    So the script reports shape and lets the authored layer opt nodes in via
+    `include`. Emitting inventory the author can reject is recoverable; silently
+    withholding a node they wanted is not.
+    """
+    methods = [n for n in cls.body if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))]
+    real = [m for m in methods if not (m.name.startswith("__") and m.name.endswith("__"))]
+    return {"method_count": len(real), "has_bases": bool(cls.bases),
+            "trivial": not real and not cls.bases}
+
+
+def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None:
+    """Parse one source file into a mechanical descriptor."""
+    rel = path.relative_to(src_root).as_posix()
+    raw = path.read_bytes()
+    try:
+        tree = ast.parse(raw.decode("utf-8", errors="replace"), filename=str(path))
+    except SyntaxError as exc:
+        print(f"  SKIP (syntax error) {rel}: {exc}", file=sys.stderr)
+        return None
+
+    mod = module_id(rel)
+    nodes: dict[str, dict[str, Any]] = {
+        mod: {"id": mod, "label": mod.rsplit(".", 1)[-1], "kind": "module",
+              "file": f"{src_root.name}/{rel}", "lineno": 1}
+    }
+    edges: list[dict[str, Any]] = []
+    candidates: list[dict[str, Any]] = []
+
+    for cls in [n for n in ast.walk(tree) if isinstance(n, ast.ClassDef)]:
+        cid = f"{mod}.{cls.name}"
+        raw_bases = [b for b in (base_name(b) for b in cls.bases) if b]
+        bases, markers = split_bases(raw_bases)
+        methods = sorted(
+            m.name for m in cls.body
+            if isinstance(m, (ast.FunctionDef, ast.AsyncFunctionDef))
+            and not m.name.startswith("_")
+        )
+        nodes[cid] = {"id": cid, "label": cls.name, "kind": class_kind(markers),
+                      "file": f"{src_root.name}/{rel}", "lineno": cls.lineno,
+                      "bases": bases, "markers": markers, "public_methods": methods,
+                      "shape": shape_signals(cls)}
+        # relation is provisional: `implements` vs `specializes` depends on
+        # whether the target is an interface, which is only knowable after every
+        # file has been parsed. main() resolves it in a second pass.
+        for b in bases:
+            edges.append({"from": cid, "to_label": b, "relation": "specializes"})
+        for sub in ast.walk(cls):
+            if isinstance(sub, ast.Call):
+                name = base_name(sub.func)
+                if name and name[:1].isupper() and name not in bases:
+                    candidates.append({"from": cid, "to_label": name,
+                                       "relation": "creates", "confidence": "candidate"})
+
+    seen, deduped = set(), []
+    for c in candidates:
+        key = (c["from"], c["to_label"])
+        if key not in seen:
+            seen.add(key)
+            deduped.append(c)
+
+    declared = {n.name for n in tree.body if isinstance(n, ast.ClassDef)}
+    aliases = published_aliases(tree, declared)
+    imports = import_map(tree, mod)
+
+    # When a file holds exactly one class and that class is the filename, the
+    # module and the class are the same entity. The reference graph collapses
+    # these to a single node - but inconsistently, sometimes keeping the class
+    # name (`interfaces.IChannelLogger`) and sometimes the module path
+    # (`strategies.solo_codegen_creation_discovery_strategy`). Both spellings
+    # appear in the same graph, so the extractor reports the condition and lets
+    # the composer apply one rule rather than guessing which spelling was meant.
+    stem = mod.rsplit(".", 1)[-1]
+    class_ids = [k for k, v in nodes.items() if v["kind"] in ("class", "interface")]
+    collapse = None
+    if len(class_ids) == 1:
+        label = nodes[class_ids[0]]["label"]
+        if stem in (snake(label), label.lower()):
+            collapse = {"module": mod, "class": class_ids[0], "label": label}
+
+    return {
+        "schema_version": SCHEMA_VERSION,
+        "source": f"{src_root.name}/{rel}",
+        "source_sha256": hashlib.sha256(raw).hexdigest(),
+        "generator": "tools/system_documents/python/extract_graph.py",
+        "nodes": nodes,
+        "edges_out": edges,
+        "edge_candidates": deduped,
+        "published_aliases": aliases,
+        "imports": imports,
+        "collapse_candidate": collapse,
+    }
+
+
+def merge(new: dict[str, Any], old: dict[str, Any] | None) -> tuple[dict[str, Any], list[str]]:
+    """Refresh mechanical fields; preserve every authored field.
+
+    Returns the merged descriptor and a list of drift notes. Authored semantics
+    are never overwritten and never silently dropped - a node that disappeared
+    from source but still carries authored prose is reported, not deleted.
+    """
+    notes: list[str] = []
+    if old is None:
+        notes.append(f"NEW file with {len(new['nodes'])} node(s)")
+        notes.extend(f"UNSEMANTIC node {nid}" for nid in new["nodes"])
+        return new, notes
+
+    old_nodes = old.get("nodes", {})
+
+    for nid, node in new["nodes"].items():
+        prev = old_nodes.get(nid)
+        if prev is None:
+            notes.append(f"NEW node {nid} - needs semantics")
+            continue
+        for field in AUTHORED_NODE_FIELDS:
+            if field in prev:
+                node[field] = prev[field]
+
+    for nid in old_nodes:
+        if nid not in new["nodes"]:
+            authored = {f: old_nodes[nid][f] for f in AUTHORED_NODE_FIELDS if f in old_nodes[nid]}
+            if authored:
+                notes.append(f"ORPHANED node {nid} - gone from source, still has authored semantics")
+            else:
+                notes.append(f"REMOVED node {nid}")
+
+    # Authored edges live under `edges_authored` and are owned entirely by humans/agents.
+    if "edges_authored" in old:
+        new["edges_authored"] = old["edges_authored"]
+
+    for nid, node in new["nodes"].items():
+        if not any(f in node for f in AUTHORED_NODE_FIELDS):
+            notes.append(f"UNSEMANTIC node {nid}")
+
+    return new, notes
+
+
+def package_candidates(src_root: pathlib.Path, include_init: bool) -> list[dict[str, Any]]:
+    """Directories that read as a family of peers rather than N unrelated files.
+
+    The reference graph carries `package` nodes pointing at directories -
+    `crystals/`, `custody/`, `preflight/` - each described as a family ("the 10
+    default restore preflight strategies"). All three are directories whose
+    files share a naming suffix: `_crystal`, `_strategy`, `_analyzer`.
+
+    That shared suffix is a signal, not a verdict. A directory is reported as a
+    candidate; whether it deserves a package node is authored, like every other
+    curation decision in this system.
+    """
+    out: list[dict[str, Any]] = []
+    for directory in sorted({p.parent for p in iter_source_files(src_root, include_init)}):
+        stems = [p.stem for p in directory.glob("*.py")
+                 if include_init or p.name != "__init__.py"]
+        if len(stems) < 3:
+            continue
+        suffixes = collections.Counter(s.rsplit("_", 1)[-1] for s in stems if "_" in s)
+        if not suffixes:
+            continue
+        suffix, count = suffixes.most_common(1)[0]
+        if count / len(stems) >= 0.6:
+            rel = directory.relative_to(src_root).as_posix()
+            out.append({"id": f"{src_root.name}.{rel}".replace("/", "."),
+                        "kind": "package", "file": f"{src_root.name}/{rel}/",
+                        "member_count": len(stems), "shared_suffix": suffix,
+                        "cohesion": round(count / len(stems), 2)})
+    return out
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__,
+                                 formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--src", required=True, type=pathlib.Path, help="source root, e.g. src")
+    ap.add_argument("--out", required=True, type=pathlib.Path, help="descriptor output root")
+    ap.add_argument("--check", action="store_true", help="report drift, write nothing")
+    ap.add_argument("--exclude-init", action="store_true",
+                    help="skip __init__.py (default: included)")
+    args = ap.parse_args()
+
+    src_root: pathlib.Path = args.src.resolve()
+    out_root: pathlib.Path = args.out.resolve()
+    if not src_root.is_dir():
+        print(f"source root not found: {src_root}", file=sys.stderr)
+        return 2
+
+    files = list(iter_source_files(src_root, (not args.exclude_init)))
+    stats = {"files": 0, "nodes": 0, "edges": 0, "candidates": 0,
+             "new": 0, "unsemantic": 0, "orphaned": 0, "skipped": 0,
+             "interfaces": 0, "aliases": 0, "collapse": 0, "implements": 0}
+    all_notes: list[str] = []
+
+    # PASS 1 - parse everything, so interface identity is known before any edge
+    # relation is decided. A class inheriting an interface IMPLEMENTS it; only
+    # inheriting a concrete/abstract class is specialization. That distinction
+    # cannot be made per-file, because the base may be defined anywhere.
+    parsed: list[tuple[pathlib.Path, dict[str, Any]]] = []
+    stats_resolved = [0, 0]   # [resolved, unresolved]
+    for path in files:
+        desc = extract(path, src_root)
+        if desc is None:
+            stats["skipped"] += 1
+            continue
+        parsed.append((path, desc))
+
+    interface_labels = {n["label"] for _, d in parsed for n in d["nodes"].values()
+                        if n["kind"] == "interface"}
+    # every class id defined anywhere, for same-module resolution
+    local_defs = {(d["nodes"][nid]["file"], d["nodes"][nid]["label"]): nid
+                  for _, d in parsed for nid in d["nodes"]
+                  if d["nodes"][nid]["kind"] != "module"}
+    for _, d in parsed:
+        imports = d.get("imports", {})
+        for e in d["edges_out"]:
+            label = e["to_label"]
+            target = imports.get(label) or local_defs.get((d["source"], label))
+            if target:
+                e["to"] = target
+                stats_resolved[0] += 1
+            else:
+                stats_resolved[1] += 1
+            if label in interface_labels:
+                e["relation"] = "implements"
+
+    # PASS 2 - merge with any authored descriptor and write
+    for path, desc in parsed:
+        rel = path.relative_to(src_root).with_suffix(".json")
+        target = out_root / rel
+        prev = None
+        if target.exists():
+            try:
+                prev = json.loads(target.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                all_notes.append(f"UNREADABLE existing descriptor {rel}, treating as new")
+        merged, notes = merge(desc, prev)
+
+        stats["files"] += 1
+        stats["nodes"] += len(merged["nodes"])
+        stats["edges"] += len(merged["edges_out"])
+        stats["candidates"] += len(merged["edge_candidates"])
+        stats["interfaces"] += sum(1 for n in merged["nodes"].values() if n["kind"] == "interface")
+        stats["aliases"] += len(merged.get("published_aliases", []))
+        stats["collapse"] += 1 if merged.get("collapse_candidate") else 0
+        stats["implements"] += sum(1 for e in merged["edges_out"] if e["relation"] == "implements")
+        stats["new"] += sum(1 for n in notes if n.startswith("NEW"))
+        stats["unsemantic"] += sum(1 for n in notes if n.startswith("UNSEMANTIC"))
+        stats["orphaned"] += sum(1 for n in notes if n.startswith("ORPHANED"))
+        all_notes.extend(f"{rel}: {n}" for n in notes)
+
+        if not args.check:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(json.dumps(merged, indent=1) + "\n",
+                              encoding="utf-8", newline="\n")
+
+    packages = package_candidates(src_root, (not args.exclude_init))
+    if not args.check and packages:
+        out_root.mkdir(parents=True, exist_ok=True)
+        (out_root / "_package_candidates.json").write_text(
+            json.dumps({"schema_version": SCHEMA_VERSION, "candidates": packages},
+                       indent=1) + "\n", encoding="utf-8", newline="\n")
+
+    mode = "CHECK (no writes)" if args.check else "WROTE"
+    print(f"{mode}: {stats['files']} descriptors under {out_root}")
+    print(f"  nodes={stats['nodes']}  specializes={stats['edges']}  "
+          f"creates-candidates={stats['candidates']}")
+    print(f"  needing semantics={stats['unsemantic']}  new={stats['new']}  "
+          f"orphaned={stats['orphaned']}  skipped={stats['skipped']}")
+    print(f"  interfaces={stats['interfaces']}  aliases={stats['aliases']}  "
+          f"collapse-candidates={stats['collapse']}  package-candidates={len(packages)}")
+    print(f"  specializes={stats['edges']-stats['implements']}  implements={stats['implements']}")
+    tot = stats_resolved[0] + stats_resolved[1]
+    if tot:
+        print(f"  edge targets resolved to ids: {stats_resolved[0]}/{tot} "
+              f"({100 * stats_resolved[0] // tot}%)")
+    if stats["orphaned"]:
+        print("\n  ORPHANED authored semantics (resolve by hand):")
+        for n in all_notes:
+            if "ORPHANED" in n:
+                print(f"    {n}")
+    return 1 if (args.check and (stats["new"] or stats["orphaned"])) else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
+
+--- START OF FILE: context_compass\user_defined\.gitkeep ---
+
+
+--- START OF FILE: context_compass\user_defined\README.md ---
+
+# user_defined
+
+Your space. Put anything here.
+
+The package never writes into this directory. Not on upgrade, not on cleanup,
+not in any mode. Nothing here is listed in `MANIFEST.md` as package content, and
+no tool will restore, replace, or remove what you put in it.
+
+## Why this exists
+
+Everything else at the top level belongs to the package: `AGENTS.MD`, `SKILLS.MD`,
+`agent_onboarding/default/`, `templates/`, `tools/`, `examples/`. An upgrade
+conforms those to the new version, because they are the library and keeping a
+local edit there only preserves a divergence you will have to re-resolve on every
+future upgrade.
+
+So when you need something the package does not provide, it goes here rather than
+into a package file. That way an upgrade never has to choose between your work
+and the new version - the question does not arise.
+
+## What belongs here
+
+- scripts, notes, checklists, conventions specific to this repository
+- reference material you want agents to be able to find
+- anything you would otherwise have been tempted to paste into a package file
+
+## What does NOT belong here
+
+- **role overlays.** Those go in `agent_onboarding/user_defined/<name>/` and need
+  a row in the `SKILLS.MD` registry to be selectable. This directory is not on
+  any role's readset, so a role placed here is invisible to routing.
+- **project instructions agents must follow.** Those go in
+  `special_instructions/`, which every role reads during onboarding. Files here
+  are not read automatically - an agent finds them only if something points at
+  them.
+
+## The other lanes that are yours
+
+| lane | holds |
+| --- | --- |
+| `user_defined/` | this directory - anything at all |
+| `agent_onboarding/user_defined/` | role overlays, registered in `SKILLS.MD` |
+| `special_instructions/` | project rules, read during onboarding |
+| `system_docs/` | your architecture, component and test maps |
+| `tickets/` | your work |
+| `artifacts/` | your findings |
+| `context_management/` | your context board |
+
+Everything outside those is the package's and is conformed on upgrade.
 

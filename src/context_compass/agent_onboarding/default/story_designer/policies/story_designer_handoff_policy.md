@@ -1,4 +1,4 @@
-﻿# story_designer_handoff_policy
+# story_designer_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for story_designer.

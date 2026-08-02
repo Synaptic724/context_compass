@@ -1,4 +1,4 @@
-﻿# line_copy_editor_execution
+# line_copy_editor_execution
 
 Purpose
 - Define deterministic execution phases for line_copy_editor.

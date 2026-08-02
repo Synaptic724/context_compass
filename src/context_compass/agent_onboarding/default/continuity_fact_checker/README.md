@@ -1,4 +1,4 @@
-﻿# Continuity Fact Checker Career
+# Continuity Fact Checker Career
 
 Purpose
 - Guarantee canon continuity, timeline consistency, and factual plausibility before final lock.

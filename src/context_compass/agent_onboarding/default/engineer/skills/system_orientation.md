@@ -15,20 +15,22 @@ Required behavior
 - Read the required docs before explaining how the system works:
   - `AGENTS.MD`
   - `config/context_compass_config.yaml`
-  - `SKILLS.md`
+  - `SKILLS.MD`
   - `agent_onboarding/default/general/SKILLS.MD`
   - `agent_onboarding/default/engineer/SKILLS.MD`
   - `agent_onboarding/default/general/skills/workflow.md`
 - Do not restate or override policy; cite the relevant skill or doc.
 
 Core references
+- Fresh-install posture for `system_docs/`: `system_docs/system_docs_read_first.md`
+  (read this before asserting that a context map is missing or wrong)
 - Agent stories: `agent_onboarding/default/general/behavioral_guidelines/README.md`
 - Ticketing: `agent_onboarding/default/general/skills/workflow.md` and
   `templates/`
 - Architecture context: `system_docs/src_architecture.md`
 - Components context: `system_docs/src_components.md`
-- Graph context: `system_docs/readable_src_graph.json`
-- Graph workflow context: `system_docs/graph_details_document.md`
+- Graph context: `system_docs/src_graph.md`
+- Graph workflow context: `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
 - Active patch docs (when patch lane is active):

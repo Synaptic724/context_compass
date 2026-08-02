@@ -1,4 +1,4 @@
-﻿# story_designer_quality_policy
+# story_designer_quality_policy
 
 Purpose
 - Establish the quality bar for story_designer outputs.

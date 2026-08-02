@@ -1,4 +1,4 @@
-﻿# draft_writer_workflow
+# draft_writer_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing draft_writer tasks.

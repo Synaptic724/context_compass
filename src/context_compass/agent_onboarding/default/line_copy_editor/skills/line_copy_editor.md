@@ -1,4 +1,4 @@
-﻿# line_copy_editor
+# line_copy_editor
 
 Purpose
 - Define role identity, responsibilities, and gate model for line_copy_editor.

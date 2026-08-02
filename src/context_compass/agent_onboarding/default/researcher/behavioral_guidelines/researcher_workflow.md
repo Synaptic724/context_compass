@@ -1,4 +1,4 @@
-﻿# researcher_workflow
+# researcher_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing researcher tasks.

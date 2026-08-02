@@ -4,7 +4,7 @@
 ## PRIME DIRECTIVE - COMPACTION / POLICY RETENTION (NON-NEGOTIABLE)
 
 - Baseline certification is denied unless every path listed under **Active skills** / **Required baseline skills**
-  in the resolved `SKILLS.md` chain is read (parent-first).
+  in the resolved `SKILLS.MD` chain is read (parent-first).
 - On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
 - After any compaction/handoff, assume chat memory is unreliable:
   - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
@@ -17,7 +17,11 @@
 
 ## 2) Role Map Summary
 
-Default roles (from `SKILLS.md`):
+The authoritative role list is the registry table in `context_compass/SKILLS.MD`.
+Read it rather than relying on the summary below, which is illustrative only and
+does not include user-defined roles.
+
+Commonly used default roles:
 - `new` (first-time onboarding)
 - `general` (shared baseline)
 - `engineer` (general-purpose implementation; recommended default)
@@ -40,6 +44,6 @@ Default roles (from `SKILLS.md`):
 - `new` must end with an explicit steady-state role selection and a clear next read path.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/AGENTS.MD`
 

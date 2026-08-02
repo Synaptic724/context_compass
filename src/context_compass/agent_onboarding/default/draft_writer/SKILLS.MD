@@ -1,11 +1,11 @@
-# SKILLS.md - draft_writer
+# SKILLS.MD - draft_writer
 
 Purpose
 - Define required baseline skills for the draft_writer role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -18,15 +18,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/draft_writer/AGENTS.MD
-- agent_onboarding/default/draft_writer/WORKFLOWS.MD
-- agent_onboarding/default/draft_writer/skills/draft_writer.md
-- agent_onboarding/default/draft_writer/skills/draft_writer_execution.md
-- agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md
-- agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md
-- agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md
-- agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md
-- agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md
+- `agent_onboarding/default/draft_writer/AGENTS.MD`
+- `agent_onboarding/default/draft_writer/WORKFLOWS.MD`
+- `agent_onboarding/default/draft_writer/skills/draft_writer.md`
+- `agent_onboarding/default/draft_writer/skills/draft_writer_execution.md`
+- `agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md`
+- `agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md`
+- `agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md`
+- `agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md`
+- `agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -35,5 +35,5 @@ Trigger conditions (any one makes these mandatory):
 - Task requires adaptation to strict word-count or serialization constraints.
 
 If triggered:
-- Read: agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md
+- `agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.

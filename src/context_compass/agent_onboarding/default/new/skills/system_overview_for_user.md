@@ -23,16 +23,16 @@ Language support
   core process.
 
 AI usage model
-- Primary target: Codex-assisted development workflows.
+- Primary target: AI-assisted development workflows, any runtime.
 - Compatible with other AI agents when they follow the same policy contracts.
 - Recommended execution mode in this repo:
-  - Codex with Extra High reasoning.
+  - the strongest reasoning setting your runtime offers.
   - Other reasoning modes are currently untested in this repo context.
 
 Core system anchors
 - `AGENTS.MD`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `tickets/`
 - `attention_board.md`
 - `artifact_board.md`

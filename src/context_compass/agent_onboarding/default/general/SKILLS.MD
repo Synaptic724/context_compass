@@ -1,6 +1,6 @@
 
 
-# SKILLS.md - general
+# SKILLS.MD - general
 
 Purpose
 - Define active baseline skills for the `general` role.
@@ -14,6 +14,7 @@ Activation rule
 
 Active skills
 - `agent_onboarding/default/general/AGENTS.MD`
+- `agent_onboarding/default/general/skills/general.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/policies/policy_skills.md`
@@ -23,6 +24,7 @@ Active skills
 - `agent_onboarding/default/general/skills/career_selection.md`
 - `agent_onboarding/default/general/skills/mrp_policy.md`
 - `agent_onboarding/default/general/skills/configuration_standards.md`
+- `agent_onboarding/default/general/skills/package_upgrade.md`
 - `agent_onboarding/default/general/skills/context_gold.md`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 - `agent_onboarding/default/general/skills/repo_topology.md`

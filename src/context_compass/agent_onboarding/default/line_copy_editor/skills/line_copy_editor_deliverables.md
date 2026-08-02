@@ -1,4 +1,4 @@
-﻿# line_copy_editor_deliverables
+# line_copy_editor_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for line_copy_editor.

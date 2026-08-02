@@ -1,4 +1,4 @@
-﻿# story_novel_artist_task_flow
+# story_novel_artist_task_flow
 
 Scenario
 - Demonstrate a complete story_novel_artist pass with artifacts and gate decisions.

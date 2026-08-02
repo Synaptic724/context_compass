@@ -16,14 +16,14 @@ Required behavior
 1) Always read the shared baseline first:
    - `agent_onboarding/default/general/SKILLS.MD`
 2) Determine the available roles from the canonical role map:
-   - `SKILLS.md` (and config roles map if present)
+   - `SKILLS.MD` registry table
 3) If the user already selected a role earlier in this session:
    - Restate the selected role explicitly.
-   - Continue onboarding using the already-resolved `SKILLS.md` chain.
+   - Continue onboarding using the already-resolved `SKILLS.MD` chain.
 4) If the user has NOT selected a role yet:
-   - List available roles from `SKILLS.md`.
+   - List available roles from `SKILLS.MD`.
    - Ask the user which role to take on.
-   - Resolve the selected role to its `SKILLS.md` path and continue.
+   - Resolve the selected role to its `SKILLS.MD` path and continue.
 
 Role guidance (default roles)
 - `general`
@@ -77,7 +77,7 @@ Why skills are treated as capabilities
 - Progressive disclosure prevents bloating context with unused documentation.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 

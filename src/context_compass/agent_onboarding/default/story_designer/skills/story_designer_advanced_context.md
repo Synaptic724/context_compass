@@ -1,4 +1,4 @@
-﻿# story_designer_advanced_context
+# story_designer_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for story_designer.

@@ -1,4 +1,4 @@
-﻿# researcher_deliverables
+# researcher_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for researcher.

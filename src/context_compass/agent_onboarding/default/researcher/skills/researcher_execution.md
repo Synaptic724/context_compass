@@ -1,4 +1,4 @@
-﻿# researcher_execution
+# researcher_execution
 
 Purpose
 - Define deterministic execution phases for researcher.

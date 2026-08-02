@@ -1,0 +1,30 @@
+# Context Compass line-ending policy
+#
+# The package is copied into consuming repositories as a directory tree, so
+# correctness depends on filesystem-level diffs being clean - not just git
+# diffs. `eol=lf` forces LF in the working tree on every platform, which keeps
+# `diff -rq package/ instance/` meaningful. Without it, a Windows checkout
+# produces CRLF on disk and every cross-repo comparison drowns in phantom
+# changes.
+
+* text=auto eol=lf
+
+# Explicit text classification for the formats the package ships.
+*.md    text eol=lf
+*.MD    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+*.json  text eol=lf
+*.py    text eol=lf
+LICENSE text eol=lf
+
+# Binary formats: never touch line endings, never attempt to diff.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.ico   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary

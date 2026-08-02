@@ -4,7 +4,7 @@
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline
-  skills** in each resolved `SKILLS.md` file (parent-first).
+  skills** in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become
   mandatory when triggered.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -21,7 +21,7 @@ It is an additive overlay on top of `engineer`.
 ## 2) Inheritance Directive
 
 This profile inherits and must comply with:
-- `context_compass/AGENTS.md`
+- `context_compass/AGENTS.MD`
 - `context_compass/agent_onboarding/default/general/AGENTS.MD`
 - `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
 
@@ -46,8 +46,8 @@ Before writing or rewriting substantial public-library docstrings or test
 contracts, use the mandatory baseline readset:
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 
 The rationale is simple: rich docstrings and rich tests are only trustworthy if
 they describe real system boundaries, ownership, cleanup, and collaborator

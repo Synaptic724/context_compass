@@ -1,4 +1,4 @@
-﻿# story_designer_workflow
+# story_designer_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing story_designer tasks.

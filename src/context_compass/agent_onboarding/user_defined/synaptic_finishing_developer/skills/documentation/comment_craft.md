@@ -47,5 +47,5 @@ Finishing check
 
 References
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.md`
 - `agent_onboarding/user_defined/synaptic_python_developer/skills/python/comments.md`

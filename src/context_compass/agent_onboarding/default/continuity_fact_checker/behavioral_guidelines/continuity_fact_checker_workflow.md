@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_workflow
+# continuity_fact_checker_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing continuity_fact_checker tasks.

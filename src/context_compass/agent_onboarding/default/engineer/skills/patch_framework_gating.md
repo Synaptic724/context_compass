@@ -14,7 +14,7 @@ When this gate applies
 - The task changes code that requires updates to `system_docs/src_architecture.md`
   or `system_docs/src_components.md`.
 - The task changes source wiring/ownership enough that
-  `system_docs/readable_src_graph.json` must be refreshed.
+  `system_docs/src_graph.md` must be refreshed.
 - The user explicitly requests patch-based planning/governance.
 
 Non-negotiable entry gate

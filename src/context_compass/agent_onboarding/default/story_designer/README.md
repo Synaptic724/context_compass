@@ -1,4 +1,4 @@
-﻿# Story Designer Career
+# Story Designer Career
 
 Purpose
 - Own narrative architecture, premise clarity, and story-system design before drafting starts.

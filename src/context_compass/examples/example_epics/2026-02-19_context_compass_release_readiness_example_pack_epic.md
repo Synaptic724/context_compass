@@ -1,4 +1,4 @@
-﻿# Epic: Context Compass Release Readiness Example Pack
+# Epic: Context Compass Release Readiness Example Pack
 
 ## Metadata
 - Epic ID: EPIC-2026-02-19-context-compass-release-readiness-example-pack
@@ -21,7 +21,7 @@ entrypoints and routing, template-complete tickets, artifact lifecycle, and
 compaction-safe handoff notes.
 
 ## Ticket Contract
-- ENTRY_GATE: `SKILLS.md` and `AGENTS.md` are present and readable.
+- ENTRY_GATE: `SKILLS.MD` and `AGENTS.MD` are present and readable.
 - EXECUTION_BOUNDARY: docs/examples only.
 - DEPENDENCIES: `templates/*_template.md`, `tickets/*/README.md`, `agent_onboarding/default/general/skills/workflow.md`.
 - EXIT_GATE: complete example epic/story/task exists under `examples/example_*`; flow docs and system docs are aligned.
@@ -84,7 +84,7 @@ compaction-safe handoff notes.
 
 ## Validation / Test Approach
 - `rg -n "context_compass_release_readiness|repo_overview" examples`
-- `rg -n "context_compass/AGENTS.md" examples`
+- `rg -n "context_compass/AGENTS.MD" examples`
 - `rg -n "\x07|\x08|\x09|\x0d" system_docs examples/example_architecture examples/example_components`
 
 ## Artifact Links (Optional)

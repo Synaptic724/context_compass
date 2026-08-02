@@ -1,4 +1,4 @@
-﻿# developmental_editor
+# developmental_editor
 
 Purpose
 - Define role identity, responsibilities, and gate model for developmental_editor.

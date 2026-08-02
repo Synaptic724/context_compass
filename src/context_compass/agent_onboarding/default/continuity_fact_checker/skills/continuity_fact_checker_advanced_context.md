@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_advanced_context
+# continuity_fact_checker_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for continuity_fact_checker.

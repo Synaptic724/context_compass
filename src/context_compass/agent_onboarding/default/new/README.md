@@ -19,7 +19,10 @@ Folder structure
 - `examples/`: reserved for first-time onboarding examples.
 
 First-time setup focus
-- Use this profile to select a steady-state default profile.
+- Use this profile to select a steady-state role.
+- The registry table in `context_compass/SKILLS.MD` is the authoritative role
+  list. The summary below is orientation material and may lag the registry; if
+  the two disagree, the registry wins.
 - `general`: shared system/policy/ticketing baseline.
 - `engineer`: programming/testing specialization layered on `general`.
 - Fiction-authoring specializations layered on `general`:
@@ -37,8 +40,8 @@ Agent-read policy
 - README reads are allowed for `new` first-time onboarding.
 - Non-new profile execution should use map/policy docs, not README files.
 
-SKILLS.md top-level sources
-- `context_compass/SKILLS.md`
+SKILLS.MD top-level sources
+- `context_compass/SKILLS.MD`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
 
 Primary onboarding docs

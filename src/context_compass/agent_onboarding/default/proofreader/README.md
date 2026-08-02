@@ -1,4 +1,4 @@
-﻿# Proofreader Career
+# Proofreader Career
 
 Purpose
 - Run final surface-quality and formatting lock before publication artifacts are declared complete.

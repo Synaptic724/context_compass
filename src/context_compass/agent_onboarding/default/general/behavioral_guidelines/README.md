@@ -9,4 +9,4 @@ Primary guides
 - `agent_lifecycle_and_heartbeat.md`
 
 Use these as behavior deltas.
-Policy and routing authority remain in entrypoint, config, and `SKILLS.md` chain.
+Policy and routing authority remain in entrypoint, config, and `SKILLS.MD` chain.

@@ -1,4 +1,4 @@
-﻿# Example: ADR - Repository-Local Example Strategy
+# Example: ADR - Repository-Local Example Strategy
 
 Status
 - Accepted
@@ -11,7 +11,7 @@ Decision
 - Use this repository as the canonical public example.
 - Require full epic/story/task/artifact examples under `examples/example_*`.
 - Keep copy-safe entrypoint references to
-  `context_compass/AGENTS.md`.
+  `context_compass/AGENTS.MD`.
 
 Consequences
 - Users can copy `context_compass/` and follow a complete workflow immediately.

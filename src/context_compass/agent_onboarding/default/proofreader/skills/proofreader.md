@@ -1,4 +1,4 @@
-﻿# proofreader
+# proofreader
 
 Purpose
 - Define role identity, responsibilities, and gate model for proofreader.

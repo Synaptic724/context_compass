@@ -1,11 +1,11 @@
-# SKILLS.md - researcher
+# SKILLS.MD - researcher
 
 Purpose
 - Define required baseline skills for the researcher role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -18,15 +18,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/researcher/AGENTS.MD
-- agent_onboarding/default/researcher/WORKFLOWS.MD
-- agent_onboarding/default/researcher/skills/researcher.md
-- agent_onboarding/default/researcher/skills/researcher_execution.md
-- agent_onboarding/default/researcher/skills/researcher_deliverables.md
-- agent_onboarding/default/researcher/policies/researcher_quality_policy.md
-- agent_onboarding/default/researcher/policies/researcher_handoff_policy.md
-- agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md
-- agent_onboarding/default/researcher/examples/researcher_task_flow.md
+- `agent_onboarding/default/researcher/AGENTS.MD`
+- `agent_onboarding/default/researcher/WORKFLOWS.MD`
+- `agent_onboarding/default/researcher/skills/researcher.md`
+- `agent_onboarding/default/researcher/skills/researcher_execution.md`
+- `agent_onboarding/default/researcher/skills/researcher_deliverables.md`
+- `agent_onboarding/default/researcher/policies/researcher_quality_policy.md`
+- `agent_onboarding/default/researcher/policies/researcher_handoff_policy.md`
+- `agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md`
+- `agent_onboarding/default/researcher/examples/researcher_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -35,5 +35,5 @@ Trigger conditions (any one makes these mandatory):
 - Task requires fast-turnaround research under strict evidence budget.
 
 If triggered:
-- Read: agent_onboarding/default/researcher/skills/researcher_advanced_context.md
+- `agent_onboarding/default/researcher/skills/researcher_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.

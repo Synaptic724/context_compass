@@ -1,4 +1,4 @@
-﻿# developmental_editor_deliverables
+# developmental_editor_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for developmental_editor.

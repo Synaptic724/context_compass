@@ -1,12 +1,12 @@
 
 
-Please get Codex to read this to help you make a class; this guide uses tokens and is not in normal skill paths except `new`.
+Hand this to your agent when you want help creating a role. It is large and is deliberately outside the normal skill paths except `new`.
 
 # Profile Class Creation Guide
 
 ## Why this file exists
 - This is a user-facing playbook for building and assigning profile classes.
-- It is intentionally large and explicit so you can hand it to Codex during
+- It is intentionally large and explicit so you can hand it to an agent during
   first-time onboarding.
 - It is not meant to be loaded by every profile path.
 
@@ -17,23 +17,29 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
 
 ## What it supports
 - Any programming language.
-- Codex-first workflows.
+- AI-agent-driven workflows.
 - Other AI agents, as long as they obey the same policy contracts.
 
 ## Recommended execution mode
-- Use Codex with Extra High reasoning in this repository.
+- Use the strongest reasoning setting your runtime offers.
 - Other reasoning modes are not yet validated here.
 
 ## Core concepts
 
 ### 1) Profile class
 - A class/profile is a curated read path for behavior and skills.
-- Profiles are route targets resolved by `roles.*` to `SKILLS.md`.
+- Profiles are route targets resolved by the `SKILLS.MD` registry table to a
+  role `SKILLS.MD`.
 
 ### 2) Inheritance
 - Parent profile docs load first.
 - Child profile docs load last.
-- Child profile `SKILLS.md` should add deltas, not duplicate parent paths.
+- Child profile `SKILLS.MD` should add deltas, not duplicate parent paths.
+
+> The registry table in `context_compass/SKILLS.MD` is the authoritative
+> role list. The descriptions below are teaching material for first-time
+> onboarding and do not include user-defined roles. If the two disagree,
+> the registry wins.
 
 ### 3) Default class
 - This is the profile loaded after onboarding.
@@ -80,27 +86,36 @@ Please get Codex to read this to help you make a class; this guide uses tokens a
   - final lock and surface-quality specialization layered on top of `general`.
 - `user_defined/*`
   - personal or team overlays (usually extend the closest matching default role).
-## Where to configure classes
-- `context_compass/config/context_compass_config.yaml`
+## Where classes are declared
 
-Key areas in that file:
-- `profiles.available_profiles`
-- `profiles.user_defined_profiles`
-- `profiles.onboarding.*`
-- `roles.*`
-- `roles_map.profile_readme_policy.*`
-- `SKILLS.md` header inheritance:
-  - `INHERITS_SKILLS_FROM: <skills_path|none>`
+A class is declared in exactly one place: the registry table in
+`context_compass/SKILLS.MD`.
+
+Each row carries everything the system needs:
+- role name
+- `SKILLS.MD` path
+- `extends` (parent role)
+- user-defined flag
+- selectable-after-onboarding flag
+- reads-README flag
+
+`context_compass/config/context_compass_config.yaml` holds behaviour settings
+only. It does not enumerate roles. Do not add role lists to it.
+
+Inheritance is declared a second time inside the role's own `SKILLS.MD`:
+- `` - `INHERITS_SKILLS_FROM: <skills_path|none>` ``
+
+The registry `extends` column and that header must agree.
 
 ## Class creation checklist
 - [ ] Choose class name.
 - [ ] Create onboarding folder structure.
-- [ ] Create profile `SKILLS.md` file.
+- [ ] Create profile `SKILLS.MD` file.
 - [ ] Create profile `WORKFLOWS.MD` file if this role should own workflows.
 - [ ] Create profile `workflows/` folder if this role should own workflows.
 - [ ] Add class to config.
-- [ ] Define `SKILLS.md` inheritance header.
-- [ ] Validate `SKILLS.md` paths and overlap rules.
+- [ ] Define `SKILLS.MD` inheritance header.
+- [ ] Validate `SKILLS.MD` paths and overlap rules.
 - [ ] Assign active/default class.
 
 ## Step-by-step: create a new class
@@ -144,12 +159,12 @@ Create:
 context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
 ```
 
-SKILLS.md rules:
+SKILLS.MD rules:
 - one relative path per line
 - no empty lines
 - inheritance header required for inheriting profiles:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- no duplicated parent paths from inherited `SKILLS.md`
+- no duplicated parent paths from inherited `SKILLS.MD`
 
 Workflow rules:
 - actual workflow definitions should live in role-local `workflows/`
@@ -176,52 +191,43 @@ agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_
 agent_onboarding/user_defined/data_engineer/skills/data_engineer_skill_overrides.md
 ```
 
-### Step 4: Register class in config
-Edit `context_compass/config/context_compass_config.yaml`.
+### Step 4: Register the class in the registry
 
-Minimum required edits:
+Add one row to the registry table in `context_compass/SKILLS.MD`:
 
-```yaml
-profiles:
-  available_profiles:
-    - data_engineer
-  user_defined_profiles:
-    - data_engineer
-
-roles_map:
-  roles:
-    data_engineer: agent_onboarding/user_defined/data_engineer/SKILLS.MD
+```markdown
+| `data_engineer` | `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | `engineer` | yes | yes | no |
 ```
 
-### Step 5: Register class for onboarding selection
+That single row registers the class, its path, its parent, its user-defined
+status, whether it can be selected after onboarding, and its README policy.
 
-If this class should be selectable after first-time onboarding, update:
+No config edit is required. If you find yourself adding the role name to
+`context_compass/config/context_compass_config.yaml`, stop: the registry has
+been duplicated, and duplication is what produced orphaned and half-registered
+roles in earlier versions of this package.
 
-```yaml
-profiles:
-  onboarding:
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - data_engineer
-```
-
-### Step 6: Validate class wiring
+### Step 5: Validate class wiring
 Run checks:
 
 ```powershell
-rg -n "data_engineer" context_compass/config/context_compass_config.yaml
+rg -n "data_engineer" context_compass/SKILLS.MD
 Get-Content context_compass/agent_onboarding/user_defined/data_engineer/SKILLS.MD
 ```
 
-Validate `SKILLS.md` path existence (manual method):
-- open each path listed in the class `SKILLS.md`
+Confirm:
+- the registry row exists and its `skills path` resolves
+- the row's `extends` value matches the `INHERITS_SKILLS_FROM` header
+- `context_compass/config/context_compass_config.yaml` does not mention the role
+
+Validate `SKILLS.MD` path existence (manual method):
+- open each path listed in the class `SKILLS.MD`
 - confirm files exist and are readable
 
 Validate overlap discipline:
-- compare child `SKILLS.md` lines against parent `SKILLS.md` lines
-- remove duplicates from child `SKILLS.md`
-- confirm child `SKILLS.md` starts with inheritance header:
+- compare child `SKILLS.MD` lines against parent `SKILLS.MD` lines
+- remove duplicates from child `SKILLS.MD`
+- confirm child `SKILLS.MD` starts with inheritance header:
   - `INHERITS_SKILLS_FROM: <parent_skills_path>`
 
 Validate workflow discipline (when used):
@@ -254,10 +260,11 @@ Validate workflow discipline (when used):
 - Do not create a top-level workflow registry.
 
 ## Anti-patterns to avoid
-- Duplicating entire parent `SKILLS.md` path lists in child classes.
+- Duplicating entire parent `SKILLS.MD` path lists in child classes.
 - Putting shared system rules in user-defined profiles.
 - Mixing onboarding docs into non-`new` flow without role intent.
-- Forgetting to register `roles_map.roles.<profile>`.
+- Forgetting to add the registry row in `SKILLS.MD`.
+- Re-adding role lists to the config file.
 - Creating a top-level workflow registry when the workflow should live in the role.
 - Letting agents create or modify workflows at their own discretion.
 
@@ -272,7 +279,7 @@ Purpose
 - Define user/team-specific profile behavior deltas.
 
 Scope
-- Applies only when active profile is `<profile_name>`.
+- Applies only when the selected role is `<profile_name>`.
 
 Rules
 - Keep this profile as a delta layer over `engineer`.
@@ -327,7 +334,7 @@ Skills
 
 ### Post-onboarding entry
 - Route directly to selected default class path order.
-- If class inherits `engineer`, `SKILLS.md` headers resolve
+- If class inherits `engineer`, `SKILLS.MD` headers resolve
   `general` then `engineer` then custom.
 
 ## Recommended default class choice
@@ -350,35 +357,35 @@ Skills
 ## Fast operator checklist
 - [ ] I know the class name I want.
 - [ ] I created class folder + files under `user_defined`.
-- [ ] I created `SKILLS.md` under `agent_onboarding/user_defined/<profile_name>/`.
+- [ ] I created `SKILLS.MD` under `agent_onboarding/user_defined/<profile_name>/`.
 - [ ] I updated config profile lists and roles-map role registration.
-- [ ] I added the `SKILLS.md` inheritance header.
-- [ ] I validated `SKILLS.md` paths and overlap contract.
+- [ ] I added the `SKILLS.MD` inheritance header.
+- [ ] I validated `SKILLS.MD` paths and overlap contract.
 
 ## Troubleshooting
 
 ### Class does not load
 Check:
-- class exists in `profiles.available_profiles`
-- role exists under `roles_map.roles`
-- class `SKILLS.md` path is correct and readable
+- the class has a row in the `SKILLS.MD` registry table
+- the row's `skills path` is correct and readable
+- the row's `extends` value matches the class `SKILLS.MD` header
 
 ### Wrong docs load order
 Check:
-- `SKILLS.md` inheritance header:
+- `SKILLS.MD` inheritance header:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- parent-first ordering resolved from `SKILLS.md` inheritance headers
-- path entries not duplicated across parent/child `SKILLS.md` files
+- parent-first ordering resolved from `SKILLS.MD` inheritance headers
+- path entries not duplicated across parent/child `SKILLS.MD` files
 
 ### Behavior looks unchanged
 Check:
-- active profile is what you think it is
-- class docs are actually listed in class `SKILLS.md`
+- the selected role is what you think it is
+- class docs are actually listed in class `SKILLS.MD`
 - class docs contain real deltas, not empty placeholders
 
 ## File index
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/templates/workflow_simple_template.md`
 - `context_compass/templates/workflow_advanced_template.md`
 - `context_compass/agent_onboarding/default/new/SKILLS.MD`
