@@ -1,4 +1,4 @@
-﻿# Context Compass Release Readiness Overview Artifact
+# Context Compass Release Readiness Overview Artifact
 
 ## Purpose
 Provide durable rationale for making this repository itself the primary example
@@ -12,7 +12,7 @@ scenario in public-facing workflow documentation.
 
 ## Decisions
 - Keep examples isolated in `examples/` lanes.
-- Keep references copy-safe for `context_compass/AGENTS.md`.
+- Keep references copy-safe for `context_compass/AGENTS.MD`.
 - Retain this artifact for future release-hardening checks.
 
 ## Evidence

@@ -1,4 +1,4 @@
-﻿# draft_writer_execution
+# draft_writer_execution
 
 Purpose
 - Define deterministic execution phases for draft_writer.

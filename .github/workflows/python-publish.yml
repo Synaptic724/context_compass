@@ -1,0 +1,195 @@
+name: Upload Python Package
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  # The tools are stdlib-only and claim >=3.10. Claiming a range without
+  # testing it is how a floor rots: the suite runs on every version the
+  # metadata promises, so the promise stays true.
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run the suite
+        run: uv run --python ${{ matrix.python-version }} pytest -q
+
+  release-build:
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+
+      - name: Install build tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install build
+
+      - name: Build release distributions
+        run: python -m build --sdist --wheel
+
+      # The Markdown IS the product. An implicit setuptools build produced a
+      # wheel of 28 .py files and zero .md - it succeeded, published cleanly,
+      # and shipped the tooling without the system it operates on. Nothing in a
+      # green build would have told you.
+      - name: Verify the wheel carries the payload
+        run: |
+          python - <<'PY'
+          import glob, sys, zipfile
+
+          whl = glob.glob("dist/*.whl")[0]
+          names = [n for n in zipfile.ZipFile(whl).namelist() if not n.endswith("/")]
+          payload = [n for n in names if n.startswith("contextcompass/_package/")]
+          markdown = [n for n in payload if n.lower().endswith(".md")]
+
+          print(f"wheel    : {whl}")
+          print(f"files    : {len(names)}")
+          print(f"payload  : {len(payload)}")
+          print(f"markdown : {len(markdown)}")
+
+          problems = []
+          if len(payload) < 400:
+              problems.append(f"payload has {len(payload)} files, expected 400+")
+          if len(markdown) < 300:
+              problems.append(f"only {len(markdown)} markdown files in the payload")
+          for required in ("contextcompass/_package/AGENTS.MD",
+                           "contextcompass/_package/SKILLS.MD",
+                           "contextcompass/_package/MANIFEST.md"):
+              if required not in names:
+                  problems.append(f"missing {required}")
+          if not any(n.endswith("entry_points.txt") for n in names):
+              problems.append("no console script entry point")
+
+          if problems:
+              print("\nFAILED:")
+              for p in problems:
+                  print(f"  - {p}")
+              sys.exit(1)
+          print("\nOK: wheel carries the full package")
+          PY
+
+      # The version lives in one place and the manifest records it separately.
+      # A tag that disagrees with either is a release nobody can reason about.
+      - name: Verify version agreement
+        if: github.event_name == 'release'
+        run: |
+          python - <<'PY'
+          import glob, os, re, sys, zipfile
+
+          whl = glob.glob("dist/*.whl")[0]
+          wheel_version = re.search(r"-(\d+\.\d+\.\d+)-", whl).group(1)
+          manifest = zipfile.ZipFile(whl).read(
+              "contextcompass/_package/MANIFEST.md").decode()
+          manifest_version = next(
+              l.split("|")[2].strip() for l in manifest.splitlines()
+              if l.startswith("| package_version |"))
+          tag = os.environ["GITHUB_REF_NAME"].lstrip("v")
+
+          print(f"tag {tag}  wheel {wheel_version}  manifest {manifest_version}")
+          if not (tag == wheel_version == manifest_version):
+              sys.exit("FAILED: tag, wheel and manifest versions disagree")
+          print("OK")
+          PY
+
+      - name: Install the wheel and exercise the CLI
+        run: |
+          python -m venv /tmp/probe
+          /tmp/probe/bin/pip install --quiet dist/*.whl
+          mkdir -p /tmp/target && cd /tmp/target
+          /tmp/probe/bin/contextcompass version
+          /tmp/probe/bin/contextcompass init
+          /tmp/probe/bin/python context_compass/tools/package_manifest.py \
+              --root context_compass --check
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+  pypi-publish:
+    runs-on: ubuntu-latest
+    needs: release-build
+    permissions:
+      id-token: write
+    environment:
+      # Must match the "Environment name" on the PyPI trusted publisher exactly.
+      # PyPI's OIDC check compares repository + workflow filename + environment;
+      # a mismatch fails auth at publish time, after a green build.
+      name: prod
+      url: https://pypi.org/project/contextcompass/
+
+    steps:
+      - name: Retrieve release distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: release-dists
+          path: dist/
+
+      # TWO WAYS TO AUTHENTICATE, AND YOU ONLY NEED ONE.
+      #
+      # Trusted publishing (OIDC) is the one configured on PyPI: it matches
+      # repository + workflow filename + environment and needs NO secret at all.
+      # That is why `id-token: write` and `environment.name: prod` above are the
+      # real credentials here - a token adds nothing when OIDC is working, and a
+      # long-lived token that leaks is worse than one that never existed.
+      #
+      # The token path stays as a fallback for the case where the pending
+      # publisher has not been approved yet, or you are publishing from a fork
+      # where OIDC will not match. A REPOSITORY secret is fine: repo secrets are
+      # visible to jobs that declare an environment, and an environment secret of
+      # the same name would simply take precedence.
+      #
+      # `secrets` cannot be read in a job-level `if`, so presence is resolved
+      # into a step output first. Without that indirection the two publish steps
+      # cannot be made mutually exclusive.
+      - name: Decide how to authenticate
+        id: auth
+        env:
+          TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then
+            echo "method=token" >> "$GITHUB_OUTPUT"
+            echo "Using the PYPI_TOKEN repository secret."
+            echo "NOTE: trusted publishing needs no secret. Once the pending"
+            echo "      publisher on PyPI is approved, delete PYPI_TOKEN and this"
+            echo "      workflow switches to OIDC on its own."
+          else
+            echo "method=oidc" >> "$GITHUB_OUTPUT"
+            echo "Using trusted publishing (OIDC). No secret required."
+          fi
+
+      - name: Publish to PyPI (trusted publishing)
+        if: steps.auth.outputs.method == 'oidc'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
+
+      - name: Publish to PyPI (API token)
+        if: steps.auth.outputs.method == 'token'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{ secrets.PYPI_TOKEN }}
+          packages-dir: dist/

@@ -1,4 +1,4 @@
-﻿# developmental_editor_workflow
+# developmental_editor_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing developmental_editor tasks.

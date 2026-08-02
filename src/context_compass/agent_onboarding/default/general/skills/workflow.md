@@ -23,8 +23,8 @@ Provide a consistent planning and tracking workflow that uses structured tickets
 - `templates/` - templates for all ticket types
 - `system_docs/` - canonical system docs:
   `src_architecture.md`, `src_components.md`, `tests_architecture.md`,
-  `tests_components.md`, `graph_details_document.md`,
-  `readable_src_graph.json`, and instruction docs
+  `tests_components.md`,
+  `src_graph.md`, and instruction docs
 - `artifact_board.md` - artifact association index (ticket-linked artifacts only)
 - `artifacts/` - supporting artifact storage root
 - `context_management/context_board.md` - optional context-pack association
@@ -150,8 +150,8 @@ When unsure:
   - Require note updates before implementation and validation transitions.
   - Keep UNKNOWN->FACT promotion evidence requirements unchanged.
 - Read-window settings:
-  - `codex.viewer_tool_read_limit` = max lines per view/read operation.
-  - `codex.read_loc_max` = max LOC per manual chunked read.
+  - `reading.viewer_tool_read_limit` = max lines per view/read operation.
+  - `reading.read_loc_max` = max LOC per manual chunked read.
   - Default for both is `500`.
 
 ## Per-Ticket Noting Behavior
@@ -222,7 +222,7 @@ At the top of the completed ticket, add:
 
 ## Context Compaction Rule
 Before context compaction or major handoff:
-- Follow `context_compaction.md`.
+- Follow `agent_onboarding/default/general/skills/context_compaction.md`.
 - Ensure the active tickets contain accurate handoff summaries.
 
 
@@ -248,7 +248,7 @@ Before moving a ticket to a completed folder:
 If a ticket modifies system behavior, make a small doc update as part of the same change:
 - Update `system_docs/src_architecture.md` when system boundaries/boot/ownership/invariants change.
 - Update `system_docs/src_components.md` when ownership, wiring, registries, or call flows change.
-- Update `system_docs/readable_src_graph.json` when documented source wiring or
+- Update `system_docs/src_graph.md` when documented source wiring or
   ownership coverage changes.
 - Keep diagrams in sync with the change.
 

@@ -22,7 +22,7 @@ Noise control
 Enforcement rule
 - Do not handwave around stale docs; update canonical `system_docs/` files
   (`src_architecture.md`, `src_components.md`, `tests_architecture.md`,
-  `tests_components.md`, `readable_src_graph.json`) when boundaries,
+  `tests_components.md`, `src_graph.md`) when boundaries,
   invariants, or documented source wiring change.
 
 Example transitions
@@ -33,7 +33,7 @@ Example transitions
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/readable_src_graph.json`
+- `system_docs/src_graph.md`
 - `system_docs/tests_architecture.md`
 - `system_docs/tests_components.md`
 

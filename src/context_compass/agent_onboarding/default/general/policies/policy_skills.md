@@ -27,23 +27,23 @@ Required flow
 - Read
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`
   in full immediately after `AGENTS.MD`.
-- Follow role `SKILLS.md` routing from:
-  - `context_compass/SKILLS.md`
-  - roles map in
-    `context_compass/config/context_compass_config.yaml`
-  - selected role `SKILLS.md` and inherited parent `SKILLS.md` files
+- Follow role `SKILLS.MD` routing from:
+  - `context_compass/SKILLS.MD` - the single role registry; the registry table
+    is the only place roles are declared
+  - selected role `SKILLS.MD` and inherited parent `SKILLS.MD` files
+- Do NOT look for a roles map in `context_compass/config/context_compass_config.yaml`.
+  That file holds behaviour settings only and does not enumerate roles.
 - For first-time `new` profile setup, follow
   `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
-- Apply README policy from config:
-  - `profile_readme_policy.new: true`
-  - non-new profiles do not require README reads.
+- Apply README policy from the `reads README` column of the registry table:
+  - `new` reads role README files.
+  - No other role requires README reads.
 - For onboarding/re-onboarding, complete role-driven onboarding reads from:
   - `context_compass/config/context_compass_config.yaml`
-  - `context_compass/SKILLS.md`
-  - resolved role `SKILLS.md` chain in parent-first order:
-    `agent_onboarding/default/general/SKILLS.MD` plus the selected role map
-    entry from `context_compass/SKILLS.md` (and user-defined overlay when
-    active).
+  - `context_compass/SKILLS.MD`
+  - resolved role `SKILLS.MD` chain in parent-first order, walked via each
+    file's `INHERITS_SKILLS_FROM` header starting from the registry row for
+    the selected role.
 - Use manual source-document reads for onboarding; do not use onboarding dump
   artifacts as policy input.
 - Treat **Active skills** / **Required baseline skills** as mandatory reads.
@@ -125,7 +125,7 @@ Summary
 
 Order of authority (highest to lowest)
 1) AGENTS.MD and any other known AGENTS.MD read by you.
-2) SKILLS.md and any other SKILLS.md read by you.
+2) SKILLS.MD and any other SKILLS.MD read by you.
 3) Example documentation.
 4) Repo documentation (`README`, `docs/`).
 5) Code (last resort).

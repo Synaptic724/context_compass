@@ -1,4 +1,4 @@
-﻿# story_designer_task_flow
+# story_designer_task_flow
 
 Scenario
 - Demonstrate a complete story_designer pass with artifacts and gate decisions.

@@ -1,4 +1,4 @@
-﻿# Researcher Career
+# Researcher Career
 
 Purpose
 - Convert unknowns into evidence-backed constraints that keep story and world choices plausible.

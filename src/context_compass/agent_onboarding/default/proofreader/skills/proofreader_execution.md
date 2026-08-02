@@ -1,4 +1,4 @@
-﻿# proofreader_execution
+# proofreader_execution
 
 Purpose
 - Define deterministic execution phases for proofreader.

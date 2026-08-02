@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_deliverables
+# continuity_fact_checker_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for continuity_fact_checker.

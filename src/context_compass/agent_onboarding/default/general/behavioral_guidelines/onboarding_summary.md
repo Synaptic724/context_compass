@@ -10,17 +10,15 @@ Checklist (short form)
    - Read `AGENTS.MD` and any directory-local `AGENTS.MD` in scope.
 2) Read onboarding entrypoints
    - `config/context_compass_config.yaml`
-   - `context_compass/SKILLS.md`
+   - `context_compass/SKILLS.MD`
 3) First-time user path only (`new` profile)
    - Read `agent_onboarding/default/new/skills/first_time_profile_setup.md`
    - Read `agent_onboarding/default/new/README.md`
 4) Select working role
+   - Read the registry table in `context_compass/SKILLS.MD` for the current
+     role list. Do not rely on a role list copied into any other document.
    - Read `agent_onboarding/default/general/SKILLS.MD` first.
-   - Read the selected role `SKILLS.md` after baseline (for example:
-     `engineer`, `design_engineer`, `platform_engineer`, `qa_engineer`,
-     `security_engineer`, `story_designer`, `story_novel_artist`,
-     `researcher`, `draft_writer`, `developmental_editor`,
-     `line_copy_editor`, `continuity_fact_checker`, `proofreader`).
+   - Read the selected role `SKILLS.MD` chain after baseline, parent-first.
 5) Certification gate
    - Request approval before any tool usage or edits.
    - Approval must include the exact token `CERTIFY: APPROVED`.
@@ -35,6 +33,6 @@ Checklist (short form)
 References
 - `AGENTS.MD`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 
 

@@ -1,4 +1,4 @@
-﻿# line_copy_editor_workflow
+# line_copy_editor_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing line_copy_editor tasks.

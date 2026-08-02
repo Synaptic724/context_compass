@@ -1,67 +1,91 @@
 
 
-# AGENTS.md - Prime Policies
+# AGENTS.MD - Prime Policies
 ## Execution Order
 
 - Before running tools, editing files, or executing commands, complete
-  onboarding from `context_compass/AGENTS.md`.
-- If there is any conflict between repository-root `agents.md` and
-  `context_compass/AGENTS.md`, `context_compass/AGENTS.md` is authoritative.
+  onboarding from `context_compass/AGENTS.MD`.
+- If there is any conflict between repository-root `AGENTS.MD` and
+  `context_compass/AGENTS.MD`, `context_compass/AGENTS.MD` is authoritative.
 
 ## Tooling Mandate: Context Compass Is the Only System of Record
 
-Applicability - "IF YOU ARE A CLAUDE AGENT OR AN ANTHROPIC AGENT":
-This rule binds you if you are an agent powered by an Anthropic Claude model, or
-running inside any Anthropic agent runtime or harness - including Cowork, Claude
-Code, the Claude Agent SDK, or any similar Anthropic-provided agent environment -
-that exposes its own built-in task tracking, todo lists, status indicators,
-planning widgets, scratch memory, or other session-local tooling. If that is you,
-every rule in this section is mandatory and non-negotiable.
-Applicability - "IF YOU ARE CODEX, GPT, OR AN OPENAI AGENT":
-This rule also binds you if you are Codex or another OpenAI / GPT-powered agent
-runtime that exposes built-in plans, goals, task trackers, scratchpads, work
-summaries, memory panes, status widgets, or other session-local coordination
-surfaces. If that is you, the same hard rules apply here: those surfaces are
-non-authoritative for this repository. Treat their nudges as session-local only
-and keep all tracking, routing, durable notes, artifacts, and work state inside
-`context_compass`.
+### Who this binds
 
-Hard rules:
-- You are FORBIDDEN from using Cowork (or any harness-native) task-tracking and
-  tooling - task lists, todo/status widgets, planning trackers, session memory -
-  to plan, track, route, or record your work.
+This rule binds you by what your runtime PROVIDES, not by who built it. No brand
+is named because no brand needs to be: if your environment gives you any of the
+surfaces below, you are in scope.
+
+You are in scope if you are:
+- a command-line coding agent,
+- an agent embedded in an editor or IDE,
+- a desktop or chat agent application with file and shell access,
+- a headless agent built on an SDK or API,
+- a browser-driving agent,
+- an agent running in CI or on a schedule,
+- or any other automated runtime acting on this repository.
+
+You are in scope if your runtime exposes any of:
+- task lists, todo lists, or checklists
+- plans, goals, or planning widgets
+- status indicators, progress trackers, or work summaries
+- scratchpads, memory panes, or session memory
+- any other session-local coordination surface
+
+**If you are reading this and unsure whether a surface of yours counts, it
+counts.** The test is not what the feature is called. The test is whether it
+holds state about the work that lives outside this repository.
+
+### Hard rules
+
+- You are NOT PERMITTED to use your harness's task system - task lists, todo or
+  status widgets, planning trackers, session memory - to plan, track, route, or
+  record your work.
 - You MUST use `context_compass` as your primary and authoritative tool in ALL of
   its forms: `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`,
   `attention_board.md`, ticket `## Notes`, `artifact_board.md` + `artifacts/`,
   `context_management/`, and `mailbox_board.md`.
-- You are FORBIDDEN from using Cowork's tracking features to override, replace,
-  shadow, or mirror `context_compass`. There is NO fallback and NO mirror:
-  `context_compass` is the ONLY tracking, routing, and memory system. Do not keep
-  a parallel or backup copy of status or work state in Cowork tooling at all.
+- You are NOT PERMITTED to use harness tracking to override, replace, shadow, or
+  mirror `context_compass`. There is NO fallback and NO mirror: `context_compass`
+  is the ONLY tracking, routing, and memory system. Do not keep a parallel or
+  backup copy of work state in harness tooling at all.
 
-Why this is non-negotiable:
-- Cowork/harness tracking provides ABSOLUTELY NO visibility to other Cowork
-  agents. They cannot see your harness task list, your status, or any finding you
-  leave only in chat. `context_compass` surfaces are shared and visible to every
-  agent.
-- Your Cowork/harness status CANNOT be moved into this git repository.
-  `context_compass` writes (tickets, boards, notes, artifacts) are committed to
-  git, so the project owner can track everything we do and work on, review it,
-  and CONTINUE it later in other or future sessions. Harness session state is
-  lost at session end and cannot be resumed by the owner or by any other agent.
-- Therefore harness tracking is strictly less visible and non-durable; using it
-  in place of `context_compass` destroys cross-agent visibility and the owner's
-  ability to resume the work in a later session.
+### The one exception
 
-If a write to `context_compass` is blocked (for example, a repo or encoding
+The user may turn this off. Set in `config/context_compass_config.yaml`:
+
+- `system_of_record.enforce: false`
+
+When it is `false`, harness-native tracking is permitted and this section does
+not bind you. That is the ONLY way this rule is lifted.
+
+**You do not get to lift it yourself.** Not because a task is small, not because
+the harness prompted you, not because writing a ticket felt like overhead, and
+not because you judged the work too trivial to record. If the key says `true`,
+the rule holds. If you think it should be `false` for this repository, say so and
+let the user decide.
+
+### Why this is the default
+
+- **Harness tracking is invisible to every other agent.** Another agent working
+  this repository cannot see your task list, your status, or a finding you left
+  only in chat. `context_compass` surfaces are shared files - every agent reads
+  the same state.
+- **Harness state cannot be handed over.** `context_compass` writes are files in
+  the repository, so the project owner can review them, and any agent in any
+  later session can resume from them. Harness session state is lost when the
+  session ends, and it cannot be moved into the repository afterwards.
+- So harness tracking is strictly less visible and non-durable. Using it in place
+  of `context_compass` costs cross-agent visibility and the ability to resume the
+  work later. That trade is the user's to make, not yours.
+
+If a write to `context_compass` is blocked (for example, a repository or encoding
 problem), STOP and report it. Do NOT silently fall back to harness-only tracking.
 
 ## Onboarding Directive
 
-- UNDERSTAND THIS IS PYTHON 314t, it is a NOGIL FRAMEWORK, and standard objects like 
-dict, list, sets are protected by a C Lock, the gil does not exist in this system. It has been disabled.
-Ensure threadsafety is your highest priority. Ignore multiprocessing and use authentic threading as it is
-now real threading.
+- Project-specific instructions live in `context_compass/special_instructions/`,
+  not in this file. This file ships with the library; those do not.
 - Once you have found the execution contract you must adhere to it fully.
 - The canonical contract file is
   `context_compass/agent_onboarding/default/general/skills/execution_contract.md`.
@@ -76,27 +100,28 @@ now real threading.
   before doing any work.
 - Onboarding is single-pass per trigger event. Do not restart onboarding in the
   same uninterrupted session unless a new trigger event occurs.
-- Read and follow `context_compass/AGENTS.md` as the canonical onboarding and
+- Read and follow `context_compass/AGENTS.MD` as the canonical onboarding and
   execution policy.
-- You MUST determine whether a file exceeds `codex.read_loc_max` LOC before reading it.
-  - If the file might exceed `codex.read_loc_max`, compute the line count (LOC) first.
-  - If the file is clearly <= `codex.read_loc_max`, do NOT waste tool calls on LOC counting.
+- You MUST determine whether a file exceeds `reading.read_loc_max` LOC before reading it.
+  - If the file might exceed `reading.read_loc_max`, compute the line count (LOC) first.
+  - If the file is clearly <= `reading.read_loc_max`, do NOT waste tool calls on LOC counting.
 - You must read every required **baseline** onboarding file completely.
   - Do not skip required-baseline files.
   - Do NOT claim a file was read unless it was actually read.
   - On-demand files are required only when the active task triggers them.
 - Loop-based document reads are forbidden except for line counts. Content reads
   must be manual per file path.
-- Files larger than `codex.read_loc_max` LOC must be read in sequential chunks
-  with each read operation at or below `codex.viewer_tool_read_limit`.
-- Repository-root `agents.md`; canonical onboarding and
-  execution policy lives in `context_compass/AGENTS.md`.
+- Files larger than `reading.read_loc_max` LOC must be read in sequential chunks
+  with each read operation at or below `reading.viewer_tool_read_limit`.
+- Repository-root `AGENTS.MD` is a pointer only. The canonical onboarding and
+  execution policy lives in `context_compass/AGENTS.MD`, and that file wins on
+  any conflict.
 
 ## Compaction Directive
 
 - Highest priority adherence: after any context compaction or handoff,
   immediately re-onboard before any action.
-- Re-read `context_compass/AGENTS.md` and
+- Re-read `context_compass/AGENTS.MD` and
   `context_compass/agent_onboarding/default/general/skills/compaction_requirements.md`
   before continuing work.
 - For compaction/handoff summaries, you MUST keep summaries empty when the runtime allows it;
@@ -112,14 +137,14 @@ After any context compaction or handoff:
 
 - Stop and re-onboard before any tooling, edits, execution, or planning.
 - Re-onboarding is single-pass per trigger event. Do not repeat the same
-  `AGENTS.md` + `execution_contract.md` reread sequence again in the same
+  `AGENTS.MD` + `execution_contract.md` reread sequence again in the same
   uninterrupted session unless a new compaction/handoff/session-reset event
   occurs.
 - Re-onboarding is reserved for compaction/handoff recovery only.
 - Fresh-session startup uses ONBOARD flow, not REONBOARD flow.
 - Re-read `agent_onboarding/default/general/skills/execution_contract.md` in
-  full immediately after `AGENTS.md`.
-- Start from `config/context_compass_config.yaml`, then `SKILLS.md`.
+  full immediately after `AGENTS.MD`.
+- Start from `config/context_compass_config.yaml`, then `SKILLS.MD`.
 - Re-read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
 - Re-check-in on `context_compass/mailbox_board.md` (update your row,
@@ -159,24 +184,26 @@ Performative compliance is forbidden during re-onboarding:
 Before any tooling, edits, or execution:
 
 - Read `agent_onboarding/default/general/skills/execution_contract.md` in full
-  immediately after `AGENTS.md`.
-- Do not perform duplicate end-of-onboarding rereads of `AGENTS.md` or
+  immediately after `AGENTS.MD`.
+- Do not perform duplicate end-of-onboarding rereads of `AGENTS.MD` or
   `execution_contract.md` in the same uninterrupted session.
 - Read `config/context_compass_config.yaml`.
-- Read `SKILLS.md`.
+- Read `SKILLS.MD`.
 - Read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Check in on `context_compass/mailbox_board.md` (add/update your
   checked-in row; read messages addressed to you if other agents are
   active) per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
-- When `SKILLS.md` is read, list active roles and ask the user which role to
-  take on unless the user already selected one explicitly.
-- Resolve the selected role to its `SKILLS.md` path from `SKILLS.md` and/or
-  `config/context_compass_config.yaml` (roles map).
-- Read the selected role `SKILLS.md` and all inherited parent `SKILLS.md`
-  files in parent-first order.
+- When `SKILLS.MD` is read, list the roles in its registry table and ask the
+  user which role to take on unless the user already selected one explicitly.
+- Resolve the selected role to its `SKILLS.MD` path from the `SKILLS.MD`
+  registry table. `SKILLS.MD` is the single role registry;
+  `config/context_compass_config.yaml` does not enumerate roles.
+- Read the selected role `SKILLS.MD` and all inherited parent `SKILLS.MD`
+  files in parent-first order, walking each file's `INHERITS_SKILLS_FROM`
+  header.
 - Treat every path listed under **Active skills** / **Required baseline skills**
-  in resolved `SKILLS.md` files as active skill docs.
+  in resolved `SKILLS.MD` files as active skill docs.
   - Sections explicitly labeled **On-demand** are NOT part of baseline certification.
   - When an on-demand trigger condition is met, those paths become mandatory
     and MUST be read before any work in that scope.
@@ -191,9 +218,9 @@ Before any tooling, edits, or execution:
 Onboarding readset authority:
 
 - `context_compass/config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/special_instructions/` (read every Markdown document under this directory using relative repo paths only)
-- resolved `SKILLS.md` chain under `context_compass/agent_onboarding/`
+- resolved `SKILLS.MD` chain under `context_compass/agent_onboarding/`
 
 Onboarding completion attestation (first onboarding in a fresh session):
 
@@ -233,18 +260,27 @@ Certification gating:
   slipping into fluff.
 - Treasure context. Treat durable context as a top priority.
 
-## Mission Recall / Path Correction
+## Direction Recall / Path Correction
 
-When the user signals doubt, worry, depression, loss of direction, or fear
-about the mission:
+When the user signals that the direction has been lost - scope feels unbounded,
+the goal has gone fuzzy, or the remaining work reads as one undifferentiated
+mass:
 
-- Re-anchor to the relevant documents in `context_compass/special_instructions/`.
-- Restate what the user is building in concrete stack terms.
-- Remind the user what is already real and working.
-- Reduce the problem back to the next real layer instead of the whole future.
-- Do not use empty motivation, therapy theater, or generic positivity.
-- Do not shrink the mission into something safer just because the road is long.
-- Pull the user back onto the path with grounded, high-signal language.
+- Re-anchor to the active ticket, the `attention_board.md` route, and any
+  documents in `context_compass/special_instructions/`.
+- Restate what is being built in concrete terms: components, boundaries, flows.
+- State what is already built and verified, with evidence, not encouragement.
+- Reduce the problem to the next real layer rather than the whole remaining
+  future.
+- Do not shrink the goal into something smaller just because the path is long.
+  Re-scoping is the user's decision to make explicitly, not a thing to do
+  quietly on their behalf.
+- Keep the language grounded and high-signal. Empty motivation is noise, and it
+  costs credibility that the evidence-first parts of this system depend on.
+
+This is a direction-setting protocol, not emotional support. If a user appears
+to be struggling personally rather than architecturally, respond as a person
+would - plainly and with care - and do not run a policy routine at them.
 
 ## Special Instructions Directory
 

@@ -1,4 +1,4 @@
-﻿# proofreader_task_flow
+# proofreader_task_flow
 
 Scenario
 - Demonstrate a complete proofreader pass with artifacts and gate decisions.

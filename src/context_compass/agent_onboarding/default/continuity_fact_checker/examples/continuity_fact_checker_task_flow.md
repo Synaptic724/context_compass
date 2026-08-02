@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker_task_flow
+# continuity_fact_checker_task_flow
 
 Scenario
 - Demonstrate a complete continuity_fact_checker pass with artifacts and gate decisions.

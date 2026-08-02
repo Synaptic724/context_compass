@@ -1,5 +1,5 @@
 
-# SKILLS.md - design_engineer
+# SKILLS.MD - design_engineer
 
 Purpose
 - Define required baseline design-engineer skills for the `design_engineer` role.
@@ -32,7 +32,6 @@ Required baseline skills
 - `agent_onboarding/default/design_engineer/skills/code_description_patch_contracts.md`
 - `agent_onboarding/default/design_engineer/skills/src_architecture_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/src_components_instructions.md`
-- `agent_onboarding/default/design_engineer/skills/graph_details_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/tests_architecture_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md`
 - `agent_onboarding/default/design_engineer/skills/design_engineer_execution.md`
@@ -48,6 +47,7 @@ Required baseline skills
 - `agent_onboarding/default/design_engineer/policies/design_quality_policy.md`
 - `agent_onboarding/default/design_engineer/policies/decision_record_policy.md`
 - `agent_onboarding/default/design_engineer/policies/design_review_policy.md`
+- `agent_onboarding/default/design_engineer/policies/system_document_quality_rubric.md`
 - `agent_onboarding/default/design_engineer/behavioral_guidelines/design_engineer_workflow.md`
 - `agent_onboarding/default/design_engineer/behavioral_guidelines/design_validation_and_handoff.md`
 - `agent_onboarding/default/design_engineer/examples/design_task_flow.md`
@@ -60,7 +60,9 @@ Trigger conditions (any one makes these mandatory):
 - The task requires creating/updating `system_docs/*` or making P0/P1 claims about architecture/components/tests.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 - Do not proceed with architecture claims or edits until that on-demand readset is satisfied.
 

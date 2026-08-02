@@ -1,4 +1,4 @@
-﻿# Example: engineer task flow (repo-based)
+# Example: engineer task flow (repo-based)
 
 Scenario
 - Active ticket: `examples/example_tasks/2026-02-19_context_compass_release_readiness_pack_task.md`

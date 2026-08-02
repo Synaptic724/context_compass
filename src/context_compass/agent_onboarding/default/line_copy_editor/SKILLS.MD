@@ -1,11 +1,11 @@
-# SKILLS.md - line_copy_editor
+# SKILLS.MD - line_copy_editor
 
 Purpose
 - Define required baseline skills for the line_copy_editor role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -18,15 +18,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/line_copy_editor/AGENTS.MD
-- agent_onboarding/default/line_copy_editor/WORKFLOWS.MD
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md
-- agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md
-- agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md
-- agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md
-- agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md
-- agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md
+- `agent_onboarding/default/line_copy_editor/AGENTS.MD`
+- `agent_onboarding/default/line_copy_editor/WORKFLOWS.MD`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md`
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md`
+- `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md`
+- `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md`
+- `agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md`
+- `agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -35,5 +35,5 @@ Trigger conditions (any one makes these mandatory):
 - Task requires compressed copy edit under strict turnaround.
 
 If triggered:
-- Read: agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md
+- `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.

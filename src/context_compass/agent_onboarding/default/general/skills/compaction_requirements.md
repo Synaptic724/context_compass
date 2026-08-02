@@ -44,13 +44,13 @@ External-memory-first rule
 Required post-compaction sequence (REONBOARD)
 Run this sequence exactly once per trigger event.
 
-1) Read `context_compass/AGENTS.md`.
+1) Read `context_compass/AGENTS.MD`.
 2) Read `agent_onboarding/default/general/skills/execution_contract.md` in full.
-3) Resolve the active profile via `context_compass/SKILLS.md` (and config roles map).
+3) Resolve the selected role via the registry table in `context_compass/SKILLS.MD`.
    - If the active role cannot be determined: **STOP and ask the user**.
-4) Read the resolved role `SKILLS.md` chain in parent-first order.
+4) Read the resolved role `SKILLS.MD` chain in parent-first order.
 5) Read every path listed under **Active skills** / **Required baseline skills**
-   in each resolved `SKILLS.md`.
+   in each resolved `SKILLS.MD`.
    - On-demand skills are NOT required unless triggered by the active task.
    - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
 6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
@@ -61,7 +61,7 @@ Run this sequence exactly once per trigger event.
 
 README policy
 - README reads are allowed only for `new` first-time onboarding.
-- Non-`new` profile re-entry MUST use `SKILLS.md` + skill/policy docs (not README).
+- Non-`new` profile re-entry MUST use `SKILLS.MD` + skill/policy docs (not README).
 
 Mandatory REONBOARD attestation format
 ```text
@@ -81,7 +81,7 @@ NO_ACTION_TAKEN_YET: true
 
 READ_INTEGRITY_PROOF (requirements)
 - `READ_INTEGRITY_PROOF` is a comprehension proof, NOT tool logs.
-- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.md` chain.
+- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.MD` chain.
   - Each line MUST include (a) a specific, checkable rule/constraint from that doc and
     (b) what it changes in your behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
@@ -111,7 +111,7 @@ Outcome contract
 
 References
 - `AGENTS.MD`
-- `context_compaction.md`
+- `agent_onboarding/default/general/skills/context_compaction.md`
 - `agent_onboarding/default/general/skills/self_certification.md`
 - `agent_onboarding/default/general/skills/user_approved_certification.md`
 

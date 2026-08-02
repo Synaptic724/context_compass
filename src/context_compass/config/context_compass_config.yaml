@@ -1,90 +1,51 @@
-version: 1
+version: 2
+
+# ---------------------------------------------------------------------------
+# This file holds BEHAVIOUR SETTINGS ONLY.
+#
+# It does not enumerate roles and is never consulted to discover or resolve a
+# role. The single registry of roles is `context_compass/SKILLS.MD`. A role
+# exists if and only if it has a row in that table.
+#
+# Role identity used to be duplicated across five lists in this file plus two
+# in SKILLS.MD. Adding a role meant editing seven places by hand, so roles were
+# routinely half-registered or missed entirely. Role data now lives in exactly
+# one place.
+#
+# There is also no `active_profile`. Role selection is per agent, per session:
+# several agents can work this repository concurrently holding different roles,
+# so no single stored value can represent "the" role.
+# ---------------------------------------------------------------------------
 
 profiles:
-  available_profiles:
-    - new
-    - general
-    - engineer
-    - design_engineer
-    - platform_engineer
-    - qa_engineer
-    - security_engineer
-    - story_designer
-    - story_novel_artist
-    - researcher
-    - draft_writer
-    - developmental_editor
-    - line_copy_editor
-    - continuity_fact_checker
-    - proofreader
-    - synaptic_finishing_developer
-    - synaptic_python_developer
-  user_defined_profiles:
-    - synaptic_finishing_developer
-    - synaptic_python_developer
   onboarding:
     first_time_enabled: false
+    # Entry role for first-time onboarding. Must be a role in SKILLS.MD.
     first_time_default_profile: new
+    # choose = ask the user which role to take after onboarding completes.
     post_onboarding_profile_mode: choose
-    allowed_post_onboarding_profiles:
-      - general
-      - engineer
-      - design_engineer
-      - platform_engineer
-      - qa_engineer
-      - security_engineer
-      - story_designer
-      - story_novel_artist
-      - researcher
-      - draft_writer
-      - developmental_editor
-      - line_copy_editor
-      - continuity_fact_checker
-      - proofreader
-      - synaptic_finishing_developer
-      - synaptic_python_developer
+    # Which roles may be chosen is defined by the `selectable after onboarding`
+    # column in the SKILLS.MD registry, not here.
     fallback_post_onboarding_profile: engineer
 
-router:
-  path: context_compass/SKILLS.md
-  agent_reads_readmes: false
-  readme_role: user_facing_only
-  profile_readme_policy:
-    new: true
-    general: false
-    engineer: false
-    design_engineer: false
-    platform_engineer: false
-    qa_engineer: false
-    security_engineer: false
-    story_designer: false
-    story_novel_artist: false
-    researcher: false
-    draft_writer: false
-    developmental_editor: false
-    line_copy_editor: false
-    continuity_fact_checker: false
-    proofreader: false
-    synaptic_finishing_developer: false
-    synaptic_python_developer: false
-  roles:
-    new: agent_onboarding/default/new/SKILLS.MD
-    general: agent_onboarding/default/general/SKILLS.MD
-    engineer: agent_onboarding/default/engineer/SKILLS.MD
-    design_engineer: agent_onboarding/default/design_engineer/SKILLS.MD
-    platform_engineer: agent_onboarding/default/platform_engineer/SKILLS.MD
-    qa_engineer: agent_onboarding/default/qa_engineer/SKILLS.MD
-    security_engineer: agent_onboarding/default/security_engineer/SKILLS.MD
-    story_designer: agent_onboarding/default/story_designer/SKILLS.MD
-    story_novel_artist: agent_onboarding/default/story_novel_artist/SKILLS.MD
-    researcher: agent_onboarding/default/researcher/SKILLS.MD
-    draft_writer: agent_onboarding/default/draft_writer/SKILLS.MD
-    developmental_editor: agent_onboarding/default/developmental_editor/SKILLS.MD
-    line_copy_editor: agent_onboarding/default/line_copy_editor/SKILLS.MD
-    continuity_fact_checker: agent_onboarding/default/continuity_fact_checker/SKILLS.MD
-    proofreader: agent_onboarding/default/proofreader/SKILLS.MD
-    synaptic_finishing_developer: agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD
-    synaptic_python_developer: agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD
+# There is no `router:` section. It held three keys, all dead: a `path:` pointer
+# at SKILLS.MD, which contradicted the rule above that this file is never
+# consulted to resolve a role, and a global `agent_reads_readmes: false`, which
+# contradicted the registry's `reads README` column for `new` - the one role
+# that does read them. Nothing consumed any of the three. README behaviour is
+# per role, and the registry column is the only place it is declared.
+
+system_of_record:
+  # Whether `context_compass` is the ONLY permitted place to plan, track, route
+  # and record work. See the Tooling Mandate in `context_compass/AGENTS.MD`.
+  #
+  # true  - agents must not use harness-native task lists, plans, status widgets
+  #         or session memory. All work state lives in this package.
+  # false - harness-native tracking is permitted and the mandate does not bind.
+  #
+  # This is the only switch that lifts the mandate. An agent may not decide on
+  # its own that a task is too small to record.
+  enforce: true
 
 workflow:
   ticket_microcycle:
@@ -134,7 +95,7 @@ documentation_format:
     one_path_per_line_when_exceeds_hard_cap: true
     allow_inline_single_path_under_hard_cap: true
 
-codex:
+reading:
   viewer_tool_read_limit: 500 # Maximum lines per view/read operation
   read_loc_max: 500 # Maximum LOC per manual chunked read operation
 

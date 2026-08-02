@@ -7,8 +7,8 @@ Purpose
 Required read surfaces
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`
 
 Use each surface for a different question
 - `src_architecture.md`
@@ -19,7 +19,7 @@ Use each surface for a different question
   - What owns this object?
   - What does it create, validate, publish, or bind?
   - What are the method-level call flows?
-- `readable_src_graph.json`
+- `src_graph.md`
   - What does this object own?
   - What does it borrow?
   - What does it create?
@@ -55,5 +55,5 @@ Unknowns rule
 References
 - `system_docs/src_architecture.md`
 - `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+- `system_docs/src_graph.md`

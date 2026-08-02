@@ -1,4 +1,4 @@
-﻿# story_designer
+# story_designer
 
 Purpose
 - Define role identity, responsibilities, and gate model for story_designer.

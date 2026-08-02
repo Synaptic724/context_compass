@@ -1,4 +1,4 @@
-﻿# Developmental Editor Career
+# Developmental Editor Career
 
 Purpose
 - Diagnose structural failures and produce executable rewrite plans that raise narrative quality.

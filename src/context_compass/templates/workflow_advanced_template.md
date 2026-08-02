@@ -95,3 +95,17 @@
 
 ## Context / Handoff Summary
 <What a future agent must know to resume safely.>
+
+## Project-Specific Additions
+<!-- BEGIN USER-DEFINED: project_fields -->
+<!-- END USER-DEFINED: project_fields -->
+
+<!--
+Anything this project needs on every ticket of this kind goes in the region
+above: extra fields, a compliance checklist, a link to a local convention.
+
+The region is yours. An upgrade replaces every other line of this template with
+the new version's text and carries this region across untouched, so a local
+addition here is not a divergence you re-resolve on every upgrade - which is
+what editing the rest of the template would cost you.
+-->

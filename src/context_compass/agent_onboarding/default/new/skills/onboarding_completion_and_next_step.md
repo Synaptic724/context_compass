@@ -9,7 +9,10 @@ Completion sequence
    - system purpose,
    - profile class model,
    - configuration authority.
-2) Present default class options:
+2) Present role options by reading the registry table in
+   `context_compass/SKILLS.MD` and offering every role whose
+   `selectable after onboarding` column is `yes`. The descriptions below are
+   a convenience gloss for the shipped default roles, not the list itself:
    - `general` (shared baseline)
    - `engineer` (recommended default)
    - `design_engineer` (design/architecture/handoff)
@@ -31,21 +34,21 @@ Completion sequence
    - continue onboarding via selected class path map.
 
 Recommended wording
-- "Onboarding is complete. Default class options are `general`, `engineer`,
+- "Onboarding is complete. Role options are `general`, `engineer`,
   `design_engineer`, `platform_engineer`, `qa_engineer`, `security_engineer`,
   `story_designer`, `story_novel_artist`, `researcher`, `draft_writer`,
   `developmental_editor`, `line_copy_editor`, `continuity_fact_checker`,
   or `proofreader`.
   For general code development, `engineer` is recommended. Which do you want to
-  use as the default active profile?"
+  use for this session?"
 
 Exit criteria
-- Selected default class is explicit.
-- User is informed how to change class later in config.
+- Selected role is explicit.
+- User is informed a role is selected at each onboarding, not stored in config.
 - Next read path is clear and deterministic.
 
 References
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`
 - `config/context_compass_config.yaml`
-- `SKILLS.md`
+- `SKILLS.MD`
 

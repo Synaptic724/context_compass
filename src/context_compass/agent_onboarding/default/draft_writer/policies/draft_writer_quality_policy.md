@@ -1,4 +1,4 @@
-﻿# draft_writer_quality_policy
+# draft_writer_quality_policy
 
 Purpose
 - Establish the quality bar for draft_writer outputs.

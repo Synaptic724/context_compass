@@ -1,4 +1,4 @@
-﻿# proofreader_deliverables
+# proofreader_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for proofreader.

@@ -1,5 +1,5 @@
 
-# SKILLS.md - qa_engineer
+# SKILLS.MD - qa_engineer
 
 Purpose
 - Define required baseline QA skills for the `qa_engineer` role.
@@ -47,7 +47,9 @@ Trigger conditions (any one makes these mandatory):
 - The task requires deep analysis of regression risk.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 
 

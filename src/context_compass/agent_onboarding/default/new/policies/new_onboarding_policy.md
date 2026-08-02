@@ -14,12 +14,14 @@ Policy
 - Describe the system goal accurately:
   - context_compass is a policy-driven workflow system for code and fiction,
   - it supports any programming language,
-  - it improves consistency when using Codex and other AI agents.
+  - it improves consistency across AI coding agents generally.
 - State current execution recommendation explicitly:
-  - use Codex with Extra High reasoning,
-  - other reasoning modes are not yet validated in this repository.
+  - use the strongest reasoning setting your runtime offers,
+  - this system trades tokens for reliability, so weak reasoning modes tend to
+    produce onboarding claims the agent cannot actually back.
 - Explain profile classes and inheritance before asking for selection.
-- Present the full set of default roles from `SKILLS.md`.
+- Present the full set of roles by reading the registry table in `SKILLS.MD`.
+  Do not present a role list from any other document; only the registry is current.
 - Make `engineer` the recommended default class for general code development.
 - If the user needs a specialized posture, route them to the matching role:
   - software lane: `design_engineer`, `platform_engineer`, `qa_engineer`,
@@ -30,10 +32,15 @@ Policy
 - Keep `new` profile content minimal; do not load deep engineering policy here.
 
 Configuration authority
+- `SKILLS.MD` is the source of truth for:
+  - which roles exist,
+  - the role -> `SKILLS.MD` path map,
+  - which roles are selectable after onboarding,
+  - which roles read README files.
 - `config/context_compass_config.yaml` is the source of truth for:
-  - active profile selection,
-  - available profile classes,
-  - onboarding defaults and transitions.
+  - onboarding defaults and transitions (`profiles.onboarding.*`),
+  - workflow, artifact, formatting, and read-limit behaviour.
+  - It does NOT enumerate roles.
 - `agent_onboarding/*/SKILLS.MD` headers are the source of truth for:
   - inheritance chain,
   - resolved parent-first read order.
@@ -47,6 +54,6 @@ Completion criteria
 
 References
 - `AGENTS.MD`
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/skills/first_time_profile_setup.md`
 - `agent_onboarding/default/new/skills/configuration_map_guide.md`

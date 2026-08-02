@@ -1,4 +1,4 @@
-﻿
+
 
 # ctx_autonomy_policy
 
@@ -105,7 +105,7 @@ Descriptive examples (score bands)
   - A (92): "Owns role-chain resolution; includes resolver map + inheritance-frame context; excludes runtime execution policy."
   - C (65): "Contains routing helpers." (no boundaries, no inventory alignment)
 - Component ctx example (B vs F)
-  - B (78): "Component: Context Compass router. Boundary: skills map + role config; depends on onboarding policy contracts; key flow: select profile -> resolve role chain -> enforce execution gates."
+  - B (78): "Component: role resolution. Boundary: the registry table and the resolved SKILLS chain; depends on onboarding policy contracts; key flow: select role -> resolve chain parent-first -> enforce execution gates."
   - F (20): "Everything in src/project." (overbroad, no citations, no boundaries)
 - Architecture ctx example (A vs C)
   - A (95): "Flow: onboarding -> role selection -> ticket execution -> compaction recovery. Non-goals: product runtime features. Integration boundaries: external callers interact through entrypoint policy files only."
@@ -122,8 +122,8 @@ Survey expectations (planned)
 - Use results to prioritize ctx improvement work.
 
 References
-- agent_onboarding/default/engineer/skills/context_protocol.md
-- agent_onboarding/default/engineer/skills/staleness_protocol.md
+- `agent_onboarding/default/engineer/skills/context_protocol.md`
+- `agent_onboarding/default/engineer/skills/staleness_protocol.md`
 
 
 

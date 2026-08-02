@@ -1,4 +1,4 @@
-﻿# Draft Writer Career
+# Draft Writer Career
 
 Purpose
 - Execute full manuscript drafts and rewrites while preserving architecture and canon integrity.

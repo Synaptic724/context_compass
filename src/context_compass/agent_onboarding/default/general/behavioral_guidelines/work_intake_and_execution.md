@@ -35,7 +35,7 @@ Artifacts touched
 - `tickets/tasks/completed/`
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/general/skills/workflow.md`
 
 

@@ -1,4 +1,4 @@
-﻿# proofreader_advanced_context
+# proofreader_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for proofreader.

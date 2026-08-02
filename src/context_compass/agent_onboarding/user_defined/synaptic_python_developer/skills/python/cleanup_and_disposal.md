@@ -36,7 +36,8 @@ Post-cleanup usage rule
 
 Rules
 - Cleanup implemented immediately after __init__.
-- If using Cleanable, prefer deleting owned fields after cleanup. Use `None`
+- If your base class defines a cleanup contract, prefer deleting owned fields
+  after cleanup. Use `None`
   only when the class contract explicitly requires a retained post-cleanup
   field surface.
 - Cleanup must be idempotent and safe to call multiple times.

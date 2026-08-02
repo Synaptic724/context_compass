@@ -1,4 +1,4 @@
-﻿# developmental_editor_quality_policy
+# developmental_editor_quality_policy
 
 Purpose
 - Establish the quality bar for developmental_editor outputs.

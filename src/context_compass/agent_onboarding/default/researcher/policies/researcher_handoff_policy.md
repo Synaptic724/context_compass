@@ -1,4 +1,4 @@
-﻿# researcher_handoff_policy
+# researcher_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for researcher.

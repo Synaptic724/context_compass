@@ -1,4 +1,4 @@
-﻿# Line Copy Editor Career
+# Line Copy Editor Career
 
 Purpose
 - Polish prose at sentence and paragraph level while preserving voice and approved structure.

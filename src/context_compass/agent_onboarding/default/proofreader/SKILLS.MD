@@ -1,11 +1,11 @@
-# SKILLS.md - proofreader
+# SKILLS.MD - proofreader
 
 Purpose
 - Define required baseline skills for the proofreader role.
 - This role is optimized for fiction-book workflow specialization.
 
 Inheritance
-- INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD
+- `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
 - This role defines two classes of skills:
@@ -18,15 +18,15 @@ Rules
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
 Required baseline skills
-- agent_onboarding/default/proofreader/AGENTS.MD
-- agent_onboarding/default/proofreader/WORKFLOWS.MD
-- agent_onboarding/default/proofreader/skills/proofreader.md
-- agent_onboarding/default/proofreader/skills/proofreader_execution.md
-- agent_onboarding/default/proofreader/skills/proofreader_deliverables.md
-- agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md
-- agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md
-- agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md
-- agent_onboarding/default/proofreader/examples/proofreader_task_flow.md
+- `agent_onboarding/default/proofreader/AGENTS.MD`
+- `agent_onboarding/default/proofreader/WORKFLOWS.MD`
+- `agent_onboarding/default/proofreader/skills/proofreader.md`
+- `agent_onboarding/default/proofreader/skills/proofreader_execution.md`
+- `agent_onboarding/default/proofreader/skills/proofreader_deliverables.md`
+- `agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md`
+- `agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md`
+- `agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md`
+- `agent_onboarding/default/proofreader/examples/proofreader_task_flow.md`
 
 On-demand role-context skills
 Trigger conditions (any one makes these mandatory):
@@ -35,5 +35,5 @@ Trigger conditions (any one makes these mandatory):
 - Task requires emergency release lock under strict deadline.
 
 If triggered:
-- Read: agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md
+- `agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md`
 - Do not proceed in this specialized scope until the on-demand read is satisfied.

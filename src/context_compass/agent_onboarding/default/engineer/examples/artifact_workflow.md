@@ -1,74 +1,78 @@
-﻿# Engineer Example: Artifact Workflow
+# Engineer Example: Artifact Workflow
 
 Context
-- An engineer needs to harden Context Compass entrypoint wiring so each runtime package references only its native entrypoint.
+- An engineer needs to make control-file casing uniform so every role registry
+  and entrypoint resolves on a case-sensitive filesystem.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
 Scratch capture (workspace)
-- Path: `workspace/agent/ideas/context_compass_entrypoint_wiring.md`
+- Path: `workspace/agent/ideas/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
-# idea: context_compass_entrypoint_wiring
+# idea: context_compass_control_file_casing
 ## Why now
-- cross-runtime references confuse package consumers.
-- runtime-specific docs must be deterministic after copy/paste install.
+- mixed-case control files resolve on Windows and fail on Linux.
+- a readset path that fails to resolve blocks certification, not just a read.
 
 ## Early hypothesis
-- codex package should reference `AGENTS.MD` only.
-- gemini package should reference `GEMINI.MD` only.
+- every control file uses one casing convention: `SKILLS.MD`, `AGENTS.MD`,
+  `WORKFLOWS.MD`.
+- renaming the files is the small half; the reference sweep is the real work.
 
 ## Risk notes
-- broad search/replace can break role-level policy references.
-- docs can drift if validation commands are not captured.
+- a `*.md` glob silently skips `*.MD` files, so the sweep looks complete while
+  uppercase-named files keep the stale references.
+- case-only renames need `git mv --force` when `core.ignorecase` is true.
 
 ## Promote when
-- runtime-specific scans return zero cross-runtime tokens.
+- the registry, every `INHERITS_SKILLS_FROM` header, and every readset entry
+  agree on one casing.
 ```
 
-- Path: `workspace/agent/todo/context_compass_entrypoint_wiring.md`
+- Path: `workspace/agent/todo/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
-# todo: context_compass_entrypoint_wiring
-- [ ] inventory cross-runtime references
-- [ ] patch docs/examples/system docs to runtime-native entrypoints
-- [ ] validate role-level entrypoint files still resolve
+# todo: context_compass_control_file_casing
+- [ ] inventory every control-file reference, both extensions
+- [ ] rename the files, then sweep the references
+- [ ] prove every readset path still resolves
 ```
 
 Promote to ticket (curated)
-- Path: `tickets/stories/YYYY-MM-DD_context_compass_entrypoint_wiring_story.md`
+- Path: `tickets/stories/YYYY-MM-DD_context_compass_control_file_casing_story.md`
 - Example content:
 
 ```md
-# story: context_compass_entrypoint_wiring
+# story: context_compass_control_file_casing
 ## Goal
-- runtime packages reference only their native entrypoint documents
+- one casing convention for control files, with every reference agreeing
 
 ## Scope
-- top-level readme, system docs, and example docs wiring
+- role registry, role `SKILLS.MD` files, and every document that cites them
 
 ## Out of scope
 - role-policy redesign or behavior changes
 
 ## Files to touch
+- context_compass/SKILLS.MD
+- context_compass/agent_onboarding/*/*/SKILLS.MD
 - context_compass/README.md
 - context_compass/system_docs/src_architecture.md
-- context_compass/system_docs/src_components.md
-- context_compass/system_docs/readable_src_graph.json
-- context_compass/examples/repo_overview.md
 
 ## Risks
-- accidental deletion of required role-level references
-- malformed path rewrites in code-map sections
+- extension-filtered search hides references in uppercase-named files
+- blanket find/replace rewrites prose that names a retired file on purpose
 
 ## Tests
-- rg -n "GEMINI" src/codex/context_compass
-- rg -n "AGENTS" src/gemini/context_compass
+- every registry `skills path` resolves to a file on disk
+- every `extends` value matches the target's `INHERITS_SKILLS_FROM` header
+- zero occurrences of the retired casing outside generated bundles
 
 ## Done criteria
-- codex distribution has no GEMINI entrypoint references
-- gemini distribution has no AGENTS entrypoint references
+- registry parses, all roles resolve, all readset paths resolve
+- no remaining reference to the retired casing
 ```
 
 Strategy alignment
@@ -76,24 +80,25 @@ Strategy alignment
 - Path: active ticket `## Notes` (store rationale, evidence, and next actions)
 
 Tactics / runbook
-- Path: `tickets/tasks/YYYY-MM-DD_context_compass_entrypoint_wiring_task.md`
+- Path: `tickets/tasks/YYYY-MM-DD_context_compass_control_file_casing_task.md`
 - Example content:
 
 ```md
-# task: context_compass_entrypoint_wiring
+# task: context_compass_control_file_casing
 ## Preconditions
-- current entrypoint references are inventoried
+- current references are inventoried across both extensions
 - scope constrained to docs and policy wiring
 
 ## Steps
-1) patch runtime-specific references
-2) verify role-level entrypoint files remain valid
-3) run strict cross-runtime token scans
-4) document outcomes in ticket notes
+1) rename the control files
+2) sweep every reference, matching on lowercased suffix so uppercase-named
+   files are included
+3) re-resolve every readset path and every inheritance header
+4) document counts and outcomes in ticket notes
 ```
 
 Work queue conversion
 - When approved, convert the todo into a story/task ticket in `tickets/stories/` or `tickets/tasks/`.
 - Example work items (summarized):
-  - Task: remove cross-runtime top-level entrypoint references
-  - Task: validate role-chain entrypoint files after rewiring
+  - Task: rename control files to the single casing convention
+  - Task: sweep references and prove readset resolution after the rename

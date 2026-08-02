@@ -1,4 +1,4 @@
-﻿# draft_writer_advanced_context
+# draft_writer_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for draft_writer.

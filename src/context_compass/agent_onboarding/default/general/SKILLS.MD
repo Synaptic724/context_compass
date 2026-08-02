@@ -1,6 +1,6 @@
 
 
-# SKILLS.md - general
+# SKILLS.MD - general
 
 Purpose
 - Define active baseline skills for the `general` role.
@@ -14,6 +14,7 @@ Activation rule
 
 Active skills
 - `agent_onboarding/default/general/AGENTS.MD`
+- `agent_onboarding/default/general/skills/general.md`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/policies/policy_skills.md`
@@ -23,6 +24,7 @@ Active skills
 - `agent_onboarding/default/general/skills/career_selection.md`
 - `agent_onboarding/default/general/skills/mrp_policy.md`
 - `agent_onboarding/default/general/skills/configuration_standards.md`
+- `agent_onboarding/default/general/skills/package_upgrade.md`
 - `agent_onboarding/default/general/skills/context_gold.md`
 - `agent_onboarding/default/general/skills/security_and_secrets.md`
 - `agent_onboarding/default/general/skills/repo_topology.md`
@@ -54,6 +56,21 @@ Active skills
 - `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md`
 - `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md`
 - `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md`
+
+On-demand skills
+Read only when the trigger is met. Not part of the baseline, and claiming one
+was read without meeting its trigger is a false attestation.
+
+- `agent_onboarding/default/general/skills/llm_full_usage.md`
+  - Trigger: `llm_full.md` exists at the repository root and you are about to
+    read from it, or you have been asked to regenerate it.
+  - Why it is on-demand: most installs have no `llm_full.md` - it is a view of
+    the package produced for whole-system review, not something the package
+    ships. Reading the skill when the file is absent teaches a procedure with
+    nothing to apply it to.
+  - Why it is not optional once triggered: the document is ~27,000 lines. The
+    skill exists to stop you reading it whole when a 450-line index would have
+    told you the exact range.
 
 
 

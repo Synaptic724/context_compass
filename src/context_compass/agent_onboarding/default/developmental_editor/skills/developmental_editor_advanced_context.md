@@ -1,4 +1,4 @@
-﻿# developmental_editor_advanced_context
+# developmental_editor_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for developmental_editor.

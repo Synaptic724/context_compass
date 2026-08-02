@@ -1,4 +1,4 @@
-﻿# Example: design_engineer task flow (repo-based)
+# Example: design_engineer task flow (repo-based)
 
 Scenario
 - Story: raise release-readiness doc quality so users can execute this workflow

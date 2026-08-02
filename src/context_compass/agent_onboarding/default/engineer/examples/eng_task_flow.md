@@ -5,7 +5,7 @@
 Context
 - The user asks for a small refactor with tests.
 - Follow `agent_onboarding/default/general/skills/workflow.md` and
-  `SKILLS.md` for ticketing and execution rules.
+  `SKILLS.MD` for ticketing and execution rules.
 
 Example flow (concise)
 1) Confirm scope and list files to be changed.

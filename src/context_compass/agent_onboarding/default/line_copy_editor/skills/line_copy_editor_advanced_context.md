@@ -1,4 +1,4 @@
-﻿# line_copy_editor_advanced_context
+# line_copy_editor_advanced_context
 
 Purpose
 - Define advanced contexts that are on-demand for line_copy_editor.

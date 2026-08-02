@@ -1,4 +1,4 @@
-﻿# draft_writer_task_flow
+# draft_writer_task_flow
 
 Scenario
 - Demonstrate a complete draft_writer pass with artifacts and gate decisions.

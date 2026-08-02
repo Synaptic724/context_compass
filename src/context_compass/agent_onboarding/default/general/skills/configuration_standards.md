@@ -10,13 +10,13 @@ Purpose
 Canonical config source
 - `context_compass/config/context_compass_config.yaml`
 - Settings path: `documentation_format`
-- Tool read-limit path: `codex.viewer_tool_read_limit`
-- Manual chunking path: `codex.read_loc_max`
+- Tool read-limit path: `reading.viewer_tool_read_limit`
+- Manual chunking path: `reading.read_loc_max`
 
 Tool read-limit semantics
-- `codex.viewer_tool_read_limit` is measured in lines.
+- `reading.viewer_tool_read_limit` is measured in lines.
 - It is not a token limit and not a character-count limit.
-- `codex.read_loc_max` is measured in lines-of-code (LOC) per manual read chunk.
+- `reading.read_loc_max` is measured in lines-of-code (LOC) per manual read chunk.
 - Default values are both `500`.
 - Use this as the upper bound for one read operation when chunking large docs.
 
@@ -58,7 +58,7 @@ Enforcement surfaces
   - `context_compass/templates/task_template.md`
 - Process policy:
   - `context_compass/agent_onboarding/default/general/skills/workflow.md`
-  - `context_compass/SKILLS.md`
+  - `context_compass/SKILLS.MD`
   - `context_compass/agent_onboarding/default/general/skills/ticketing.md`
 
 Adoption policy

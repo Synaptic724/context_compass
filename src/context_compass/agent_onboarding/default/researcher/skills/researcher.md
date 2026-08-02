@@ -1,4 +1,4 @@
-﻿# researcher
+# researcher
 
 Purpose
 - Define role identity, responsibilities, and gate model for researcher.

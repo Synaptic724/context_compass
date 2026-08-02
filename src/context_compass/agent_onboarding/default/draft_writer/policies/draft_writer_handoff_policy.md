@@ -1,4 +1,4 @@
-﻿# draft_writer_handoff_policy
+# draft_writer_handoff_policy
 
 Purpose
 - Define safe and deterministic handoff behavior for draft_writer.

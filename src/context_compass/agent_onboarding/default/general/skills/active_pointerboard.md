@@ -21,7 +21,7 @@ Required columns
 - `work_item`: short active event label.
 - `status`: `ready` | `in_progress` | `blocked` | `review`.
 - `mode`: `discovery` | `implementation` | `validation` | `handoff`.
-- `owner`: current executor (for now usually `codex`).
+- `owner`: current executor (for now usually `reading`).
 - `agent_name`: one or more assigned agent names, comma-separated.
 - `blocker`: concrete blocker or `none`.
 - `next`: one concrete next action.
@@ -69,7 +69,7 @@ Anti-patterns
 
 References
 - `context_compass/agent_onboarding/default/general/skills/workflow.md`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - `context_compass/agent_onboarding/default/general/skills/memory_management.md`
 - `context_compass/agent_onboarding/default/general/skills/reactive_documentation.md`
 - `context_compass/agent_onboarding/default/general/skills/active_documentation.md`

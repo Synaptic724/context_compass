@@ -1,4 +1,4 @@
-# SKILLS.md - synaptic_finishing_developer
+# SKILLS.MD - synaptic_finishing_developer
 
 Purpose
 - Define active user-defined overlay skills for the
@@ -19,10 +19,6 @@ Active skills
 - `agent_onboarding/user_defined/synaptic_finishing_developer/policies/synaptic_finishing_developer_policy_overrides.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/synaptic_finishing_developer_skill_overrides.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/behavioral_guidelines/synaptic_finishing_developer_behavior_overrides.md`
-- `system_docs/src_architecture.md`
-- `system_docs/src_components.md`
-- `system_docs/graph_details_document.md`
-- `system_docs/readable_src_graph.json`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md`
 - `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/system_aware_docstrings.md`

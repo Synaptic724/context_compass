@@ -1,4 +1,4 @@
-﻿# story_novel_artist_workflow
+# story_novel_artist_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing story_novel_artist tasks.

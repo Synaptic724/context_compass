@@ -1,4 +1,4 @@
-﻿
+
 
 # active_documentation
 
@@ -49,7 +49,7 @@ Example
 - `TYPE`: FACT
 - `CLAIM`: Role routing currently depends on explicit top-level map + config alignment.
 - `EVIDENCE`:
-  - `SKILLS.md:27-42`
+  - `SKILLS.MD:27-42`
   - `config/context_compass_config.yaml:68-83`
   - `attention_board.md:1-20`
 - `IMPACT`: Incorrect map/config alignment can route the agent to the wrong role chain.

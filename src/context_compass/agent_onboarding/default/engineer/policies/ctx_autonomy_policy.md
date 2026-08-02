@@ -27,8 +27,8 @@ Engineer emphasis
 - Depth: specify invariants, inputs/outputs, and dependency rules.
 
 References
-- agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md
-- agent_onboarding/default/engineer/policies/engineer_quality_policy.md
+- `agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md`
+- `agent_onboarding/default/engineer/policies/engineer_quality_policy.md`
 
 
 

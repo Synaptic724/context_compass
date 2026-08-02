@@ -1,4 +1,4 @@
-﻿# proofreader_workflow
+# proofreader_workflow
 
 Purpose
 - Provide an operator-friendly workflow for executing proofreader tasks.

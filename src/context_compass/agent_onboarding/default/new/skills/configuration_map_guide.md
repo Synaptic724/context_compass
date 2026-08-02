@@ -2,88 +2,82 @@
 # configuration_map_guide
 
 Purpose
-- Explain where configuration lives and how class/profile routing is controlled.
+- Explain where configuration lives, and why role routing is not controlled
+  from it.
 
-Configuration file
-- `config/context_compass_config.yaml`
+## Two files, two jobs
 
-Key sections
-- `profiles`
-  - active class, available classes, onboarding transitions.
-- `roles_map` / `roles`
-  - role-to-`SKILLS.md` mappings for default and user-defined classes.
-  - `SKILLS.md` headers define inheritance order.
+Role identity and routing
+- `SKILLS.MD` - the **single role registry**.
+- The registry table is the only place a role is declared. It carries the role
+  name, its `SKILLS.MD` path, its parent role, whether it is user-defined,
+  whether it is selectable after onboarding, and whether it reads READMEs.
+- A role exists if and only if it has a row in that table.
+
+Behaviour settings
+- `config/context_compass_config.yaml` - **behaviour only**.
+- It does not enumerate roles and is never consulted to discover or resolve a
+  role. Do not look for a roles map, an available-profiles list, or a readme
+  policy here; none of them exist.
+
+## Config sections
+
+- `profiles.onboarding`
+  - first-time onboarding state and transition defaults.
+- `system_of_record`
+  - whether Context Compass is the only permitted place to track work.
 - `workflow`
-  - ticket microcycle and note behavior controls.
+  - ticket microcycle and note behaviour controls.
 - `artifacts`
   - artifact board and lifecycle controls.
+- `documentation_format`
+  - line length and evidence formatting rules.
+- `reading`
+  - per-read line limits for chunked reading.
 
-Most important keys for onboarding
+## Keys that matter for onboarding
+
+- `profiles.onboarding.first_time_enabled`
+  - Whether first-time onboarding still needs to run.
 - `profiles.onboarding.first_time_default_profile`
-  - First-time entry class (typically `new`).
-- `profiles.onboarding.allowed_post_onboarding_profiles`
-  - Which classes user can choose immediately after onboarding.
+  - Entry role for first-time onboarding (typically `new`).
+- `profiles.onboarding.post_onboarding_profile_mode`
+  - `choose` = ask the user which role to take once onboarding completes.
 - `profiles.onboarding.fallback_post_onboarding_profile`
   - Safe fallback if no explicit choice is made.
-- `roles.new`
-  - New-role `SKILLS.md` file path.
-- Default role entries (examples):
-  - `roles.engineer`
-  - `roles.design_engineer`
-  - `roles.platform_engineer`
-  - `roles.qa_engineer`
-  - `roles.security_engineer`
-  - `roles.story_designer`
-  - `roles.story_novel_artist`
-  - `roles.researcher`
-  - `roles.draft_writer`
-  - `roles.developmental_editor`
-  - `roles.line_copy_editor`
-  - `roles.continuity_fact_checker`
-  - `roles.proofreader`
 
-Class assignment basics
-1) Confirm class exists in `profiles.available_profiles`.
-2) Ensure its `SKILLS.md` path exists in the `roles` mapping.
-3) Validate `SKILLS.md` inheritance chain (`INHERITS_SKILLS_FROM: ...`).
+Which roles may be chosen after onboarding is **not** a config key. It is the
+`selectable after onboarding` column in the `SKILLS.MD` registry.
 
-Recommended defaults after onboarding
-- For general code-development work: `engineer` (inherits `general`).
-- For specialized posture, default to the closest matching role:
-  - `design_engineer` for architecture/design/handoff,
-  - `platform_engineer` for CI/CD/deploy/observability/ops,
-  - `qa_engineer` for testing and quality gates,
-  - `security_engineer` for security review and hardening,
-  - `story_designer` for fiction narrative architecture,
-  - `story_novel_artist` for visual art direction and consistency,
-  - `researcher` for evidence-backed plausibility,
-  - `draft_writer` for manuscript drafting and rewrites,
-  - `developmental_editor` for structural editing,
-  - `line_copy_editor` for line/copy polish,
-  - `continuity_fact_checker` for canon/timeline/fact integrity,
-  - `proofreader` for final publication lock.
+## Role assignment basics
 
-Validation checks
-- `rg -n "available_profiles|user_defined_profiles|onboarding" context_compass/config/context_compass_config.yaml`
-- `Get-Content context_compass/SKILLS.md`
-- `Get-Content context_compass/agent_onboarding/default/new/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/general/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/design_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/platform_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/qa_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/security_engineer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_designer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/story_novel_artist/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/researcher/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/draft_writer/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/developmental_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/line_copy_editor/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/continuity_fact_checker/SKILLS.MD`
-- `Get-Content context_compass/agent_onboarding/default/proofreader/SKILLS.MD`
+1. Confirm the role has a row in the `SKILLS.MD` registry table.
+2. Confirm the `skills path` in that row points at a file that exists.
+3. Confirm the row's `extends` value matches the `INHERITS_SKILLS_FROM` header
+   inside the role's own `SKILLS.MD`.
+
+If a directory exists under `agent_onboarding/user_defined/` but has no
+registry row, it is not a role and is not selectable.
+
+## Recommended defaults after onboarding
+
+- For general code-development work: `engineer`.
+- For specialized posture, choose the closest matching role from the registry
+  table. The table's `extends` column shows what each role builds on, so a role
+  extending `engineer` carries all engineering baseline behaviour plus its own
+  delta.
+
+## Validation checks
+
+- Read `context_compass/SKILLS.MD` and confirm the registry table parses and
+  every `skills path` resolves.
+- For the selected role, read its `SKILLS.MD` and walk `INHERITS_SKILLS_FROM`
+  to the root, confirming each parent file exists.
+- Confirm `context_compass/config/context_compass_config.yaml` contains no role
+  lists. If it does, the registry has been duplicated and must be collapsed
+  back to `SKILLS.MD`.
 
 References
-- `SKILLS.md`
+- `SKILLS.MD`
 - `agent_onboarding/default/new/skills/profile_model_explained.md`
 - `PROFILE_CLASS_CREATION_GUIDE.md`
-

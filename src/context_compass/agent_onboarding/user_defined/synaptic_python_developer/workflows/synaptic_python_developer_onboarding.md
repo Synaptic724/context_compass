@@ -26,7 +26,7 @@ Provide one explicit synaptic-role onboarding macro that:
 - avoids agents
 - allows up to 30 parallel read threads/tool reads when safe
 - reads `src_architecture.md`, `src_components.md`, and
-  `readable_src_graph.json`
+  `src_graph.md`
 
 ## Use When
 - The user explicitly names `synaptic_python_developer_onboarding`.
@@ -43,7 +43,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - explicit workflow selection or explicit synaptic onboarding request
 - Optional:
   - certification message if the user includes it during the same turn
-  - explicit request to also read `src_graph.json`
+  - explicit request to also read `src_graph_index.md`
 
 ## Outputs
 - Expected artifacts:
@@ -58,20 +58,20 @@ Provide one explicit synaptic-role onboarding macro that:
 - `context_compass/AGENTS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
+- `context_compass/SKILLS.MD`
 - all Markdown documents in `context_compass/special_instructions/`
 - `agent_onboarding/default/general/SKILLS.MD`
 - `agent_onboarding/default/engineer/SKILLS.MD`
 - `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD`
 - `context_compass/system_docs/src_architecture.md`
 - `context_compass/system_docs/src_components.md`
-- `context_compass/system_docs/readable_src_graph.json`
+- `context_compass/system_docs/src_graph.md`
 
 ## Required Skills
 - `agent_onboarding/default/general/skills/self_certification.md`
 - `agent_onboarding/default/general/skills/user_approved_certification.md`
 - `agent_onboarding/default/engineer/skills/context_protocol.md`
-- `agent_onboarding/default/engineer/skills/graph_details_usage.md`
+- `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - `agent_onboarding/default/general/skills/agent_identity.md`
 
 ## Preconditions / Gates
@@ -80,13 +80,13 @@ Provide one explicit synaptic-role onboarding macro that:
 - Do not use agents.
 - Up to 30 parallel read threads/tool reads are allowed only when the reads are
   real reads and the file chunking rules are still respected.
-- Respect `codex.read_loc_max` and `codex.viewer_tool_read_limit`.
+- Respect `reading.read_loc_max` and `reading.viewer_tool_read_limit`.
 - If certification is not already present, request:
   - `AGENT_NAME: <name>`
   - `CERTIFY: APPROVED`
   before any non-onboarding action.
-- Treat `readable_src_graph.json` as the primary graph consumption surface.
-- Do not substitute `src_graph.json` unless the user explicitly asks for the
+- Treat `src_graph.md` as the primary graph consumption surface.
+- Do not substitute `src_graph_index.md` unless the user explicitly asks for the
   raw storage graph.
 
 ## Phase Sequence
@@ -129,7 +129,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - the source-doc bundle is implicit in this workflow and does not require the
     user to restate it
   - read `src_architecture.md`, `src_components.md`, and
-    `readable_src_graph.json`
+    `src_graph.md`
   - use `Get-Content`
   - chunk large files sequentially
   - parallelize only when safe and within the no-agent constraint
@@ -141,7 +141,7 @@ Provide one explicit synaptic-role onboarding macro that:
   - `AGENTS.MD` was read first
   - the resolved role chain was read
   - `src_architecture.md`, `src_components.md`, and
-    `readable_src_graph.json` were read
+    `src_graph.md` were read
   - no agent workflow was used
 
 6. Handoff / Closure
@@ -186,11 +186,11 @@ Provide one explicit synaptic-role onboarding macro that:
 - The workflow uses `Get-Content` and no agents.
 - The synaptic role chain is onboarded.
 - `src_architecture.md`, `src_components.md`, and
-  `readable_src_graph.json` are read as requested.
+  `src_graph.md` are read as requested.
 
 ## Anti-Patterns
 - Skipping `AGENTS.MD` and jumping directly to source docs.
-- Replacing `readable_src_graph.json` with `src_graph.json` without an
+- Replacing `src_graph.md` with `src_graph_index.md` without an
   explicit user request.
 - Using agents even though the workflow explicitly forbids them.
 

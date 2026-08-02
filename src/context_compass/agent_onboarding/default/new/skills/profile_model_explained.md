@@ -8,6 +8,12 @@ Profile classes
 - `new`
   - First-time onboarding path.
   - Focuses on user orientation and setup.
+
+> The registry table in `context_compass/SKILLS.MD` is the authoritative
+> role list. The descriptions below are teaching material for first-time
+> onboarding and do not include user-defined roles. If the two disagree,
+> the registry wins.
+
 - `general`
   - Shared system mechanics and workflow behavior.
   - Baseline class for all work.
@@ -77,22 +83,29 @@ Inheritance model
 
 Class selection model
 - First-time entry uses `new`.
-- After onboarding, user chooses steady-state default class.
+- After onboarding, the user chooses a steady-state role.
 - Recommended default for general development workflows: `engineer`.
 - Choose specialized roles when the task requires deeper domain posture.
+- Selection is per agent, per session. It is not written anywhere and not
+  shared between agents. Two agents in the same repository may hold different
+  roles at the same time, so there is no single stored "current" role.
 
-Where this is configured
-- `config/context_compass_config.yaml`
-  - `profiles.available_profiles`
-  - `profiles.user_defined_profiles`
-  - `profiles.onboarding.*`
-- `roles.*`
+Where roles are declared
+- `SKILLS.MD` - the single role registry.
+  - One row per role: name, `SKILLS.MD` path, parent, user-defined flag,
+    selectable-after-onboarding flag, README flag.
+  - A role exists if and only if it has a row there.
+- `config/context_compass_config.yaml` holds behaviour settings only. It does
+  not enumerate roles. The only onboarding keys it carries are
+  `profiles.onboarding.*`.
 
 Where inheritance is defined
-- Inheritance is declared in `SKILLS.md` headers, not in YAML inheritance blocks.
-- Header format:
-  - `INHERITS_SKILLS_FROM: <skills_path|none>`
-- Parent `SKILLS.md` paths are loaded before child `SKILLS.md` paths.
+- The registry `extends` column names the parent role.
+- The authoritative declaration lives in the role's own `SKILLS.MD` header:
+  - `` - `INHERITS_SKILLS_FROM: <skills_path|none>` ``
+- The two must agree. The header is what an agent walks; the column is what a
+  human reads.
+- Parent `SKILLS.MD` paths are loaded before child `SKILLS.MD` paths.
 
 Rules for custom classes
 - Keep shared process in `general`.

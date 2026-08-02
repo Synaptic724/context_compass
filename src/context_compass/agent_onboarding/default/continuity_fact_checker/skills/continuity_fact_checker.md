@@ -1,4 +1,4 @@
-﻿# continuity_fact_checker
+# continuity_fact_checker
 
 Purpose
 - Define role identity, responsibilities, and gate model for continuity_fact_checker.

@@ -1,4 +1,4 @@
-﻿# Story Novel Artist Career
+# Story Novel Artist Career
 
 Purpose
 - Own unified visual language for story-level illustration direction and novel-level art identity.

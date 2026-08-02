@@ -23,8 +23,8 @@ Core review set (ALWAYS required) - review these files in order:
 - `AGENTS.MD`
 - `agent_onboarding/default/general/skills/execution_contract.md`
 - `config/context_compass_config.yaml`
-- `context_compass/SKILLS.md`
-- resolved role `SKILLS.md` chain (parent-first; the SKILLS files themselves)
+- `context_compass/SKILLS.MD`
+- resolved role `SKILLS.MD` chain (parent-first; the SKILLS files themselves)
 - `agent_onboarding/default/general/skills/compaction_requirements.md`
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
@@ -46,8 +46,8 @@ Conditional review set (ONLY when triggered):
   - `system_docs/tests_architecture.md`
   - `system_docs/src_components.md`
   - `system_docs/tests_components.md`
-  - `system_docs/graph_details_document.md`
-  - `system_docs/readable_src_graph.json`
+  - `agent_onboarding/default/engineer/skills/src_graph_usage.md`
+  - `system_docs/src_graph.md`
 
 Read discipline (non-negotiable)
 - Review-set document reads must be manual per file path.

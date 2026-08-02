@@ -1,4 +1,4 @@
-﻿# draft_writer
+# draft_writer
 
 Purpose
 - Define role identity, responsibilities, and gate model for draft_writer.

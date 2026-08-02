@@ -1,5 +1,5 @@
 
-# SKILLS.md - platform_engineer
+# SKILLS.MD - platform_engineer
 
 Purpose
 - Define required baseline platform skills for the `platform_engineer` role.
@@ -47,8 +47,10 @@ Trigger conditions (any one makes these mandatory):
 - The task introduces new operational risk or production behavior changes.
 
 If triggered:
-- Inherit and apply the `engineer` on-demand system-context readset defined in:
-  `agent_onboarding/default/engineer/SKILLS.MD`
+- Apply the `engineer` on-demand system-context readset. The inheritance
+  header at the top of this file already puts it in the resolved chain, so
+  the paths are declared in the parent file and are not repeated here. The
+  triggers above are additional to the parent's, not a replacement.
 - Do not proceed with production-impact changes until relevant sources are read.
 
 

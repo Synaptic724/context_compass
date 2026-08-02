@@ -1,4 +1,4 @@
-﻿# story_novel_artist_deliverables
+# story_novel_artist_deliverables
 
 Purpose
 - Define mandatory deliverables and acceptance standards for story_novel_artist.

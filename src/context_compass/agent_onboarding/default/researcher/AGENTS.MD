@@ -3,7 +3,7 @@
 ## PRIME DIRECTIVE
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
-- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.md file (parent-first).
+- You MUST read every path listed under Active skills / Required baseline skills in each resolved SKILLS.MD file (parent-first).
 - On-demand skills are NOT part of baseline certification, but become mandatory when triggered by the active task.
 - You MUST NOT claim a skill was read unless it was actually read.
 
@@ -16,7 +16,7 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 This role must comply with:
 - context_compass/AGENTS.MD
-- agent_onboarding/default/general/AGENTS.MD
+- `agent_onboarding/default/general/AGENTS.MD`
 
 This role is a delta layer on top of general.
 Do not duplicate shared ticketing, certification, and compaction rules.
@@ -41,7 +41,7 @@ Do not duplicate shared ticketing, certification, and compaction rules.
 - research_open_risks.md
 
 ## 6) References
-- agent_onboarding/default/researcher/SKILLS.MD
-- agent_onboarding/default/researcher/skills/researcher.md
-- agent_onboarding/default/researcher/skills/researcher_execution.md
-- agent_onboarding/default/researcher/policies/researcher_quality_policy.md
+- `agent_onboarding/default/researcher/SKILLS.MD`
+- `agent_onboarding/default/researcher/skills/researcher.md`
+- `agent_onboarding/default/researcher/skills/researcher_execution.md`
+- `agent_onboarding/default/researcher/policies/researcher_quality_policy.md`

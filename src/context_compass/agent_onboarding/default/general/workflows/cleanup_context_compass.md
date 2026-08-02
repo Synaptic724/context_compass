@@ -19,6 +19,18 @@
 - Created: 2026-04-26T11:45:35Z
 - Updated: 2026-04-26T11:45:35Z
 
+## Not the same thing as the cleanup tool
+This workflow cleans up **work state**: it closes tickets and syncs the boards.
+
+`tools/cleanup_context_compass.py` cleans up **the package**: it returns files to
+the state the manifest describes. Same words, different operation, and running
+the wrong one is not a small mistake - this workflow closes tickets, that tool
+deletes files.
+
+If you want to turn in tickets, you are in the right document. If you want to
+strip one project's content out of an install, see
+`agent_onboarding/default/engineer/skills/package_maintenance.md`.
+
 ## Purpose
 Provide one explicit cleanup workflow for Context Compass work state:
 - ask whether to clean up "my assets" or "everything"

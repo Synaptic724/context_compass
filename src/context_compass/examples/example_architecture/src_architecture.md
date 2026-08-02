@@ -1,15 +1,39 @@
-﻿# Example src_architecture (repo-grounded)
+# Example src_architecture (repo-grounded)
 
 ## Metadata
 - Example type: high-fidelity architecture example
 - Objective: show what a strong architecture document looks like when based on
   real repository files
-- Last verified at: 2026-02-19T03:15:00Z
+- Last verified at: 2026-08-01T16:16:14Z
 
 ## Scope and Intent
 This example demonstrates a credible C4 architecture narrative for Context
 Compass using this repo's actual entrypoints, routing files, ticket lanes, and
 board state files.
+
+## Indexing
+
+This document is authored. Its only generated companion is `src_architecture_index.md`,
+rebuilt in the same pass as any edit:
+
+```bash
+python context_compass/tools/system_documents/index_document.py \
+    --doc context_compass/examples/example_architecture/src_architecture.md
+```
+
+That command indexes THIS example, and it works - run it and compare the
+output to the `src_architecture_index.md` beside it. When you write your own, the
+target becomes `context_compass/system_docs/src_architecture.md`, which does not exist
+until you create it: the package ships `system_docs/` empty.
+
+Format rules the index depends on, demonstrated throughout this example:
+- exactly one H1 (the document title)
+- the navigable unit is H2 `## <Concern>`, at consistent depth
+- section names unique and stable - index rows are selected by name
+- container headings organise, but are never the read target: a heading wrapping
+  only other headings indexes as a range covering all of them
+
+Spec: `agent_onboarding/default/engineer/skills/system_document_build.md`
 
 ## DO NOT ASSUME / Unknowns Gate
 - Keep unresolved claims marked UNKNOWN.
@@ -25,8 +49,8 @@ Context Compass turns volatile chat context into durable, file-backed execution
 state through policy bootstrap, role routing, and ticket-first notes.
 
 ## System Boundary and External Interfaces
-- Entrypoints: `AGENTS.md`
-- Router/config: `SKILLS.md`, `config/context_compass_config.yaml`
+- Entrypoints: `AGENTS.MD`
+- Router/config: `SKILLS.MD`, `config/context_compass_config.yaml`
 - Work memory: `attention_board.md`, `tickets/`
 - Artifact memory: `artifact_board.md`, `artifacts/`
 
@@ -64,26 +88,26 @@ state through policy bootstrap, role routing, and ticket-first notes.
 - missing artifact disposition
 
 ## C1 Code Map (Core Only)
-- path: `SKILLS.md`
+- path: `SKILLS.MD`
   start_line: 1
-  end_line: 68
-  loc: 68
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 108
+  loc: 108
+  verified_at: 2026-08-01T16:16:14Z
 - path: `config/context_compass_config.yaml`
   start_line: 1
-  end_line: 136
-  loc: 136
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 101
+  loc: 101
+  verified_at: 2026-08-01T16:16:14Z
 - path: `attention_board.md`
   start_line: 1
-  end_line: 33
-  loc: 33
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 57
+  loc: 57
+  verified_at: 2026-08-01T16:16:14Z
 - path: `artifact_board.md`
   start_line: 1
-  end_line: 31
-  loc: 31
-  verified_at: 2026-02-19T03:15:00Z
+  end_line: 54
+  loc: 54
+  verified_at: 2026-08-01T16:16:14Z
 
 ## Diagrams
 ```text
@@ -99,9 +123,9 @@ flowchart LR
 ```
 
 ## Information Sources
-- `AGENTS.md`
+- `AGENTS.MD`
 
-- `SKILLS.md`
+- `SKILLS.MD`
 - `config/context_compass_config.yaml`
 - `agent_onboarding/default/general/skills/workflow.md`
 

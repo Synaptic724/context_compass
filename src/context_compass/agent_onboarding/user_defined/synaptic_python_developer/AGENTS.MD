@@ -6,7 +6,7 @@
 Certification is denied unless the resolved SKILLS chain is satisfied exactly.
 
 - You MUST read every path listed under **Active skills** / **Required baseline skills**
-  in each resolved `SKILLS.md` file (parent-first).
+  in each resolved `SKILLS.MD` file (parent-first).
 - **On-demand** skills are NOT part of baseline certification, but become mandatory
   when triggered by the active task. If triggered, you MUST read them before proceeding.
 - You MUST NOT claim a skill was read unless it was actually read.
@@ -28,12 +28,12 @@ This profile inherits and must comply with:
 - `context_compass/agent_onboarding/default/engineer/AGENTS.MD`
 
 Inherited root policy remains in force through the default inheritance chain.
-This overlay applies only when the active profile resolves to
+This overlay applies only when the selected role resolves to
 `synaptic_python_developer`.
 
 ## 3) Prime Bootstrap Policies (Root-Migrated)
 
-These directives are migrated from repository-root `agents.md` and are treated
+These directives are migrated from repository-root `AGENTS.MD` and are treated
 as top-priority bootstrap enforcement rules.
 
 ## 4) Prime Directive: Documentation-First Edits

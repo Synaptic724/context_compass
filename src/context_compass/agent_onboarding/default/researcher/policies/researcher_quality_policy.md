@@ -1,4 +1,4 @@
-﻿# researcher_quality_policy
+# researcher_quality_policy
 
 Purpose
 - Establish the quality bar for researcher outputs.
