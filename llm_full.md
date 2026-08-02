@@ -220,10 +220,13 @@ Before any tooling, edits, or execution:
     sections differently - **Active skills**, **Required baseline skills**,
     **Baseline system orientation** - and a role may introduce another. Read
     what the role marks baseline; do not match against a fixed list of headings.
-  - Only sections explicitly labeled **On-demand** sit outside baseline
-    certification.
-  - When an on-demand trigger condition is met, those paths become mandatory
-    and MUST be read before any work in that scope.
+  - Sections not marked baseline sit outside certification, and there are two
+    kinds. **On-demand** states a trigger: those paths become mandatory once it
+    fires, and MUST be read before any work in that scope. **Self-directed** has
+    no trigger at all: read those at your own initiative whenever the work needs
+    them, without asking permission.
+  - **Do not treat Self-directed as On-demand-with-no-trigger-yet.** That reading
+    produces an agent that never opens the document, and it has already happened.
 - If first-time onboarding is active and selected role is `new`, complete
   onboarding then set:
   - `profiles.onboarding.first_time_enabled: false`
@@ -444,7 +447,7 @@ from the files themselves, which is the only reason it can be trusted.
 | field | value |
 | --- | --- |
 | manifest_version | 1.0.0 |
-| package_version | 2.14.0 |
+| package_version | 2.15.0 |
 | files | 444 |
 
 ## Lane policy
@@ -477,21 +480,21 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 
 | path | class | sha256 |
 | --- | --- | --- |
-| `AGENTS.MD` | PACKAGE | `6e880dc9351fe32071d4be619b8b8d0214c096d3a7124cac4e50f02560447d9a` |
-| `agent_onboarding/default/continuity_fact_checker/AGENTS.MD` | PACKAGE | `90189743dcd9f2f1d424d1f06d58469e1399e640de3c6821a7d68e46f83e398b` |
+| `AGENTS.MD` | PACKAGE | `a884358f1aa5cf3311648b1498cdbe4a30481b96952bacbf69bf6573f1eeb4f1` |
+| `agent_onboarding/default/continuity_fact_checker/AGENTS.MD` | PACKAGE | `3928c7c3959d7c75e0b3752cce505119060bed73b4ad565923d4801cfa703557` |
 | `agent_onboarding/default/continuity_fact_checker/behavioral_guidelines/continuity_fact_checker_workflow.md` | PACKAGE | `ace3e5e300fda18719730e05bdb0ca15d8afdc32289e1a13a7c8bd3d91470753` |
 | `agent_onboarding/default/continuity_fact_checker/examples/continuity_fact_checker_task_flow.md` | PACKAGE | `97303ea953c81565410b611848b42b4ec84f73d6351ae2754111c7bd2dd4e4aa` |
 | `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_handoff_policy.md` | PACKAGE | `4d13b91836c1a27623471204baf731c18fc9c135877c0ffde35dd9b7f2715c53` |
 | `agent_onboarding/default/continuity_fact_checker/policies/continuity_fact_checker_quality_policy.md` | PACKAGE | `a015e71de7d00dc8695dbfb3cf7ad13c43a7b9b15ef1a285e570060e5f3d67a5` |
 | `agent_onboarding/default/continuity_fact_checker/README.md` | PACKAGE | `ac048e655aaf4dc7e04a28216b4878f5b3fa8542fcc001dc433e4585a1d0663a` |
-| `agent_onboarding/default/continuity_fact_checker/SKILLS.MD` | PACKAGE | `b9cdf7aca9c4190aeb1741c90a11abb420580a201c347f7ad8df396d962338be` |
+| `agent_onboarding/default/continuity_fact_checker/SKILLS.MD` | PACKAGE | `04757bd1c8846fc9ca7d112cb99ab99d584234e3d8a638c89fb0aaceee402554` |
 | `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker.md` | PACKAGE | `5d05783c89bb78540957b461eca5ddd119d5827507852dba5c93fe8391e4fcab` |
 | `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_advanced_context.md` | PACKAGE | `46a0cd3ca1cbfa1f57224fa3580bbe08ddb957a30f99c33730bcf08d2f2ecc9c` |
 | `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_deliverables.md` | PACKAGE | `faa0a9ba50e604c5d7c790890081a516331153968d271a9c6c37a78048d87d89` |
 | `agent_onboarding/default/continuity_fact_checker/skills/continuity_fact_checker_execution.md` | PACKAGE | `e3a8b282a88365a798c931f64cc08f07df8f0a7df9855ba4d48c488edd17e6be` |
 | `agent_onboarding/default/continuity_fact_checker/WORKFLOWS.MD` | PACKAGE | `9d5e6c74c08fe5a32f820ec74a5f06790d0eadffb37fbc17d2ea386bee7cc1a4` |
 | `agent_onboarding/default/continuity_fact_checker/workflows/README.md` | PACKAGE | `00cd0ec7d92738102ad5e3a9396a130e240c607652510085640001b5302a57b4` |
-| `agent_onboarding/default/design_engineer/AGENTS.MD` | PACKAGE | `190c1ea975e67f1d6c90995570c16a849097fd97fb2703f81973778df59d3378` |
+| `agent_onboarding/default/design_engineer/AGENTS.MD` | PACKAGE | `18bbd6d1ea1249650e0ceb53bb4ce563b46cce2178c7f32f52cc33d65239a05e` |
 | `agent_onboarding/default/design_engineer/behavioral_guidelines/design_engineer_workflow.md` | PACKAGE | `6024396b89a1d285a8c508ef0a1f718b731d34b14a2c97412c9e06f42d3bae90` |
 | `agent_onboarding/default/design_engineer/behavioral_guidelines/design_validation_and_handoff.md` | PACKAGE | `56617fe31be7986d83e3ac231e99ef832c6a715722597727880bff325d0e6b5a` |
 | `agent_onboarding/default/design_engineer/examples/adr_example.md` | PACKAGE | `0af9273423b5300f917041439a03ab8407894d15e16bb7412b032b9952d70996` |
@@ -523,45 +526,45 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/design_engineer/skills/tests_components_instructions.md` | PACKAGE | `d072ab07cf3abaa52f1312c5c1fa76e71e4a3f68210d3f0114ff32174742a739` |
 | `agent_onboarding/default/design_engineer/WORKFLOWS.MD` | PACKAGE | `b05c817b49933c7b71cf0f4c7d6e32a3dfd109cd69109d83c1ffe9111563218f` |
 | `agent_onboarding/default/design_engineer/workflows/README.md` | PACKAGE | `6bcd77f00c6b1254c2ca6fe2cd5a50e9b251e5c4dd97d5b19a3040d75e485dd3` |
-| `agent_onboarding/default/developmental_editor/AGENTS.MD` | PACKAGE | `6198b976042acecd97f709393148ad16b99513e3820fa4e80f57eca8964d9b26` |
+| `agent_onboarding/default/developmental_editor/AGENTS.MD` | PACKAGE | `10248c89d24b1eadb95e0ca8ea6d037c4b96bf759931eb27334662003260ffba` |
 | `agent_onboarding/default/developmental_editor/behavioral_guidelines/developmental_editor_workflow.md` | PACKAGE | `5dd947c6821776ec464c97f03bf25580327323fb7f575dc0ca5f9acdeef7b6fe` |
 | `agent_onboarding/default/developmental_editor/examples/developmental_editor_task_flow.md` | PACKAGE | `9010a12294603c1ac256c7857da421db19b0aeffe8469ffafe56e40050ffa2ae` |
 | `agent_onboarding/default/developmental_editor/policies/developmental_editor_handoff_policy.md` | PACKAGE | `32140442c79e7b2a80aea68b5d975adb3248ed01304a529a721ce7f3c99814f9` |
 | `agent_onboarding/default/developmental_editor/policies/developmental_editor_quality_policy.md` | PACKAGE | `b5b2b4ca716b838150d06edd33aba88587e7a44351b0a7c7e3f5c4935c5d6334` |
 | `agent_onboarding/default/developmental_editor/README.md` | PACKAGE | `d9cee87ba47cd96163e5169fb0b6c4b73183b691f14b1d98b807682a5f2190f0` |
-| `agent_onboarding/default/developmental_editor/SKILLS.MD` | PACKAGE | `e7aacf1e50dc08a417cf125662f049cf0341c36000e1fd29f6f920a448c058b2` |
+| `agent_onboarding/default/developmental_editor/SKILLS.MD` | PACKAGE | `c38482d4ac56c22286ea574c718337926ffe715811e9f8474752a307a2cb58cd` |
 | `agent_onboarding/default/developmental_editor/skills/developmental_editor.md` | PACKAGE | `5329e9fe05dadb5db0c13abff45a2b7cc5db547e4a9d490c60f8da644111f569` |
 | `agent_onboarding/default/developmental_editor/skills/developmental_editor_advanced_context.md` | PACKAGE | `d601fe5deca758b594b4e5ab93c60a5038bba0b19db603fc5653e1c0cfd6a7ba` |
 | `agent_onboarding/default/developmental_editor/skills/developmental_editor_deliverables.md` | PACKAGE | `b711d460c49fc13f2444037c7554f4626b4d4b0642776fa6fdf8fb982c27ce4c` |
 | `agent_onboarding/default/developmental_editor/skills/developmental_editor_execution.md` | PACKAGE | `0088bebf5c978478bbf3a905bbd29b19227f88cd1be8e541ed82c1f4ef3f5ad2` |
 | `agent_onboarding/default/developmental_editor/WORKFLOWS.MD` | PACKAGE | `742e541484e110a21c9dbbebeac6969940e26a3652e3a583d9f50552e708621d` |
 | `agent_onboarding/default/developmental_editor/workflows/README.md` | PACKAGE | `77c5daf013fddd31d32974e6c3b943e0c7887e8c6829063ae0297ef5e33f9ddf` |
-| `agent_onboarding/default/draft_writer/AGENTS.MD` | PACKAGE | `147bb7d9bd1f08ccde101013d81c42af0b530dd9b29ae43baeab0507996a4aed` |
+| `agent_onboarding/default/draft_writer/AGENTS.MD` | PACKAGE | `6b49e47c6bf2a7c517b31480f482af798694575d1b8cb64f6e5f1f24509fdd2b` |
 | `agent_onboarding/default/draft_writer/behavioral_guidelines/draft_writer_workflow.md` | PACKAGE | `656dec32b26602c11785fb438e72b07544a0feecb7ae4f51820d286b86ee2d3d` |
 | `agent_onboarding/default/draft_writer/examples/draft_writer_task_flow.md` | PACKAGE | `a9b59894d2e32780f7380007d8636a5cd2917e647d18c105db1643b2d99d0e76` |
 | `agent_onboarding/default/draft_writer/policies/draft_writer_handoff_policy.md` | PACKAGE | `8c095c14cbfbea2b1be71d81ca22c5d31d2401b131161ab425be6a8ac10f7f78` |
 | `agent_onboarding/default/draft_writer/policies/draft_writer_quality_policy.md` | PACKAGE | `a2fb5fb650756a8a5ecf251ae8f108247160c87c0d318c87233b186359bb9e49` |
 | `agent_onboarding/default/draft_writer/README.md` | PACKAGE | `b7c2f377db14ae63707e6131bb42d3c91a979b8a0daa4c0ae8287fa6f6793428` |
-| `agent_onboarding/default/draft_writer/SKILLS.MD` | PACKAGE | `4e680b57cac6eaa0315e7be9bb5e9d65dea5fe85e71448322c18c5ef4d423598` |
+| `agent_onboarding/default/draft_writer/SKILLS.MD` | PACKAGE | `dfd3fc583cb27b2bfffbbd2160b52f18c108d5580314fce5f76c2facac6dd929` |
 | `agent_onboarding/default/draft_writer/skills/draft_writer.md` | PACKAGE | `8a8011fcc82d7f24f59a42f68f4ffc1decd08f0861654a53c6452540b5abc5cc` |
 | `agent_onboarding/default/draft_writer/skills/draft_writer_advanced_context.md` | PACKAGE | `6530f0bf57a1837104db096ed647e1d53a500daeb1e6ebbc0825d36d645fef1e` |
 | `agent_onboarding/default/draft_writer/skills/draft_writer_deliverables.md` | PACKAGE | `830313b7f9fe616ef09f8ccf89c364732a94082642ad28578fd955a2a9d71066` |
 | `agent_onboarding/default/draft_writer/skills/draft_writer_execution.md` | PACKAGE | `c2c32f82b91b0fb793b29421990bc6d0a4452f444531cd9741c931001e40e0e7` |
 | `agent_onboarding/default/draft_writer/WORKFLOWS.MD` | PACKAGE | `eb488174d9c52d130fac93715da91e8850d29aac9bbd84b1be3ff16a89df6621` |
 | `agent_onboarding/default/draft_writer/workflows/README.md` | PACKAGE | `c26b46d75cafb3bf5ae9d6e71d09490e6f18d58c0313bbf39fc0df85b8fe5801` |
-| `agent_onboarding/default/engineer/AGENTS.MD` | PACKAGE | `fca625de44fe895dc0b77af5232c3a3578e7804cec10370a15dc2400c20a23e4` |
+| `agent_onboarding/default/engineer/AGENTS.MD` | PACKAGE | `f71ff86a2c898746086e14d4481b9ca10ce91c576b4d093a9c2901a8bd5345d1` |
 | `agent_onboarding/default/engineer/behavioral_guidelines/engineer_workflow.md` | PACKAGE | `591262fe58d4d832c678a466dd2692aa905df7711b451be57320a7b10baa9661` |
 | `agent_onboarding/default/engineer/behavioral_guidelines/task_execution_and_validation.md` | PACKAGE | `9b76a0a0aaf259540fc98698cdf3a05855f47416378767cb3a3061dcdb4f4f7d` |
-| `agent_onboarding/default/engineer/examples/artifact_workflow.md` | PACKAGE | `8297981eaea0fa713f040623927acb539e2d7089d6ae294242a9dae4e721a9cf` |
+| `agent_onboarding/default/engineer/examples/artifact_workflow.md` | PACKAGE | `023ce53be34a1b06e733ecf16d76e590d0933e4ab5b18036669ba2d61b6d365d` |
 | `agent_onboarding/default/engineer/examples/eng_task_flow.md` | PACKAGE | `27d5a7996dfd0f3cd4139f42be1fdf3a91470e5620800f74a94159451af55a37` |
 | `agent_onboarding/default/engineer/policies/ctx_autonomy_policy.md` | PACKAGE | `af66fa71612ae763b2b54d4f0e574956c3e151dcd38526000f53bf83a2e4df19` |
-| `agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md` | PACKAGE | `4035d9f3e62f7f1b034e66e5db4fda17f01688988dc02e79a7d1b1b86db0c97c` |
+| `agent_onboarding/default/engineer/policies/ctx_autonomy_rubric.md` | PACKAGE | `71b306ab176626ff499afa56b06c8d689adc44ae100f095558b090bd4a07ae76` |
 | `agent_onboarding/default/engineer/policies/engineer_quality_policy.md` | PACKAGE | `fb747be91e0d8eb000791d54b9e4305cc3f08393ee75949a3a329f74fd89588c` |
-| `agent_onboarding/default/engineer/README.md` | PACKAGE | `e665c0d9161a4d255965a1942e938959914718cb1f54b34f75526ff22ad59a5a` |
-| `agent_onboarding/default/engineer/SKILLS.MD` | PACKAGE | `02edf5a8f6b4bae171bb555f3061265bdb6394294c4df76c805747ce8b146f72` |
+| `agent_onboarding/default/engineer/README.md` | PACKAGE | `733cd38fa33408b14f6da0fa78fce0bef964d128f28147080cae9eb192cb51c1` |
+| `agent_onboarding/default/engineer/SKILLS.MD` | PACKAGE | `50de7d95b6bb74304f33afeea3cfa0846e49e9496230035e59bf55d53f64042c` |
 | `agent_onboarding/default/engineer/skills/context_protocol.md` | PACKAGE | `c1eecdd82258783db07943bdad25969614a1ec83fcc645b298c7cb832af780d6` |
 | `agent_onboarding/default/engineer/skills/documentation_standards.md` | PACKAGE | `bdc4e7076c69789fcb3e701742e1bd4d82128cd1792697df38aa0fd3c3f1b711` |
-| `agent_onboarding/default/engineer/skills/engineer_execution.md` | PACKAGE | `4d7d727ab2d23da02edaf134161236e7c608c73ca312aa733c3527b76bf6680a` |
+| `agent_onboarding/default/engineer/skills/engineer_execution.md` | PACKAGE | `eb4d85f039e46b8af7d681cbd1ed43929085f5f847d38ec0b879f04c72af3cd5` |
 | `agent_onboarding/default/engineer/skills/package_maintenance.md` | PACKAGE | `c4a4c6ae98ee9dc01aaf3b2d225530f2d9b5c37a6bb276f80a9c289a6188855a` |
 | `agent_onboarding/default/engineer/skills/patch_artifact_consumption.md` | PACKAGE | `5b20db99ae4debdf90e9dac96ad81c2e035a552e1bf94ef8c336cd053e7286a2` |
 | `agent_onboarding/default/engineer/skills/patch_framework_gating.md` | PACKAGE | `303738c05c8af351707b929cf7b12c0c019946d2b37af4b819e486c295c2e9d9` |
@@ -569,25 +572,25 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/engineer/skills/src_graph_usage.md` | PACKAGE | `03de5066f06fe2c62405ac1d0e41a83a3e4315cb46383012dd1c05fde0e90b98` |
 | `agent_onboarding/default/engineer/skills/staleness_protocol.md` | PACKAGE | `f9a4ffd6221f01d03e2d659238f76aafcf7e4b8813d3b9ac5ba0577f932e3f86` |
 | `agent_onboarding/default/engineer/skills/system_document_build.md` | PACKAGE | `b53ca5318f8d695929014ce745e7ff3ffd343a0fda2c23a7354fa87a14220c1e` |
-| `agent_onboarding/default/engineer/skills/system_orientation.md` | PACKAGE | `ed2f1ff62f3834ecea1856686183698587e63381f0dde41cb67e524af61fc532` |
+| `agent_onboarding/default/engineer/skills/system_orientation.md` | PACKAGE | `b8475054707e2c3c5f12419fab5c44a11cbb4f84b6ba441e03f28a9366099006` |
 | `agent_onboarding/default/engineer/skills/technical_expertise.md` | PACKAGE | `d2104aca4457b5c4751f6422f6ea6d22286b2808216b2250dc13d922b040045b` |
 | `agent_onboarding/default/engineer/WORKFLOWS.MD` | PACKAGE | `2804d7032d8a718304193ad9fc237e75537e3f778360703b34a3f0383d5c2599` |
 | `agent_onboarding/default/engineer/workflows/README.md` | PACKAGE | `b242a08fc1ff33ca4c63e300bfd89ebf72088169aa9b9afaed731bc5d14ec1b5` |
-| `agent_onboarding/default/general/AGENTS.MD` | PACKAGE | `43de4a9e0c341c2af67137854aa55d2e8b6193faf128647812f55a4556524ee1` |
-| `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md` | PACKAGE | `e2d9b16a9ebb191f99f65eeb19c8551e7f8594f94a229724249c2637e1232366` |
+| `agent_onboarding/default/general/AGENTS.MD` | PACKAGE | `94b2dfc1e6ee54857bde628c041457de045eb9c88b6a7f3a7c5c49f5f3b51b6b` |
+| `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md` | PACKAGE | `2e25166ff2918da127c0c00512e5e6c034dbb5902d2e93e8c19a707b1d677f59` |
 | `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md` | PACKAGE | `893217e851c9ef92ac9c0d4531a9ed17e7ae7e2708a1c4a1cb027dec585810b7` |
 | `agent_onboarding/default/general/behavioral_guidelines/README.md` | PACKAGE | `4fc03023bb404a1cc141e818855797aece8c67ddd07ea3324fd042cf0ec71629` |
 | `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md` | PACKAGE | `0ab1110e36047e772e4c0babd50a34b13bc2a3a8b5945df496b94d4722d0f7ff` |
-| `agent_onboarding/default/general/policies/policy_skills.md` | PACKAGE | `5d6d637f897cf2738f05fca20b9c9a7df0a40fffcea0098a6e9bd184873704d1` |
+| `agent_onboarding/default/general/policies/policy_skills.md` | PACKAGE | `af6606c4a21477a260d3c692ff12b685a2ec2605256af2a91197b793f1219e9b` |
 | `agent_onboarding/default/general/README.md` | PACKAGE | `405ecd65632a0b05cf4d251f76c8ff135fdfb12fe6d460d6ea4d5082efda1cdc` |
-| `agent_onboarding/default/general/SKILLS.MD` | PACKAGE | `2e0ad6bc3ab451a16183f3e97553096c20c1950f46ae921d8d3360743588437d` |
+| `agent_onboarding/default/general/SKILLS.MD` | PACKAGE | `2b0d31bdc49571afffab880e62da684b0fb769343d8c5a8b424727086006306e` |
 | `agent_onboarding/default/general/skills/active_documentation.md` | PACKAGE | `e2967aa30d78361ec11b85c34ef29fff58178fe0b0b88393bb41e3d573a6eb2d` |
 | `agent_onboarding/default/general/skills/active_pointerboard.md` | PACKAGE | `a3bdd00d3743cb9ce2ded79b79ec8a1bba3eb9ea58b5e6ab1fbc93641d48d575` |
 | `agent_onboarding/default/general/skills/agent_identity.md` | PACKAGE | `574abb70495ee40b4b1777a16c59b9dcf20ea965884a3f582eb7f0a527adb014` |
 | `agent_onboarding/default/general/skills/agent_lifecycle.md` | PACKAGE | `205b16310f7dc19d6124f6461744d016d76057c92cef57ff9e210114074b99fd` |
 | `agent_onboarding/default/general/skills/agent_stance.md` | PACKAGE | `4ed0d04ac6e208932adcfd7b3c810cfe352a04f1923dd3ca4dc0e381bff95d97` |
 | `agent_onboarding/default/general/skills/career_selection.md` | PACKAGE | `f6848776d7fdf1082f0b3da66cf781f0bede746b181c8006214106d718c153fe` |
-| `agent_onboarding/default/general/skills/compaction_requirements.md` | PACKAGE | `68e80664370984aa880604d7c95080613b915d1406463de6e94709149f2850f7` |
+| `agent_onboarding/default/general/skills/compaction_requirements.md` | PACKAGE | `5f83273578b8debf8d67a713832424decbcd1274bb8c5d0d0c548f1a873756d7` |
 | `agent_onboarding/default/general/skills/configuration_standards.md` | PACKAGE | `d83de35a6ee3933e705e05ea92f888deccbfa8dda72f69fd42531b1f138bbfb1` |
 | `agent_onboarding/default/general/skills/context_compaction.md` | PACKAGE | `ddac532b10b77a172eb2ed6ead2feffc11b659083a049bd3e6e961c6de458a68` |
 | `agent_onboarding/default/general/skills/context_gold.md` | PACKAGE | `1203682dbe6ed0311811b5034e8589a4eb3cf8a71b129ea76984ab89b3f3d0cc` |
@@ -603,7 +606,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/general/skills/reactive_documentation.md` | PACKAGE | `8dcb725e4495fc97ba5fe1d3c93e2f7fd7dffb5b0bed7554298479ad00767888` |
 | `agent_onboarding/default/general/skills/repo_topology.md` | PACKAGE | `4a9c94ee2b448a6838c978f3cd0b3bdf6bf71dae986d70a0d03b06b8710b4ebb` |
 | `agent_onboarding/default/general/skills/role_local_workflows.md` | PACKAGE | `0fc5cd83f4967896e625e0b843efcf913e0d29c82a14908ef007b2e3f17e4d01` |
-| `agent_onboarding/default/general/skills/security_and_secrets.md` | PACKAGE | `af14d89a252a6072bbd619747bad30501837bb5ea89fba62713a321bef12f592` |
+| `agent_onboarding/default/general/skills/security_and_secrets.md` | PACKAGE | `bd58e29bce07c500a3678ba6571c7955d61309a9ea53f909e8ec9527a98c0cbd` |
 | `agent_onboarding/default/general/skills/self_certification.md` | PACKAGE | `5ac3f19c99b43f2f5815dd3afcb244140fc1637a50977c4176a11e2efe407a7c` |
 | `agent_onboarding/default/general/skills/ticketing.md` | PACKAGE | `5abf4207172ddad37a8c176b48a48d0846478ab6bfb8c8dff1288cc1a91df5f5` |
 | `agent_onboarding/default/general/skills/ticketing_skill_contract.md` | PACKAGE | `86154f6068b36af47999b50300a7760c628dfb1ea670a1bd8b78e774b20e309b` |
@@ -620,33 +623,33 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/general/workflows/sync_attention_board.md` | PACKAGE | `d1918ce7811681b46e37e6a100ef55c62bb2387944e9b6a83a374577b1973130` |
 | `agent_onboarding/default/general/workflows/turn_in_selected_tickets.md` | PACKAGE | `3dcfaef805a7e0477b0d9d783a77f36ff00d003a4f1b0a7ca23773369b525b54` |
 | `agent_onboarding/default/general/workflows/workflow_creation.md` | PACKAGE | `7b88bd11af158f2b5b1cce9fa478d9b1f6c2e6f0149ff29828382407c5d794e2` |
-| `agent_onboarding/default/line_copy_editor/AGENTS.MD` | PACKAGE | `b74db540a2dcb1ad0a416262092ec95225f1818728f03042b8108eeb881c9d5c` |
+| `agent_onboarding/default/line_copy_editor/AGENTS.MD` | PACKAGE | `68a1d949148b9e9f5ad0fb82cde7a544c3d7fd72e48b3a23255518649d23cef4` |
 | `agent_onboarding/default/line_copy_editor/behavioral_guidelines/line_copy_editor_workflow.md` | PACKAGE | `4797c0425e5735864eb98b9a2880b6030234d21e5e84cf414526b6c762cf70f9` |
 | `agent_onboarding/default/line_copy_editor/examples/line_copy_editor_task_flow.md` | PACKAGE | `8ae6a614e31bb962350fe8283d39445a1c2f4b72f68f6ab270feb3bd0859ec6f` |
 | `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_handoff_policy.md` | PACKAGE | `07d36aae03afb96dc9f31d7bb9c86078ae0a5d851ec920b6c71ff7de97011aef` |
 | `agent_onboarding/default/line_copy_editor/policies/line_copy_editor_quality_policy.md` | PACKAGE | `530e39a402d77cd28fe0cad3222a132ec334ad71a6c11de273bf357657ca35d9` |
 | `agent_onboarding/default/line_copy_editor/README.md` | PACKAGE | `d92fe03876ecfcc9992bf5930dd312f9e561057c8e5cbf46ab02fa6d9b901223` |
-| `agent_onboarding/default/line_copy_editor/SKILLS.MD` | PACKAGE | `4f3023fbec086ff3e83e803d8a67559d0d7d4fdfb7453b7a43e8c7f31a4e4138` |
+| `agent_onboarding/default/line_copy_editor/SKILLS.MD` | PACKAGE | `f151bb8a365e68a9e2c871613175d09a0d0de8148ab1afa865537f6fd457a7a8` |
 | `agent_onboarding/default/line_copy_editor/skills/line_copy_editor.md` | PACKAGE | `0d2c789f2ccb0ac18da4ee69586c2bada2f0faa0036377de5a6c52889f91dcc5` |
 | `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_advanced_context.md` | PACKAGE | `8898681ac7b15ae7eddce5d58e4fcea28387bfebbdcec59f1c45ff91bf04d937` |
 | `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_deliverables.md` | PACKAGE | `5575be4c43db6dd0bfdaa7b41120603882c5e3aa4e8824a52718101ca10ed114` |
 | `agent_onboarding/default/line_copy_editor/skills/line_copy_editor_execution.md` | PACKAGE | `9dbc078a4bc66f18fadf840364d6de95cc672127a981886d5a3bb298c4b3baab` |
 | `agent_onboarding/default/line_copy_editor/WORKFLOWS.MD` | PACKAGE | `96a21ed326f570fd6bb82460b742fcb0878e4a712a438b4d4b0ee2fe4881255b` |
 | `agent_onboarding/default/line_copy_editor/workflows/README.md` | PACKAGE | `d5476a7bb59b466d13ada44a134e926046394d16e63c2415a8d1124f634ecd06` |
-| `agent_onboarding/default/new/AGENTS.MD` | PACKAGE | `5f3a5286a88161afd7a1aecc342c86a0d5c5ffe6f61b795cf65db45c1eec30a6` |
+| `agent_onboarding/default/new/AGENTS.MD` | PACKAGE | `68f6ff6bdf6d9b2a4f989f4145c9d20c1361daa642b4cf7a5d9dfb09ab970a4c` |
 | `agent_onboarding/default/new/behavioral_guidelines/user_onboarding_flow.md` | PACKAGE | `065ba54845d4fb92e5cef79255f29c89690c4d825e9b1bcab26fb27717b8073d` |
 | `agent_onboarding/default/new/policies/new_onboarding_policy.md` | PACKAGE | `6bc29fde4ef122a5f7240fa84cf77163b7738d9ecdeaf6aa05b32771698f7f84` |
 | `agent_onboarding/default/new/README.md` | PACKAGE | `9c3be26e36e70072b3b8bc93fb3d16be0eb51fd28d9bea4301f1777f7dde4303` |
 | `agent_onboarding/default/new/SKILLS.MD` | PACKAGE | `c975b55abba5ad08ccba23c08d36f1c8d4277071060fe4ca99040443110d3200` |
 | `agent_onboarding/default/new/skills/configuration_map_guide.md` | PACKAGE | `870364caba56738edb642bea1877b666592c24757d0ae490a3309a07b5652632` |
 | `agent_onboarding/default/new/skills/first_time_profile_setup.md` | PACKAGE | `e1a859b9f7ca83d2b82721370ab59580ad02ea398e04f57d009702b386e7d45c` |
-| `agent_onboarding/default/new/skills/new.md` | PACKAGE | `e32e0df0e5ed77b29158524e8e8fa80c34103065d9953dc2940557c7d8ffdda5` |
+| `agent_onboarding/default/new/skills/new.md` | PACKAGE | `3385f44aa662d550cd7f85bc8f84bff78e215a331c2ac127c91de07529290102` |
 | `agent_onboarding/default/new/skills/onboarding_completion_and_next_step.md` | PACKAGE | `d93b836e74a139ccce1c0a85dccb80d9ab0e839973891d13c4bf81123e641da3` |
 | `agent_onboarding/default/new/skills/profile_model_explained.md` | PACKAGE | `c0d439820758542e9480f45bf63659bb06141e6bfc6cba4efb1dfb6969d4fbd0` |
 | `agent_onboarding/default/new/skills/system_overview_for_user.md` | PACKAGE | `a174184f9a9f8c5276ab4a78269656dbea6ebc1ca977558e8f00c5cf5a890a9a` |
 | `agent_onboarding/default/new/WORKFLOWS.MD` | PACKAGE | `eaaea4c4ef26383b5deb1d0e08d46d69d6ebf7ef40a21cd9f55ca3a334635867` |
 | `agent_onboarding/default/new/workflows/README.md` | PACKAGE | `f5d91e5558aecc918c7f04d5f476169d60eb33c3c81e73e267c8b30b4fbf72a9` |
-| `agent_onboarding/default/platform_engineer/AGENTS.MD` | PACKAGE | `47218cb2fbbc69460b4c89eeebfe69381c5d87c8491b8e6a1644dcd860b12ae8` |
+| `agent_onboarding/default/platform_engineer/AGENTS.MD` | PACKAGE | `5b60d3d8016594f3c10b7994529d4f45c2cc82142a65fcbd37761ce9c1231e03` |
 | `agent_onboarding/default/platform_engineer/behavioral_guidelines/incident_workflow.md` | PACKAGE | `8a5408f756220f37da52a708e3c8eb245e61e371161fa7824dae631cd156005d` |
 | `agent_onboarding/default/platform_engineer/behavioral_guidelines/platform_engineer_workflow.md` | PACKAGE | `4f68950bcf6de040ff6f84aa893f5743b206fa61491a9eea9cdf4f043f4af6e8` |
 | `agent_onboarding/default/platform_engineer/examples/platform_task_flow.md` | PACKAGE | `57245c8c443d233816b613ba79ff611cd8c0d92e6bac6f191a76a7524ed33057` |
@@ -665,20 +668,20 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/platform_engineer/skills/platform_security_basics.md` | PACKAGE | `9f0b259af5c58b7cb19df8f11be2bf8ad5d7dcbc52021775835451e5808c296c` |
 | `agent_onboarding/default/platform_engineer/WORKFLOWS.MD` | PACKAGE | `7b23e211bbaba81a5c4faeb7d5fe7ac3693b1705addc2ac1e2838891e0d62df4` |
 | `agent_onboarding/default/platform_engineer/workflows/README.md` | PACKAGE | `b907300dd04cebedb75a0ca4c8751af53111ffc22ed208ab7497e98e8c1da813` |
-| `agent_onboarding/default/proofreader/AGENTS.MD` | PACKAGE | `9181938471f4a16c678e7d72669c35959eb40b03c18b0df0d7aa261c322b765b` |
+| `agent_onboarding/default/proofreader/AGENTS.MD` | PACKAGE | `ba8c794a089fc5893255d68fd86405b820870c10b030ef5db22835dde7f0cf91` |
 | `agent_onboarding/default/proofreader/behavioral_guidelines/proofreader_workflow.md` | PACKAGE | `71a4f70b4ad749f3dd4b7f4aa3f1413888ca5975044ad25cfdc5627c8aaea3c6` |
 | `agent_onboarding/default/proofreader/examples/proofreader_task_flow.md` | PACKAGE | `1b52a09c818f2770ed2698b1443438c19a5b1a6f856e7b25ff6c2c1e07d9645b` |
 | `agent_onboarding/default/proofreader/policies/proofreader_handoff_policy.md` | PACKAGE | `c33a34f5fe9a9e5fc6c260d1d33fc52160c325fb16afcfe3082b38fd3187b9bd` |
 | `agent_onboarding/default/proofreader/policies/proofreader_quality_policy.md` | PACKAGE | `889d78d3c7f0bb0c0bfb7770b88223fcd60736402d823ae39df70e52fdf21611` |
 | `agent_onboarding/default/proofreader/README.md` | PACKAGE | `8536c13cc434cc2020cb139443ce1feb6e577eaa096afb2797b91ee88ac5b5d6` |
-| `agent_onboarding/default/proofreader/SKILLS.MD` | PACKAGE | `00a3f020497a344c5bbc0e56586b278922b60c47bec6382cc95234cdf2a829f1` |
+| `agent_onboarding/default/proofreader/SKILLS.MD` | PACKAGE | `1de96772b2d7afb6ec96d2736aa16d3862ac4deba9698526110d6b49adf4563e` |
 | `agent_onboarding/default/proofreader/skills/proofreader.md` | PACKAGE | `5c9550dd315f139ec210bfbe897f4638232916e4a65252f2e9c7fe1b4a90baa9` |
 | `agent_onboarding/default/proofreader/skills/proofreader_advanced_context.md` | PACKAGE | `84d38d325406746bb6e8adf5b174e1278e7001c0f743aaab73e893e39521dc79` |
 | `agent_onboarding/default/proofreader/skills/proofreader_deliverables.md` | PACKAGE | `fd218a085097d7b37090cf1a1ae919bfbc0cd7a374cff541167786eee97f8a2c` |
 | `agent_onboarding/default/proofreader/skills/proofreader_execution.md` | PACKAGE | `e3796f12e26160b5660406a94f868e5166cfaf590a5341c1672b117cbf2ee825` |
 | `agent_onboarding/default/proofreader/WORKFLOWS.MD` | PACKAGE | `df77b3cf387a2fbda2b0eb1f1e4983673c494de3b9d164b79d5d94f761f0d3dc` |
 | `agent_onboarding/default/proofreader/workflows/README.md` | PACKAGE | `bbd70a230eb640d5fb26a529eb0eecae198c4f320f17696a1109607807fd4463` |
-| `agent_onboarding/default/qa_engineer/AGENTS.MD` | PACKAGE | `2360c6b01c154368e429d01d09dff2c51d9daeb26dc10045140151bb7de2fca0` |
+| `agent_onboarding/default/qa_engineer/AGENTS.MD` | PACKAGE | `335dcdbbf6c69b047f1462efaf6cc1d92586d905a72c60ca96b41deb8fe1d25d` |
 | `agent_onboarding/default/qa_engineer/behavioral_guidelines/qa_workflow.md` | PACKAGE | `cb104bda142c3a0de2f651180ba5100bf5052708380d037a278cf450468ffc47` |
 | `agent_onboarding/default/qa_engineer/behavioral_guidelines/release_signoff_workflow.md` | PACKAGE | `5404508d9ced6e101ec3285a792ca2d5a84045dd3ecc0e677a059abc0317d2b7` |
 | `agent_onboarding/default/qa_engineer/examples/qa_task_flow.md` | PACKAGE | `cad498e8d886f77269a25ec34bc2fcb1e54b18ba3ce38d3ccc1ba2f39b1dbf7f` |
@@ -697,20 +700,20 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/qa_engineer/skills/test_strategy_and_planning.md` | PACKAGE | `d62718d0938b4d4346d387e49586b2dff40c055f45aed2bcf12471efe15367b0` |
 | `agent_onboarding/default/qa_engineer/WORKFLOWS.MD` | PACKAGE | `9844d498443baedc6ef230c371dc4f957b0aabd1667b0c69a7ce71bead57a13e` |
 | `agent_onboarding/default/qa_engineer/workflows/README.md` | PACKAGE | `bdfff276f26b6a23a5e7175cbd27d3d8efe137fbbc11c7c1374688a2924c7bb6` |
-| `agent_onboarding/default/researcher/AGENTS.MD` | PACKAGE | `893eab49dfca500ebd654cf42ffdb179562df7058c3202cc9991321e150b87eb` |
+| `agent_onboarding/default/researcher/AGENTS.MD` | PACKAGE | `3619fc2d429c4be6fb743bc09f54f0b7c8c6c09ebd02b17e0fe05efc6b498fff` |
 | `agent_onboarding/default/researcher/behavioral_guidelines/researcher_workflow.md` | PACKAGE | `07747b1ed98454913258b51571af4816512e1e959594cfae9dc82a53a5262d32` |
 | `agent_onboarding/default/researcher/examples/researcher_task_flow.md` | PACKAGE | `e958c629d9ea762a11934c554787947cd0fb3cf7632b4ab671e28c15bc91c57b` |
 | `agent_onboarding/default/researcher/policies/researcher_handoff_policy.md` | PACKAGE | `7b90bb737845a9a060f2dbc0150e387729aaed653c4647c80330770471665fd1` |
 | `agent_onboarding/default/researcher/policies/researcher_quality_policy.md` | PACKAGE | `a5ef981441142723c63ce280c8c884c02edd0d07640c8b6e222e937676dedc03` |
 | `agent_onboarding/default/researcher/README.md` | PACKAGE | `5cbb8839916e363aba95b2b5e7c7fef0c9287948cafccbbdec1472150ec3ab92` |
-| `agent_onboarding/default/researcher/SKILLS.MD` | PACKAGE | `b38f67dd00ab8a5106f5293bdf472dc51afefe91848fb5152679b9b5bc2bfd42` |
+| `agent_onboarding/default/researcher/SKILLS.MD` | PACKAGE | `2bc930b3003b5bd3bfd7c43e30c53717559cdfff14bf7c444b8f67325cb45ef0` |
 | `agent_onboarding/default/researcher/skills/researcher.md` | PACKAGE | `c799a6d9313515eba81264cbe6b7909beb30604a8fb748188e8f30cebb8d56ec` |
 | `agent_onboarding/default/researcher/skills/researcher_advanced_context.md` | PACKAGE | `e7d0e0fea22b975b42982b5e9fd4d5f6c266ab797c3d6e5ef037a08fd256ceb0` |
 | `agent_onboarding/default/researcher/skills/researcher_deliverables.md` | PACKAGE | `b651e2ed12e10a085da387965ae280278c1cf4858224435c5ba9a085ab0fa66b` |
 | `agent_onboarding/default/researcher/skills/researcher_execution.md` | PACKAGE | `1812056333000e0933ebaea1048feb5cd7211625c17ea531c103106bf05f4c01` |
 | `agent_onboarding/default/researcher/WORKFLOWS.MD` | PACKAGE | `46dafe34c3590370a675567e64c88b42509a7e2e0a84c6d1fd364df6123aedaf` |
 | `agent_onboarding/default/researcher/workflows/README.md` | PACKAGE | `4b53b5840ee854b0810c552dc5039562f5691b9d9aaf6216443d1585b10aa00c` |
-| `agent_onboarding/default/security_engineer/AGENTS.MD` | PACKAGE | `88d683a97137b2c8c59e3835e6801b9ade14b2dbd22378619e56271234a41262` |
+| `agent_onboarding/default/security_engineer/AGENTS.MD` | PACKAGE | `745c3a1d06ea310c61daec44b848247dcfb761e8c297f6073ab2e96452f34f29` |
 | `agent_onboarding/default/security_engineer/behavioral_guidelines/security_signoff_and_escalation.md` | PACKAGE | `f40a2dee20737f018cd86209cf9f698e3e71e1d77f6271340ac6d8d6c513bb87` |
 | `agent_onboarding/default/security_engineer/behavioral_guidelines/security_workflow.md` | PACKAGE | `0d870a0e7414ab17a564c3386f654c7cee44fec5558461dee776d43e22d3e56e` |
 | `agent_onboarding/default/security_engineer/examples/security_review_flow.md` | PACKAGE | `6380164c8bf08a2a558206ccf4a65110ab7b0a3cec20ed85dd030e5d258ed5a5` |
@@ -730,33 +733,33 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/security_engineer/skills/vulnerability_management.md` | PACKAGE | `8dae2132d469443208fbf09f2595a2224aee5539b95b96c1fb6a45894344ff48` |
 | `agent_onboarding/default/security_engineer/WORKFLOWS.MD` | PACKAGE | `7a8a34024e4d95cd978a27d6242393b9d57ace79481b59db5ef7c0d424a0c2c1` |
 | `agent_onboarding/default/security_engineer/workflows/README.md` | PACKAGE | `cf4cdc81425ac344eb922514406f6edde88019e22b0017b8d8b86b7b73e5981f` |
-| `agent_onboarding/default/story_designer/AGENTS.MD` | PACKAGE | `d9f6a0e0f5d8d169938435d8662d665300a290fa6c3675caeb34724befde8321` |
+| `agent_onboarding/default/story_designer/AGENTS.MD` | PACKAGE | `4bab1bf5dd777879f189f6c7d4793bc31049eecc7d81524f9a768acb21f79260` |
 | `agent_onboarding/default/story_designer/behavioral_guidelines/story_designer_workflow.md` | PACKAGE | `93246188fb4109b893d6ed20717991e0baabbccab43c4233cb4c6fae727741d7` |
 | `agent_onboarding/default/story_designer/examples/story_designer_task_flow.md` | PACKAGE | `144a8f1139a98745b211d2eab4d02a2a27101f7010dd1e8e2aa58b2f2486bbeb` |
 | `agent_onboarding/default/story_designer/policies/story_designer_handoff_policy.md` | PACKAGE | `887139dde12dee54c1d0da3e25facb2ca8081e39b58b4c1b95086c53efccb3e7` |
 | `agent_onboarding/default/story_designer/policies/story_designer_quality_policy.md` | PACKAGE | `56df96d22229c3d2c67db449d09c29e55bbf47dd78e46784c0913ee3e11e81fd` |
 | `agent_onboarding/default/story_designer/README.md` | PACKAGE | `e6921703ee2ea8901ba9f123dd026fdef6bc2eac6299a2f9da1cef1592ee07f7` |
-| `agent_onboarding/default/story_designer/SKILLS.MD` | PACKAGE | `a573c149baff94997885134f31cf23a2a51113ef082f29b5113dc40994ebbeb7` |
+| `agent_onboarding/default/story_designer/SKILLS.MD` | PACKAGE | `447b3c3962a982876ff53f08c729018e77312dcf4bdec23a1c352eb07499fc43` |
 | `agent_onboarding/default/story_designer/skills/story_designer.md` | PACKAGE | `c33f01f532c0637ec7dfe00900d1426aabe1afe9b01ab54efe0e680825e8f209` |
 | `agent_onboarding/default/story_designer/skills/story_designer_advanced_context.md` | PACKAGE | `1bb9d65bbbb7eade583d41be5740884005c36e3ca64ccaac1a138616b84ee3b0` |
 | `agent_onboarding/default/story_designer/skills/story_designer_deliverables.md` | PACKAGE | `343b6572d1678e7bf68f9bc40be226f486bd0c94957c5ceca63ec631e4f5e479` |
 | `agent_onboarding/default/story_designer/skills/story_designer_execution.md` | PACKAGE | `b779766d04bbb1b693f44864f37d47f725e788d3ccae0f3fda989c61c2328d41` |
 | `agent_onboarding/default/story_designer/WORKFLOWS.MD` | PACKAGE | `f626b062b549454fb7413b4c350d7817f1fa3fa090a623f13864c7b0291bf81b` |
 | `agent_onboarding/default/story_designer/workflows/README.md` | PACKAGE | `85bd14b460e935ccd8953ad74728ed23d5474736e20fbf8c1a90efa289c72152` |
-| `agent_onboarding/default/story_novel_artist/AGENTS.MD` | PACKAGE | `9b7022d4396c0c45d57482ec30d7b2bb9cc01524369e6556b6c4f55c374fe7ed` |
+| `agent_onboarding/default/story_novel_artist/AGENTS.MD` | PACKAGE | `cdd9d7f1f1cf3d4c5475d486d1a1aa6fce5c5b397ea2ada9cb700318776b48cd` |
 | `agent_onboarding/default/story_novel_artist/behavioral_guidelines/story_novel_artist_workflow.md` | PACKAGE | `76080faee8843a1e465602c86ab6b627b82fdc60fe462ceae4fca2fab1c29050` |
 | `agent_onboarding/default/story_novel_artist/examples/story_novel_artist_task_flow.md` | PACKAGE | `88861ce7b39837202b59acee5b2e038aadc61829f59ead2d3f1b8f8a18c11145` |
 | `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_handoff_policy.md` | PACKAGE | `450099e3358b0dfb810f9f8e9b4b12c072b0f6b5744120e7e70fe05768169ab7` |
 | `agent_onboarding/default/story_novel_artist/policies/story_novel_artist_quality_policy.md` | PACKAGE | `66d96093d70f692de4e7aef5f24f435097d16e0cc743be0402d9ffcd9bd45ec0` |
 | `agent_onboarding/default/story_novel_artist/README.md` | PACKAGE | `4c71f90c6f69164e9d0daed6f87588e24946b0ca2dd8e9e439d8a1fa82775ee4` |
-| `agent_onboarding/default/story_novel_artist/SKILLS.MD` | PACKAGE | `20f98b7833d8ee6a9350b5c2f8738b2184920bd2d108a1f0faa88e7d66716305` |
+| `agent_onboarding/default/story_novel_artist/SKILLS.MD` | PACKAGE | `662877eff9f3aafa7e2b54230e1c600f670c7e1455db5c57d6deab9a1b971354` |
 | `agent_onboarding/default/story_novel_artist/skills/story_novel_artist.md` | PACKAGE | `e7adc70dad2cf22479f10751287f733e8ca4902f23791a507e4585ab6aaefb6a` |
 | `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_advanced_context.md` | PACKAGE | `8d74072888a3b9c6ea7fe7c9941c56d0017a2e698204655bef82156e5acc98f9` |
 | `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_deliverables.md` | PACKAGE | `ccfbd0413d71acfccba2585c5337a93033620a2461360f1dae1fc845f4566c04` |
 | `agent_onboarding/default/story_novel_artist/skills/story_novel_artist_execution.md` | PACKAGE | `d02e835532e4b8b2eec1bfee31d7898181884d382f981eeab8ab3474d3e5c81a` |
 | `agent_onboarding/default/story_novel_artist/WORKFLOWS.MD` | PACKAGE | `b307564323e9471b563107cdedc1d06d0edc176c0255bb7844f5cb52615fb4d9` |
 | `agent_onboarding/default/story_novel_artist/workflows/README.md` | PACKAGE | `174c5858d8b17f885fc26e97c168f3d01a126730c2ac8d3048209a58995fd4aa` |
-| `agent_onboarding/user_defined/data_engineer/AGENTS.MD` | INSTANCE | `881b9b081167768f95e1a4f0f32ddbdf4261248de0e65a468992a2099a7162e2` |
+| `agent_onboarding/user_defined/data_engineer/AGENTS.MD` | INSTANCE | `946dfd9236b6de218ba152e28faf919d82fdc5d8b79d97edd91818f3c0a9cc23` |
 | `agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md` | INSTANCE | `524c2ec3c704055fd0e0cfcfa98ec95181757527a0722bf0ddd24446ec968e8b` |
 | `agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md` | INSTANCE | `fe346b6370551ed5e32f0a2520389c8ab2dbc61d38661cd9170c7b5c6074be2c` |
 | `agent_onboarding/user_defined/data_engineer/profile_overrides.md` | INSTANCE | `018813ebe40bb314127bec705eec75fb90aeab5bad2042af8d0396ea9e968a52` |
@@ -764,7 +767,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/data_engineer/skills/data_engineer_skill_overrides.md` | INSTANCE | `1b458126851997a49f2f4bc62cd813f624c1911104c2650f3841a6b2da1fc602` |
 | `agent_onboarding/user_defined/data_engineer/WORKFLOWS.MD` | INSTANCE | `0fd481184dec1d736ce619b5c6f2acc624ae893adfb9d076b59d2a67df64f942` |
 | `agent_onboarding/user_defined/data_engineer/workflows/README.md` | INSTANCE | `86484f277779c30f535a20447fa0c9d9a8b6d05d19a2e7116c56787b6c6339a4` |
-| `agent_onboarding/user_defined/synaptic_finishing_developer/AGENTS.MD` | INSTANCE | `aa97e99e620ad3fedfb97bd87ab3c47ce779f1191637472df71a5d6aa70f963b` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/AGENTS.MD` | INSTANCE | `2dbdd2ab10ccef0e19f9dbea87e7eb2ec3fefa037359307486533c74cb9f4ec6` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/behavioral_guidelines/synaptic_finishing_developer_behavior_overrides.md` | INSTANCE | `b93a51885269b07cb84ba41112d5f25524cfc15faa749df43616f6a163a36224` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/comment_finishing_examples.py` | INSTANCE | `6ee46c422e31f9b1a57f25976576dedf65b4ecfcd969b0127e0e63c0c5dc8515` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/docstring_finishing_examples.py` | INSTANCE | `6b2e67dffd8090a4c8345ffe9e748d88faa585c97cc1c5994e8c96f63a3a1bd7` |
@@ -790,7 +793,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/optimize_pytests_for_repo.md` | INSTANCE | `024752e7f68a9633ed86fadd8e581a2f8cac6d8a43ae7a9ee7b9fc8d1a5a18bc` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/polish_repo_documentation.md` | INSTANCE | `e17904e62cdb4f5cae1b5e7cad2fa620c86da9d499e7367e2340659309cfe299` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/README.md` | INSTANCE | `f495bfbc15c5f9275be4bba33d9131147ad733e221814bdc6694717c9c42a7be` |
-| `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD` | INSTANCE | `dafdf5ebb5d0bdb2b0b0ef7afcb6896a74657235dc8c4237788f9e708bb15d86` |
+| `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD` | INSTANCE | `3aa0c7eab362b5d8b8fca6a13329a5dfddb0ecc27868fbbf00247e252b84e1a0` |
 | `agent_onboarding/user_defined/synaptic_python_developer/behavioral_guidelines/synaptic_behavior_overrides.md` | INSTANCE | `d6134d69d3894c4da5dfcc59ffbdc40aa16dcfe6217a64095eb7490dafb0fd85` |
 | `agent_onboarding/user_defined/synaptic_python_developer/examples/python/anti_patterns.py` | INSTANCE | `26caf71884cb238e652c44206d4b44da51dd1386df9ac79ca1302db4b1958b5b` |
 | `agent_onboarding/user_defined/synaptic_python_developer/examples/python/cleanup_patterns.py` | INSTANCE | `20f77dbd1c6bdafc83d7f9f5a2796c58465714737961a2a9b9b71431ff95ed33` |
@@ -881,9 +884,9 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `examples/story_designer_task_flow.md` | PACKAGE | `75def243d169840f744772b92088ee5547f7f683f54e7f09c3bf684faa63f864` |
 | `examples/story_novel_artist_task_flow.md` | PACKAGE | `7c1d156952c223002f13573f81765e543a284ce97ba4f8cfeb0cdc20fb10ccd1` |
 | `mailbox_board.md` | LIVE | `ccb1835399a088013593db8637cbda8e16341a79b3c998e941c7b10d06403407` |
-| `PROFILE_CLASS_CREATION_GUIDE.md` | PACKAGE | `1dba8a9735ed8e88ab6102c5136954461f4c344cf03f6a6279c3bbd12c9c5dbd` |
-| `README.md` | PACKAGE | `d3db2c916d2975c79a83f35e8f05208b473268b673f18469a7204b100299674c` |
-| `SKILLS.MD` | PACKAGE | `96f80a6a1b9056917bc23d9ef1b5961f6cda879d3bb7cda1ae1a701ce48ad9f7` |
+| `PROFILE_CLASS_CREATION_GUIDE.md` | PACKAGE | `d1fe634a3cf3b2acd6cc4c35cb937fc1a9af18e9c1f66f6cf40e122b3473ec0a` |
+| `README.md` | PACKAGE | `1621c395af61cddc3c1f5bb476b82e73fc0312cca12fb439fdce06816219f282` |
+| `SKILLS.MD` | PACKAGE | `c95bcc044f9ea593e7a6992bcb7ad2f2bf796b05c782dba9e098dde9524a5bb3` |
 | `special_instructions/README.md` | RESET | `8625a6b64e1610c3fb4094dfcef7a23c0ac67a8a4d6867c51fa133e4b629bad8` |
 | `system_docs/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
 | `system_docs/patches/active/README.md` | RESET | `f0d1e1f0716475bb4e14ad38ae0f8fbb2dcd5a4b4c00d3e366bb38d961dc383b` |
@@ -1088,11 +1091,33 @@ context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
 ```
 
 SKILLS.MD rules:
-- one relative path per line
-- no empty lines
+- one relative path per line, as a backticked list item
 - inheritance header required for inheriting profiles:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
 - no duplicated parent paths from inherited `SKILLS.MD`
+
+**Group your paths under sections, and the section is what classifies them.**
+This is the part that is easy to miss, because the entry form is identical either
+way — a path is baseline or on-demand purely by the heading it sits under:
+
+- **Baseline sections** are read for onboarding and certification. Name them for
+  what they hold: `Active skills`, `Required baseline skills`, or something the
+  role actually needs, such as `engineer`'s `Baseline system orientation`.
+- **`On-demand`** is the one reserved name. A section marked on-demand is read
+  only when its trigger fires. State the trigger.
+
+A path in no section at all is ambiguous, and the enforcement rules treat anything
+not marked on-demand as baseline — so an ungrouped path becomes a mandatory read
+by default. That is the safe direction, but it is not the one you meant, so put
+every path under a heading.
+
+Your role may add a baseline section the parent chain does not have. Say so in the
+role's own `Skill classes` block, and say that the inherited chain contributes its
+own baseline sections too — a role file that describes only what it adds reads as
+the complete list and is how a class goes missing.
+
+Full dialect, including why there is only one entry form:
+`context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
 
 Workflow rules:
 - actual workflow definitions should live in role-local `workflows/`
@@ -1459,10 +1484,17 @@ The agent starts from the runtime entrypoint:
 `SKILLS.MD` chain with parent-first inheritance, walked via the
 `INHERITS_SKILLS_FROM` header in each file.
 
-Each role declares:
+Each role declares its skills in sections, and the section is what classifies the
+paths under it:
 
-- required baseline skills (must read),
-- and on-demand skills (read when trigger conditions apply).
+- **baseline sections** (must read for certification). A role may have more than
+  one and names them for what they hold — `engineer` carries both
+  `Required baseline skills` and a `Baseline system orientation` set.
+- **`On-demand`** (read when the trigger applies).
+
+The rule is *read every section not marked on-demand*, not *match a list of
+heading names*, so a role can add a baseline section without every policy file in
+the package needing an edit to notice it.
 
 ### 3) Certification Gate
 
@@ -1668,9 +1700,11 @@ Unregistered overlays
      may add another. Match on the baseline label, never on a fixed list of
      headings; a section you fail to recognise is still mandatory.
    - **On-demand** skills are conditional. Do NOT read them for certification
-     unless a trigger condition is met.
-   - When an on-demand trigger is met, those paths become mandatory and MUST be
-     read before proceeding in that scope.
+     unless a trigger condition is met. When the trigger is met, those paths
+     become mandatory and MUST be read before proceeding in that scope.
+   - **Self-directed** skills are also outside certification, but they carry no
+     trigger. Read them on your own initiative whenever the work needs them.
+     Waiting for permission there is the failure the state exists to prevent.
 
 ## Format contract for role `SKILLS.MD` files
 
@@ -1684,6 +1718,37 @@ identical; the section heading a path sits under is what classifies it. Do not
 prefix on-demand entries with `Read:` or any other marker — a second form means
 a second parser, and the parser written for the first one silently returns an
 empty on-demand readset instead of failing.
+
+**There are three read states, not two, and the section a path sits under
+declares which one applies.** Roles name their sections to suit what they hold, so
+match on the STATE, never on a list of headings:
+
+| state | required for certification? | when it is read |
+| --- | --- | --- |
+| **baseline** | yes | at onboarding, every time |
+| **On-demand** | no | only when the section's stated trigger fires |
+| **Self-directed** | no | at the agent's own initiative, no trigger, no permission |
+
+Baseline sections are named for what they hold — `general` uses **Active skills**,
+`engineer` uses both **Required baseline skills** and **Baseline system
+orientation**. A role may introduce another; it is still baseline.
+
+**On-demand and Self-directed are both outside certification, and they are not the
+same thing.** On-demand is gated: the section states a trigger, and reading before
+it fires teaches a procedure with nothing to apply it to — `general`'s
+`llm_full_usage.md` is the model, useless on an install with no `llm_full.md`.
+Self-directed is the opposite failure being guarded against: the document is
+relevant *now*, you hold its index, and there is nothing to wait for. `engineer`'s
+system-document reading is Self-directed for exactly that reason.
+
+Collapsing the two is not cosmetic. It shipped: `engineer` labelled its
+self-directed reads "On-demand" while `general` defined that label as trigger-gated
+with false-attestation language, and an agent resolving both found no trigger had
+fired, read zero system documents, and defended the choice with sound reasoning
+from the document it was handed. Two definitions, one word, no override marker.
+
+So: classify by state, leave the heading free, and never label a self-directed
+section On-demand to mean "optional". Optional is not one of the three.
 
 Bare (unbackticked) paths are not valid, and a backticked path must be a list
 item. A path indented under a sentence is prose, not an entry, and a parser will
@@ -1721,8 +1786,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -1825,14 +1893,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -2137,8 +2208,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -5114,8 +5188,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -5216,14 +5293,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -5524,8 +5604,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -5628,14 +5711,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -5941,8 +6027,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   **Required baseline skills**, **Baseline system orientation**, and the parent's
   **Active skills**. Match on the baseline label, not on a fixed list of headings -
   a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Document Purpose
@@ -6020,9 +6109,12 @@ Before acting on anything **outside the explicitly agreed architectural plan**, 
   - `src_architecture.md` plus `src_architecture_index.md` and
     `src_components_index.md` are **baseline** - the narrative and the two maps.
     Read them at onboarding when they exist.
-  - Everything else in `system_docs/` is **on-demand, and on demand means
-    agent-driven or user-driven.** You raise the demand yourself, as often as the
-    work needs it. There is no permission step and no trigger list to satisfy first.
+  - Everything else in `system_docs/` is **Self-directed: agent-driven or
+    user-driven.** You raise the demand yourself, as often as the work needs it.
+    There is no permission step and no trigger list to satisfy first - which is
+    exactly why it is NOT labelled On-demand. On-demand is the trigger-gated state;
+    reading "no trigger fired" off these documents is how an agent ends up never
+    opening them.
   - Read them **by slice through their index**, keyed on a name you already hold.
     `src_components.md` and `src_graph.md` are never read whole.
   - Do NOT force-read system_docs as a box-check when the task does not trigger
@@ -6453,7 +6545,10 @@ Engineer inventory
 Architecture docs ownership
 - Architecture/components instruction mechanics are owned by:
   `agent_onboarding/default/design_engineer/skills/`.
-- Engineer reads `system_docs/*` on-demand when task scope requires architecture/components/tests claims.
+- Engineer reads `system_docs/src_architecture.md` and the architecture and component
+  indexes at onboarding (baseline). The rest of `system_docs/*` is Self-directed:
+  sliced on the engineer's own initiative whenever the work needs it, with no trigger
+  to wait for and no permission to request.
 
 User-defined overlay boundary
 - Preference-heavy Python/testing/library-style rules are routed through:
@@ -6486,11 +6581,18 @@ Skill classes (non-negotiable)
 - This role defines three classes of skills:
   A) **Required baseline skills** (always required for onboarding/certification)
   B) **Baseline system orientation** (required at onboarding when the files exist)
-  C) **On-demand system reading** - every other system document. On demand means
-     **agent-driven OR user-driven**, and agent-driven is the ordinary case.
+  C) **Self-directed system reading** - every other system document. Not baseline,
+     not trigger-gated: **agent-driven OR user-driven**, and agent-driven is the
+     ordinary case.
 
-What "on demand" means here (read this before you interpret it)
-- On demand does NOT mean "wait to be told". It means the read happens when somebody
+Why this is called Self-directed and not On-demand (read this before you interpret it)
+- **`On-demand` is a different state and it is reserved.** In this package On-demand
+  means a section states a trigger and you wait for it - `general`'s
+  `llm_full_usage.md` is the model. **Nothing in class C has a trigger.** The label
+  was wrong here, it collided with the parent's definition, and an agent resolving
+  both correctly concluded no trigger had fired and read zero system documents. Full
+  reasoning: `context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
+- Self-directed does NOT mean "wait to be told". It means the read happens when somebody
   needs it, and **you are somebody**. You raise the demand as often as the user does,
   and more often in practice, because you are the one who notices the gap.
 - There is no permission step. There is no trigger list you must match first. If you
@@ -6509,8 +6611,9 @@ Rules
   to be considered onboarded/certifiable as `engineer`.
 - You MUST read every file under **Baseline system orientation** that exists in this
   repository. A missing one is skipped, not blocked on - a fresh install has none.
-- Everything else under `system_docs/` is on-demand in the sense defined above:
-  yours to reach for, unprompted, whenever the work needs it.
+- Everything else under `system_docs/` is **Self-directed** in the sense defined
+  above: yours to reach for, unprompted, whenever the work needs it. It is not
+  baseline and it is not trigger-gated.
 - You MUST NOT claim you read a document you only sliced. Say which sections.
 - Large documents are read **by slice through their index**, never whole. That is a
   rule about HOW, not WHETHER.
@@ -6567,8 +6670,8 @@ them you can name a component and slice its 40 lines; without them your only opt
 are to read 8,400 lines or to guess. Onboarding with the maps and without the
 territory is the entire point.
 
-Nothing else is baseline. Everything else under `system_docs/` is on-demand, and
-on-demand means yours to reach for. See below.
+Nothing else is baseline. Everything else under `system_docs/` is Self-directed,
+which means yours to reach for without waiting for anything. See below.
 
 The understanding hierarchy (do not sprawl)
 These documents are not four separate references you consult in parallel. They are
@@ -6622,7 +6725,7 @@ right shape is: **descend the hierarchy to find the code, then read the code, th
 change it** - and if what you found contradicts the document that sent you there,
 that contradiction is itself a finding worth recording.
 
-On-demand system reading - agent-driven or user-driven
+Self-directed system reading - agent-driven or user-driven
 Every system document that is not one of the four above, including any this role
 does not name:
 - `system_docs/src_components.md` - via `src_components_index.md`, sliced
@@ -6820,8 +6923,8 @@ Context
   and entrypoint resolves on a case-sensitive filesystem.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
-Scratch capture (workspace)
-- Path: `workspace/agent/ideas/context_compass_control_file_casing.md`
+Scratch capture (`user_defined/`, the lane no tool writes to)
+- Path: `user_defined/ideas/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
@@ -6845,7 +6948,7 @@ Scratch capture (workspace)
   agree on one casing.
 ```
 
-- Path: `workspace/agent/todo/context_compass_control_file_casing.md`
+- Path: `user_defined/todo/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
@@ -6991,7 +7094,7 @@ References
 
 
 
-# ctx_autonomy_policy
+# ctx_autonomy_rubric
 
 Purpose
 - Define how agents rank ctx quality across file, dir, component, and architecture layers.
@@ -7402,7 +7505,11 @@ Core rules
 - Follow repository SQL rules in `AGENTS.MD` when touching SQL tools.
 - Update docstrings for every touched function/class and add tests for
   behavioral changes.
-- Keep scratch ideas and todos in `workspace/agent/`.
+- Keep scratch ideas and todos under `user_defined/`. That directory exists, is
+  yours outright, and no tool writes to it in any mode - create whatever subfolders
+  you need. Earlier revisions of this skill named `workspace/agent/`, which the
+  package has never shipped and which no lane policy protects, so scratch written
+  there was swept on the next cleanup.
 - Promote durable plans and execution artifacts into `tickets/epics/`,
   `tickets/stories/`, `tickets/tasks/`, and their completed folders.
 
@@ -7420,7 +7527,7 @@ Preferred workflow
 8) Summarize changes and list follow-ups.
 
 Artifact discipline (engineer)
-- Ideas/opinions/todo: `workspace/agent/` only.
+- Ideas/opinions/todo: `user_defined/` only.
 - Plans and scope control: use `templates/` and create tickets in
   `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`.
 - For system-impacting changes under patch framework:
@@ -8765,16 +8872,17 @@ Core references
   6. the code itself - the only authoritative account of current behaviour
 
   Steps 1 and 2 are **baseline** - the narrative and the two indexes, read at
-  onboarding when they exist. Everything below them is **on-demand, and on demand
-  means agent-driven**: you slice it yourself, unprompted, whenever the work needs
-  it. No trigger list, no permission step. Authority for both halves is
+  onboarding when they exist. Everything below them is **Self-directed**: you slice
+  it yourself, unprompted, whenever the work needs it. No trigger list, no
+  permission step - which is why it is not called On-demand, a state that does have
+  a trigger and does mean wait. Authority for both halves is
   `agent_onboarding/default/engineer/SKILLS.MD`.
 - Graph workflow context: `agent_onboarding/default/engineer/skills/src_graph_usage.md`
 - Test architecture context: `system_docs/tests_architecture.md`
 - Test components context: `system_docs/tests_components.md`
   (the tests pair describes the suite; it is not step 7 of the chain above, and it
-  is on-demand - read it when the work concerns the suite, not because you were
-  already reading the src pair)
+  is Self-directed - read it when the work concerns the suite, not because you were
+  already reading the src pair, and not because something gave you permission)
 - Active patch docs (when patch lane is active):
   `system_docs/patches/active/<patch_id>/`
 - Repo examples: `examples/` (within context_compass)
@@ -8784,11 +8892,12 @@ Artifact taxonomy (curated vs scratch)
   - `attention_board.md` (canonical routing state for active work)
   - `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`
   - `tickets/epics/completed/`, `tickets/stories/completed/`, `tickets/tasks/completed/` (closed tickets)
-  - `completed/` (historical archive)
 - Scratch, agent-owned (not canonical):
-  - `workspace/agent/ideas/`
-  - `workspace/agent/opinions/`
-  - `workspace/agent/todo/`
+  - `user_defined/` - yours outright, never written to by any tool, create the
+    subfolders you want (for example `user_defined/ideas/`, `user_defined/todo/`)
+  - There is no top-level `completed/` and no `workspace/` lane. Both were named in
+    earlier revisions of this skill and neither has ever shipped; closed tickets
+    live in the three `tickets/*/completed/` lanes listed above.
 - Promotion rule: when content becomes durable or actionable, convert it into tickets.
 
 Suggested user-facing explanation flow
@@ -8885,8 +8994,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## Document Intent
@@ -9047,8 +9159,19 @@ As a ritual, after implementing a change:
 * Treat `agent_onboarding/default/general/skills/compaction_requirements.md` as the mandatory re-entry checklist.
 * Ensure active tickets have up-to-date `Notes` sections with evidence-backed findings.
 * Ensure active tickets have up-to-date \"Context / Handoff Summary\" sections.
-* After context compaction or a fresh session, re-read
-  `agent_onboarding/default/new/skills/first_time_profile_setup.md`.
+* After context compaction or a fresh session, re-onboard per
+  `agent_onboarding/default/general/skills/compaction_requirements.md` and read the
+  baseline sections of your own resolved `SKILLS.MD` chain. **Do not read another
+  role's documents.**
+  - This line previously ordered every role to re-read
+    `agent_onboarding/default/new/skills/first_time_profile_setup.md`. That is a
+    `new`-role document, `new` is entry-only and never a steady-state role, and the
+    path appears in no readset but `new`'s - so the order was both unreachable from
+    the routing manifest and contradicted by `compaction_requirements.md`, which
+    requires non-`new` re-entry to use skills and policy docs.
+  - It applies only when `new` is the active role AND
+    `profiles.onboarding.first_time_enabled` is `true` in
+    `config/context_compass_config.yaml`.
 
 ## Stop Conditions (Ask Before Proceeding)
 
@@ -9230,6 +9353,14 @@ Active skills
 - `artifact_board.md`
 - `agent_onboarding/default/general/skills/context_management.md`
 - `context_management/context_board.md`
+
+Note on the three board paths above. `attention_board.md`, `artifact_board.md` and
+`context_management/context_board.md` are baseline reads, but they are **live
+mutable state, not policy**. You open them to learn what is happening right now, not
+to learn a rule. They therefore satisfy `READ_INTEGRITY_PROOF` by naming current
+state rather than a rule callout - see the live-state clause in
+`agent_onboarding/default/general/skills/compaction_requirements.md`. Do not invent
+a rule to quote from a routing table.
 - `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md`
 - `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md`
 - `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md`
@@ -9237,6 +9368,12 @@ Active skills
 On-demand skills
 Read only when the trigger is met. Not part of the baseline, and claiming one
 was read without meeting its trigger is a false attestation.
+
+**This applies to sections labelled `On-demand`, which is the trigger-gated state.
+It is not a rule about everything outside baseline.** A `Self-directed` section is
+also outside baseline but has no trigger and needs no permission - waiting for one
+there is the failure, not the discipline. `engineer` carries such a section for its
+system documents. Three states, defined in `context_compass/SKILLS.MD`.
 
 - `agent_onboarding/default/general/skills/llm_full_usage.md`
   - Trigger: `llm_full.md` exists at the repository root and you are about to
@@ -9300,7 +9437,7 @@ Policy and routing authority remain in entrypoint, config, and `SKILLS.MD` chain
 
 
 
-# agent_lifecycle
+# agent_lifecycle_and_heartbeat
 
 Purpose
 - Define the session lifecycle and handoff habits for this repo.
@@ -9478,6 +9615,8 @@ Required flow
   **Baseline system orientation** - so match on the baseline label rather than on
   a fixed list of names.
   - On-demand skills are required only when the task triggers them.
+  - Self-directed skills carry no trigger: read them at your own initiative when
+    the work needs them. They are outside certification but not gated.
 - After any compaction/handoff re-entry, complete the same full readset before
   any non-onboarding action.
 - Read
@@ -10023,7 +10162,10 @@ Run this sequence exactly once per trigger event.
      the wrong place to skip it. See
      `agent_onboarding/default/general/skills/context_compaction.md`.
    - On-demand skills are NOT required unless triggered by the active task.
-   - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
+     If triggered, they become mandatory and MUST be read before proceeding.
+   - Self-directed skills are NOT required at re-entry either, but they have no
+     trigger to wait for. Read them during the work, on your own initiative. Do
+     not report "no trigger fired" for a Self-directed section - none exists.
 6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
 7) Publish the mandatory REONBOARD attestation (below).
 8) Request certification and wait for a message that includes:
@@ -10057,6 +10199,20 @@ READ_INTEGRITY_PROOF (requirements)
     (b) what it changes in your behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
   - Do NOT reuse the same callout across multiple docs; each callout must be doc-specific.
+- **Live-state entries prove differently, because they carry no rules.** Some baseline
+  entries are mutable state, not policy: `attention_board.md`, `artifact_board.md`,
+  and `context_management/context_board.md`. A routing table has no
+  rule/constraint to call out, so the requirement above cannot be met for them and
+  demanding it produces invented rules - the exact confabulation this proof exists
+  to catch.
+  - For those three, prove **current state** instead: name the active row or entry
+    you routed from (or state that the board is empty), and the one action it sets
+    up next. Same one-line-per-document shape, same specificity bar.
+  - Example: `attention_board.md: active row -> tickets/tasks/2026-08-01_x_task.md,
+    mode=implementation, next=finish the parser -> I resume there rather than
+    re-planning.`
+  - This substitution applies ONLY to those three paths. Every other baseline
+    document owes a rule callout.
 - If the proof would be too long, you MUST ask the user for permission to compress/group it.
   - Do not unilaterally shorten the proof as a convenience.
 
@@ -11328,8 +11484,10 @@ Purpose
 
 Non-negotiable rules
 - Never store secrets anywhere in the repo, including `agent_onboarding/`, `tickets/epics/`,
-  `tickets/stories/`, `tickets/tasks/`, `tickets/epics/completed/`, `tickets/stories/completed/`, `tickets/tasks/completed/`,
-  `completed/`, and `artifacts/`.
+  `tickets/stories/`, `tickets/tasks/`, `tickets/epics/completed/`, `tickets/stories/completed/`,
+  `tickets/tasks/completed/`, `artifacts/`, `user_defined/`, and `system_docs/`.
+- The list above is illustrative, not exhaustive. **No path in this repository is a
+  permitted location for a secret**, including one this list does not name.
 - Never write secrets into tickets, docs, or logs.
 - Never commit secrets, even temporarily, even in test data.
 - If a user requests storing secrets in-repo, refuse and ask for a safe alternative.
@@ -12769,8 +12927,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -12871,14 +13032,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -13180,8 +13344,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -13645,6 +13812,8 @@ References
   **Baseline system orientation** - and a role may add another. Match on the
   baseline label, not on a fixed list of headings.
 - On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
+- Self-directed skills are NOT part of baseline certification either, and they have
+  no trigger. Read them at your own initiative when the work needs them.
 - After any compaction/handoff, assume chat memory is unreliable:
   - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
   - You MUST NOT claim you "retained" this document; re-open it instead.
@@ -13949,8 +14118,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -14538,8 +14710,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -14640,14 +14815,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -14949,8 +15127,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -15520,8 +15701,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -15626,14 +15810,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -15941,8 +16128,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -16503,8 +16693,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -16611,14 +16804,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -16928,8 +17124,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose
@@ -17036,14 +17235,17 @@ Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/general/SKILLS.MD`
 
 Skill classes (non-negotiable)
-- This role ADDS two classes of its own (the inherited parent chain contributes
-  its own baseline sections, which are mandatory for this role too - read every
-  section any file in the chain marks as baseline, not just the two below):
+- This role ADDS two classes of its own:
   A) Required baseline skills (always required for onboarding/certification)
   B) On-demand role-context skills (required only when the active task triggers them)
+- It also INHERITS the parent chain's classes. `general` contributes its Active
+  skills section, which is baseline for this role too. This section describes what
+  this file adds; it is not the complete list of what you must read.
 
 Rules
-- You MUST read all paths listed under Required baseline skills for this role to be considered onboarded/certifiable.
+- You MUST read all paths listed under Required baseline skills for this role to be
+  considered onboarded/certifiable, plus every baseline section in the inherited
+  chain.
 - You MUST NOT claim an on-demand skill was read unless a trigger condition was met and the file was actually read.
 - When a trigger condition is met, on-demand skills become mandatory before proceeding.
 
@@ -17353,8 +17555,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Document Intent
@@ -17521,8 +17726,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Document Intent
@@ -19330,8 +19538,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 No policy negotiation

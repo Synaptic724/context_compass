@@ -51,6 +51,8 @@ Required flow
   **Baseline system orientation** - so match on the baseline label rather than on
   a fixed list of names.
   - On-demand skills are required only when the task triggers them.
+  - Self-directed skills carry no trigger: read them at your own initiative when
+    the work needs them. They are outside certification but not gated.
 - After any compaction/handoff re-entry, complete the same full readset before
   any non-onboarding action.
 - Read

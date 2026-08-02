@@ -1,6 +1,6 @@
 
 
-# agent_lifecycle
+# agent_lifecycle_and_heartbeat
 
 Purpose
 - Define the session lifecycle and handoff habits for this repo.

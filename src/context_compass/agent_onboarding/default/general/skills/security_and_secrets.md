@@ -9,8 +9,10 @@ Purpose
 
 Non-negotiable rules
 - Never store secrets anywhere in the repo, including `agent_onboarding/`, `tickets/epics/`,
-  `tickets/stories/`, `tickets/tasks/`, `tickets/epics/completed/`, `tickets/stories/completed/`, `tickets/tasks/completed/`,
-  `completed/`, and `artifacts/`.
+  `tickets/stories/`, `tickets/tasks/`, `tickets/epics/completed/`, `tickets/stories/completed/`,
+  `tickets/tasks/completed/`, `artifacts/`, `user_defined/`, and `system_docs/`.
+- The list above is illustrative, not exhaustive. **No path in this repository is a
+  permitted location for a secret**, including one this list does not name.
 - Never write secrets into tickets, docs, or logs.
 - Never commit secrets, even temporarily, even in test data.
 - If a user requests storing secrets in-repo, refuse and ask for a safe alternative.

@@ -31,7 +31,10 @@ Engineer inventory
 Architecture docs ownership
 - Architecture/components instruction mechanics are owned by:
   `agent_onboarding/default/design_engineer/skills/`.
-- Engineer reads `system_docs/*` on-demand when task scope requires architecture/components/tests claims.
+- Engineer reads `system_docs/src_architecture.md` and the architecture and component
+  indexes at onboarding (baseline). The rest of `system_docs/*` is Self-directed:
+  sliced on the engineer's own initiative whenever the work needs it, with no trigger
+  to wait for and no permission to request.
 
 User-defined overlay boundary
 - Preference-heavy Python/testing/library-style rules are routed through:

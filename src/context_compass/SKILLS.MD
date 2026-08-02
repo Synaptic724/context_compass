@@ -71,9 +71,11 @@ Unregistered overlays
      may add another. Match on the baseline label, never on a fixed list of
      headings; a section you fail to recognise is still mandatory.
    - **On-demand** skills are conditional. Do NOT read them for certification
-     unless a trigger condition is met.
-   - When an on-demand trigger is met, those paths become mandatory and MUST be
-     read before proceeding in that scope.
+     unless a trigger condition is met. When the trigger is met, those paths
+     become mandatory and MUST be read before proceeding in that scope.
+   - **Self-directed** skills are also outside certification, but they carry no
+     trigger. Read them on your own initiative whenever the work needs them.
+     Waiting for permission there is the failure the state exists to prevent.
 
 ## Format contract for role `SKILLS.MD` files
 
@@ -87,6 +89,37 @@ identical; the section heading a path sits under is what classifies it. Do not
 prefix on-demand entries with `Read:` or any other marker — a second form means
 a second parser, and the parser written for the first one silently returns an
 empty on-demand readset instead of failing.
+
+**There are three read states, not two, and the section a path sits under
+declares which one applies.** Roles name their sections to suit what they hold, so
+match on the STATE, never on a list of headings:
+
+| state | required for certification? | when it is read |
+| --- | --- | --- |
+| **baseline** | yes | at onboarding, every time |
+| **On-demand** | no | only when the section's stated trigger fires |
+| **Self-directed** | no | at the agent's own initiative, no trigger, no permission |
+
+Baseline sections are named for what they hold — `general` uses **Active skills**,
+`engineer` uses both **Required baseline skills** and **Baseline system
+orientation**. A role may introduce another; it is still baseline.
+
+**On-demand and Self-directed are both outside certification, and they are not the
+same thing.** On-demand is gated: the section states a trigger, and reading before
+it fires teaches a procedure with nothing to apply it to — `general`'s
+`llm_full_usage.md` is the model, useless on an install with no `llm_full.md`.
+Self-directed is the opposite failure being guarded against: the document is
+relevant *now*, you hold its index, and there is nothing to wait for. `engineer`'s
+system-document reading is Self-directed for exactly that reason.
+
+Collapsing the two is not cosmetic. It shipped: `engineer` labelled its
+self-directed reads "On-demand" while `general` defined that label as trigger-gated
+with false-attestation language, and an agent resolving both found no trigger had
+fired, read zero system documents, and defended the choice with sound reasoning
+from the document it was handed. Two definitions, one word, no override marker.
+
+So: classify by state, leave the heading free, and never label a self-directed
+section On-demand to mean "optional". Optional is not one of the three.
 
 Bare (unbackticked) paths are not valid, and a backticked path must be a list
 item. A path indented under a sentence is prose, not an entry, and a parser will

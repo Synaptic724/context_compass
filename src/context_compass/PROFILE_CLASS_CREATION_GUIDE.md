@@ -160,11 +160,33 @@ context_compass/agent_onboarding/user_defined/<profile_name>/SKILLS.MD
 ```
 
 SKILLS.MD rules:
-- one relative path per line
-- no empty lines
+- one relative path per line, as a backticked list item
 - inheritance header required for inheriting profiles:
   - `INHERITS_SKILLS_FROM: <skills_path|none>`
 - no duplicated parent paths from inherited `SKILLS.MD`
+
+**Group your paths under sections, and the section is what classifies them.**
+This is the part that is easy to miss, because the entry form is identical either
+way — a path is baseline or on-demand purely by the heading it sits under:
+
+- **Baseline sections** are read for onboarding and certification. Name them for
+  what they hold: `Active skills`, `Required baseline skills`, or something the
+  role actually needs, such as `engineer`'s `Baseline system orientation`.
+- **`On-demand`** is the one reserved name. A section marked on-demand is read
+  only when its trigger fires. State the trigger.
+
+A path in no section at all is ambiguous, and the enforcement rules treat anything
+not marked on-demand as baseline — so an ungrouped path becomes a mandatory read
+by default. That is the safe direction, but it is not the one you meant, so put
+every path under a heading.
+
+Your role may add a baseline section the parent chain does not have. Say so in the
+role's own `Skill classes` block, and say that the inherited chain contributes its
+own baseline sections too — a role file that describes only what it adds reads as
+the complete list and is how a class goes missing.
+
+Full dialect, including why there is only one entry form:
+`context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
 
 Workflow rules:
 - actual workflow definitions should live in role-local `workflows/`

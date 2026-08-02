@@ -5,8 +5,8 @@ Context
   and entrypoint resolves on a case-sensitive filesystem.
 - The agent wants to capture scratch thoughts before committing to a ticket.
 
-Scratch capture (workspace)
-- Path: `workspace/agent/ideas/context_compass_control_file_casing.md`
+Scratch capture (`user_defined/`, the lane no tool writes to)
+- Path: `user_defined/ideas/context_compass_control_file_casing.md`
 - Example content:
 
 ```md
@@ -30,7 +30,7 @@ Scratch capture (workspace)
   agree on one casing.
 ```
 
-- Path: `workspace/agent/todo/context_compass_control_file_casing.md`
+- Path: `user_defined/todo/context_compass_control_file_casing.md`
 - Example content:
 
 ```md

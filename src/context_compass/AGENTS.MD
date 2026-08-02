@@ -208,10 +208,13 @@ Before any tooling, edits, or execution:
     sections differently - **Active skills**, **Required baseline skills**,
     **Baseline system orientation** - and a role may introduce another. Read
     what the role marks baseline; do not match against a fixed list of headings.
-  - Only sections explicitly labeled **On-demand** sit outside baseline
-    certification.
-  - When an on-demand trigger condition is met, those paths become mandatory
-    and MUST be read before any work in that scope.
+  - Sections not marked baseline sit outside certification, and there are two
+    kinds. **On-demand** states a trigger: those paths become mandatory once it
+    fires, and MUST be read before any work in that scope. **Self-directed** has
+    no trigger at all: read those at your own initiative whenever the work needs
+    them, without asking permission.
+  - **Do not treat Self-directed as On-demand-with-no-trigger-yet.** That reading
+    produces an agent that never opens the document, and it has already happened.
 - If first-time onboarding is active and selected role is `new`, complete
   onboarding then set:
   - `profiles.onboarding.first_time_enabled: false`

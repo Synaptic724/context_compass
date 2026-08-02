@@ -144,7 +144,7 @@ has no business there.
 Pin a version for reproducibility, or track the latest:
 
 ```bash
-uvx contextcompass@2.12.0 init     # exact, repeatable
+uvx contextcompass@2.15.0 init     # exact, repeatable
 uvx contextcompass@latest init     # whatever is newest
 ```
 
@@ -503,11 +503,11 @@ python context_compass/tools/build_llm_full.py \
     --root context_compass --out llm_full.md
 ```
 
-That writes two files: `llm_full.md` (every file concatenated, ~27,000 lines) and
-`llm_full_index.md` (**482 lines** saying which lines each file occupies).
+That writes two files: `llm_full.md` (every file concatenated, ~30,000 lines) and
+`llm_full_index.md` (**483 lines** saying which lines each file occupies).
 
 **Read the index, slice what you need, never load the document whole.** The index
-is 1.7% of the size and tells you exactly where everything is:
+is 1.6% of the size and tells you exactly where everything is:
 
 ```bash
 python context_compass/tools/build_llm_full.py \
@@ -543,7 +543,7 @@ tooling is built around not destroying that work.
 - **Nothing deletes authored work automatically.** Not a slogan — every tool that
   can remove something refuses without `--apply`, and the one that deletes
   authored prose refuses without a terminal to ask at.
-- **412 tests, and mutation testing on top.** A green suite is equally consistent
+- **419 tests, and mutation testing on top.** A green suite is equally consistent
   with "the code is correct" and "the tests assert nothing".
   `tests/mutation_check.py` applies 49 deliberate defects and requires that at
   least one test fails for every single one. Several survived their first run and

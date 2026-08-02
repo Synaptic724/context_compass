@@ -1,6 +1,6 @@
 
 
-# ctx_autonomy_policy
+# ctx_autonomy_rubric
 
 Purpose
 - Define how agents rank ctx quality across file, dir, component, and architecture layers.

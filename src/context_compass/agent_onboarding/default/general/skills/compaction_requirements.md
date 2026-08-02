@@ -65,7 +65,10 @@ Run this sequence exactly once per trigger event.
      the wrong place to skip it. See
      `agent_onboarding/default/general/skills/context_compaction.md`.
    - On-demand skills are NOT required unless triggered by the active task.
-   - If triggered, on-demand skills become mandatory and MUST be read before proceeding.
+     If triggered, they become mandatory and MUST be read before proceeding.
+   - Self-directed skills are NOT required at re-entry either, but they have no
+     trigger to wait for. Read them during the work, on your own initiative. Do
+     not report "no trigger fired" for a Self-directed section - none exists.
 6) Re-open `attention_board.md` and all active ticket(s) and verify they match.
 7) Publish the mandatory REONBOARD attestation (below).
 8) Request certification and wait for a message that includes:
@@ -99,6 +102,20 @@ READ_INTEGRITY_PROOF (requirements)
     (b) what it changes in your behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
   - Do NOT reuse the same callout across multiple docs; each callout must be doc-specific.
+- **Live-state entries prove differently, because they carry no rules.** Some baseline
+  entries are mutable state, not policy: `attention_board.md`, `artifact_board.md`,
+  and `context_management/context_board.md`. A routing table has no
+  rule/constraint to call out, so the requirement above cannot be met for them and
+  demanding it produces invented rules - the exact confabulation this proof exists
+  to catch.
+  - For those three, prove **current state** instead: name the active row or entry
+    you routed from (or state that the board is empty), and the one action it sets
+    up next. Same one-line-per-document shape, same specificity bar.
+  - Example: `attention_board.md: active row -> tickets/tasks/2026-08-01_x_task.md,
+    mode=implementation, next=finish the parser -> I resume there rather than
+    re-planning.`
+  - This substitution applies ONLY to those three paths. Every other baseline
+    document owes a rule callout.
 - If the proof would be too long, you MUST ask the user for permission to compress/group it.
   - Do not unilaterally shorten the proof as a convenience.
 

@@ -8,8 +8,11 @@ Certification is denied unless the resolved SKILLS chain is satisfied exactly.
   skills**, **Required baseline skills**, **Baseline system orientation** - and a
   role may add another. Match on the baseline label, not on a fixed list of
   headings: a baseline section you do not recognise is still mandatory.
-- **On-demand** skills are NOT part of baseline certification, but become mandatory
-  when triggered by the active task. If triggered, you MUST read them before proceeding.
+- Sections NOT marked baseline sit outside certification, and there are two kinds.
+  **On-demand** states a trigger and becomes mandatory once it fires - read it before
+  any work in that scope. **Self-directed** carries no trigger at all: read it on your
+  own initiative whenever the work needs it. Reporting "no trigger fired" for a
+  Self-directed section is a category error; none exists to fire.
 - You MUST NOT claim a skill was read unless it was actually read.
 
 ## 1) Purpose

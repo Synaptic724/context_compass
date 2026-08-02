@@ -123,10 +123,17 @@ The agent starts from the runtime entrypoint:
 `SKILLS.MD` chain with parent-first inheritance, walked via the
 `INHERITS_SKILLS_FROM` header in each file.
 
-Each role declares:
+Each role declares its skills in sections, and the section is what classifies the
+paths under it:
 
-- required baseline skills (must read),
-- and on-demand skills (read when trigger conditions apply).
+- **baseline sections** (must read for certification). A role may have more than
+  one and names them for what they hold — `engineer` carries both
+  `Required baseline skills` and a `Baseline system orientation` set.
+- **`On-demand`** (read when the trigger applies).
+
+The rule is *read every section not marked on-demand*, not *match a list of
+heading names*, so a role can add a baseline section without every policy file in
+the package needing an edit to notice it.
 
 ### 3) Certification Gate
 

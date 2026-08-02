@@ -9,6 +9,8 @@
   **Baseline system orientation** - and a role may add another. Match on the
   baseline label, not on a fixed list of headings.
 - On-demand skills are NOT part of baseline certification. They become mandatory ONLY when triggered by the active task.
+- Self-directed skills are NOT part of baseline certification either, and they have
+  no trigger. Read them at your own initiative when the work needs them.
 - After any compaction/handoff, assume chat memory is unreliable:
   - You MUST re-onboard per `agent_onboarding/default/general/skills/compaction_requirements.md` before any action.
   - You MUST NOT claim you "retained" this document; re-open it instead.

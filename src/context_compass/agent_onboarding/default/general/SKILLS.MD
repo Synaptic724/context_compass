@@ -53,6 +53,14 @@ Active skills
 - `artifact_board.md`
 - `agent_onboarding/default/general/skills/context_management.md`
 - `context_management/context_board.md`
+
+Note on the three board paths above. `attention_board.md`, `artifact_board.md` and
+`context_management/context_board.md` are baseline reads, but they are **live
+mutable state, not policy**. You open them to learn what is happening right now, not
+to learn a rule. They therefore satisfy `READ_INTEGRITY_PROOF` by naming current
+state rather than a rule callout - see the live-state clause in
+`agent_onboarding/default/general/skills/compaction_requirements.md`. Do not invent
+a rule to quote from a routing table.
 - `agent_onboarding/default/general/behavioral_guidelines/agent_lifecycle_and_heartbeat.md`
 - `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md`
 - `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md`
@@ -60,6 +68,12 @@ Active skills
 On-demand skills
 Read only when the trigger is met. Not part of the baseline, and claiming one
 was read without meeting its trigger is a false attestation.
+
+**This applies to sections labelled `On-demand`, which is the trigger-gated state.
+It is not a rule about everything outside baseline.** A `Self-directed` section is
+also outside baseline but has no trigger and needs no permission - waiting for one
+there is the failure, not the discipline. `engineer` carries such a section for its
+system documents. Three states, defined in `context_compass/SKILLS.MD`.
 
 - `agent_onboarding/default/general/skills/llm_full_usage.md`
   - Trigger: `llm_full.md` exists at the repository root and you are about to

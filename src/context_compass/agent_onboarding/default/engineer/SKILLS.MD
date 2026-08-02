@@ -12,11 +12,18 @@ Skill classes (non-negotiable)
 - This role defines three classes of skills:
   A) **Required baseline skills** (always required for onboarding/certification)
   B) **Baseline system orientation** (required at onboarding when the files exist)
-  C) **On-demand system reading** - every other system document. On demand means
-     **agent-driven OR user-driven**, and agent-driven is the ordinary case.
+  C) **Self-directed system reading** - every other system document. Not baseline,
+     not trigger-gated: **agent-driven OR user-driven**, and agent-driven is the
+     ordinary case.
 
-What "on demand" means here (read this before you interpret it)
-- On demand does NOT mean "wait to be told". It means the read happens when somebody
+Why this is called Self-directed and not On-demand (read this before you interpret it)
+- **`On-demand` is a different state and it is reserved.** In this package On-demand
+  means a section states a trigger and you wait for it - `general`'s
+  `llm_full_usage.md` is the model. **Nothing in class C has a trigger.** The label
+  was wrong here, it collided with the parent's definition, and an agent resolving
+  both correctly concluded no trigger had fired and read zero system documents. Full
+  reasoning: `context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
+- Self-directed does NOT mean "wait to be told". It means the read happens when somebody
   needs it, and **you are somebody**. You raise the demand as often as the user does,
   and more often in practice, because you are the one who notices the gap.
 - There is no permission step. There is no trigger list you must match first. If you
@@ -35,8 +42,9 @@ Rules
   to be considered onboarded/certifiable as `engineer`.
 - You MUST read every file under **Baseline system orientation** that exists in this
   repository. A missing one is skipped, not blocked on - a fresh install has none.
-- Everything else under `system_docs/` is on-demand in the sense defined above:
-  yours to reach for, unprompted, whenever the work needs it.
+- Everything else under `system_docs/` is **Self-directed** in the sense defined
+  above: yours to reach for, unprompted, whenever the work needs it. It is not
+  baseline and it is not trigger-gated.
 - You MUST NOT claim you read a document you only sliced. Say which sections.
 - Large documents are read **by slice through their index**, never whole. That is a
   rule about HOW, not WHETHER.
@@ -93,8 +101,8 @@ them you can name a component and slice its 40 lines; without them your only opt
 are to read 8,400 lines or to guess. Onboarding with the maps and without the
 territory is the entire point.
 
-Nothing else is baseline. Everything else under `system_docs/` is on-demand, and
-on-demand means yours to reach for. See below.
+Nothing else is baseline. Everything else under `system_docs/` is Self-directed,
+which means yours to reach for without waiting for anything. See below.
 
 The understanding hierarchy (do not sprawl)
 These documents are not four separate references you consult in parallel. They are
@@ -148,7 +156,7 @@ right shape is: **descend the hierarchy to find the code, then read the code, th
 change it** - and if what you found contradicts the document that sent you there,
 that contradiction is itself a finding worth recording.
 
-On-demand system reading - agent-driven or user-driven
+Self-directed system reading - agent-driven or user-driven
 Every system document that is not one of the four above, including any this role
 does not name:
 - `system_docs/src_components.md` - via `src_components_index.md`, sliced

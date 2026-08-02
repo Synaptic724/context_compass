@@ -17,7 +17,11 @@ Core rules
 - Follow repository SQL rules in `AGENTS.MD` when touching SQL tools.
 - Update docstrings for every touched function/class and add tests for
   behavioral changes.
-- Keep scratch ideas and todos in `workspace/agent/`.
+- Keep scratch ideas and todos under `user_defined/`. That directory exists, is
+  yours outright, and no tool writes to it in any mode - create whatever subfolders
+  you need. Earlier revisions of this skill named `workspace/agent/`, which the
+  package has never shipped and which no lane policy protects, so scratch written
+  there was swept on the next cleanup.
 - Promote durable plans and execution artifacts into `tickets/epics/`,
   `tickets/stories/`, `tickets/tasks/`, and their completed folders.
 
@@ -35,7 +39,7 @@ Preferred workflow
 8) Summarize changes and list follow-ups.
 
 Artifact discipline (engineer)
-- Ideas/opinions/todo: `workspace/agent/` only.
+- Ideas/opinions/todo: `user_defined/` only.
 - Plans and scope control: use `templates/` and create tickets in
   `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`.
 - For system-impacting changes under patch framework:
