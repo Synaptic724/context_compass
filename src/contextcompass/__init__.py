@@ -19,7 +19,7 @@ import pathlib
 # records the same number, and a test asserts they agree - a version maintained
 # in two places is a version that will disagree, which is the whole reason the
 # manifest is derived rather than declared.
-__version__ = "2.11.0"
+__version__ = "2.12.0"
 
 INSTALL_DIRNAME = "context_compass"
 

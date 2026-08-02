@@ -295,6 +295,18 @@ MUTATIONS: list[tuple[str, str, str, str]] = [
         'pattern = re.compile(re.escape(marker))',
     ),
     (
+        "manifest: case drift reported as an unrelated add and remove",
+        "tools/package_manifest.py",
+        "        drift = [(removed_ci[p.lower()], p) for p in added if p.lower() in removed_ci]",
+        "        drift = []",
+    ),
+    (
+        "extract: a syntax error no longer names the interpreter version",
+        "tools/system_documents/python/extract_graph.py",
+        '        print(f"       parsed with Python {running}. If this file uses newer "',
+        '        print(f"" or (f"       parsed with Python {running}. If this file uses newer "',
+    ),
+    (
         "manifest: an unreadable future format is accepted anyway",
         "tools/package_manifest.py",
         "    if major in SUPPORTED_MANIFEST_MAJORS:\n        return None",

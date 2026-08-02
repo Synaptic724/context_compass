@@ -13,10 +13,10 @@ Line numbers are 1-based and inclusive on both ends, matching
 | --- | --- |
 | document | `llm_full.md` |
 | index_version | 1.0.0 |
-| generated_at | 2026-08-02T14:31:05Z |
-| line_count | 28841 |
+| generated_at | 2026-08-02T14:59:16Z |
+| line_count | 28877 |
 | line_ending | lf |
-| content_sha256 | `aad0f58aa0ad857e098c86f963a0524cd9d724712495dfe576d4e94406429601` |
+| content_sha256 | `c16694a46a637a9dd66f7ada990db3332ffd4528af5e8228c0d8e7df7b7feabe` |
 | files | 445 |
 
 Recompute `line_count` and `content_sha256` before slicing. On any
@@ -472,12 +472,12 @@ python tools/build_llm_full.py --root . --out llm_full.md --slice AGENTS.MD
 | 24485-24795 | `context_compass/tools/build_llm_full.py` | 311 | 12715 |
 | 24797-25288 | `context_compass/tools/cleanup_context_compass.py` | 492 | 22882 |
 | 25290-25511 | `context_compass/tools/migrate_boards.py` | 222 | 8426 |
-| 25513-25822 | `context_compass/tools/package_manifest.py` | 310 | 12283 |
-| 25824-26303 | `context_compass/tools/system_documents/index_document.py` | 480 | 21403 |
-| 26305-26688 | `context_compass/tools/system_documents/python/assemble_graph.py` | 384 | 16383 |
-| 26690-27305 | `context_compass/tools/system_documents/python/extract_graph.py` | 616 | 28312 |
-| 27307-27715 | `context_compass/tools/system_documents/python/graph_semantics_tickets.py` | 409 | 16022 |
-| 27717-28086 | `context_compass/tools/system_documents/python/graph_walker.py` | 370 | 15870 |
-| 28088-28270 | `context_compass/tools/system_documents/python/migrate_authored_graph.py` | 183 | 7107 |
-| 28272-28786 | `context_compass/tools/update_context_compass.py` | 515 | 24333 |
-| 28788-28840 | `context_compass/user_defined/README.md` | 53 | 2065 |
+| 25513-25844 | `context_compass/tools/package_manifest.py` | 332 | 13653 |
+| 25846-26325 | `context_compass/tools/system_documents/index_document.py` | 480 | 21403 |
+| 26327-26710 | `context_compass/tools/system_documents/python/assemble_graph.py` | 384 | 16383 |
+| 26712-27341 | `context_compass/tools/system_documents/python/extract_graph.py` | 630 | 29275 |
+| 27343-27751 | `context_compass/tools/system_documents/python/graph_semantics_tickets.py` | 409 | 16022 |
+| 27753-28122 | `context_compass/tools/system_documents/python/graph_walker.py` | 370 | 15870 |
+| 28124-28306 | `context_compass/tools/system_documents/python/migrate_authored_graph.py` | 183 | 7107 |
+| 28308-28822 | `context_compass/tools/update_context_compass.py` | 515 | 24333 |
+| 28824-28876 | `context_compass/user_defined/README.md` | 53 | 2065 |

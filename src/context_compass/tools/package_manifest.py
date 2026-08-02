@@ -281,7 +281,29 @@ def main() -> int:
         added = sorted(set(new) - set(old))
         removed = sorted(set(old) - set(new))
         changed = sorted(p for p in set(old) & set(new) if old[p][1] != new[p][1])
-        print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}")
+
+        # A rename that only changes case is ONE file, not an add and a remove.
+        # Reported as two it looks like unrelated churn, and the obvious repair -
+        # "delete the removed one" - destroys the added one, because on a
+        # case-insensitive filesystem they are the same inode. Observed three
+        # times on `SKILLS.MD` in a single day, drifting to `SKILLS.md` from
+        # something outside this package. Naming it is what makes it fixable.
+        removed_ci = {p.lower(): p for p in removed}
+        drift = [(removed_ci[p.lower()], p) for p in added if p.lower() in removed_ci]
+        drifted = {a for _, a in drift} | {b for b, _ in drift}
+        added = [p for p in added if p not in drifted]
+        removed = [p for p in removed if p not in drifted]
+
+        print(f"STALE: +{len(added)} -{len(removed)} ~{len(changed)}"
+              + (f"  CASE DRIFT {len(drift)}" if drift else ""))
+        for was, now in drift:
+            same = old.get(was, (None, None))[1] == new.get(now, (None, "x"))[1]
+            print(f"  CASE     {was}  ->  {now}"
+                  f"   (contents {'identical' if same else 'ALSO changed'})")
+        if drift:
+            print("           One file whose name changed case, not two files. Rename it")
+            print("           back rather than deleting either - on a case-insensitive")
+            print("           filesystem both names resolve to the same file.")
         for p in added[:20]:
             print(f"  added    {p}")
         for p in removed[:20]:

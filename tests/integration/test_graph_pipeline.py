@@ -13,7 +13,7 @@ import json
 
 import pytest
 
-from conftest import GRAPH_TOOLS, run_tool
+from conftest import GRAPH_TOOLS, run_tool, write
 
 pytestmark = pytest.mark.integration
 
@@ -87,6 +87,30 @@ class TestExtract:
         d = load(descriptors, "app/engine.json")
         assert any(c["to_label"] == "Stage" for c in d["edge_candidates"])
         assert not any(e.get("relation") == "creates" for e in d["edges_out"])
+
+    def test_an_unparseable_file_names_the_interpreter_version(self, mock_source_tree, tmp_path):
+        """A file the running interpreter cannot parse gets no descriptor and
+        every node in it silently vanishes. That is right when the file is
+        broken and wrong when the file is simply NEWER than the interpreter -
+        and the two look identical. A PEP 701 f-string parses on 3.12+ and
+        raises on 3.10; a real graph came out one class short with nothing
+        saying why.
+        """
+        write(mock_source_tree / "app" / "newer.py",
+              'class Newer:\n    def s(self):\n        return f"x {d.get("k", "v")}"\n')
+        res = run_tool(EXTRACT, "--src", mock_source_tree, "--out", tmp_path / "d")
+
+        assert res.returncode == 0, "one bad file must not abort the run"
+        assert "SKIP (syntax error)" in res.stderr
+        assert "parsed with Python" in res.stderr
+        assert "the interpreter is older than the code" in res.stderr
+
+    def test_the_other_files_still_extract(self, mock_source_tree, tmp_path):
+        write(mock_source_tree / "app" / "newer.py",
+              'class Newer:\n    def s(self):\n        return f"x {d.get("k", "v")}"\n')
+        out = tmp_path / "d"
+        run_tool(EXTRACT, "--src", mock_source_tree, "--out", out)
+        assert (out / "app" / "engine.json").is_file()
 
     def test_check_mode_writes_nothing(self, mock_source_tree, tmp_path):
         out = tmp_path / "desc2"
