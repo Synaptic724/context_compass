@@ -21,7 +21,7 @@ jobs:
   hygiene:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: No two paths differing only by case
         run: |
@@ -49,10 +49,10 @@ jobs:
         os: [ubuntu-latest, windows-latest]
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v8
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -64,9 +64,9 @@ jobs:
     needs: [hygiene, test]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.14"
 
@@ -89,24 +89,38 @@ jobs:
 
           whl = glob.glob("dist/*.whl")[0]
           names = [n for n in zipfile.ZipFile(whl).namelist() if not n.endswith("/")]
-          payload = [n for n in names if n.startswith("contextcompass/_package/")]
+
+          # DERIVED, never hardcoded. This was written as a literal
+          # "contextcompass/_package/", and when the module was renamed to
+          # `contextcompass_cli` the check reported "payload has 0 files,
+          # expected 400+" against a wheel that was completely correct. The
+          # build was fine; the ruler was wrong, and it failed in the most
+          # alarming way it could - by claiming the product was missing.
+          # Discovering the prefix means a rename cannot stage that again.
+          prefixes = sorted({n.split("_package/")[0] + "_package/"
+                             for n in names if "/_package/" in n})
+
+          problems = []
+          if len(prefixes) != 1:
+              problems.append(
+                  f"expected exactly one _package/ root in the wheel, found {prefixes}")
+          prefix = prefixes[0] if prefixes else "<none>/_package/"
+
+          payload = [n for n in names if n.startswith(prefix)]
           markdown = [n for n in payload if n.lower().endswith(".md")]
 
           print(f"wheel    : {whl}")
           print(f"files    : {len(names)}")
-          print(f"payload  : {len(payload)}")
+          print(f"payload  : {prefix}  ({len(payload)} files)")
           print(f"markdown : {len(markdown)}")
 
-          problems = []
           if len(payload) < 400:
               problems.append(f"payload has {len(payload)} files, expected 400+")
           if len(markdown) < 300:
               problems.append(f"only {len(markdown)} markdown files in the payload")
-          for required in ("contextcompass/_package/AGENTS.MD",
-                           "contextcompass/_package/SKILLS.MD",
-                           "contextcompass/_package/MANIFEST.md"):
-              if required not in names:
-                  problems.append(f"missing {required}")
+          for required in ("AGENTS.MD", "SKILLS.MD", "MANIFEST.md"):
+              if prefix + required not in names:
+                  problems.append(f"missing {prefix}{required}")
           if not any(n.endswith("entry_points.txt") for n in names):
               problems.append("no console script entry point")
 
@@ -128,8 +142,11 @@ jobs:
 
           whl = glob.glob("dist/*.whl")[0]
           wheel_version = re.search(r"-(\d+\.\d+\.\d+)-", whl).group(1)
-          manifest = zipfile.ZipFile(whl).read(
-              "contextcompass/_package/MANIFEST.md").decode()
+          zf = zipfile.ZipFile(whl)
+          # Derived for the same reason as the payload check above.
+          manifest_name = next(n for n in zf.namelist()
+                               if n.endswith("_package/MANIFEST.md"))
+          manifest = zf.read(manifest_name).decode()
           manifest_version = next(
               l.split("|")[2].strip() for l in manifest.splitlines()
               if l.startswith("| package_version |"))
