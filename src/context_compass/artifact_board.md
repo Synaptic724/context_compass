@@ -30,6 +30,19 @@ Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
 
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `active_artifacts` | one row per live artifact, linked to its ticket, with a disposition |
+| `cleared_artifacts` | short history of artifacts already resolved or deleted |
+| `notes` | recurring instructions and standing context for artifact handling in this repository |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
+
 Purpose
 - Canonical index of active artifact associations.
 - Track artifact lifecycle decisions that support ticket execution.

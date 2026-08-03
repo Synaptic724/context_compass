@@ -13,10 +13,16 @@ The mailbox gives addressed, consume-on-read delivery while keeping
 `attention_board.md` routing/broadcast-only and keeping tickets as the
 single durable history.
 
-## Check-in (mandatory, onboarding-time)
+## Check-in (mandatory, first action AFTER certification)
 
-- During onboarding AND re-onboarding, open `mailbox_board.md` and add or
-  update your row in `## Checked-In Agents`:
+- **Read** `mailbox_board.md` during onboarding and re-onboarding - the roster and
+  any messages addressed to you. **Write** your check-in row as your FIRST action
+  once the user returns `CERTIFY: APPROVED`, not before.
+  - Why not during the gate: a check-in is a write, and `AGENTS.MD`'s
+    pre-certification carve-out permits reads only. The row also needs an
+    `AGENT_NAME`, and that value arrives in the certification message - so before
+    certification there is nothing valid to write into it.
+- Then add or update your row in `## Checked-In Agents`:
   `| <agent_name> | <owner> | <checked_in_at> | <last_checked> | active |`
 - `checked_in_at` is set when you first check in for the session;
   `last_checked` updates EVERY time you read the message section.

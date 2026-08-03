@@ -29,18 +29,22 @@ Core review set (ALWAYS required) - review these files in order:
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
 - Active epic/story/task tickets in `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`
-
-Conditional review set (ONLY when triggered):
-- `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
-- `artifacts/README.md` (when artifact lifecycle protocol is active)
-- System-context re-orientation. Re-read after compaction:
+- **The role's baseline system-orientation set, when the role declares one and the
+  files exist.** For `engineer` and everything inheriting it that is:
   - `system_docs/src_architecture.md`
   - `system_docs/src_architecture_index.md`
   - `system_docs/src_components_index.md`
 
-  These are the baseline orientation set and they are cheap - the narrative plus
-  two maps. Compaction is exactly when you lose the shape of the system, so this
-  is the wrong place to be frugal.
+  The narrative plus two maps - cheap, and compaction is exactly when you lose the
+  shape of the system, so this is the wrong place to be frugal. This sits in the
+  ALWAYS set deliberately: it is baseline in `engineer/SKILLS.MD` and named as
+  baseline in `compaction_requirements.md`, and filing it under a conditional
+  heading is what produced an agent concluding no trigger had fired and re-reading
+  none of it.
+
+Conditional review set (ONLY when triggered):
+- `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
+- `artifacts/README.md` (when artifact lifecycle protocol is active)
 
 - **Do NOT bulk re-read `src_components.md` or `src_graph.md` here.** They are
   sliced through the indexes above, during the work, whenever a question needs

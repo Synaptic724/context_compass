@@ -1,4 +1,4 @@
-# Context Compass
+# Context Compass™
 
 [![PyPI](https://img.shields.io/pypi/v/contextcompass.svg)](https://pypi.org/project/contextcompass/)
 [![Python](https://img.shields.io/pypi/pyversions/contextcompass.svg)](https://pypi.org/project/contextcompass/)
@@ -60,7 +60,7 @@ has no business there.
 Pin a version for reproducibility, or track the latest:
 
 ```bash
-uvx contextcompass@2.15.1 init     # exact, repeatable
+uvx contextcompass@2.15.2 init     # exact, repeatable
 uvx contextcompass@latest init     # whatever is newest
 ```
 
@@ -526,3 +526,18 @@ agent, and come back in three months and still know what happened.
 If you want project memory that stays with the repo, survives branch work, handles
 handoffs, resists drift, and still makes sense when another agent shows up later —
 that is exactly what this system is for.
+
+## License and Trademarks
+
+The software is licensed under **Apache License 2.0** — see [LICENSE](LICENSE).
+Copyright 2026 Mark Thomas Geleta.
+
+**Context Compass™** is a trademark of Mark Thomas Geleta. The Apache 2.0 licence
+covers the code and documentation; **Section 6 of that licence expressly does not
+grant trademark rights**. You are free to use, fork and redistribute the software
+under Apache 2.0, including describing your work as based on Context Compass™ —
+what the licence does not give you is permission to use the name or logo to brand
+your own product, or in any way suggesting endorsement or official status.
+
+The distribution name `contextcompass` and the command `contextcompass` are
+technical identifiers, not the mark.

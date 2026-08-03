@@ -30,6 +30,20 @@ Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
 
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `alerts` | cross-agent flags needing attention now: mailbox alerts naming a recipient, blockers others must see |
+| `active_items` | one row per active work item, routing to exactly one ticket |
+| `closed_anchors` | short traceability rows for recently closed tickets, capped at 12 |
+| `notes` | recurring instructions and standing context for this repository - the conventions every agent should carry, stated once |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
+
 Purpose
 - Active-work routing board.
 - Attention-only summary for fast re-entry.
