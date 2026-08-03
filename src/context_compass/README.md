@@ -1,6 +1,8 @@
-# Context Compass
+# Context Compass™
 
-Context Compass is a policy-driven context orchestrator for AI-assisted execution.
+Context Compass™ is a policy-driven context orchestrator for AI-assisted execution.
+Apache-2.0 licensed; "Context Compass" is a trademark of Mark Thomas Geleta. See
+`LICENSE` and `NOTICE` in this directory.
 It gives agents a deterministic way to onboard, route work, preserve context,
 and recover cleanly after compaction or session reset.
 
