@@ -112,7 +112,20 @@ Rules for integration tests:
 * Make them explicit: use clear naming and markers (e.g., @pytest.mark.integration) if the repo uses them.
 * Ensure they remain repeatable and not environment-dependent unless explicitly documented.
 
-Coverage Target: 95%+ (Non-Negotiable) Coverage is defined as method and attr coverage not the pytest definition. Use your discernment.
+Coverage Target: 95%+ (Non-Negotiable)
+
+**Two different measures are in play here and they are not interchangeable.**
+
+- **Design coverage** - every public method and attribute is exercised by at least
+  one test that asserts its contract. This is the target that matters and the one
+  you use judgement on. A module at 100% line coverage with three untested public
+  methods fails this.
+- **Line coverage** - what `pytest --cov` reports. Useful as a floor and a
+  regression signal, never as the goal, because it is trivially gamed by tests that
+  execute lines and assert nothing.
+
+Where a number appears below without qualification it means line coverage, because
+that is the only one a tool can report.
 
 Agent Execution Constraint (Read Carefully)
 AI agents cannot truthfully confirm repository-wide coverage levels (including the >=95% target) unless the user runs the test suite and reports the result.

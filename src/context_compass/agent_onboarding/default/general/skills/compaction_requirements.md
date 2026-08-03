@@ -79,45 +79,77 @@ README policy
 - README reads are allowed only for `new` first-time onboarding.
 - Non-`new` profile re-entry MUST use `SKILLS.MD` + skill/policy docs (not README).
 
-Mandatory REONBOARD attestation format
+## Attestation format (CANONICAL - this is the only definition)
+
+One shape for both events. Swap the first token: `ONBOARD: COMPLETE` for a fresh
+session, `REONBOARD: COMPLETE` after compaction or handoff. Every other document
+in this package points here rather than restating the field list.
+
 ```text
-REONBOARD: COMPLETE
-ROLE_SKILLS_READ:
-- <role_name>
-- <role_name>
+ONBOARD: COMPLETE                     # or REONBOARD: COMPLETE
 AGENT_NAME: <name|REQUIRED_FROM_USER>
-FILES_REREAD:
-- attention_board.md
-- <active ticket path>
+ROLE_CHAIN: <role> <- <parent> <- general      # parent-first order, one line
+FILES_REREAD: attention_board.md, <active ticket path>    # REONBOARD only
 READ_INTEGRITY_PROOF:
-- <path>: <rule callout> -> <what this changes in my behavior>
-- <path>: <rule callout> -> <what this changes in my behavior>
+- root: <rule> -> <what it changes>
+- general: <rule> -> <what it changes>
+- <role>: <rule> -> <what it changes>
+- live state: <active row, or "boards empty"> -> <what I resume>
 NO_ACTION_TAKEN_YET: true
 ```
 
+**That is the whole attestation - about ten lines.** It is a summary, and it is
+meant to be one. The proof is one line per LAYER, never one per document; the
+rule and its rationale are directly below.
+
+An attestation that runs to hundreds of lines is not more compliant. It is the
+ceremony this contract exists to prevent, it buries the one line a reader needed,
+and its length is what makes it unreadable rather than what makes it true.
+
+That is the whole attestation. Five or six lines of proof, not one per document -
+see the layer rule below. An attestation that runs to hundreds of lines is not
+more compliant; it is the ceremony this contract exists to prevent, and it buries
+the one line a reader needed.
+
 READ_INTEGRITY_PROOF (requirements)
 - `READ_INTEGRITY_PROOF` is a comprehension proof, NOT tool logs.
-- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.MD` chain.
-  - Each line MUST include (a) a specific, checkable rule/constraint from that doc and
-    (b) what it changes in your behavior.
+- **Default requirement: one line per LAYER of the resolved chain, not per document.**
+  The layers are: the root contract (`AGENTS.MD` + `execution_contract.md`), each
+  role in the chain (`general`, then each child in parent-first order), the live
+  state surfaces, and `special_instructions/` when present. That is normally five
+  or six lines.
+  - Each line MUST include (a) a specific, checkable rule/constraint drawn from
+    that layer, naming the document it came from, and (b) what it changes in your
+    behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
-  - Do NOT reuse the same callout across multiple docs; each callout must be doc-specific.
+  - Do NOT reuse the same callout across layers; each must be distinct.
+- **Why per layer and not per document.** A resolved chain runs to dozens of
+  documents - on a user-defined role, past ninety. One distinct callout each,
+  with reuse forbidden, is a several-hundred-line wall emitted before any work
+  starts, every fresh session. Nobody reads it, and its length is what makes it
+  ceremony rather than proof. The rule that does the work is the specificity bar,
+  not the line count: one checkable constraint per layer that you could not have
+  written without reading it.
+- You MAY add lines beyond the layer minimum when a specific document changed your
+  plan and the layer line would bury it. Keep it proportionate; more lines are not
+  more proof.
 - **Live-state entries prove differently, because they carry no rules.** Some baseline
   entries are mutable state, not policy: `attention_board.md`, `artifact_board.md`,
   and `context_management/context_board.md`. A routing table has no
   rule/constraint to call out, so the requirement above cannot be met for them and
   demanding it produces invented rules - the exact confabulation this proof exists
   to catch.
-  - For those three, prove **current state** instead: name the active row or entry
-    you routed from (or state that the board is empty), and the one action it sets
-    up next. Same one-line-per-document shape, same specificity bar.
-  - Example: `attention_board.md: active row -> tickets/tasks/2026-08-01_x_task.md,
+  - Prove **current state** instead: name the active row or entry you routed from
+    (or state that the board is empty), and the one action it sets up next. One
+    line for the layer, same specificity bar.
+  - Example: `live state: attention_board active row -> tickets/tasks/2026-08-01_x_task.md,
     mode=implementation, next=finish the parser -> I resume there rather than
     re-planning.`
-  - This substitution applies ONLY to those three paths. Every other baseline
-    document owes a rule callout.
-- If the proof would be too long, you MUST ask the user for permission to compress/group it.
-  - Do not unilaterally shorten the proof as a convenience.
+  - This substitution applies ONLY to those three paths. Every other layer owes a
+    rule callout.
+- **Do not ask permission to keep it short.** The layer form IS the default, not a
+  concession, so there is nothing to request and no round-trip to spend. If a layer
+  genuinely cannot be proved in one line, add the line you need and say why.
 
 Attestation contract
 - Emit the attestation immediately after re-onboarding and BEFORE certification.

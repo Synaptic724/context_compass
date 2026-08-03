@@ -40,7 +40,10 @@ Required flow
 - Require the approval message to include:
   - `AGENT_NAME: <name>`
   - the exact token `CERTIFY: APPROVED`.
-- Do not use tools or edit files until the user provides that token.
+- Do not use tools or edit files until the user provides that token, **except
+  tools needed to READ onboarding documents, boards and tickets.** Reads are
+  permitted before certification; writes are not, which is why check-in happens
+  immediately after it. Root `AGENTS.MD` "Certification gating" is authoritative.
 
 Certification record
 - Track certification in the session narrative and update `attention_board.md`

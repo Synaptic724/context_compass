@@ -30,6 +30,19 @@ Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
 
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `checked_in` | one row per agent currently active, with `last_checked` |
+| `messages` | structured messages in the format below; delete each one after consuming it |
+| `notes` | recurring instructions and standing context for agent-to-agent handoff in this repository |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
+
 Purpose
 - Targeted agent-to-agent message passing (point-to-point handoffs,
   notices, questions, acks).
