@@ -8,10 +8,20 @@ Purpose
 Unknowns Gate (No Unverified Claims)
 - Any statement not supported by evidence is UNKNOWN.
 - UNKNOWN is the default claim state for new findings.
-- Evidence means at least one of:
-  - A specific source file reference (preferred: file + symbol/method/class name).
-  - A citation to an explicit, already-verified artifact (for example, an approved doc section).
-- If not evidenced => UNKNOWN.
+- Evidence is TIERED. The tiers are not interchangeable, and which one you owe
+  depends on what you are claiming:
+
+  | claim about... | the only thing that evidences it |
+  | --- | --- |
+  | **what the code DOES** - behaviour, ordering, lifecycle, what a function returns, whether a field can be `None`, what happens on error | **the source, read.** `path:start-end` covering the logic you are describing, not just the line the name appears on. |
+  | what the system is FOR - intent, boundaries, why a design is shaped this way | an approved document section, cited |
+  | what is currently HAPPENING - active work, status, routing | the board or ticket, cited |
+
+- **A document citation is NOT evidence for a behaviour claim.** It never was; the
+  older wording listed the two as alternatives and that is exactly how agents ended
+  up describing code they never opened. A document tells you what somebody meant on
+  the day they wrote it. Only the source tells you what runs today.
+- If not evidenced at the required tier => UNKNOWN.
 - UNKNOWN items must be labeled UNKNOWN (or added to an Unknowns section).
 - UNKNOWN items must be investigated by reading the relevant source(s).
 - If investigation cannot be completed (missing source access, ambiguity, or time),
@@ -42,6 +52,27 @@ How to run step 2 and 3 cheaply
 - Read what the claim needs and stop. Loading whole documents with no claim in
   hand is not evidence-gathering; it produces vague statements about a lot instead
   of one evidenced statement about the thing that mattered.
+
+**A SEARCH HIT IS NOT A READ.** This is its own failure and it is currently the
+common one.
+
+- `grep` / `rg` / symbol search **locates**. It does not explain. A match tells you
+  a name occurs at a line; it tells you nothing about what the surrounding function
+  does, what it returns, what it mutates, what it holds a lock on, or what happens
+  when it fails.
+- Citing `path:88-88` because that is where the match landed is not evidence. The
+  range you cite must cover **the logic you are describing** - normally the whole
+  function or method, plus whatever it calls that your claim depends on.
+- Counting matches is not analysis. "17 call sites" is a fact about text. Whether
+  those call sites are equivalent, and what breaks if you change the callee, is
+  only answerable by opening them.
+- Search is the right tool for exactly two jobs: finding where to start reading,
+  and proving an absence ("no other caller exists"). Both end with you opening the
+  file.
+
+The tell that this has happened: a confident description of behaviour whose only
+citation is a single line, or a claim about a symbol you can name but whose body
+you could not summarise. If that is your evidence, the claim is UNKNOWN.
 
 Evidence quality checklist
 - Specific: concrete symbols/sections, not broad file assumptions.

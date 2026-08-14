@@ -53,6 +53,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import pathlib
 import sys
 
@@ -172,8 +173,72 @@ def walk(root: pathlib.Path) -> list[pathlib.Path]:
     return out
 
 
+def normalize_eol(raw: bytes) -> bytes:
+    """CRLF and lone CR collapsed to LF, for text only.
+
+    The package ships LF and `.gitattributes` enforces it HERE - but that file
+    does not travel into a consuming repository. A Windows checkout of a repo
+    that vendored `context_compass/` converts the tree to CRLF, and a byte hash
+    then reports every one of those files as locally edited. That is not a
+    hypothetical: it marked 267 files in one install, and the three-hash rule
+    correctly-but-uselessly answered "you edited it, keep yours" for all of them,
+    silently freezing that install against every future upgrade.
+
+    A line terminator is not a local edit. Hashing the normalized bytes makes the
+    comparison mean what it was always supposed to mean: did the CONTENT change.
+
+    Binary passes through untouched - `\\r\\n` inside a PNG is data, not a
+    newline - and "binary" is decided by whether the bytes are valid UTF-8 rather
+    than by extension, because an extension list is a thing you forget to update.
+
+    Backward compatible by construction: an LF file hashes to exactly what it
+    hashed to before, so every manifest already written stays valid.
+    """
+    try:
+        raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw
+    return raw.replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+
+
+def sha_bytes(raw: bytes) -> str:
+    """Content hash, line-ending agnostic. The one definition; import it."""
+    return hashlib.sha256(normalize_eol(raw)).hexdigest()
+
+
 def sha(path: pathlib.Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    return sha_bytes(path.read_bytes())
+
+
+def detect_eol(path: pathlib.Path) -> bytes:
+    """The terminator a file already uses, or the platform default if it is new.
+
+    Used on the WRITE side so an upgrade does not rewrite a Windows install's
+    whole tree to LF just to deliver one changed document. Match what is there;
+    if there is nothing there, follow the OS.
+    """
+    if path.is_file():
+        try:
+            head = path.read_bytes()[:65536]
+        except OSError:
+            head = b""
+        if b"\r\n" in head:
+            return b"\r\n"
+        if b"\n" in head:
+            return b"\n"
+    return os.linesep.encode()
+
+
+def apply_eol(payload: bytes, eol: bytes) -> bytes:
+    """Re-terminate text `payload` with `eol`. Binary is returned untouched."""
+    normalized = normalize_eol(payload)
+    if normalized is payload and b"\n" not in payload:
+        return payload                      # binary, or nothing to terminate
+    try:
+        payload.decode("utf-8")
+    except UnicodeDecodeError:
+        return payload
+    return normalized if eol == b"\n" else normalized.replace(b"\n", eol)
 
 
 def build(root: pathlib.Path, version: str) -> str:

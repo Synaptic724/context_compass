@@ -103,7 +103,35 @@ class TestShaBytes:
         import hashlib
         assert up.sha_bytes(b"abc") == hashlib.sha256(b"abc").hexdigest()
 
-    def test_byte_sensitive_to_line_endings(self):
-        """CRLF and LF are different files to the manifest, which is why the
-        tools write bytes explicitly rather than letting the platform choose."""
-        assert up.sha_bytes(b"a\r\nb\r\n") != up.sha_bytes(b"a\nb\n")
+    def test_line_ending_agnostic(self):
+        """CRLF, LF and lone CR are the SAME content to the manifest.
+
+        This inverts the original assertion, deliberately. Byte sensitivity meant
+        a Windows checkout of a repo that vendored `context_compass/` hashed every
+        text file differently from the shipped LF copy - so the three-hash rule
+        answered "current != shipped, new == shipped: you edited it, keep yours"
+        for the entire tree. Correct by its own logic, and it silently froze a real
+        install at 267 files, delivering no further package updates and reporting
+        no error.
+
+        A line terminator is not a local edit. The write side still controls
+        terminators explicitly (`apply_eol`); what changed is that COMPARISON no
+        longer confuses a checkout convention with a content change.
+        """
+        assert up.sha_bytes(b"a\r\nb\r\n") == up.sha_bytes(b"a\nb\n") == up.sha_bytes(b"a\rb\r")
+
+    def test_still_sensitive_to_real_content_change(self):
+        """Normalizing terminators must not blunt the thing the hash is for."""
+        assert up.sha_bytes(b"a\nb\n") != up.sha_bytes(b"a\nc\n")
+        assert up.sha_bytes(b"a\nb\n") != up.sha_bytes(b"a\nb\n\n")
+
+    def test_binary_is_not_normalized(self):
+        """`\\r\\n` inside binary is data. Rewriting it would corrupt the file."""
+        png = b"\x89PNG\r\n\x1a\n\xff\xfe"
+        import hashlib
+        assert up.sha_bytes(png) == hashlib.sha256(png).hexdigest()
+
+    def test_lf_hash_unchanged(self):
+        """Back-compat: every manifest already written must stay valid."""
+        import hashlib
+        assert up.sha_bytes(b"a\nb\n") == hashlib.sha256(b"a\nb\n").hexdigest()

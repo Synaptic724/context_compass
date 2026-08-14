@@ -1,0 +1,50 @@
+# Context Compass line-ending policy - for the repository that INSTALLED this
+# package, not for the package's own repository.
+#
+# This file ships inside the payload and lands in your repo as
+# `context_compass/.gitattributes`, where it applies to this directory only. Your
+# own source tree keeps whatever policy you already had; nothing here reaches it.
+#
+# WHY IT SHIPS AT ALL
+#
+# The package is distributed as a directory tree, so correctness depends on
+# filesystem-level comparison, not just git diffs. Without this, a Windows
+# checkout of your repo converts `context_compass/` to CRLF, and the manifest -
+# which records a hash per file - reports every text file as locally modified.
+#
+# The three-hash rule then answers correctly and uselessly: "you edited it, keep
+# yours." An upgrade stops delivering package changes to those files, silently,
+# with no error and no report. It has happened: 267 files in one install.
+#
+# The tools no longer depend on this file being present - `package_manifest.py`
+# normalizes line endings before hashing, and writes back in whatever convention
+# the destination already uses, so a CRLF install is fully supported. This is
+# belt and braces: keeping the tree LF also keeps `diff -rq` between a package
+# and an install meaningful, which is how you audit an upgrade by hand.
+#
+# Delete it if it conflicts with your repo's conventions. Nothing breaks.
+
+* text=auto eol=lf
+
+*.md    text eol=lf
+*.MD    text eol=lf
+*.yaml  text eol=lf
+*.yml   text eol=lf
+*.json  text eol=lf
+*.py    text eol=lf
+LICENSE text eol=lf
+NOTICE  text eol=lf
+
+# Binaries must be declared, or `* text=auto` above can mangle them. This lane
+# matters here: `artifacts/` is yours and agents drop screenshots, PDFs and
+# archives into it as ticket evidence. A misdetected binary is a corrupted file,
+# not a diff you can read.
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.pdf   binary
+*.ico   binary
+*.zip   binary
+*.woff  binary
+*.woff2 binary

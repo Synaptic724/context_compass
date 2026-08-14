@@ -32,7 +32,13 @@ class Gamma:
 
 @pytest.fixture
 def graph(tmp_path):
-    """A source tree with two authored classes, stamps grandfathered."""
+    """A source tree with two authored classes, both accepted against source.
+
+    The stamps are earned via `--accept`, which is now the ONLY thing that mints
+    one. This fixture used to get them for free from the extractor's grandfathering
+    - it auto-stamped unverified prose so it would read as AUTHORED. That is gone,
+    so the setup has to do what a human would: author, then accept.
+    """
     src, desc = tmp_path / "src", tmp_path / "desc"
     write(src / "app" / "thing.py", TWO_CLASSES)
     assert run_tool(EXTRACT, "--src", src, "--out", desc).returncode == 0
@@ -43,7 +49,10 @@ def graph(tmp_path):
         d["nodes"][f"app.thing.{label}"]["role"] = f"authored for {label}"
     p.write_text(json.dumps(d, indent=2))
 
-    run_tool(EXTRACT, "--src", src, "--out", desc)      # stamps get grandfathered
+    run_tool(EXTRACT, "--src", src, "--out", desc)
+    for label in ("Alpha", "Gamma"):
+        assert run_tool(WALKER, "--descriptors", desc,
+                        "--accept", f"app.thing.{label}", "--apply").returncode == 0
     return src, desc, p
 
 
@@ -123,9 +132,21 @@ class TestSemanticsStale:
         res = run_tool(EXTRACT, "--src", src, "--out", desc)
         assert "SEMANTICS_STALE" not in res.stdout
 
-    def test_first_stamp_is_grandfathered_not_flagged_stale(self, tmp_path):
-        """Existing graphs predate the stamp. Flagging every node stale on the
-        first run makes the census useless on day one."""
+    def test_unstamped_prose_is_reported_unverified_and_never_auto_stamped(self, tmp_path):
+        """Authored prose with no stamp is UNVERIFIED, and the extractor must not
+        invent a stamp for it.
+
+        This inverts the original assertion. That test encoded "grandfathering":
+        the extractor auto-stamped pre-existing prose against current source so it
+        would report AUTHORED, on the reasoning that flagging everything stale on
+        day one makes the census useless.
+
+        The cost was the census meaning nothing. The stamp claims a human read this
+        prose against this source; minting one on nobody's behalf made
+        `SEMANTICS_STALE: 0` reachable with zero nodes checked, and once written the
+        assumed stamp was indistinguishable from an earned one. A large stale count
+        on first run is the truth surfacing, not a regression.
+        """
         src, desc = tmp_path / "src", tmp_path / "desc"
         write(src / "app" / "thing.py", TWO_CLASSES)
         run_tool(EXTRACT, "--src", src, "--out", desc)
@@ -135,9 +156,9 @@ class TestSemanticsStale:
         p.write_text(json.dumps(d, indent=2))
 
         res = run_tool(EXTRACT, "--src", src, "--out", desc)
-        assert "GRANDFATHERED" in res.stdout
-        assert "SEMANTICS_STALE" not in res.stdout
-        assert nodes(p)["app.thing.Alpha"]["semantics_authored_against"]
+        assert "UNVERIFIED" in res.stdout
+        # the defining assertion: no stamp was invented
+        assert "semantics_authored_against" not in nodes(p)["app.thing.Alpha"]
 
     def test_the_stamp_is_preserved_across_extractions(self, graph):
         src, desc, p = graph

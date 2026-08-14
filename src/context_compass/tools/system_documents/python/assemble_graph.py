@@ -123,7 +123,17 @@ def render_node(node: dict[str, Any]) -> list[str]:
         lines.append(f"- markers: {', '.join(f'`{m}`' for m in node['markers'])}")
     if node.get("role"):
         lines.append(f"- role: {node['role']}")
-    for field in ("responsibilities", "owns_state", "phases"):
+    # `responsibilities` is prose, not identifiers, and the two cannot share a
+    # renderer. Comma-joining sentences onto one line is unreadable, and wrapping
+    # each in backticks is a category error that actively CORRUPTS the text: any
+    # authored sentence containing a code span - which is precisely what a good
+    # responsibility does, naming the method or attribute it describes - closes
+    # the outer span early and the line renders as alternating code and plain
+    # fragments. `role` above is already rendered as bare prose; this matches it.
+    if node.get("responsibilities"):
+        lines.append("- responsibilities:")
+        lines.extend(f"  - {v}" for v in node["responsibilities"])
+    for field in ("owns_state", "phases"):
         if node.get(field):
             lines.append(f"- {field}: {', '.join(f'`{v}`' for v in node[field])}")
     if node.get("public_methods"):

@@ -191,9 +191,61 @@ code; do not infer from names.
 """
 
 
+def epic_table(packages: list[tuple[str, int, int]]) -> str:
+    """The generated Stories table, and nothing else.
+
+    Split out from `epic_body` so an existing epic can have JUST this block
+    refreshed. Everything else in that file may be authored, and authored
+    content is not this tool's to rewrite.
+    """
+    # Header and separator are not decoration. Without them this is not a Markdown
+    # table at all - it renders as literal pipe-delimited text - and the two integer
+    # columns are unlabelled, so a reader cannot tell which one is stale and which
+    # is unsemantic. They are different kinds of work: unsemantic means nobody has
+    # written it, stale means somebody did and the source moved underneath it.
+    return "\n".join(
+        ["| package | unsemantic | stale |", "| --- | --- | --- |"]
+        + [f"| `{p}` | {u} | {s} |" for p, u, s in packages]
+    )
+
+
+EPIC_ID_RE = re.compile(r"^- Epic ID: (\S+)\s*$", re.M)
+EPIC_TABLE_RE = re.compile(
+    r"(## Stories \(Required to Complete\)\n).*?(Total nodes needing work: \d+)", re.S)
+
+
+def existing_epic_id(path: pathlib.Path | None) -> str | None:
+    """The epic id already on disk, if there is one.
+
+    Minting `EPIC-{today}-...` on every run silently renamed the epic each time
+    the tool ran, and every story got a `- Epic:` pointing at the NEW id. Any
+    story the run skipped - a SATISFIED one, i.e. finished work - kept the old
+    id and was orphaned by the rename. The id is the join key; it has to be
+    stable or the join is decorative.
+    """
+    if path is None or not path.exists():
+        return None
+    m = EPIC_ID_RE.search(path.read_text(encoding="utf-8", errors="replace"))
+    return m.group(1) if m else None
+
+
+def refresh_epic_table(text: str, packages: list[tuple[str, int, int]]) -> str | None:
+    """Replace only the generated table inside an existing epic.
+
+    Returns None if the block is not found, in which case the caller should not
+    guess - better to leave the file alone and say so than to overwrite prose.
+    """
+    total = sum(u + s for _, u, s in packages)
+    table = epic_table(packages)
+    if not EPIC_TABLE_RE.search(text):
+        return None
+    return EPIC_TABLE_RE.sub(
+        lambda m: f"{m.group(1)}{table}\n\nTotal nodes needing work: {total}", text)
+
+
 def epic_body(epic_id: str, packages: list[tuple[str, int, int]]) -> str:
     total = sum(u + s for _, u, s in packages)
-    rows = "\n".join(f"| `{p}` | {u} | {s} |" for p, u, s in packages)
+    rows = epic_table(packages)
     return f"""
 
 # Epic: Author graph semantics
@@ -301,7 +353,8 @@ def main() -> int:
 
     stories_lane = args.tickets / "stories"
     epics_lane = args.tickets / "epics"
-    epic_id = f"EPIC-{today()}-{EPIC_SLUG}"
+    epic_existing = find_existing(epics_lane, EPIC_SLUG)
+    epic_id = existing_epic_id(epic_existing) or f"EPIC-{today()}-{EPIC_SLUG}"
 
     # Both directions of the loop: what needs a ticket, and what no longer does.
     satisfied = []
@@ -357,7 +410,18 @@ def main() -> int:
         print(f"              nothing left unauthored; close it by hand")
 
     if not plan:
+        # Nothing left to author is exactly when the epic's table is MOST wrong: it still
+        # lists whatever was outstanding on the last run that had work. Returning here
+        # without refreshing left a completed epic advertising N nodes still needing
+        # work - the table contradicting the thing it summarises. Empty the table so the
+        # finished state is legible, but only with --create, because a dry run must not write.
         print("\n  nothing to do")
+        if args.create and epic_existing:
+            prior = epic_existing.read_text(encoding="utf-8", errors="replace")
+            spliced = refresh_epic_table(prior, [])
+            if spliced is not None and spliced != prior:
+                epic_existing.write_text(spliced, encoding="utf-8")
+                print(f"  Refreshed the Stories table in {epic_existing.name}: 0 outstanding.")
         return 0
 
     if not args.create:
@@ -388,9 +452,20 @@ def main() -> int:
         written += 1
         epic_rows.append((package, len(states["UNSEMANTIC"]), len(states["SEMANTICS_STALE"])))
 
-    epic_existing = find_existing(epics_lane, EPIC_SLUG)
     epic_path = epic_existing or (epics_lane / f"{today()}_{EPIC_SLUG}_epic.md")
-    epic_path.write_text(epic_body(epic_id, epic_rows), encoding="utf-8")
+    if epic_existing:
+        # An epic that already exists is a document somebody has been working in:
+        # status, owner, decision log, notes. Rewriting the whole body to refresh
+        # a generated table destroys all of it. Refresh the table in place.
+        prior = epic_path.read_text(encoding="utf-8", errors="replace")
+        spliced = refresh_epic_table(prior, epic_rows)
+        if spliced is None:
+            print(f"\n  SKIPPED epic {epic_path.name}: no generated Stories block found.")
+            print("  Refusing to overwrite - the file has been restructured by hand.")
+        else:
+            epic_path.write_text(spliced, encoding="utf-8")
+    else:
+        epic_path.write_text(epic_body(epic_id, epic_rows), encoding="utf-8")
 
     print(f"\n  WROTE: {written} story/stories, 1 epic")
     print(f"    epic    {epic_path}")

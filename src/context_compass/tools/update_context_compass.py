@@ -68,6 +68,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from package_manifest import (  # noqa: E402
     MANIFEST_NAME, parse, is_permissive, check_manifest_compatible,
+    sha_bytes, detect_eol, apply_eol,
 )
 from cleanup_context_compass import (  # noqa: E402
     swap_managed, carry_user_regions, orphaned_user_regions, user_regions,
@@ -101,8 +102,11 @@ def conform_text(new_bytes: bytes, install_path: pathlib.Path) -> tuple[bytes, l
     return merged.encode("utf-8"), carried, orphaned
 
 
-def sha_bytes(b: bytes) -> str:
-    return hashlib.sha256(b).hexdigest()
+# `sha_bytes` is imported from package_manifest, not defined here. It normalizes
+# line endings before hashing so a CRLF checkout of a consuming repo does not read
+# as 300 local edits - see the note on `normalize_eol` there. Defining a second
+# copy is how the two tools would drift into disagreeing about what "changed"
+# means, which is the one thing the three-hash rule cannot survive.
 
 
 def top_level_keys(yaml_text: str) -> dict[str, tuple[int, int]]:
@@ -441,12 +445,16 @@ def main() -> int:
     for rel in replace + added + live_conform + (conflict if conform else []):
         src, dst = new / rel, install / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
+        eol = detect_eol(dst)          # BEFORE the write - the file is about to change
         payload, carried, orphaned = conform_text(src.read_bytes(), dst)
         if carried:
             carried_report.append((rel, carried))
         if orphaned:
             orphan_report.append((rel, orphaned))
-        dst.write_bytes(payload)
+        # Deliver in the convention this install already uses. Rewriting a Windows
+        # tree to LF would turn a two-file upgrade into a whole-repo diff, and the
+        # user would be right to call that destructive.
+        dst.write_bytes(apply_eol(payload, eol))
 
     for rel, _ in blocks:
         p = install / rel
