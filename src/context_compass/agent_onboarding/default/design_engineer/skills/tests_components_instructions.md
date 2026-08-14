@@ -8,6 +8,25 @@
 - Produce evidence-backed C3/C2/C1 test component mapping aligned to test
   architecture boundaries.
 
+## Where the content comes from
+
+**Read the source you are describing. That is the input to this document.**
+
+Every recipe in this skill checks the DOCUMENT - heading structure, citation
+resolution, index agreement, catalog completeness. A green run means the document
+is well-formed. It says nothing about whether the prose is TRUE, because no `rg`
+over a markdown file can tell you what a class actually does.
+
+So the order is: read the code, write the claim, then run the recipes to check you
+wrote it in the right shape. Not the reverse, and never the recipes alone.
+
+- `grep` / `rg` / AST output locate things. They do not explain them. A claim built
+  from a match is UNKNOWN until you have read the implementation behind it.
+- A citation you have not opened is not evidence. `path:start-end` proves a range
+  exists; it does not prove it says what you claim.
+- Where the source and an existing document disagree, the source wins and the
+  document is stale - record that, it is a finding worth having.
+
 ## Canonical Output
 - `context_compass/system_docs/tests_components.md`
 

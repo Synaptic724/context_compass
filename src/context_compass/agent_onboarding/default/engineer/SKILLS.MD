@@ -48,9 +48,13 @@ Rules
 - You MUST NOT claim you read a document you only sliced. Say which sections.
 - Large documents are read **by slice through their index**, never whole. That is a
   rule about HOW, not WHETHER.
-- **Read what the task needs and no more.** These documents grow with the repository.
-  Reading everything is not diligence, it is a context budget spent before the work
-  starts. Be surgical.
+- **Slice the DOCUMENTS to the topic; read the CODE whole.** These two rules point in
+  opposite directions on purpose. Documents grow with the repository and are entered
+  through their indexes. A source file is a few hundred lines - open it and read it.
+  - This rule is about the large system documents ONLY. It has never applied to
+    source, and reading it that way is how an agent ends up describing code from
+    `grep` output. If you are about to change an implementation, you read that
+    implementation in full.
 - Ask the user for **guidance** when you cannot tell where to look - which subsystem,
   which component, which of four similar names. Do not ask for **permission** to look.
   Guidance is a real question; permission is a stall.
@@ -60,6 +64,10 @@ Rules
 - **These documents guide you to the code. They are not the code.** Before changing
   an implementation you read that implementation. Where a document and the source
   disagree, the source is what runs.
+- **A search is not a read, and a document is not the source.** `grep`/`rg` narrows
+  the shortlist; it never closes a behaviour question. Citing a doc section, or a
+  single line where a symbol matched, is not evidence that code does what you say.
+  Full rule: `agent_onboarding/default/general/skills/unknowns_gate_reference.md`.
 
 Required baseline skills
 - `agent_onboarding/default/engineer/AGENTS.MD`
@@ -92,22 +100,43 @@ Baseline system orientation (read every one that exists)
 Why these four and not the whole set. An engineer who does not know the shape of the
 system writes plausible code in the wrong place, and no amount of role skill fixes
 that. So the narrative is baseline: `src_architecture.md` is the one document that
-explains what this system IS, and it is the smallest of the set - on a real
-repository, ~2,300 lines against ~8,400 for components and ~25,000 for the graph.
+explains what this system IS. Read it.
 
-The two INDEXES are baseline because an index is a map, not a territory. They cost
-~75 and ~165 lines and they are what make the large documents usable at all: with
-them you can name a component and slice its 40 lines; without them your only options
-are to read 8,400 lines or to guess. Onboarding with the maps and without the
-territory is the entire point.
+The two INDEXES are baseline because an index is a map, not a territory. They are
+what let you name a component and go straight to its section instead of hunting for
+it. You onboard holding the maps, then use them to reach the parts of the territory
+your work actually needs - and then the code.
 
 Nothing else is baseline. Everything else under `system_docs/` is Self-directed,
 which means yours to reach for without waiting for anything. See below.
 
-The understanding hierarchy (do not sprawl)
-These documents are not four separate references you consult in parallel. They are
-one funnel, ordered widest to narrowest, and **each level hands you the exact key you
-need to open the next**:
+The reading order
+This is a PRIORITY ORDER, not a rationing scheme. It tells you what to read first so
+that what you read next is the right thing. It is not an argument for reading less.
+
+1. **`src_architecture.md`** - read it. This is what the system IS.
+2. **`src_components.md`** - before starting work on a topic, read the parts relevant
+   to that topic. Use the index to find them.
+3. **`src_graph.md`** - if you are going to write code, read the wiring for what you
+   are touching. Use the index to find it.
+4. **THE CODE** - if you are changing anything, read the code. Always. No exception.
+
+Steps 1-3 tell you WHICH code. Step 4 tells you what it actually does. Every document
+above step 4 can be out of date; the code cannot. When they disagree, the code is
+right and the document is stale - record that, it is a finding.
+
+**`grep` and AST are guesses.** They tell you a name occurs somewhere. They do not
+tell you what the function does, what it owns, what it locks, what it returns, or
+what happens when it fails. Use them to find where to start reading. Then read, and
+trace the call path. A claim you cannot support from source you have actually read is
+UNKNOWN, however many matches you counted.
+
+**You have capacity - spend it here.** Source files are small next to the documents;
+a class is a few hundred lines and you can read the whole thing. Budget discipline
+exists so that you arrive at the code with room to read it properly, not so that you
+skip it.
+
+Each level hands you the key the next one is looked up by:
 
 ```
   src_architecture.md          WHICH PART of the system - read whole, at onboarding
@@ -130,31 +159,27 @@ need to open the next**:
 
 Descend it. Do not enter in the middle.
 
-Each step is a **lookup, not a search**, and that is the whole value. Architecture
-names a subsystem; you look that name up in the components index rather than
-scanning. A component names its Key Files and nodes; you look those up in the graph
-index rather than scanning. Enter at the graph with no name in hand and you are
-searching 25,000 lines for something you cannot describe - that is the sprawl this
-hierarchy exists to prevent, and it is how an agent burns its whole context and still
-gets the answer wrong.
+Each step is a **lookup, not a search**, and that is why the order matters. The
+architecture names a subsystem; you look that name up in the components index instead
+of scanning for it. A component names its files and nodes; you look those up in the
+graph index instead of scanning for them. Entering at the graph with no name in hand
+means hunting for something you cannot yet describe - the order exists to stop that,
+not to stop you reading.
 
-You do not need to know it all. At every level you carry down only the branch you are
-on. One subsystem, one or two components, the handful of nodes they name. Everything
-else on that level is somebody else's task.
+At each level you carry down only the branch you are on: one subsystem, one or two
+components, the nodes they name. That is what makes step 4 affordable.
 
 **The documents are guiding tools. The code is the system.**
-This is the part that is not optional: when you are making a code change, you read
-the code. The hierarchy exists to tell you *which* code - to take "somewhere in this
-repository" and turn it into four files worth opening. It does not tell you what
-those files currently do. Documents describe intent at the moment somebody wrote them
-down; the code is what runs. Where they disagree, the code wins and the document is
-stale - say so, and fix it or file it.
+When you are making a code change, you read the code. The order above exists to tell
+you *which* code - to turn "somewhere in this repository" into a few files worth
+opening. It does not tell you what those files do today. Documents describe intent at
+the moment somebody wrote them down; the code is what runs.
 
-So never let a slice stand in for reading the implementation you are about to change.
-Never quote a document as evidence for behaviour you have not seen in source. The
-right shape is: **descend the hierarchy to find the code, then read the code, then
-change it** - and if what you found contradicts the document that sent you there,
-that contradiction is itself a finding worth recording.
+So never let a slice stand in for reading the implementation you are about to change,
+and never quote a document as evidence for behaviour you have not seen in source. The
+right shape is: **use the documents to find the code, read the code, then change it** -
+and if what you found contradicts the document that sent you there, that contradiction
+is a finding worth recording.
 
 Self-directed system reading - agent-driven or user-driven
 Every system document that is not one of the four above, including any this role
@@ -224,9 +249,9 @@ request for a deep dive, a ticket that needs architecture work, a task touching
 examples of demand, not a gate on it. A condition list that fails to fire is not
 permission to work uninformed.
 
-**Read by slice, never whole.** `src_components.md` is ~8,400 lines and
-`src_graph.md` ~25,000; both are sliced through their indexes, always. The tests
-pair is small enough to read directly. Verify an index before trusting a range - an
+**Slice these two through their indexes**, always - `src_components.md` and
+`src_graph.md` are the large ones. The tests pair is small enough to read directly.
+None of this applies to source: read the code you are changing, in full. Verify an index before trusting a range - an
 index that lags its document still returns line numbers, they are simply the wrong
 ones. See `agent_onboarding/default/engineer/skills/src_graph_usage.md`.
 
@@ -257,7 +282,7 @@ Note on the source graph
 - NEVER read `src_graph.md` in full. Read `src_graph_index.md`, verify it, and
   slice only the sections you need. See
   `agent_onboarding/default/engineer/skills/src_graph_usage.md`.
-- "Never read it in full" is a rule about HOW, not WHETHER. It exists because the
-  document is ~25,000 lines, not because its contents are restricted. Slice it
-  freely and often; that is what it is for. Reading none of it is not the safe
-  reading of this rule, it is the failure the rule was written to prevent.
+- "Never read it in full" is a rule about HOW, not WHETHER, and it applies to this
+  DOCUMENT - not to the code it describes. Slice it freely and often; that is what it
+  is for. Reading none of it is not the safe reading of this rule, it is the failure
+  the rule was written to prevent.

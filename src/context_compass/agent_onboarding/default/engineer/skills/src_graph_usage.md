@@ -114,6 +114,14 @@ Read every section with this in mind:
   `authored` are **authored** by an agent or human who read the code.
 - A node marked **UNSEMANTIC** has scaffold only. Its structure is trustworthy;
   its meaning has not been established. Do not infer purpose from a name.
+- **`AUTHORED` measures field PRESENCE, not quality.** A node counts as authored
+  the moment `role`, `responsibilities` or `owns_state` is non-empty - nothing
+  inspects what is in them. Fields scraped from docstrings clear that bar while
+  reading as fragments: sentences split mid-clause, bare section headers
+  (`Attributes:`, `It ensures:`), clauses ending in a comma. Measured on one real
+  graph, **158 of 502 nodes** were `AUTHORED` and unreadable in exactly this way.
+  So "100% authored" can be true as measured and still overstate what you will
+  find. Judge the prose, not the state.
 - Edge candidates are **guesses**.
 
 **Authored does not mean current.** The mechanical tier is rebuilt on every
@@ -132,7 +140,7 @@ python context_compass/tools/system_documents/python/graph_walker.py \
 | state | what it means for a reader |
 | --- | --- |
 | `AUTHORED` | the source has not changed since the prose was written |
-| `SEMANTICS_STALE` | **the source moved underneath it**; treat the prose as a lead, not a fact |
+| `SEMANTICS_STALE` | **unverified against the source it describes** - the source moved, or nobody ever checked it. Treat the prose as a lead, not a fact |
 | `RETIRED` | the node is gone from source; its prose is kept for adjudication |
 
 If a claim matters and the node is stale, **read the code**. Full loop:

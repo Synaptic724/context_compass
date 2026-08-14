@@ -213,6 +213,13 @@ class TestIdempotency:
                 n["role"] = "authored"
             p.write_text(json.dumps(d, indent=2))
         run_tool(EXTRACT, "--src", src, "--out", desc)
+        # Authoring alone no longer completes the work. An unstamped node is
+        # SEMANTICS_STALE, which this tool counts as needing work - correctly, since
+        # nobody has checked that prose against its source. SATISFIED now requires
+        # the verification too, which is the loop the epic claims to close.
+        for p in (desc / "app" / "edge").glob("*.json"):
+            for nid in json.loads(p.read_text())["nodes"]:
+                run_tool(WALKER, "--descriptors", desc, "--accept", nid, "--apply")
 
         res = run_tool(TICKETS, "--descriptors", desc, "--tickets", lane)
         assert "SATISFIED" in res.stdout
@@ -230,6 +237,13 @@ class TestIdempotency:
                 n["role"] = "authored"
             p.write_text(json.dumps(d, indent=2))
         run_tool(EXTRACT, "--src", src, "--out", desc)
+        # Authoring alone no longer completes the work. An unstamped node is
+        # SEMANTICS_STALE, which this tool counts as needing work - correctly, since
+        # nobody has checked that prose against its source. SATISFIED now requires
+        # the verification too, which is the loop the epic claims to close.
+        for p in (desc / "app" / "edge").glob("*.json"):
+            for nid in json.loads(p.read_text())["nodes"]:
+                run_tool(WALKER, "--descriptors", desc, "--accept", nid, "--apply")
         run_tool(TICKETS, "--descriptors", desc, "--tickets", lane, "--create", "--yes")
         assert edge.read_bytes() == before
 

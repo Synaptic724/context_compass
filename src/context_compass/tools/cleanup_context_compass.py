@@ -96,6 +96,7 @@ import sys
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from package_manifest import (  # noqa: E402
     MANIFEST_NAME, SKIP_DIRS, parse, check_manifest_compatible,
+    sha_bytes, detect_eol, apply_eol,
 )
 
 MANAGED_BEGIN = "<!-- BEGIN MANAGED: {name} -->"
@@ -108,8 +109,13 @@ FREE_SPACE_ROOT = "user_defined/"
 
 
 def sha_of(path: pathlib.Path) -> str:
-    import hashlib
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    """Content hash, line-ending agnostic - delegates to the one definition.
+
+    This used to hash raw bytes, which meant a CRLF checkout reported every text
+    file as modified and `--check` produced a repair list the length of the
+    package. See `normalize_eol` in `package_manifest.py`.
+    """
+    return sha_bytes(path.read_bytes())
 
 
 def managed_blocks(text: str) -> list[tuple[str, int, int]]:
@@ -419,7 +425,9 @@ def main() -> int:
             print(f"    SKIP (not in reference): {rel}")
             continue
         dst.parent.mkdir(parents=True, exist_ok=True)
-        dst.write_bytes(src.read_bytes())
+        # Restore content in the convention the install already uses; a repair
+        # should not also flip the file's line endings.
+        dst.write_bytes(apply_eol(src.read_bytes(), detect_eol(dst)))
 
     for rel, _ in blocks:
         p = target / rel
@@ -469,7 +477,7 @@ def main() -> int:
         p = target / rel
         if not p.exists() and (reference / rel).is_file():
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_bytes((reference / rel).read_bytes())
+            p.write_bytes(apply_eol((reference / rel).read_bytes(), detect_eol(p)))
             recreated += 1
 
     print()

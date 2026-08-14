@@ -34,6 +34,15 @@ Usage:
     # report drift without writing
     python extract_graph.py --src src --out ... --check
 
+    # fail if any source file could not be parsed (CI / unattended runs)
+    python extract_graph.py --src src --out ... --strict
+
+A file this interpreter cannot parse gets no descriptor, so every node in it
+leaves the graph silently - the run still succeeds and the document is simply one
+section shorter. That is correct when the file is broken and wrong when the file
+is merely NEWER than the interpreter. `--strict` turns that into a non-zero exit
+so an unattended run cannot publish a graph with holes in it.
+
     # skip __init__.py (included by default - it usually carries a package's
     # public surface, so dropping it would lose what a package exposes)
     python extract_graph.py --src src --out ... --exclude-init
@@ -250,8 +259,15 @@ def span_sha(raw: bytes, node: ast.AST) -> str:
     return hashlib.sha256("\n".join(lines).encode("utf-8")).hexdigest()
 
 
-def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None:
-    """Parse one source file into a mechanical descriptor."""
+def extract(path: pathlib.Path, src_root: pathlib.Path,
+            skips: list[tuple[str, str]] | None = None) -> dict[str, Any] | None:
+    """Parse one source file into a mechanical descriptor.
+
+    `skips`, when given, collects `(rel_path, reason)` for every file that could
+    not be parsed. The caller needs the paths, not just a count: "skipped=1" tells
+    a reader something went wrong and nothing about what, and this failure is
+    silent by construction - the graph simply comes out one section short.
+    """
     rel = path.relative_to(src_root).as_posix()
     raw = path.read_bytes()
     try:
@@ -272,6 +288,8 @@ def extract(path: pathlib.Path, src_root: pathlib.Path) -> dict[str, Any] | None
               f"syntax it is not broken -", file=sys.stderr)
         print(f"       the interpreter is older than the code. Re-run on the "
               f"version the project targets.", file=sys.stderr)
+        if skips is not None:
+            skips.append((rel, f"{exc} [parsed with Python {running}]"))
         return None
 
     mod = module_id(rel)
@@ -442,13 +460,22 @@ def merge(new: dict[str, Any], old: dict[str, Any] | None) -> tuple[dict[str, An
         stamp = node.get("semantics_authored_against")
         current = node.get("span_sha256", "")
         if not stamp:
-            # Grandfathered: semantics predate the stamp. Assuming "current" is
-            # the only option that does not flag every existing node stale on
-            # first run, which would make the census useless on day one.
-            if current:
-                node["semantics_authored_against"] = current
-                notes.append(f"GRANDFATHERED node {nid} - semantics stamped against "
-                             f"current source; not verified against it")
+            # NOT STAMPED, AND THE EXTRACTOR DOES NOT STAMP IT.
+            #
+            # This used to auto-stamp the node against current source so it would
+            # report AUTHORED - "grandfathering". That was the extractor asserting,
+            # on nobody's behalf, that prose it never read matches code it never
+            # compared. It made `SEMANTICS_STALE: 0` reachable without a single node
+            # having been checked, and the assumption became indistinguishable from
+            # a real one the moment the run finished.
+            #
+            # The stamp means a human read this against this source. Only `--accept`
+            # can create it. An unstamped node reports SEMANTICS_STALE, because that
+            # is what it is: unverified. The first run after upgrading will show a
+            # large stale count, and that count is the truth being reported for the
+            # first time rather than a regression.
+            notes.append(f"UNVERIFIED node {nid} - authored prose with no stamp; "
+                         f"reports SEMANTICS_STALE until read and --accept'ed")
         elif current and stamp != current:
             notes.append(f"SEMANTICS_STALE node {nid} - source changed since its "
                          f"semantics were written; re-verify then re-accept")
@@ -495,6 +522,9 @@ def main() -> int:
     ap.add_argument("--check", action="store_true", help="report drift, write nothing")
     ap.add_argument("--exclude-init", action="store_true",
                     help="skip __init__.py (default: included)")
+    ap.add_argument("--strict", action="store_true",
+                    help="exit non-zero if any source file could not be parsed "
+                         "(use in CI and unattended runs)")
     args = ap.parse_args()
 
     src_root: pathlib.Path = args.src.resolve()
@@ -514,9 +544,10 @@ def main() -> int:
     # inheriting a concrete/abstract class is specialization. That distinction
     # cannot be made per-file, because the base may be defined anywhere.
     parsed: list[tuple[pathlib.Path, dict[str, Any]]] = []
+    skipped: list[tuple[str, str]] = []
     stats_resolved = [0, 0]   # [resolved, unresolved]
     for path in files:
-        desc = extract(path, src_root)
+        desc = extract(path, src_root, skipped)
         if desc is None:
             stats["skipped"] += 1
             continue
@@ -602,8 +633,8 @@ def main() -> int:
          "RECOVERED - matched an older id; semantics carried over"),
         ("RESTORED",
          "RESTORED - back in source; retirement lifted"),
-        ("GRANDFATHERED",
-         "GRANDFATHERED - semantics predate the stamp, assumed current"),
+        ("UNVERIFIED",
+         "UNVERIFIED - authored prose nobody has checked against source"),
     ):
         hits = [n for n in all_notes if n.startswith(marker) or f" {marker} " in n]
         if not hits:
@@ -614,12 +645,36 @@ def main() -> int:
         if len(hits) > 15:
             print(f"    ... +{len(hits) - 15} more")
 
+    # SKIPPED is surfaced last and loudest, because it is the only failure here
+    # that makes the graph WRONG rather than merely incomplete. Drift is visible -
+    # a node marked new or orphaned says so. A skipped file leaves no trace at all:
+    # its section is simply absent, every citation into it stops resolving, and the
+    # run still prints a clean summary. It cannot be counted in `census` for the
+    # same reason - the census describes nodes that exist, and these do not.
+    if skipped:
+        print(f"\n  SKIPPED - NOT IN THE GRAPH: {len(skipped)}")
+        for rel, reason in skipped[:15]:
+            print(f"    {rel}: {reason}")
+        if len(skipped) > 15:
+            print(f"    ... +{len(skipped) - 15} more")
+        print("  Every node in these files is missing from the graph and any")
+        print("  Key Files citation into them will not resolve. If the reason is")
+        print("  a syntax error on a file the project considers valid, re-run on")
+        print("  the interpreter the project targets. Use --strict to fail on this.")
+
     stale = sum(1 for n in all_notes if "SEMANTICS_STALE" in n)
     print(f"\n  census: {stats['unsemantic']} unsemantic, {stale} stale, "
           f"{stats['orphaned']} orphaned")
     print("  staleness is tracked per NODE, so one changed class does not")
     print("  invalidate its whole module. Full report: graph_walker.py --report")
-    return 1 if (args.check and (stats["new"] or stats["orphaned"] or stale)) else 0
+
+    # Two independent reasons to fail. Drift only fails under --check, because a
+    # write run is how drift gets resolved and failing on it would make the normal
+    # path exit non-zero. A skip fails whenever --strict is set, in either mode:
+    # writing a knowingly incomplete graph is the case worth stopping.
+    drift = bool(args.check and (stats["new"] or stats["orphaned"] or stale))
+    unparsed = bool(args.strict and skipped)
+    return 1 if (drift or unparsed) else 0
 
 
 if __name__ == "__main__":

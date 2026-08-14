@@ -92,7 +92,27 @@ def state_of(node: dict) -> str:
     if not any(f in node for f in AUTHORED_NODE_FIELDS):
         return "UNSEMANTIC"
     stamp, current = node.get(STAMP), node.get("span_sha256", "")
-    if stamp and current and stamp != current:
+    # NO STAMP MEANS NOT VERIFIED, AND THAT IS SEMANTICS_STALE.
+    #
+    # `AUTHORED` claims one specific thing: someone read this prose against this
+    # source. A node with no stamp has never had that done, so returning AUTHORED
+    # for it is a false claim - and it was the actual defect here. Nothing was
+    # wrong with the state machine; the extractor was papering over the gap by
+    # stamping unverified nodes "current" so they would land in AUTHORED.
+    #
+    # Yes, this means an existing graph reports a large stale count on the first
+    # run after upgrading. That number is correct. It is the count of nodes nobody
+    # has checked, which is the question this tool exists to answer, and hiding it
+    # to make day one look tidy is how the census stopped meaning anything.
+    # Test for the KEY, not for a truthy value. A node with no `span_sha256` -
+    # module nodes, which describe a whole file rather than a span - is accepted
+    # with an empty stamp, and that is a legitimate acceptance: there is nothing
+    # to hash, so "" is the correct record of what it was accepted against.
+    # Checking truthiness instead made those nodes permanently stale, unable to
+    # leave the state no matter how many times a human read and accepted them.
+    if STAMP not in node:
+        return "SEMANTICS_STALE"
+    if current and stamp != current:
         return "SEMANTICS_STALE"
     return "AUTHORED"
 

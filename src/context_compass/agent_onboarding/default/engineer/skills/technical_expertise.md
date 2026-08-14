@@ -13,6 +13,11 @@ Core rule
 Root-cause workflow (required)
 1) Reproduce the issue with concrete failing evidence (stack trace, test, or runtime path).
 2) Trace call-path ownership and lifecycle boundaries.
+   - **Tracing means opening each file along the path and reading it.** Finding the
+     callers with `grep` is how you get the list; it is not the trace. A caller list
+     tells you where a name appears - not whether that call site holds a lock, owns
+     the object, passes a borrowed reference, or runs before cleanup. Those are the
+     facts the diagnosis turns on, and only the source states them.
 3) Identify whether `None`/missing state is valid, invalid, or test-only setup drift.
 4) Classify the fix:
    - Contract violation: fail fast with explicit error.

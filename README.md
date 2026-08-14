@@ -60,7 +60,7 @@ has no business there.
 Pin a version for reproducibility, or track the latest:
 
 ```bash
-uvx contextcompass@2.15.2 init     # exact, repeatable
+uvx contextcompass@2.15.4 init     # exact, repeatable
 uvx contextcompass@latest init     # whatever is newest
 ```
 
@@ -540,4 +540,4 @@ what the licence does not give you is permission to use the name or logo to bran
 your own product, or in any way suggesting endorsement or official status.
 
 The distribution name `contextcompass` and the command `contextcompass` are
-technical identifiers, not the mark.
+technical identifiers, not the mark. Full statement: [NOTICE](NOTICE).

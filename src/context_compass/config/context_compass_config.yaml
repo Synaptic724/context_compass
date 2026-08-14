@@ -53,6 +53,14 @@ workflow:
     mode: strict
     require_note_before_continue: true
     minimum_note_score: 7
+    # Files OUTSIDE the current scope before you stop and ask - a wandering limit,
+    # not a reading limit. It does not cap how much of the implementation you are
+    # changing you may open: that code, what it calls, and its tests are one scope
+    # however many files they span, and need no permission.
+    #
+    # Read as a flat five-file cap it inverts its own purpose - an agent greps
+    # instead of opening files to stay under the number, and ends up describing
+    # code it never read. See `general/skills/context_window_budget.md`.
     expansion_gate_max_files: 5
     unknown_default: true
   ticket_contract:

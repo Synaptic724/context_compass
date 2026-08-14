@@ -420,7 +420,28 @@ def main() -> int:
                   file=sys.stderr)
             return 1
         needle = args.slice.lower()
-        hits = [s for s in sections if needle in s["path"].lower()]
+
+        # Resolve in three passes, narrowest first. A pure substring match makes a
+        # section unreachable whenever its name is contained in another name, and
+        # that is not a rare edge: measured across the six system documents in this
+        # repository, 21 of 292 sections could not be addressed by name at all.
+        #
+        # Two families produced all of them:
+        #   - a parent heading is a substring of its own children's breadcrumbs, so
+        #     `C1 Code Map (Core Only)` also matched `C1 Code Map (Core Only) > ...`
+        #   - `Component: X` matched `Subcomponent: X`, because the compare is
+        #     lowercased and `component: x` occurs inside `subcomponent: x`
+        #
+        # Both are exactly resolvable: the caller typed a whole name, and a whole
+        # name that equals a section's own name should win over one that merely
+        # contains it. Substring stays as the last pass so partial queries still
+        # work and still list candidates rather than guessing.
+        exact_path = [s for s in sections if s["path"].lower() == needle]
+        exact_leaf = [s for s in sections
+                      if s["path"].split(">")[-1].strip().lower() == needle]
+        substring = [s for s in sections if needle in s["path"].lower()]
+        hits = exact_path or exact_leaf or substring
+
         if not hits:
             print(f"no section matching {args.slice!r}. Read {index_path.name} "
                   f"for the available names.", file=sys.stderr)
@@ -430,8 +451,38 @@ def main() -> int:
                   file=sys.stderr)
             for h in hits:
                 print(f"  {h['start']}-{h['end']}  {h['path']}", file=sys.stderr)
+            print("  (an exact section name wins over a partial one - copy a name "
+                  "from the index verbatim)", file=sys.stderr)
             return 1
         s = hits[0]
+
+        # Warn when the resolved section is a CONTAINER - a heading that wraps only
+        # other headings and carries no prose of its own.
+        #
+        # This warning exists because exact-name resolution created the hazard. While
+        # matching was substring-only a container also matched every child, so the
+        # ambiguity list accidentally shielded a caller from selecting one. Resolving
+        # exact names removed that accident: `C3 Components Catalog` now returns 1,149
+        # lines, 38% of the document, to someone who believes they sliced one section.
+        # That is the failure the format contract calls out by name.
+        #
+        # The request is still honoured - an exact name is an explicit choice, and
+        # refusing it would make the container the one section nobody can read. It is
+        # answered on stderr so a piped slice stays clean.
+        kids = [k for k in sections
+                if k is not s and s["start"] <= k["start"] and k["end"] <= s["end"]]
+        if kids:
+            first = min(k["start"] for k in kids)
+            own = "".join(x.strip() for x in lines[s["start"]:first - 1])
+            if not own:
+                span = s["end"] - s["start"] + 1
+                print(f"NOTE: {s['path']!r} is a container - it holds only sub-headings, "
+                      f"and this returned {span} lines ({100 * span // len(lines)}% of the "
+                      f"document).", file=sys.stderr)
+                print(f"  Its {len(kids)} child sections are listed in {index_path.name}; "
+                      f"selecting one of those is almost always what was meant.",
+                      file=sys.stderr)
+
         print(f"<!-- {doc.name}:{s['start']}-{s['end']}  {s['path']} -->")
         print("\n".join(lines[s["start"] - 1:s["end"]]))
         return 0
