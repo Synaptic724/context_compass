@@ -126,10 +126,11 @@ problem), STOP and report it. Do NOT silently fall back to harness-only tracking
   before continuing work.
 - For compaction/handoff summaries, you MUST keep summaries empty when the runtime allows it;
   otherwise you MUST use minimal file-pointer summaries only.
-- Post `REONBOARD: COMPLETE` attestation **with read-integrity proof** before any action:
-  - `ROLE_SKILLS_READ`
-  - `READ_INTEGRITY_PROOF`
-  - `NO_ACTION_TAKEN_YET: true`
+- Post a `REONBOARD: COMPLETE` attestation **with read-integrity proof** before any
+  action. One canonical format, defined once in
+  `agent_onboarding/default/general/skills/compaction_requirements.md`
+  ("Attestation format"). It is a ~10-line summary: proof is one line per LAYER of
+  the chain, not one per document.
 
 ## Highest Priority Adherence (Compaction Re-Onboarding)
 
@@ -147,8 +148,10 @@ After any context compaction or handoff:
 - Start from `config/context_compass_config.yaml`, then `SKILLS.MD`.
 - Re-read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
-- Re-check-in on `context_compass/mailbox_board.md` (update your row,
-  consume messages addressed to you) per
+- RE-READ `context_compass/mailbox_board.md` - the roster and any messages
+  addressed to you. Update your row and consume those messages as your FIRST
+  action after re-certification, not before it: both are writes, and the
+  pre-certification carve-out covers reads only. Per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
 - README reads are allowed for `new` first-time onboarding only; non-`new`
   roles use policy/skills docs.
@@ -161,13 +164,12 @@ After any context compaction or handoff:
 - During compaction/handoff summarization, you MUST keep summaries empty when allowed;
   otherwise you MUST emit minimal file-pointer summaries only.
 - Before any action, publish a Re-Onboarding Attestation message with:
-  - `REONBOARD: COMPLETE`
-  - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
-  - `AGENT_NAME` (`<name>` if already supplied for this re-onboarding cycle,
-    otherwise `REQUIRED_FROM_USER`)
-  - `FILES_REREAD` (at minimum: `attention_board.md` + active ticket paths)
-  - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
-  - `NO_ACTION_TAKEN_YET: true`
+  - the canonical attestation from
+    `agent_onboarding/default/general/skills/compaction_requirements.md`
+    ("Attestation format"), with `REONBOARD: COMPLETE` as the first token and
+    `FILES_REREAD` populated.
+  - Do not invent a longer variant. The format is a ~10-line summary and the field
+    list lives in exactly one file so the copies cannot drift apart.
 
 Performative compliance is forbidden during re-onboarding:
 
@@ -190,9 +192,12 @@ Before any tooling, edits, or execution:
 - Read `config/context_compass_config.yaml`.
 - Read `SKILLS.MD`.
 - Read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
-- Check in on `context_compass/mailbox_board.md` (add/update your
-  checked-in row; read messages addressed to you if other agents are
-  active) per
+- READ `context_compass/mailbox_board.md` - the checked-in roster and any messages
+  addressed to you. Reading is permitted before certification; **writing is not.**
+- Do NOT write your check-in row yet. The check-in is a WRITE, the pre-certification
+  carve-out below covers reads only, and the row requires an `AGENT_NAME` that does
+  not exist until the user supplies it with `CERTIFY: APPROVED`. Check in as your
+  FIRST action after certification, per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
 - When `SKILLS.MD` is read, list the roles in its registry table and ask the
   user which role to take on unless the user already selected one explicitly.
@@ -232,12 +237,14 @@ Onboarding readset authority:
 
 Onboarding completion attestation (first onboarding in a fresh session):
 
-- Publish this before requesting certification:
-  - `ONBOARD: COMPLETE`
-  - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
-  - `AGENT_NAME` (`<name>` if already supplied for this onboarding cycle, otherwise `REQUIRED_FROM_USER`)
-  - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
-  - `NO_ACTION_TAKEN_YET: true`
+- Publish the canonical attestation before requesting certification, with
+  `ONBOARD: COMPLETE` as the first token and `FILES_REREAD` omitted (nothing has
+  been re-read on a fresh session). Format defined once in
+  `agent_onboarding/default/general/skills/compaction_requirements.md`,
+  "Attestation format".
+- **It is a ~10-line summary and that is the requirement, not a concession.** Proof
+  is one line per LAYER - root, each role in the chain, live state - never one per
+  document. Do not ask permission to keep it short; short is the default.
 
 Certification gating:
 
@@ -249,7 +256,16 @@ Certification gating:
   - `AGENT_NAME: <name>`
   - the exact phrase `CERTIFY: APPROVED`
   except tools needed to read onboarding docs.
+- **The carve-out is READ-ONLY and that is deliberate.** Opening any onboarding
+  document, board or ticket is permitted before certification; writing to one is
+  not. That includes your mailbox check-in row, which is why check-in is the first
+  action AFTER certification rather than a step inside this gate - the `AGENT_NAME`
+  it needs arrives in the certification message itself.
 - If certification is missing, stop and request it before edits or tool use.
+- **First actions after `CERTIFY: APPROVED`, in order:**
+  1. Write your check-in row on `mailbox_board.md` using the supplied `AGENT_NAME`.
+  2. Consume any messages addressed to you.
+  3. Route from `attention_board.md` to the active ticket and begin.
 
 ## Communication Style and Feedback Standards
 

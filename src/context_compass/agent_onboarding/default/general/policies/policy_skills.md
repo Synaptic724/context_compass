@@ -20,7 +20,11 @@ Certification gate (mandatory)
 - Complete onboarding skills and request approval.
 - Require the approval message to include the exact token
   `CERTIFY: APPROVED`.
-- Do not use tools or edit files until the user provides this approval token.
+- Do not use tools or edit files until the user provides this approval token,
+  **except tools needed to READ onboarding documents, boards and tickets.** Without
+  that carve-out this rule would forbid the onboarding reads it depends on. Reads
+  are permitted; writes - including your mailbox check-in - wait for the token.
+  Root `AGENTS.MD` "Certification gating" is authoritative.
 
 Required flow
 - Read `AGENTS.MD` and directory-local `AGENTS.MD` (if present).

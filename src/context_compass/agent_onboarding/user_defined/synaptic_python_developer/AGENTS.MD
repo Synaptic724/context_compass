@@ -269,8 +269,13 @@ Cleanup teardown contract:
   unless explicitly requested.
 - Prefer fail-fast contracts over silent fallback behavior.
 - Dataclasses are value-only: allowed fields are `None`, `bool`, `int`,
-  `float`, and `str`. Do not store object instances or resources in
+  `float`, `str`, and containers (`list`, `tuple`, `set`, `dict`) whose elements
+  are themselves those value types. Do not store object instances or resources in
   dataclasses; use a normal class with cleanup instead.
+  - The container allowance is the same one stated in
+    `skills/python/banned_patterns.md`. A `list[str]` field is fine; a
+    `list[SomeService]` is not, because the ban is on holding objects and
+    resources, not on the container itself.
 - Use `typing.TYPE_CHECKING` for guarded imports when the dependency is
   typing-only and a runtime import would create unnecessary dependency
   pressure.

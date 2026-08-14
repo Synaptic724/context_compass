@@ -193,10 +193,11 @@ problem), STOP and report it. Do NOT silently fall back to harness-only tracking
   before continuing work.
 - For compaction/handoff summaries, you MUST keep summaries empty when the runtime allows it;
   otherwise you MUST use minimal file-pointer summaries only.
-- Post `REONBOARD: COMPLETE` attestation **with read-integrity proof** before any action:
-  - `ROLE_SKILLS_READ`
-  - `READ_INTEGRITY_PROOF`
-  - `NO_ACTION_TAKEN_YET: true`
+- Post a `REONBOARD: COMPLETE` attestation **with read-integrity proof** before any
+  action. One canonical format, defined once in
+  `agent_onboarding/default/general/skills/compaction_requirements.md`
+  ("Attestation format"). It is a ~10-line summary: proof is one line per LAYER of
+  the chain, not one per document.
 
 ## Highest Priority Adherence (Compaction Re-Onboarding)
 
@@ -214,8 +215,10 @@ After any context compaction or handoff:
 - Start from `config/context_compass_config.yaml`, then `SKILLS.MD`.
 - Re-read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
 - Re-read `agent_onboarding/default/general/skills/compaction_requirements.md`.
-- Re-check-in on `context_compass/mailbox_board.md` (update your row,
-  consume messages addressed to you) per
+- RE-READ `context_compass/mailbox_board.md` - the roster and any messages
+  addressed to you. Update your row and consume those messages as your FIRST
+  action after re-certification, not before it: both are writes, and the
+  pre-certification carve-out covers reads only. Per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
 - README reads are allowed for `new` first-time onboarding only; non-`new`
   roles use policy/skills docs.
@@ -228,13 +231,12 @@ After any context compaction or handoff:
 - During compaction/handoff summarization, you MUST keep summaries empty when allowed;
   otherwise you MUST emit minimal file-pointer summaries only.
 - Before any action, publish a Re-Onboarding Attestation message with:
-  - `REONBOARD: COMPLETE`
-  - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
-  - `AGENT_NAME` (`<name>` if already supplied for this re-onboarding cycle,
-    otherwise `REQUIRED_FROM_USER`)
-  - `FILES_REREAD` (at minimum: `attention_board.md` + active ticket paths)
-  - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
-  - `NO_ACTION_TAKEN_YET: true`
+  - the canonical attestation from
+    `agent_onboarding/default/general/skills/compaction_requirements.md`
+    ("Attestation format"), with `REONBOARD: COMPLETE` as the first token and
+    `FILES_REREAD` populated.
+  - Do not invent a longer variant. The format is a ~10-line summary and the field
+    list lives in exactly one file so the copies cannot drift apart.
 
 Performative compliance is forbidden during re-onboarding:
 
@@ -257,9 +259,12 @@ Before any tooling, edits, or execution:
 - Read `config/context_compass_config.yaml`.
 - Read `SKILLS.MD`.
 - Read and follow every Markdown document in `context_compass/special_instructions/` using relative repo paths only.
-- Check in on `context_compass/mailbox_board.md` (add/update your
-  checked-in row; read messages addressed to you if other agents are
-  active) per
+- READ `context_compass/mailbox_board.md` - the checked-in roster and any messages
+  addressed to you. Reading is permitted before certification; **writing is not.**
+- Do NOT write your check-in row yet. The check-in is a WRITE, the pre-certification
+  carve-out below covers reads only, and the row requires an `AGENT_NAME` that does
+  not exist until the user supplies it with `CERTIFY: APPROVED`. Check in as your
+  FIRST action after certification, per
   `agent_onboarding/default/general/skills/mailbox_protocol.md`.
 - When `SKILLS.MD` is read, list the roles in its registry table and ask the
   user which role to take on unless the user already selected one explicitly.
@@ -299,12 +304,14 @@ Onboarding readset authority:
 
 Onboarding completion attestation (first onboarding in a fresh session):
 
-- Publish this before requesting certification:
-  - `ONBOARD: COMPLETE`
-  - `ROLE_SKILLS_READ` (resolved role chain in parent-first order)
-  - `AGENT_NAME` (`<name>` if already supplied for this onboarding cycle, otherwise `REQUIRED_FROM_USER`)
-  - `READ_INTEGRITY_PROOF` (concise comprehension proof; NOT tool logs)
-  - `NO_ACTION_TAKEN_YET: true`
+- Publish the canonical attestation before requesting certification, with
+  `ONBOARD: COMPLETE` as the first token and `FILES_REREAD` omitted (nothing has
+  been re-read on a fresh session). Format defined once in
+  `agent_onboarding/default/general/skills/compaction_requirements.md`,
+  "Attestation format".
+- **It is a ~10-line summary and that is the requirement, not a concession.** Proof
+  is one line per LAYER - root, each role in the chain, live state - never one per
+  document. Do not ask permission to keep it short; short is the default.
 
 Certification gating:
 
@@ -316,7 +323,16 @@ Certification gating:
   - `AGENT_NAME: <name>`
   - the exact phrase `CERTIFY: APPROVED`
   except tools needed to read onboarding docs.
+- **The carve-out is READ-ONLY and that is deliberate.** Opening any onboarding
+  document, board or ticket is permitted before certification; writing to one is
+  not. That includes your mailbox check-in row, which is why check-in is the first
+  action AFTER certification rather than a step inside this gate - the `AGENT_NAME`
+  it needs arrives in the certification message itself.
 - If certification is missing, stop and request it before edits or tool use.
+- **First actions after `CERTIFY: APPROVED`, in order:**
+  1. Write your check-in row on `mailbox_board.md` using the supplied `AGENT_NAME`.
+  2. Consume any messages addressed to you.
+  3. Route from `attention_board.md` to the active ticket and begin.
 
 ## Communication Style and Feedback Standards
 
@@ -742,7 +758,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | path | class | sha256 |
 | --- | --- | --- |
 | `.gitattributes` | PACKAGE | `9ff348d31ff5f0941a76321a0ef45d47acb5bd218c3febffd3885f453ea325ef` |
-| `AGENTS.MD` | PACKAGE | `a884358f1aa5cf3311648b1498cdbe4a30481b96952bacbf69bf6573f1eeb4f1` |
+| `AGENTS.MD` | PACKAGE | `e09313eb16638422b835d6dec12b369e59d652f6c318678543f0ea595a29cbd7` |
 | `agent_onboarding/default/continuity_fact_checker/AGENTS.MD` | PACKAGE | `3928c7c3959d7c75e0b3752cce505119060bed73b4ad565923d4801cfa703557` |
 | `agent_onboarding/default/continuity_fact_checker/behavioral_guidelines/continuity_fact_checker_workflow.md` | PACKAGE | `ace3e5e300fda18719730e05bdb0ca15d8afdc32289e1a13a7c8bd3d91470753` |
 | `agent_onboarding/default/continuity_fact_checker/examples/continuity_fact_checker_task_flow.md` | PACKAGE | `97303ea953c81565410b611848b42b4ec84f73d6351ae2754111c7bd2dd4e4aa` |
@@ -843,7 +859,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/general/behavioral_guidelines/onboarding_summary.md` | PACKAGE | `893217e851c9ef92ac9c0d4531a9ed17e7ae7e2708a1c4a1cb027dec585810b7` |
 | `agent_onboarding/default/general/behavioral_guidelines/README.md` | PACKAGE | `4fc03023bb404a1cc141e818855797aece8c67ddd07ea3324fd042cf0ec71629` |
 | `agent_onboarding/default/general/behavioral_guidelines/work_intake_and_execution.md` | PACKAGE | `0ab1110e36047e772e4c0babd50a34b13bc2a3a8b5945df496b94d4722d0f7ff` |
-| `agent_onboarding/default/general/policies/policy_skills.md` | PACKAGE | `af6606c4a21477a260d3c692ff12b685a2ec2605256af2a91197b793f1219e9b` |
+| `agent_onboarding/default/general/policies/policy_skills.md` | PACKAGE | `bf3cecf6b631965c3d50e8d55b89ddd813b4364ef1fcbe5a6496d1b15f190721` |
 | `agent_onboarding/default/general/README.md` | PACKAGE | `405ecd65632a0b05cf4d251f76c8ff135fdfb12fe6d460d6ea4d5082efda1cdc` |
 | `agent_onboarding/default/general/SKILLS.MD` | PACKAGE | `2b0d31bdc49571afffab880e62da684b0fb769343d8c5a8b424727086006306e` |
 | `agent_onboarding/default/general/skills/active_documentation.md` | PACKAGE | `e2967aa30d78361ec11b85c34ef29fff58178fe0b0b88393bb41e3d573a6eb2d` |
@@ -852,16 +868,16 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/general/skills/agent_lifecycle.md` | PACKAGE | `205b16310f7dc19d6124f6461744d016d76057c92cef57ff9e210114074b99fd` |
 | `agent_onboarding/default/general/skills/agent_stance.md` | PACKAGE | `4ed0d04ac6e208932adcfd7b3c810cfe352a04f1923dd3ca4dc0e381bff95d97` |
 | `agent_onboarding/default/general/skills/career_selection.md` | PACKAGE | `f6848776d7fdf1082f0b3da66cf781f0bede746b181c8006214106d718c153fe` |
-| `agent_onboarding/default/general/skills/compaction_requirements.md` | PACKAGE | `5f83273578b8debf8d67a713832424decbcd1274bb8c5d0d0c548f1a873756d7` |
+| `agent_onboarding/default/general/skills/compaction_requirements.md` | PACKAGE | `0a6133281988b052962fa51f2c3472eb1e4a8654cc69de8918cfe10ef8b8c451` |
 | `agent_onboarding/default/general/skills/configuration_standards.md` | PACKAGE | `d83de35a6ee3933e705e05ea92f888deccbfa8dda72f69fd42531b1f138bbfb1` |
-| `agent_onboarding/default/general/skills/context_compaction.md` | PACKAGE | `ddac532b10b77a172eb2ed6ead2feffc11b659083a049bd3e6e961c6de458a68` |
+| `agent_onboarding/default/general/skills/context_compaction.md` | PACKAGE | `b6f33b95148094bbbab7fc50d7af85b0e1257eb0d3e06b740bf5abcd83b2159d` |
 | `agent_onboarding/default/general/skills/context_gold.md` | PACKAGE | `1203682dbe6ed0311811b5034e8589a4eb3cf8a71b129ea76984ab89b3f3d0cc` |
 | `agent_onboarding/default/general/skills/context_management.md` | PACKAGE | `b2ae6b19e6236e35790da8cde5b0e002bfe1e6d68e9dcba3b0e1b777f8c2047e` |
 | `agent_onboarding/default/general/skills/context_window_budget.md` | PACKAGE | `51d980da83065555f73639fcb11654dea70f03a3b4c70c89ad2305548aa54e7e` |
 | `agent_onboarding/default/general/skills/execution_contract.md` | PACKAGE | `a26e83870606050ea6a3bbe57cc1363b99872c76ee1592f67372c8dc83f83c02` |
 | `agent_onboarding/default/general/skills/general.md` | PACKAGE | `637ee3a9490baa93e266d9433131964da6df1f5666932e5ce2fb7390c0ac78fa` |
 | `agent_onboarding/default/general/skills/llm_full_usage.md` | PACKAGE | `00cf47f3eda35e3a3ab3506d7eba5ef31e35384c5902425c9d6286502c84273c` |
-| `agent_onboarding/default/general/skills/mailbox_protocol.md` | PACKAGE | `a232c37877492c5a133ee21c438e2b5e44c312eabe7290b3e20208eba4948a67` |
+| `agent_onboarding/default/general/skills/mailbox_protocol.md` | PACKAGE | `327e21229a6af08ecfe2dae7e5ec30c8c3bea53b3c9665017dcc0bea56576cd2` |
 | `agent_onboarding/default/general/skills/memory_management.md` | PACKAGE | `8135df150195eabbce69418e3af5a054a08a4fbead50f819eb81578e9e344ac9` |
 | `agent_onboarding/default/general/skills/mrp_policy.md` | PACKAGE | `edce5c8dc9ffaeaf6f47cb61fc56757280e47f62459d533537c8f242dc163174` |
 | `agent_onboarding/default/general/skills/package_upgrade.md` | PACKAGE | `8ae971532ae9f2207fe20787de7a76a217a8153515a7eef059168de6600f25ae` |
@@ -869,7 +885,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/default/general/skills/repo_topology.md` | PACKAGE | `4a9c94ee2b448a6838c978f3cd0b3bdf6bf71dae986d70a0d03b06b8710b4ebb` |
 | `agent_onboarding/default/general/skills/role_local_workflows.md` | PACKAGE | `0fc5cd83f4967896e625e0b843efcf913e0d29c82a14908ef007b2e3f17e4d01` |
 | `agent_onboarding/default/general/skills/security_and_secrets.md` | PACKAGE | `bd58e29bce07c500a3678ba6571c7955d61309a9ea53f909e8ec9527a98c0cbd` |
-| `agent_onboarding/default/general/skills/self_certification.md` | PACKAGE | `5ac3f19c99b43f2f5815dd3afcb244140fc1637a50977c4176a11e2efe407a7c` |
+| `agent_onboarding/default/general/skills/self_certification.md` | PACKAGE | `e1e2fc14c40ed2930f6fca8a37bc3233a9d1463e503d6c99aed515ffb76c9822` |
 | `agent_onboarding/default/general/skills/ticketing.md` | PACKAGE | `5abf4207172ddad37a8c176b48a48d0846478ab6bfb8c8dff1288cc1a91df5f5` |
 | `agent_onboarding/default/general/skills/ticketing_skill_contract.md` | PACKAGE | `86154f6068b36af47999b50300a7760c628dfb1ea670a1bd8b78e774b20e309b` |
 | `agent_onboarding/default/general/skills/ticket_closure_attention_sync.md` | PACKAGE | `9408203a6a20decff2c2079eed24ad4166c279bf0278d0612ca2d999674e6ed0` |
@@ -1025,7 +1041,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/data_engineer/behavioral_guidelines/data_engineer_behavior_overrides.md` | INSTANCE | `524c2ec3c704055fd0e0cfcfa98ec95181757527a0722bf0ddd24446ec968e8b` |
 | `agent_onboarding/user_defined/data_engineer/policies/data_engineer_policy_overrides.md` | INSTANCE | `fe346b6370551ed5e32f0a2520389c8ab2dbc61d38661cd9170c7b5c6074be2c` |
 | `agent_onboarding/user_defined/data_engineer/profile_overrides.md` | INSTANCE | `018813ebe40bb314127bec705eec75fb90aeab5bad2042af8d0396ea9e968a52` |
-| `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | INSTANCE | `2676961ccdca45346cdc9d7a136aaea169562f7c840ad4a423ec674160bdda43` |
+| `agent_onboarding/user_defined/data_engineer/SKILLS.MD` | INSTANCE | `7229e21404fae271ff23c11b0b8d08f04ffa00cbd87a60d9f0033d7dd20a33a5` |
 | `agent_onboarding/user_defined/data_engineer/skills/data_engineer_skill_overrides.md` | INSTANCE | `1b458126851997a49f2f4bc62cd813f624c1911104c2650f3841a6b2da1fc602` |
 | `agent_onboarding/user_defined/data_engineer/WORKFLOWS.MD` | INSTANCE | `0fd481184dec1d736ce619b5c6f2acc624ae893adfb9d076b59d2a67df64f942` |
 | `agent_onboarding/user_defined/data_engineer/workflows/README.md` | INSTANCE | `86484f277779c30f535a20447fa0c9d9a8b6d05d19a2e7116c56787b6c6339a4` |
@@ -1038,7 +1054,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_finishing_developer/examples/python/pytest_unit_finishing_examples.py` | INSTANCE | `01d4e6c7f384cfe77cb2b9a5aa91935cbd1545abea4ab74547c2fa480dc03a15` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/policies/synaptic_finishing_developer_policy_overrides.md` | INSTANCE | `0cc76f35aa1b14baf5bdd095e71a9a40a470317a2807e52fa9482891dafbc202` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/profile_overrides.md` | INSTANCE | `a60a7f92681c14d0b7f6effd5e79b3fed43bd939ad22a8c464c3e97125851859` |
-| `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD` | INSTANCE | `bcba76cfd3a53faae66b6fedf7696d599984b70e189dd0307f72553241fa5fd4` |
+| `agent_onboarding/user_defined/synaptic_finishing_developer/SKILLS.MD` | INSTANCE | `dd319735e8421a9739ee9d90e8898ccf518322e409c3b02bc9fd595a176afe87` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/comment_craft.md` | INSTANCE | `854789db17b20c6e43d2020ce9378439e6c70cecf5fada72f3cf4178c1b027ae` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_craft.md` | INSTANCE | `8927e4eb603e40a1fab06fe534f17b3fc0e382164b3756af470b73ae0d26ddb0` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/skills/documentation/docstring_test_alignment.md` | INSTANCE | `908215ca5be1c11d47b4cb3da64de6a8ac1b0125b9f1e45859f05030b714c9ae` |
@@ -1055,7 +1071,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/optimize_pytests_for_repo.md` | INSTANCE | `024752e7f68a9633ed86fadd8e581a2f8cac6d8a43ae7a9ee7b9fc8d1a5a18bc` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/polish_repo_documentation.md` | INSTANCE | `e17904e62cdb4f5cae1b5e7cad2fa620c86da9d499e7367e2340659309cfe299` |
 | `agent_onboarding/user_defined/synaptic_finishing_developer/workflows/README.md` | INSTANCE | `f495bfbc15c5f9275be4bba33d9131147ad733e221814bdc6694717c9c42a7be` |
-| `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD` | INSTANCE | `3aa0c7eab362b5d8b8fca6a13329a5dfddb0ecc27868fbbf00247e252b84e1a0` |
+| `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD` | INSTANCE | `22b4be9851361017e71953daf9b1fad61d463372055e7402672f5bae4856181b` |
 | `agent_onboarding/user_defined/synaptic_python_developer/behavioral_guidelines/synaptic_behavior_overrides.md` | INSTANCE | `d6134d69d3894c4da5dfcc59ffbdc40aa16dcfe6217a64095eb7490dafb0fd85` |
 | `agent_onboarding/user_defined/synaptic_python_developer/examples/python/anti_patterns.py` | INSTANCE | `26caf71884cb238e652c44206d4b44da51dd1386df9ac79ca1302db4b1958b5b` |
 | `agent_onboarding/user_defined/synaptic_python_developer/examples/python/cleanup_patterns.py` | INSTANCE | `20f77dbd1c6bdafc83d7f9f5a2796c58465714737961a2a9b9b71431ff95ed33` |
@@ -1068,7 +1084,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_python_developer/policies/synaptic_policy_overrides.md` | INSTANCE | `3bbe4757097d6ea33635f0e7fa79b9eeeb4d297f33a219f15b60b0409ea75001` |
 | `agent_onboarding/user_defined/synaptic_python_developer/profile_overrides.md` | INSTANCE | `d44ff6b228afdb3415787629b4933495c45ec4f8f181a8ad2534efd56d6dd9cf` |
 | `agent_onboarding/user_defined/synaptic_python_developer/README.md` | INSTANCE | `406458063eeb04a28520bcc3da9597090c6f990ddb01a1b868dfc4e59c07be3f` |
-| `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` | INSTANCE | `c43f47e3efb68b67a57f8f927bd17aadc562166f1dca19a5baeaa59e0b2f9836` |
+| `agent_onboarding/user_defined/synaptic_python_developer/SKILLS.MD` | INSTANCE | `1ec155d2c1f039666151c21bd9fcec6396a49921cd867fefe382a3219731778e` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/attribute_aliasing_skill_benchmark.py` | INSTANCE | `b2a6bbaabedd58919ab1c25beca31b09d2c6f76b92bebb51223b5235dbe13b27` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/banned_patterns.md` | INSTANCE | `22373e3bdcadfa6a4a276db26700cad0d349b401431f05db5cc338c337573bab` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/cleanup_and_disposal.md` | INSTANCE | `b6356e385f446a8c9ac80af752cfc81987df65805ad70e260fee1a5063309362` |
@@ -1076,7 +1092,7 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/docstrings.md` | INSTANCE | `994bfe5324e6420ff278925ad385c25b84de3b442a1bc0ed624422e2eee2792b` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/error_model.md` | INSTANCE | `146b6052aacdd5b97d651dc62102aa20a53cc54bc9194d14ed530ad7ab636bb2` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/hot_path_attribute_aliasing.md` | INSTANCE | `0f327f3274d27e956e96558e7810288269c187c26522df6b80b1c08a2d14da7e` |
-| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/init_and_ownership.md` | INSTANCE | `6f0d7b561f0581a7a2278fabbbb06e1cada8e1fd238dc23188888c99221895c1` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/python/init_and_ownership.md` | INSTANCE | `ea67e92843b93afc7669bb1fc6275abffbf73fea2e412f62e27070f52cc77ca4` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/interfaces.md` | INSTANCE | `10a50ae0449dea32f33b03e80e0c862edc3f1e9d378d49fa28d7f9fb7e4959ae` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/logging.md` | INSTANCE | `842c4e67d718db07f63dd5738c716f5f6fa792c664238d118184009c6a199a07` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/python/module_scope.md` | INSTANCE | `1502b67717517d185cb680b3e04b8a4f04db9685480da59842993d819b8caf7d` |
@@ -1088,14 +1104,14 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/pytest_integration.md` | INSTANCE | `25c460a042e74c422e3aca3dab6f314f3661d92575fc4ef8f010f4856359feca` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/pytest_unit.md` | INSTANCE | `0b4f49c3dd1795b73e544689d7a9ca2a843413f0dbc2abcfb48a5f40a4034622` |
 | `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/regression_tests.md` | INSTANCE | `e32f8b079c2fac9649858caf6abdbfecb4cab6e64bc7e270921311c5bf090d24` |
-| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/testing_overview.md` | INSTANCE | `037cc90c2117f7e1ebbef57f8c3ac09ef826b4b5e038208ce05bcb3bcdde6ca8` |
+| `agent_onboarding/user_defined/synaptic_python_developer/skills/testing/testing_overview.md` | INSTANCE | `1d911fec7a32e40347b4a1cd49e13db1fd29033fb51cfde0e03a018c14bc089b` |
 | `agent_onboarding/user_defined/synaptic_python_developer/WORKFLOWS.MD` | INSTANCE | `b1375ff028768adfc4076b63f17b8dd908b5d4a5cbe80539f16ce1c5319320d3` |
 | `agent_onboarding/user_defined/synaptic_python_developer/workflows/README.md` | INSTANCE | `2d938e6fa1d0d57b5d6331d257593625e2e04a4609b90e9b0cb4e90fc3a1ff7d` |
 | `agent_onboarding/user_defined/synaptic_python_developer/workflows/synaptic_python_developer_onboarding.md` | INSTANCE | `d5caa21812e4e67e72cd2078130f0cd8507cd2a678d141526193dc6025fee6f4` |
 | `artifacts/IMPORTANT_CONSIDERATION.md` | RESET | `593c5f85859354065042e4e09368459f869eecc49dd94b651ed82c0ca761ac2d` |
 | `artifacts/README.md` | RESET | `196e2022e5d708af65d39b7e434c792f5c1374d5eb8b542f4d18ee534bbb4ad3` |
-| `artifact_board.md` | LIVE | `cef354a3976222da7a85200004b255e50eeb2397f80abeb5622bea27e9ae9961` |
-| `attention_board.md` | LIVE | `55a6ed420356aef211e302ced6cf27c12970269eb8b241da07c6486576dedfc5` |
+| `artifact_board.md` | LIVE | `63ad0d1f2b5ef2319a17604035c5ae3556ac2b5f1817caa06fc14cfc1bc355ae` |
+| `attention_board.md` | LIVE | `f65ecb1fdb62eca4001d800ae39b9fe592072b31f13abe2dcecbe9056ba55a3f` |
 | `config/context_compass_config.yaml` | CONFIG | `b3b7efe2feb9efc7707da2e3756d91d05f55d06b43f104cd093edee92b6e60de` |
 | `CONTEXT_COMPACTION.md` | PACKAGE | `dd532c42bce5efd3648b6f52cf931f0a4c5ce5de5ff7e33376e836fc9b625047` |
 | `context_management/artifacts/.gitkeep` | RESET | `01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b` |
@@ -1146,10 +1162,10 @@ Everything outside them is STRICT: an upgrade sweeps what is not listed here.
 | `examples/story_designer_task_flow.md` | PACKAGE | `75def243d169840f744772b92088ee5547f7f683f54e7f09c3bf684faa63f864` |
 | `examples/story_novel_artist_task_flow.md` | PACKAGE | `7c1d156952c223002f13573f81765e543a284ce97ba4f8cfeb0cdc20fb10ccd1` |
 | `LICENSE` | PACKAGE | `88c41276167ae0f03b2f0dc743040a783b52d4374e75269bce3c3a9c0b5b0b33` |
-| `mailbox_board.md` | LIVE | `ccb1835399a088013593db8637cbda8e16341a79b3c998e941c7b10d06403407` |
+| `mailbox_board.md` | LIVE | `baffe3bd2c7876887af49dba8cf9931cfe456203900f0cb29669d87090285d1f` |
 | `NOTICE` | PACKAGE | `8f903e125dc5d0d04da8a086f3501255a4aa7c7430c7b826ba6a5f9a7e0c696a` |
 | `PROFILE_CLASS_CREATION_GUIDE.md` | PACKAGE | `d1fe634a3cf3b2acd6cc4c35cb937fc1a9af18e9c1f66f6cf40e122b3473ec0a` |
-| `README.md` | PACKAGE | `1621c395af61cddc3c1f5bb476b82e73fc0312cca12fb439fdce06816219f282` |
+| `README.md` | PACKAGE | `9cd51a4f9243c05df7cdb26cedb0482e8a68ad9dfa0cd6cb4df92f24894e7b28` |
 | `SKILLS.MD` | PACKAGE | `c95bcc044f9ea593e7a6992bcb7ad2f2bf796b05c782dba9e098dde9524a5bb3` |
 | `special_instructions/README.md` | RESET | `8625a6b64e1610c3fb4094dfcef7a23c0ac67a8a4d6867c51fa133e4b629bad8` |
 | `system_docs/.gitkeep` | RESET | `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855` |
@@ -1662,9 +1678,11 @@ Check:
 
 --- START OF FILE: context_compass/README.md ---
 
-# Context Compass
+# Context Compass™
 
-Context Compass is a policy-driven context orchestrator for AI-assisted execution.
+Context Compass™ is a policy-driven context orchestrator for AI-assisted execution.
+Apache-2.0 licensed; "Context Compass" is a trademark of Mark Thomas Geleta. See
+`LICENSE` and `NOTICE` in this directory.
 It gives agents a deterministic way to onboard, route work, preserve context,
 and recover cleanly after compaction or session reset.
 
@@ -10114,7 +10132,11 @@ Certification gate (mandatory)
 - Complete onboarding skills and request approval.
 - Require the approval message to include the exact token
   `CERTIFY: APPROVED`.
-- Do not use tools or edit files until the user provides this approval token.
+- Do not use tools or edit files until the user provides this approval token,
+  **except tools needed to READ onboarding documents, boards and tickets.** Without
+  that carve-out this rule would forbid the onboarding reads it depends on. Reads
+  are permitted; writes - including your mailbox check-in - wait for the token.
+  Root `AGENTS.MD` "Certification gating" is authoritative.
 
 Required flow
 - Read `AGENTS.MD` and directory-local `AGENTS.MD` (if present).
@@ -10706,45 +10728,77 @@ README policy
 - README reads are allowed only for `new` first-time onboarding.
 - Non-`new` profile re-entry MUST use `SKILLS.MD` + skill/policy docs (not README).
 
-Mandatory REONBOARD attestation format
+## Attestation format (CANONICAL - this is the only definition)
+
+One shape for both events. Swap the first token: `ONBOARD: COMPLETE` for a fresh
+session, `REONBOARD: COMPLETE` after compaction or handoff. Every other document
+in this package points here rather than restating the field list.
+
 ```text
-REONBOARD: COMPLETE
-ROLE_SKILLS_READ:
-- <role_name>
-- <role_name>
+ONBOARD: COMPLETE                     # or REONBOARD: COMPLETE
 AGENT_NAME: <name|REQUIRED_FROM_USER>
-FILES_REREAD:
-- attention_board.md
-- <active ticket path>
+ROLE_CHAIN: <role> <- <parent> <- general      # parent-first order, one line
+FILES_REREAD: attention_board.md, <active ticket path>    # REONBOARD only
 READ_INTEGRITY_PROOF:
-- <path>: <rule callout> -> <what this changes in my behavior>
-- <path>: <rule callout> -> <what this changes in my behavior>
+- root: <rule> -> <what it changes>
+- general: <rule> -> <what it changes>
+- <role>: <rule> -> <what it changes>
+- live state: <active row, or "boards empty"> -> <what I resume>
 NO_ACTION_TAKEN_YET: true
 ```
 
+**That is the whole attestation - about ten lines.** It is a summary, and it is
+meant to be one. The proof is one line per LAYER, never one per document; the
+rule and its rationale are directly below.
+
+An attestation that runs to hundreds of lines is not more compliant. It is the
+ceremony this contract exists to prevent, it buries the one line a reader needed,
+and its length is what makes it unreadable rather than what makes it true.
+
+That is the whole attestation. Five or six lines of proof, not one per document -
+see the layer rule below. An attestation that runs to hundreds of lines is not
+more compliant; it is the ceremony this contract exists to prevent, and it buries
+the one line a reader needed.
+
 READ_INTEGRITY_PROOF (requirements)
 - `READ_INTEGRITY_PROOF` is a comprehension proof, NOT tool logs.
-- Default requirement: include **one line per required baseline document** in the resolved `SKILLS.MD` chain.
-  - Each line MUST include (a) a specific, checkable rule/constraint from that doc and
-    (b) what it changes in your behavior.
+- **Default requirement: one line per LAYER of the resolved chain, not per document.**
+  The layers are: the root contract (`AGENTS.MD` + `execution_contract.md`), each
+  role in the chain (`general`, then each child in parent-first order), the live
+  state surfaces, and `special_instructions/` when present. That is normally five
+  or six lines.
+  - Each line MUST include (a) a specific, checkable rule/constraint drawn from
+    that layer, naming the document it came from, and (b) what it changes in your
+    behavior.
   - Generic restatements ("be direct", "follow policy") are invalid.
-  - Do NOT reuse the same callout across multiple docs; each callout must be doc-specific.
+  - Do NOT reuse the same callout across layers; each must be distinct.
+- **Why per layer and not per document.** A resolved chain runs to dozens of
+  documents - on a user-defined role, past ninety. One distinct callout each,
+  with reuse forbidden, is a several-hundred-line wall emitted before any work
+  starts, every fresh session. Nobody reads it, and its length is what makes it
+  ceremony rather than proof. The rule that does the work is the specificity bar,
+  not the line count: one checkable constraint per layer that you could not have
+  written without reading it.
+- You MAY add lines beyond the layer minimum when a specific document changed your
+  plan and the layer line would bury it. Keep it proportionate; more lines are not
+  more proof.
 - **Live-state entries prove differently, because they carry no rules.** Some baseline
   entries are mutable state, not policy: `attention_board.md`, `artifact_board.md`,
   and `context_management/context_board.md`. A routing table has no
   rule/constraint to call out, so the requirement above cannot be met for them and
   demanding it produces invented rules - the exact confabulation this proof exists
   to catch.
-  - For those three, prove **current state** instead: name the active row or entry
-    you routed from (or state that the board is empty), and the one action it sets
-    up next. Same one-line-per-document shape, same specificity bar.
-  - Example: `attention_board.md: active row -> tickets/tasks/2026-08-01_x_task.md,
+  - Prove **current state** instead: name the active row or entry you routed from
+    (or state that the board is empty), and the one action it sets up next. One
+    line for the layer, same specificity bar.
+  - Example: `live state: attention_board active row -> tickets/tasks/2026-08-01_x_task.md,
     mode=implementation, next=finish the parser -> I resume there rather than
     re-planning.`
-  - This substitution applies ONLY to those three paths. Every other baseline
-    document owes a rule callout.
-- If the proof would be too long, you MUST ask the user for permission to compress/group it.
-  - Do not unilaterally shorten the proof as a convenience.
+  - This substitution applies ONLY to those three paths. Every other layer owes a
+    rule callout.
+- **Do not ask permission to keep it short.** The layer form IS the default, not a
+  concession, so there is nothing to request and no round-trip to spend. If a layer
+  genuinely cannot be proved in one line, add the line you need and say why.
 
 Attestation contract
 - Emit the attestation immediately after re-onboarding and BEFORE certification.
@@ -10879,18 +10933,22 @@ Core review set (ALWAYS required) - review these files in order:
 - `agent_onboarding/default/general/skills/workflow.md`
 - `attention_board.md`
 - Active epic/story/task tickets in `tickets/epics/`, `tickets/stories/`, `tickets/tasks/`
-
-Conditional review set (ONLY when triggered):
-- `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
-- `artifacts/README.md` (when artifact lifecycle protocol is active)
-- System-context re-orientation. Re-read after compaction:
+- **The role's baseline system-orientation set, when the role declares one and the
+  files exist.** For `engineer` and everything inheriting it that is:
   - `system_docs/src_architecture.md`
   - `system_docs/src_architecture_index.md`
   - `system_docs/src_components_index.md`
 
-  These are the baseline orientation set and they are cheap - the narrative plus
-  two maps. Compaction is exactly when you lose the shape of the system, so this
-  is the wrong place to be frugal.
+  The narrative plus two maps - cheap, and compaction is exactly when you lose the
+  shape of the system, so this is the wrong place to be frugal. This sits in the
+  ALWAYS set deliberately: it is baseline in `engineer/SKILLS.MD` and named as
+  baseline in `compaction_requirements.md`, and filing it under a conditional
+  heading is what produced an agent concluding no trigger had fired and re-reading
+  none of it.
+
+Conditional review set (ONLY when triggered):
+- `artifact_board.md` (when active tickets include artifacts or artifact disposition changes)
+- `artifacts/README.md` (when artifact lifecycle protocol is active)
 
 - **Do NOT bulk re-read `src_components.md` or `src_graph.md` here.** They are
   sliced through the indexes above, during the work, whenever a question needs
@@ -11581,10 +11639,16 @@ The mailbox gives addressed, consume-on-read delivery while keeping
 `attention_board.md` routing/broadcast-only and keeping tickets as the
 single durable history.
 
-## Check-in (mandatory, onboarding-time)
+## Check-in (mandatory, first action AFTER certification)
 
-- During onboarding AND re-onboarding, open `mailbox_board.md` and add or
-  update your row in `## Checked-In Agents`:
+- **Read** `mailbox_board.md` during onboarding and re-onboarding - the roster and
+  any messages addressed to you. **Write** your check-in row as your FIRST action
+  once the user returns `CERTIFY: APPROVED`, not before.
+  - Why not during the gate: a check-in is a write, and `AGENTS.MD`'s
+    pre-certification carve-out permits reads only. The row also needs an
+    `AGENT_NAME`, and that value arrives in the certification message - so before
+    certification there is nothing valid to write into it.
+- Then add or update your row in `## Checked-In Agents`:
   `| <agent_name> | <owner> | <checked_in_at> | <last_checked> | active |`
 - `checked_in_at` is set when you first check in for the session;
   `last_checked` updates EVERY time you read the message section.
@@ -12137,7 +12201,10 @@ Required flow
 - Require the approval message to include:
   - `AGENT_NAME: <name>`
   - the exact token `CERTIFY: APPROVED`.
-- Do not use tools or edit files until the user provides that token.
+- Do not use tools or edit files until the user provides that token, **except
+  tools needed to READ onboarding documents, boards and tickets.** Reads are
+  permitted before certification; writes are not, which is why check-in happens
+  immediately after it. Root `AGENTS.MD` "Certification gating" is authoritative.
 
 Certification record
 - Track certification in the session narrative and update `attention_board.md`
@@ -18229,6 +18296,18 @@ Purpose
 Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
+Skill classes (non-negotiable)
+- This role ADDS one section of its own: **Active skills**, below. It is baseline.
+- It also INHERITS the parent chain's sections, and those are baseline for this
+  role too - including `engineer`'s **Required baseline skills** and **Baseline
+  system orientation** (`system_docs/src_architecture.md` plus the architecture and
+  component indexes), and `general`'s **Active skills**.
+- **This file lists what the role adds, not the whole readset.** Read every section
+  any file in the resolved chain marks as baseline.
+- This role declares no **On-demand** and no **Self-directed** section. If you add
+  one, name it exactly that - the three read states are defined in
+  `context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
+
 Active skills
 - `agent_onboarding/user_defined/data_engineer/AGENTS.MD`
 - `agent_onboarding/user_defined/data_engineer/WORKFLOWS.MD`
@@ -18476,14 +18555,29 @@ or when the user's requested finishing task clearly matches them.
 Purpose
 - Define active user-defined overlay skills for the
   `synaptic_finishing_developer` role.
+- **Ships as a working example of a user-defined overlay.** It is INSTANCE-class:
+  yours outright, never replaced or removed by an upgrade in any mode. Edit it
+  freely, or copy it as the starting point for your own role. Because upgrades
+  never touch this lane, a correction made in the package will NOT reach a copy
+  already installed - fix those by hand.
 
 Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
-Activation rule
-- All paths listed below are active skills for this role.
-- This role inherits all active skills from `engineer` (and therefore
-  `general`).
+Skill classes (non-negotiable)
+- This role ADDS one section of its own: **Active skills**, below. It is baseline -
+  all paths listed there are mandatory for onboarding and certification.
+- It also INHERITS the parent chain's sections, and those are baseline for this
+  role too - `engineer`'s **Required baseline skills** and **Baseline system
+  orientation** (`system_docs/src_architecture.md` plus the architecture and
+  component indexes), and `general`'s **Active skills**.
+- **This file lists what the role adds, not the whole readset.** Read every section
+  any file in the resolved chain marks as baseline.
+- This role declares no **On-demand** and no **Self-directed** section of its own.
+  It still inherits `engineer`'s Self-directed system reading - `src_components.md`
+  and `src_graph.md`, sliced through their indexes at your own initiative, with no
+  trigger to wait for. The three read states are defined in
+  `context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
 
 Active skills
 - `agent_onboarding/user_defined/synaptic_finishing_developer/AGENTS.MD`
@@ -20402,8 +20496,13 @@ Cleanup teardown contract:
   unless explicitly requested.
 - Prefer fail-fast contracts over silent fallback behavior.
 - Dataclasses are value-only: allowed fields are `None`, `bool`, `int`,
-  `float`, and `str`. Do not store object instances or resources in
+  `float`, `str`, and containers (`list`, `tuple`, `set`, `dict`) whose elements
+  are themselves those value types. Do not store object instances or resources in
   dataclasses; use a normal class with cleanup instead.
+  - The container allowance is the same one stated in
+    `skills/python/banned_patterns.md`. A `list[str]` field is fine; a
+    `list[SomeService]` is not, because the ban is on holding objects and
+    resources, not on the container itself.
 - Use `typing.TYPE_CHECKING` for guarded imports when the dependency is
   typing-only and a runtime import would create unnecessary dependency
   pressure.
@@ -20558,14 +20657,29 @@ SKILLS.MD top-level sources
 Purpose
 - Define active user-defined overlay skills for the
   `synaptic_python_developer` role.
+- **Ships as a working example of a user-defined overlay.** It is INSTANCE-class:
+  yours outright, never replaced or removed by an upgrade in any mode. Edit it
+  freely, or copy it as the starting point for your own role. Because upgrades
+  never touch this lane, a correction made in the package will NOT reach a copy
+  already installed - fix those by hand.
 
 Inheritance
 - `INHERITS_SKILLS_FROM: agent_onboarding/default/engineer/SKILLS.MD`
 
-Activation rule
-- All paths listed below are active skills for this role.
-- This role inherits all active skills from `engineer` (and therefore
-  `general`).
+Skill classes (non-negotiable)
+- This role ADDS one section of its own: **Active skills**, below. It is baseline -
+  all paths listed there are mandatory for onboarding and certification.
+- It also INHERITS the parent chain's sections, and those are baseline for this
+  role too - `engineer`'s **Required baseline skills** and **Baseline system
+  orientation** (`system_docs/src_architecture.md` plus the architecture and
+  component indexes), and `general`'s **Active skills**.
+- **This file lists what the role adds, not the whole readset.** Read every section
+  any file in the resolved chain marks as baseline.
+- This role declares no **On-demand** and no **Self-directed** section of its own.
+  It still inherits `engineer`'s Self-directed system reading - `src_components.md`
+  and `src_graph.md`, sliced through their indexes at your own initiative, with no
+  trigger to wait for. The three read states are defined in
+  `context_compass/SKILLS.MD`, "Format contract for role `SKILLS.MD` files".
 
 Active skills
 - `agent_onboarding/user_defined/synaptic_python_developer/AGENTS.MD`
@@ -21325,7 +21439,10 @@ Rules
 - Document ownership: who cleans up what and when.
 - Avoid hidden shared state; prefer instance ownership for resources.
 - If a field is injected and not owned, document that contract explicitly.
-- Dataclasses are value-only: allowed fields are None, bool, int, float, and str.
+- Dataclasses are value-only: allowed fields are None, bool, int, float, str, and
+  containers (list, tuple, set, dict) whose elements are themselves those value
+  types - the same rule as `banned_patterns.md`. Objects and resources are what is
+  banned, not containers.
 - Do not store object instances or resources in dataclasses. If a model needs
   objects or cleanup, use a normal class with cleanup.
 
@@ -21877,7 +21994,20 @@ Rules for integration tests:
 * Make them explicit: use clear naming and markers (e.g., @pytest.mark.integration) if the repo uses them.
 * Ensure they remain repeatable and not environment-dependent unless explicitly documented.
 
-Coverage Target: 95%+ (Non-Negotiable) Coverage is defined as method and attr coverage not the pytest definition. Use your discernment.
+Coverage Target: 95%+ (Non-Negotiable)
+
+**Two different measures are in play here and they are not interchangeable.**
+
+- **Design coverage** - every public method and attribute is exercised by at least
+  one test that asserts its contract. This is the target that matters and the one
+  you use judgement on. A module at 100% line coverage with three untested public
+  methods fails this.
+- **Line coverage** - what `pytest --cov` reports. Useful as a floor and a
+  regression signal, never as the goal, because it is trivially gamed by tests that
+  execute lines and assert nothing.
+
+Where a number appears below without qualification it means line coverage, because
+that is the only one a tool can report.
 
 Agent Execution Constraint (Read Carefully)
 AI agents cannot truthfully confirm repository-wide coverage levels (including the >=95% target) unless the user runs the test suite and reports the result.
@@ -22236,6 +22366,19 @@ Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
 
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `active_artifacts` | one row per live artifact, linked to its ticket, with a disposition |
+| `cleared_artifacts` | short history of artifacts already resolved or deleted |
+| `notes` | recurring instructions and standing context for artifact handling in this repository |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
+
 Purpose
 - Canonical index of active artifact associations.
 - Track artifact lifecycle decisions that support ticket execution.
@@ -22395,6 +22538,20 @@ Two kinds of region, and the difference decides what survives an upgrade:
 Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
+
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `alerts` | cross-agent flags needing attention now: mailbox alerts naming a recipient, blockers others must see |
+| `active_items` | one row per active work item, routing to exactly one ticket |
+| `closed_anchors` | short traceability rows for recently closed tickets, capped at 12 |
+| `notes` | recurring instructions and standing context for this repository - the conventions every agent should carry, stated once |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
 
 Purpose
 - Active-work routing board.
@@ -24936,6 +25093,19 @@ Two kinds of region, and the difference decides what survives an upgrade:
 Text outside both is package structure - headings and table headers - and is
 conformed on upgrade so the board's shape stays current. Anything you need to
 keep goes inside a USER-DEFINED region.
+
+What belongs in each region on this board:
+
+| region | put this here |
+| --- | --- |
+| `checked_in` | one row per agent currently active, with `last_checked` |
+| `messages` | structured messages in the format below; delete each one after consuming it |
+| `notes` | recurring instructions and standing context for agent-to-agent handoff in this repository |
+
+**Regions ship empty and stay yours.** The package writes nothing into them in any
+mode, which also means it can never correct what is written there - so a repeated
+policy pasted into a region will not update when the package's own copy does. Put
+standing instructions in `notes` once; do not restate MANAGED text.
 
 Purpose
 - Targeted agent-to-agent message passing (point-to-point handoffs,
